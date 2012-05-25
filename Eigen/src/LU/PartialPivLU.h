@@ -276,7 +276,7 @@ struct partial_lu_impl
           ++nb_transpositions;
         }
 
-        // FIXME shall we introduce a safe quotient expression in case 1/lu.coeff(k,k)
+        // FIXME shall we introduce a safe quotient expression in cas 1/lu.coeff(k,k)
         // overflow but not the actual quotient?
         lu.col(k).tail(rrows) /= lu.coeff(k,k);
       }
