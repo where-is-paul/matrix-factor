@@ -1,0 +1,18 @@
+#include <Eigen/Sparse>
+#include <iostream>
+
+using namespace Eigen;
+using namespace std;
+
+template <typename Derived>
+void CroutLDL(const SparseMatrix<Derived> &A, 
+              const SparseMatrix<Derived> &L, 
+              const DiagonalMatrix<Derived> &D, 
+              bool pivot) {
+              
+    //Do some stuff...
+    
+    if (pivot) {
+        //Do some pivoting...
+    }
+}

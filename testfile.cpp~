@@ -37,7 +37,7 @@ int main() {
     Matrix2f C;
     C << 0, 2, -2, 0;
     cout << "Here is the matrix C:\n" << C << endl;
-    EigenSolver<Matrix2f> eigensolver(C);
+    SelfAdjointEigenSolver<Matrix2f> eigensolver(C);
     if (eigensolver.info() != Success) abort();
     cout << "The eigenvalues of C are:\n" << eigensolver.eigenvalues() << endl;
     cout << "Here's a matrix whose columns are eigenvectors of C \n"
