@@ -1,0 +1,391 @@
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 1.18% of 0.85 seconds
+
+index % time    self  children    called     name
+                0.00    0.46       2/2           __static_initialization_and_destruction_0(int, int) [2]
+[1]     54.6    0.00    0.46       2         main [1]
+                0.08    0.34       1/1           void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+                0.02    0.00       1/1           Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.01    0.00       1/1           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.01    0.00       1/1           bool Eigen::saveMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, std::string const&) [19]
+                0.00    0.00       1/1           bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.00       1/1           Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+                0.00    0.00       1/1           Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00       1/1           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+                0.00    0.00       1/1           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       5/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/1           Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::operator*<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> >(Eigen::DiagonalBase<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const&) const [43]
+                0.00    0.00       1/1           Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_abs_op<double>, Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> const> >::sum() const [42]
+                0.00    0.00       1/4           Eigen::SparseMatrix<double, 0, int>::resize(int, int) [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     54.6    0.00    0.46                 __static_initialization_and_destruction_0(int, int) [2]
+                0.00    0.46       2/2           main [1]
+-----------------------------------------------
+                0.08    0.34       1/1           main [1]
+[3]     49.4    0.08    0.34       1         void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+                0.05    0.13   37174/37174       Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [4]
+                0.07    0.03   37174/37174       Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [5]
+                0.00    0.06   35716/38312       Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.00    0.00 1466407/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00   38312/38312       Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::col(int) [37]
+-----------------------------------------------
+                0.05    0.13   37174/37174       void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+[4]     21.3    0.05    0.13   37174         Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [4]
+                0.07    0.00  206721/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.06    0.00  206721/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.01    0.00 2814464/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.07    0.03   37174/37174       void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+[5]     11.5    0.07    0.03   37174         Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [5]
+                0.01    0.00   37174/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.01    0.00   37174/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.01    0.00 2814464/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                                                 <spontaneous>
+[6]     11.3    0.09    0.01                 void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+                0.01    0.00 2969992/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/1           Eigen::Matrix<int, -1, 1, 0, -1, 1>::Matrix(int) [41]
+                0.00    0.00       1/1           void std::fill<unsigned long*, int>(unsigned long*, unsigned long*, int const&) [49]
+-----------------------------------------------
+                0.00    0.00       1/246802      void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+                0.00    0.00       1/246802      bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00       2/246802      Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       3/246802      Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [39]
+                0.00    0.00       4/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.00    0.00       6/246802      Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+                0.00    0.00    2885/246802      Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [11]
+                0.01    0.00   37174/246802      Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [5]
+                0.07    0.00  206721/246802      Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [4]
+[7]      9.4    0.08    0.00  246802         void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+-----------------------------------------------
+                                                 <spontaneous>
+[8]      9.4    0.08    0.00                 _Unwind_SjLj_Register [8]
+-----------------------------------------------
+                0.00    0.00       1/246802      void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+                0.00    0.00       1/246802      bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+                0.00    0.00       1/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00       2/246802      Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       3/246802      Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [39]
+                0.00    0.00       4/246802      Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.00    0.00       6/246802      Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+                0.00    0.00    2885/246802      Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [11]
+                0.01    0.00   37174/246802      Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [5]
+                0.06    0.00  206721/246802      Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [4]
+[9]      8.2    0.07    0.00  246802         void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+-----------------------------------------------
+                0.00    0.00    2596/38312       bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.06   35716/38312       void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+[10]     7.3    0.00    0.06   38312         Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.06    0.00   38312/38312       Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [11]
+                0.00    0.00    4556/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+-----------------------------------------------
+                0.06    0.00   38312/38312       Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+[11]     7.3    0.06    0.00   38312         Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [11]
+                0.00    0.00    2885/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00    2885/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00   38312/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                                                 <spontaneous>
+[12]     3.5    0.03    0.00                 operator new(unsigned int) [12]
+-----------------------------------------------
+                0.02    0.00       1/1           main [1]
+[13]     2.4    0.02    0.00       1         Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.00    0.00   39456/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/3           void Eigen::DenseBase<Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > >::checkTransposeAliasing<Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > >(Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > const&) const [47]
+-----------------------------------------------
+                                                 <spontaneous>
+[14]     2.4    0.02    0.00                 _Unwind_SjLj_Unregister [14]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     2.4    0.02    0.00                 std::ostream::operator<<(double) [15]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     2.4    0.02    0.00                 operator new[](unsigned int) [16]
+-----------------------------------------------
+                0.00    0.00       1/10529126     bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.00       1/10529126     Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_abs_op<double>, Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> const> >::sum() const [42]
+                0.00    0.00       1/10529126     Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::operator*<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> >(Eigen::DiagonalBase<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const&) const [43]
+                0.00    0.00       2/10529126     Eigen::Matrix<int, -1, 1, 0, -1, 1>::Matrix(int) [41]
+                0.00    0.00       3/10529126     bool Eigen::saveMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, std::string const&) [19]
+                0.00    0.00       5/10529126     main [1]
+                0.00    0.00    2278/10529126     Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00    4556/10529126     Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.00    0.00    7470/10529126     Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00   28310/10529126     Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [39]
+                0.00    0.00   34618/10529126     Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.00    0.00   38312/10529126     Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [11]
+                0.00    0.00   39456/10529126     Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.00    0.00   76624/10529126     Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::innerVector(int) [36]
+                0.00    0.00   76630/10529126     Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00   76630/10529126     Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+                0.00    0.00   78902/10529126     Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+                0.00    0.00 1466407/10529126     void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+                0.01    0.00 2814464/10529126     Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [5]
+                0.01    0.00 2814464/10529126     Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [4]
+                0.01    0.00 2969992/10529126     void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+[17]     2.4    0.02    0.00 10529126         Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[18]     1.2    0.01    0.00       1         Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.00    0.00   34618/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       4/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       4/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/3           Eigen::SparseMatrix<double, 6, int>::resize(int, int) [46]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 6, int>::operator=(Eigen::SparseMatrix<double, 6, int> const&) [48]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[19]     1.2    0.01    0.00       1         bool Eigen::saveMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, std::string const&) [19]
+                0.00    0.00       3/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                                                 <spontaneous>
+[20]     1.2    0.01    0.00                 std::__use_cache<std::__numpunct_cache<char> >::operator()(std::locale const&) const [20]
+-----------------------------------------------
+                                                 <spontaneous>
+[21]     1.2    0.01    0.00                 std::ctype<char>::do_widen(char const*, char const*, char*) const [21]
+-----------------------------------------------
+                                                 <spontaneous>
+[22]     1.2    0.01    0.00                 std::num_get<char, std::istreambuf_iterator<char, std::char_traits<char> > >::_M_extract_float(std::istreambuf_iterator<char, std::char_traits<char> >, std::istreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, std::_Ios_Iostate&, std::string&) const [22]
+-----------------------------------------------
+                                                 <spontaneous>
+[23]     1.2    0.01    0.00                 std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::do_put(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, double) const [23]
+-----------------------------------------------
+                                                 <spontaneous>
+[24]     1.2    0.01    0.00                 std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) [24]
+-----------------------------------------------
+                                                 <spontaneous>
+[25]     1.2    0.01    0.00                 std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() [25]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     1.2    0.01    0.00                 std::__timepunct<char>::__timepunct(std::__timepunct_cache<char>*, unsigned int) [26]
+-----------------------------------------------
+                                                 <spontaneous>
+[27]     1.2    0.01    0.00                 std::__basic_file<char>::xsputn_2(char const*, int, char const*, int) [27]
+-----------------------------------------------
+                                                 <spontaneous>
+[28]     1.2    0.01    0.00                 std::basic_streambuf<char, std::char_traits<char> >::xsputn(char const*, int) [28]
+-----------------------------------------------
+                                                 <spontaneous>
+[29]     1.2    0.01    0.00                 std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::basic_stringstream(std::string const&, std::_Ios_Openmode) [29]
+-----------------------------------------------
+                                                 <spontaneous>
+[30]     1.2    0.01    0.00                 int std::__int_to_char<char, unsigned long>(char*, unsigned long, char const*, std::_Ios_Fmtflags, bool) [30]
+-----------------------------------------------
+                                                 <spontaneous>
+[31]     1.2    0.01    0.00                 malloc [31]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[32]     0.5    0.00    0.00       1         bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [32]
+                0.00    0.00    2596/38312       Eigen::SparseMatrix<double, 0, int>::insert(int, int) [10]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[33]     0.0    0.00    0.00       1         Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+                0.00    0.00   78902/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       6/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       6/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       2/4           Eigen::SparseMatrix<double, 0, int>::resize(int, int) [45]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[34]     0.0    0.00    0.00       1         Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00   76630/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/3           void Eigen::DenseBase<Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > >::checkTransposeAliasing<Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > >(Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > const&) const [47]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[35]     0.0    0.00    0.00       1         Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+                0.00    0.00   76630/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/3           void Eigen::DenseBase<Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > >::checkTransposeAliasing<Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > >(Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > const&) const [47]
+-----------------------------------------------
+                0.00    0.00   38312/38312       Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::col(int) [37]
+[36]     0.0    0.00    0.00   38312         Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::innerVector(int) [36]
+                0.00    0.00   76624/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.00    0.00   38312/38312       void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [3]
+[37]     0.0    0.00    0.00   38312         Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::col(int) [37]
+                0.00    0.00   38312/38312       Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::innerVector(int) [36]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[38]     0.0    0.00    0.00       1         Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00   14155/14155       Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [39]
+                0.00    0.00    2278/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       1/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       2/3           Eigen::SparseMatrix<double, 6, int>::resize(int, int) [46]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 6, int>::operator=(Eigen::SparseMatrix<double, 6, int> const&) [48]
+-----------------------------------------------
+                0.00    0.00   14155/14155       Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+[39]     0.0    0.00    0.00   14155         Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [39]
+                0.00    0.00   28310/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       3/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       3/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+-----------------------------------------------
+                                   1             Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       1/2           main [1]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+[40]     0.0    0.00    0.00       2+1       Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00    7470/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+                0.00    0.00       2/246802      void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [7]
+                0.00    0.00       2/246802      void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [9]
+                0.00    0.00       1/4           Eigen::SparseMatrix<double, 0, int>::resize(int, int) [45]
+                                   1             Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+-----------------------------------------------
+                0.00    0.00       1/1           void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+[41]     0.0    0.00    0.00       1         Eigen::Matrix<int, -1, 1, 0, -1, 1>::Matrix(int) [41]
+                0.00    0.00       2/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[42]     0.0    0.00    0.00       1         Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_abs_op<double>, Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> const> >::sum() const [42]
+                0.00    0.00       1/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[43]     0.0    0.00    0.00       1         Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::operator*<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> >(Eigen::DiagonalBase<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const&) const [43]
+                0.00    0.00       1/10529126     Eigen::internal::(anonymous namespace)::copy_bool(bool) [17]
+-----------------------------------------------
+                0.00    0.00       1/4           main [1]
+                0.00    0.00       1/4           Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [40]
+                0.00    0.00       2/4           Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [33]
+[45]     0.0    0.00    0.00       4         Eigen::SparseMatrix<double, 0, int>::resize(int, int) [45]
+-----------------------------------------------
+                0.00    0.00       1/3           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+                0.00    0.00       2/3           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+[46]     0.0    0.00    0.00       3         Eigen::SparseMatrix<double, 6, int>::resize(int, int) [46]
+-----------------------------------------------
+                0.00    0.00       1/3           Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [13]
+                0.00    0.00       1/3           Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [34]
+                0.00    0.00       1/3           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [35]
+[47]     0.0    0.00    0.00       3         void Eigen::DenseBase<Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > >::checkTransposeAliasing<Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > >(Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > const&) const [47]
+-----------------------------------------------
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [38]
+                0.00    0.00       1/2           Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [18]
+[48]     0.0    0.00    0.00       2         Eigen::SparseMatrix<double, 6, int>::operator=(Eigen::SparseMatrix<double, 6, int> const&) [48]
+-----------------------------------------------
+                0.00    0.00       1/1           void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [6]
+[49]     0.0    0.00    0.00       1         void std::fill<unsigned long*, int>(unsigned long*, unsigned long*, int const&) [49]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+   [8] _Unwind_SjLj_Register  [38] Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> > const&) [22] std::num_get<char, std::istreambuf_iterator<char, std::char_traits<char> > >::_M_extract_float(std::istreambuf_iterator<char, std::char_traits<char> >, std::istreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, std::_Ios_Iostate&, std::string&) const
+  [14] _Unwind_SjLj_Unregister [18] Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> >(Eigen::SparseMatrixBase<Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> > const&) [23] std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::do_put(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, double) const
+   [3] void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool) [5] Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&) [15] std::ostream::operator<<(double)
+  [32] bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&) [4] Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&) [24] std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&)
+  [19] bool Eigen::saveMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, std::string const&) [36] Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::innerVector(int) [25] std::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()
+  [11] Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int) [37] Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::col(int) [26] std::__timepunct<char>::__timepunct(std::__timepunct_cache<char>*, unsigned int)
+  [10] Eigen::SparseMatrix<double, 0, int>::insert(int, int) [41] Eigen::Matrix<int, -1, 1, 0, -1, 1>::Matrix(int) [27] std::__basic_file<char>::xsputn_2(char const*, int, char const*, int)
+  [45] Eigen::SparseMatrix<double, 0, int>::resize(int, int) [7] void Eigen::internal::smart_copy<double>(double const*, double const*, double*) [28] std::basic_streambuf<char, std::char_traits<char> >::xsputn(char const*, int)
+  [40] Eigen::SparseMatrix<double, 0, int>::operator=(Eigen::SparseMatrix<double, 0, int> const&) [9] void Eigen::internal::smart_copy<int>(int const*, int const*, int*) [29] std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::basic_stringstream(std::string const&, std::_Ios_Openmode)
+  [33] Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > >(Eigen::SparseMatrixBase<Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > > const&) [6] void Eigen::internal::conservative_sparse_sparse_product_impl<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int> const&, Eigen::SparseMatrix<double, 0, int>&) [30] int std::__int_to_char<char, unsigned long>(char*, unsigned long, char const*, std::_Ios_Fmtflags, bool)
+  [13] Eigen::SparseMatrix<double, 0, int>& Eigen::SparseMatrix<double, 0, int>::operator=<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > >(Eigen::SparseMatrixBase<Eigen::Transpose<Eigen::SparseMatrix<double, 0, int> > > const&) [17] Eigen::internal::(anonymous namespace)::copy_bool(bool) [49] void std::fill<unsigned long*, int>(unsigned long*, unsigned long*, int const&)
+  [34] Eigen::SparseMatrix<double, 1, int>& Eigen::SparseMatrix<double, 1, int>::operator=<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> > const&) [42] Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_abs_op<double>, Eigen::CwiseBinaryOp<Eigen::internal::scalar_difference_op<double>, Eigen::SparseTriangularView<Eigen::SparseSparseProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::SparseMatrix<double, 0, int> >, 1> const, Eigen::SparseMatrix<double, 0, int> const> const> >::sum() const [16] operator new[](unsigned int)
+  [39] Eigen::SparseMatrix<double, 6, int>::insertBackByOuterInner(int, int) [43] Eigen::SparseDiagonalProduct<Eigen::SparseMatrix<double, 0, int>, Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::operator*<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> >(Eigen::DiagonalBase<Eigen::DiagonalWrapper<Eigen::Matrix<double, -1, 1, 0, -1, 1> const> > const&) const [12] operator new(unsigned int)
+  [46] Eigen::SparseMatrix<double, 6, int>::resize(int, int) [47] void Eigen::DenseBase<Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > >::checkTransposeAliasing<Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > >(Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<int>, Eigen::Map<Eigen::Matrix<int, -1, 1, 0, -1, 1>, 0, Eigen::Stride<0, 0> > > const&) const [1] main
+  [48] Eigen::SparseMatrix<double, 6, int>::operator=(Eigen::SparseMatrix<double, 6, int> const&) [20] std::__use_cache<std::__numpunct_cache<char> >::operator()(std::locale const&) const [31] malloc
+  [35] Eigen::SparseMatrix<double, 6, int>& Eigen::SparseMatrix<double, 6, int>::operator=<Eigen::SparseMatrix<double, 1, int> >(Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 1, int> > const&) [21] std::ctype<char>::do_widen(char const*, char const*, char*) const
