@@ -25,6 +25,8 @@
 #ifndef EIGEN_SPARSEMATRIXBASE_H
 #define EIGEN_SPARSEMATRIXBASE_H
 
+namespace Eigen { 
+
 /** \ingroup SparseCore_Module
   *
   * \class SparseMatrixBase
@@ -225,8 +227,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
           for (typename OtherDerived::InnerIterator it(other, j); it; ++it)
           {
             Scalar v = it.value();
-            if (v!=Scalar(0))
-              derived().insertBackByOuterInner(j,it.index()) = v;
+            derived().insertBackByOuterInner(j,it.index()) = v;
           }
         }
         derived().finalize();
@@ -260,8 +261,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
         for (typename OtherDerived::InnerIterator it(other.derived(), j); it; ++it)
         {
           Scalar v = it.value();
-          if (v!=Scalar(0))
-            temp.insertBackByOuterInner(Flip?it.index():j,Flip?j:it.index()) = v;
+          temp.insertBackByOuterInner(Flip?it.index():j,Flip?j:it.index()) = v;
         }
       }
       temp.finalize();
@@ -371,6 +371,12 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
     template<typename OtherDerived>
     const typename SparseDenseProductReturnType<Derived,OtherDerived>::Type
     operator*(const MatrixBase<OtherDerived> &other) const;
+    
+     /** \returns an expression of P^-1 H P */
+    SparseSymmetricPermutationProduct<Derived,Upper|Lower> twistedBy(const PermutationMatrix<Dynamic,Dynamic,Index>& perm) const
+    {
+      return SparseSymmetricPermutationProduct<Derived,Upper|Lower>(derived(), perm);
+    }
 
     template<typename OtherDerived>
     Derived& operator*=(const SparseMatrixBase<OtherDerived>& other);
@@ -461,5 +467,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
 
     bool m_isRValue;
 };
+
+} // end namespace Eigen
 
 #endif // EIGEN_SPARSEMATRIXBASE_H

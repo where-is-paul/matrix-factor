@@ -26,8 +26,9 @@
 #ifndef EIGEN_REAL_SCHUR_H
 #define EIGEN_REAL_SCHUR_H
 
-#include "./EigenvaluesCommon.h"
 #include "./HessenbergDecomposition.h"
+
+namespace Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
   *
@@ -470,5 +471,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
       m_matT.coeffRef(i,i-3) = Scalar(0);
   }
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_REAL_SCHUR_H

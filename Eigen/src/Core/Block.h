@@ -26,6 +26,8 @@
 #ifndef EIGEN_BLOCK_H
 #define EIGEN_BLOCK_H
 
+namespace Eigen { 
+
 /** \class Block
   * \ingroup Core_Module
   *
@@ -362,8 +364,9 @@ class Block<XprType,BlockRows,BlockCols, InnerPanel,true>
     }
 
     typename XprType::Nested m_xpr;
-    int m_outerStride;
+    Index m_outerStride;
 };
 
+} // end namespace Eigen
 
 #endif // EIGEN_BLOCK_H

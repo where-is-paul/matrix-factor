@@ -27,6 +27,8 @@
 #ifndef EIGEN_TRANSFORM_H
 #define EIGEN_TRANSFORM_H
 
+namespace Eigen { 
+
 namespace internal {
 
 template<typename Transform>
@@ -61,7 +63,7 @@ template< typename Lhs,
           typename Rhs,
           bool AnyProjective = 
             transform_traits<Lhs>::IsProjective ||
-            transform_traits<Lhs>::IsProjective>
+            transform_traits<Rhs>::IsProjective>
 struct transform_transform_product_impl;
 
 template< typename Other,
@@ -207,9 +209,9 @@ public:
   /** type of the matrix used to represent the linear part of the transformation */
   typedef Matrix<Scalar,Dim,Dim,Options> LinearMatrixType;
   /** type of read/write reference to the linear part of the transformation */
-  typedef Block<MatrixType,Dim,Dim> LinearPart;
+  typedef Block<MatrixType,Dim,Dim,int(Mode)==(AffineCompact)> LinearPart;
   /** type of read reference to the linear part of the transformation */
-  typedef const Block<ConstMatrixType,Dim,Dim> ConstLinearPart;
+  typedef const Block<ConstMatrixType,Dim,Dim,int(Mode)==(AffineCompact)> ConstLinearPart;
   /** type of read/write reference to the affine part of the transformation */
   typedef typename internal::conditional<int(Mode)==int(AffineCompact),
                               MatrixType&,
@@ -221,9 +223,9 @@ public:
   /** type of a vector */
   typedef Matrix<Scalar,Dim,1> VectorType;
   /** type of a read/write reference to the translation part of the rotation */
-  typedef Block<MatrixType,Dim,1> TranslationPart;
+  typedef Block<MatrixType,Dim,1,int(Mode)==(AffineCompact)> TranslationPart;
   /** type of a read reference to the translation part of the rotation */
-  typedef const Block<ConstMatrixType,Dim,1> ConstTranslationPart;
+  typedef const Block<ConstMatrixType,Dim,1,int(Mode)==(AffineCompact)> ConstTranslationPart;
   /** corresponding translation type */
   typedef Translation<Scalar,Dim> TranslationType;
   
@@ -382,9 +384,9 @@ public:
   inline MatrixType& matrix() { return m_matrix; }
 
   /** \returns a read-only expression of the linear part of the transformation */
-  inline ConstLinearPart linear() const { return m_matrix.template block<Dim,Dim>(0,0); }
+  inline ConstLinearPart linear() const { return ConstLinearPart(m_matrix,0,0); }
   /** \returns a writable expression of the linear part of the transformation */
-  inline LinearPart linear() { return m_matrix.template block<Dim,Dim>(0,0); }
+  inline LinearPart linear() { return LinearPart(m_matrix,0,0); }
 
   /** \returns a read-only expression of the Dim x HDim affine part of the transformation */
   inline ConstAffinePart affine() const { return take_affine_part::run(m_matrix); }
@@ -392,9 +394,9 @@ public:
   inline AffinePart affine() { return take_affine_part::run(m_matrix); }
 
   /** \returns a read-only expression of the translation vector of the transformation */
-  inline ConstTranslationPart translation() const { return m_matrix.template block<Dim,1>(0,Dim); }
+  inline ConstTranslationPart translation() const { return ConstTranslationPart(m_matrix,0,Dim); }
   /** \returns a writable expression of the translation vector of the transformation */
-  inline TranslationPart translation() { return m_matrix.template block<Dim,1>(0,Dim); }
+  inline TranslationPart translation() { return TranslationPart(m_matrix,0,Dim); }
 
   /** \returns an expression of the product between the transform \c *this and a matrix expression \a other
     *
@@ -1247,7 +1249,7 @@ struct transform_right_product_impl< TransformType, MatrixType, 1 >
   {
     EIGEN_STATIC_ASSERT(OtherRows==HDim, YOU_MIXED_MATRICES_OF_DIFFERENT_SIZES);
 
-    typedef Block<ResultType, Dim, OtherCols> TopLeftLhs;
+    typedef Block<ResultType, Dim, OtherCols, int(MatrixType::RowsAtCompileTime)==Dim> TopLeftLhs;
 
     ResultType res(other.rows(),other.cols());
     TopLeftLhs(res, 0, 0, Dim, other.cols()).noalias() = T.affine() * other;
@@ -1273,11 +1275,9 @@ struct transform_right_product_impl< TransformType, MatrixType, 2 >
   {
     EIGEN_STATIC_ASSERT(OtherRows==Dim, YOU_MIXED_MATRICES_OF_DIFFERENT_SIZES);
 
-    typedef Block<ResultType, Dim, OtherCols> TopLeftLhs;
-
-    ResultType res(other.rows(),other.cols());
-    TopLeftLhs(res, 0, 0, Dim, other.cols()).noalias() = T.linear() * other;
-    TopLeftLhs(res, 0, 0, Dim, other.cols()).colwise() += T.translation();
+    typedef Block<ResultType, Dim, OtherCols, true> TopLeftLhs;
+    ResultType res(Replicate<typename TransformType::ConstTranslationPart, 1, OtherCols>(T.translation(),1,other.cols()));
+    TopLeftLhs(res, 0, 0, Dim, other.cols()).noalias() += T.linear() * other;
 
     return res;
   }
@@ -1397,6 +1397,37 @@ struct transform_transform_product_impl<Transform<Scalar,Dim,LhsMode,LhsOptions>
   }
 };
 
+template<typename Scalar, int Dim, int LhsOptions, int RhsOptions>
+struct transform_transform_product_impl<Transform<Scalar,Dim,AffineCompact,LhsOptions>,Transform<Scalar,Dim,Projective,RhsOptions>,true >
+{
+  typedef Transform<Scalar,Dim,AffineCompact,LhsOptions> Lhs;
+  typedef Transform<Scalar,Dim,Projective,RhsOptions> Rhs;
+  typedef Transform<Scalar,Dim,Projective> ResultType;
+  static ResultType run(const Lhs& lhs, const Rhs& rhs)
+  {
+    ResultType res;
+    res.matrix().template topRows<Dim>() = lhs.matrix() * rhs.matrix();
+    res.matrix().row(Dim) = rhs.matrix().row(Dim);
+    return res;
+  }
+};
+
+template<typename Scalar, int Dim, int LhsOptions, int RhsOptions>
+struct transform_transform_product_impl<Transform<Scalar,Dim,Projective,LhsOptions>,Transform<Scalar,Dim,AffineCompact,RhsOptions>,true >
+{
+  typedef Transform<Scalar,Dim,Projective,LhsOptions> Lhs;
+  typedef Transform<Scalar,Dim,AffineCompact,RhsOptions> Rhs;
+  typedef Transform<Scalar,Dim,Projective> ResultType;
+  static ResultType run(const Lhs& lhs, const Rhs& rhs)
+  {
+    ResultType res(lhs.matrix().template leftCols<Dim>() * rhs.matrix());
+    res.matrix().col(Dim) += lhs.matrix().col(Dim);
+    return res;
+  }
+};
+
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_TRANSFORM_H

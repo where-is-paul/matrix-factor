@@ -34,6 +34,8 @@
 // defined e.g. EIGEN_DONT_ALIGN) so it needs to be done before we do anything with vectorization.
 #include "src/Core/util/Macros.h"
 
+#include <complex>
+
 // this include file manages BLAS and MKL related macros
 // and inclusion of their respective header files
 #include "src/Core/util/MKL_support.h"
@@ -140,7 +142,7 @@
 #endif
 
 // MSVC for windows mobile does not have the errno.h file
-#if !(defined(_MSC_VER) && defined(_WIN32_WCE))
+#if !(defined(_MSC_VER) && defined(_WIN32_WCE)) && !defined(__ARMCC_VERSION)
 #define EIGEN_HAS_ERRNO
 #endif
 
@@ -150,7 +152,6 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cmath>
-#include <complex>
 #include <cassert>
 #include <functional>
 #include <iosfwd>
@@ -201,6 +202,8 @@ inline static const char *SimdInstructionSetsInUse(void) {
   return "None";
 #endif
 }
+
+} // end namespace Eigen
 
 #define STAGE10_FULL_EIGEN2_API             10
 #define STAGE20_RESOLVE_API_CONFLICTS       20
@@ -366,8 +369,6 @@ using std::ptrdiff_t;
 #ifdef EIGEN_USE_MKL_VML
 #include "src/Core/Assign_MKL.h"
 #endif
-
-} // namespace Eigen
 
 #include "src/Core/GlobalFunctions.h"
 

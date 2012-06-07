@@ -25,6 +25,8 @@
 #ifndef EIGEN_SPARSETRIANGULARSOLVER_H
 #define EIGEN_SPARSETRIANGULARSOLVER_H
 
+namespace Eigen { 
+
 namespace internal {
 
 template<typename Lhs, typename Rhs, int Mode,
@@ -156,6 +158,7 @@ struct sparse_solve_triangular_selector<Lhs,Rhs,Mode,Upper,ColMajor>
         {
           if(!(Mode & UnitDiag))
           {
+            // TODO replace this by a binary search. make sure the binary search is safe for partially sorted elements
             typename Lhs::ReverseInnerIterator it(lhs, i);
             while(it && it.index()!=i)
               --it;
@@ -340,5 +343,7 @@ SparseMatrixBase<Derived>::solveTriangular(const MatrixBase<OtherDerived>& other
   return res;
 }
 #endif // EIGEN2_SUPPORT
+
+} // end namespace Eigen
 
 #endif // EIGEN_SPARSETRIANGULARSOLVER_H

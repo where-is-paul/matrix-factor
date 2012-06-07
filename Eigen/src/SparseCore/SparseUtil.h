@@ -25,6 +25,8 @@
 #ifndef EIGEN_SPARSEUTIL_H
 #define EIGEN_SPARSEUTIL_H
 
+namespace Eigen { 
+
 #ifdef NDEBUG
 #define EIGEN_DBG_SPARSE(X)
 #else
@@ -58,22 +60,22 @@ EIGEN_SPARSE_INHERIT_SCALAR_ASSIGNMENT_OPERATOR(Derived, /=)
 
 #define _EIGEN_SPARSE_PUBLIC_INTERFACE(Derived, BaseClass) \
   typedef BaseClass Base; \
-  typedef typename Eigen::internal::traits<Derived>::Scalar Scalar; \
+  typedef typename Eigen::internal::traits<Derived >::Scalar Scalar; \
   typedef typename Eigen::NumTraits<Scalar>::Real RealScalar; \
-  typedef typename Eigen::internal::nested<Derived>::type Nested; \
-  typedef typename Eigen::internal::traits<Derived>::StorageKind StorageKind; \
-  typedef typename Eigen::internal::traits<Derived>::Index Index; \
-  enum { RowsAtCompileTime = Eigen::internal::traits<Derived>::RowsAtCompileTime, \
-        ColsAtCompileTime = Eigen::internal::traits<Derived>::ColsAtCompileTime, \
-        Flags = Eigen::internal::traits<Derived>::Flags, \
-        CoeffReadCost = Eigen::internal::traits<Derived>::CoeffReadCost, \
+  typedef typename Eigen::internal::nested<Derived >::type Nested; \
+  typedef typename Eigen::internal::traits<Derived >::StorageKind StorageKind; \
+  typedef typename Eigen::internal::traits<Derived >::Index Index; \
+  enum { RowsAtCompileTime = Eigen::internal::traits<Derived >::RowsAtCompileTime, \
+        ColsAtCompileTime = Eigen::internal::traits<Derived >::ColsAtCompileTime, \
+        Flags = Eigen::internal::traits<Derived >::Flags, \
+        CoeffReadCost = Eigen::internal::traits<Derived >::CoeffReadCost, \
         SizeAtCompileTime = Base::SizeAtCompileTime, \
         IsVectorAtCompileTime = Base::IsVectorAtCompileTime }; \
   using Base::derived; \
   using Base::const_cast_derived;
 
 #define EIGEN_SPARSE_PUBLIC_INTERFACE(Derived) \
-  _EIGEN_SPARSE_PUBLIC_INTERFACE(Derived, Eigen::SparseMatrixBase<Derived>)
+  _EIGEN_SPARSE_PUBLIC_INTERFACE(Derived, Eigen::SparseMatrixBase<Derived >)
 
 const int CoherentAccessPattern     = 0x1;
 const int InnerRandomAccessPattern  = 0x2 | CoherentAccessPattern;
@@ -100,6 +102,7 @@ template<typename Lhs, typename Rhs, bool Transpose> class SparseDenseOuterProdu
 template<typename Lhs, typename Rhs> struct SparseSparseProductReturnType;
 template<typename Lhs, typename Rhs, int InnerSize = internal::traits<Lhs>::ColsAtCompileTime> struct DenseSparseProductReturnType;
 template<typename Lhs, typename Rhs, int InnerSize = internal::traits<Lhs>::ColsAtCompileTime> struct SparseDenseProductReturnType;
+template<typename MatrixType,int UpLo> class SparseSymmetricPermutationProduct;
 
 namespace internal {
 
@@ -179,5 +182,7 @@ protected:
   Index m_row, m_col;
   Scalar m_value;
 };
+
+} // end namespace Eigen
 
 #endif // EIGEN_SPARSEUTIL_H

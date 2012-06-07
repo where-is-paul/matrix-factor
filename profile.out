@@ -1,0 +1,60 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 16.44      0.12     0.12        1   120.00   436.50  void CroutLDL<double>(Eigen::SparseMatrix<double, 0, int>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, bool)
+ 10.96      0.20     0.08    37174     0.00     0.00  Eigen::SparseVector<double, 288, int>& Eigen::SparseVector<double, 288, int>::assign<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> >(Eigen::SparseMatrixBase<Eigen::SparseInnerVectorSet<Eigen::SparseMatrix<double, 0, int>, 1> > const&)
+  9.59      0.27     0.07   247302     0.00     0.00  void Eigen::internal::smart_copy<double>(double const*, double const*, double*)
+  9.59      0.34     0.07    37174     0.00     0.00  Eigen::SparseVector<double, 0, int>& Eigen::SparseVector<double, 0, int>::assign<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> >(Eigen::SparseMatrixBase<Eigen::CwiseUnaryOp<Eigen::internal::scalar_multiple_op<double>, Eigen::SparseVector<double, 288, int> const> > const&)
+  9.59      0.41     0.07                             _Unwind_SjLj_Unregister
+  6.85      0.46     0.05   247302     0.00     0.00  void Eigen::internal::smart_copy<int>(int const*, int const*, int*)
+  6.85      0.51     0.05    38312     0.00     0.00  Eigen::SparseMatrix<double, 0, int>::insertUncompressed(int, int)
+  4.11      0.54     0.03                             operator new[](unsigned int)
+  2.74      0.56     0.02        1    20.00    20.00  bool Eigen::saveMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int> const&, std::string const&)
+  2.74      0.58     0.02                             std::__use_cache<std::__numpunct_cache<char> >::operator()(std::locale const&) const
+  2.74      0.60     0.02                             std::basic_ios<char, std::char_traits<char> >::widen(char) const
+  2.74      0.62     0.02                             operator new(unsigned int)
+  1.37      0.63     0.01        1    10.00    13.50  bool Eigen::loadMarket<Eigen::SparseMatrix<double, 0, int> >(Eigen::SparseMatrix<double, 0, int>&, std::string const&)
+  1.37      0.64     0.01                             _Unwind_SjLj_Register
+  1.37      0.65     0.01                             std::istreambuf_iterator<char, std::char_traits<char> > std::num_get<char, std::istreambuf_iterator<char, std::char_traits<char> > >::_M_extract_int<long>(std::istreambuf_iterator<char, std::char_traits<char> >, std::istreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, std::_Ios_Iostate&, long&) const
+  1.37      0.66     0.01                             std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, long) const
+  1.37      0.67     0.01                             std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::do_put(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, double) const
+  1.37      0.68     0.01                             std::ostream::operator<<(long)
+  1.37      0.69     0.01                             std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&)
+  1.37      0.70     0.01                             std::basic_filebuf<char, std::char_traits<char> >::xsputn(char const*, int)
+  1.37      0.71     0.01                             std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::basic_stringstream(std::string const&, std::_Ios_Openmode)
+  1.37      0.72     0.01                             int std::__convert_from_v<double>(char*, int, char const*, double, int* const&, int)
+  1.37      0.73     0.01                             pthread_getspecific
+  0.00      0.73     0.00  7212555     0.00     0.00  Eigen::internal::(anonymous namespace)::copy_bool(bool)
+  0.00      0.73     0.00    38312     0.00     0.00  Eigen::SparseMatrix<double, 0, int>::insert(int, int)
+  0.00      0.73     0.00    38312     0.00     0.00  Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::innerVector(int)
+  0.00      0.73     0.00    38312     0.00     0.00  Eigen::SparseMatrixBase<Eigen::SparseMatrix<double, 0, int> >::col(int)
+  0.00      0.73     0.00        2     0.00   235.00  main
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
