@@ -1,0 +1,2 @@
+swig -c++ -python -includeall -ignoremissing cppsparse.i
+cl /nologo /EHsc /LD /I"C:\Python26\include" /I"C:\Python26\Lib\site-packages\numpy\core\include" cppsparse_wrap.cxx /link"C:\Python26\Libs\python26.lib" /out:_cppsparse.pyd

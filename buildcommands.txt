@@ -1,0 +1,1 @@
+g++ -O3 -funroll-loops -Wall -std=c++0x -o test test.cpp;
