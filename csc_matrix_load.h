@@ -33,7 +33,7 @@ bool csc_matrix<idx_type, el_type> :: load (std::string filename)
   
   bool readsizes = false;
   
-  idx_type n_rows(-1), n_cols(-1), n_nzs(-1), prev_j(0);
+  idx_type n_rows(-1), n_cols(-1), n_nzs(-1), prev_j(0), i(-1), j(-1), k;
   int count = 0, prev_count = 0; 
   while(input.getline(buffer, maxBuffersize))
   {
@@ -56,14 +56,15 @@ bool csc_matrix<idx_type, el_type> :: load (std::string filename)
     }
     else
     { 
-      idx_type i(-1), j(-1);
+      i = -1;
+	  j = -1;
       el_type value; 
       if( readline(line, n_rows, n_cols, i, j, value) ) 
       {
 		if (prev_j != j)
 		{	
 			//std::cout << prev_j << " transitioning to " << j << " on element number: " << count << std::endl;
-			for (idx_type k = prev_j; k < j; k++) m_col_idx[k] = prev_count;
+			for (k = prev_j; k < j; k++) m_col_idx[k] = prev_count;
 			m_col_idx[j] = count;
 			prev_count = count;
 			prev_j = j;
@@ -77,9 +78,10 @@ bool csc_matrix<idx_type, el_type> :: load (std::string filename)
         std::cerr << "Invalid read: " << i << "," << j << "\n";		
     }
 	
-	m_col_idx[n_cols] = n_nzs;
   }
 
+  for (i = prev_j+1; i <= n_cols; i++) m_col_idx[i] = n_nzs;
+  
   if(count!=n_nzs)
     std::cerr << count << " elements read but expected " << n_nzs << "elements. \n";
   
