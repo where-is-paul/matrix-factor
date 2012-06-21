@@ -51,7 +51,7 @@ public:
 	
 	//----Matrix referencing/filling----//
 	
-	//change this to binary search later
+	//uses binary search to find an element.
 	virtual el_type coeff(const idx_type& i, const idx_type& j) const {
 		typename idx_vector_type::const_iterator low = lower_bound(m_row_idx.begin() + m_col_idx[j], m_row_idx.begin() + m_col_idx[j+1], i);
 		return (*low == i) ? *(m_x.begin() + std::distance(m_row_idx.begin(), low)) : 0;

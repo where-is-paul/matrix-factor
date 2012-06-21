@@ -76,7 +76,6 @@ void csc_matrix<idx_type, el_type> :: ildl(csc_matrix<idx_type, el_type>& L, elt
 	
 	curr_nnzs.reserve(n_cols());
 
-	
 	Llist.resize(n_cols()); //reserve nspots for Llist.
 	
 	L.resize(n_rows(), n_cols(), (lfil+1)*n_cols()); //(+1 because there are 1s on the diagonal. they wont need to be stored if we want to optimize)
