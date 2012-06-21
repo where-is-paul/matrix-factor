@@ -1,2 +1,1 @@
-weird infinite loops when lfil is set too low
-disagreement with matlab implementation when tol is set higher.
+disagreement with matlab implementation when tol is set higher. //possibly resolved. needs further testing.
