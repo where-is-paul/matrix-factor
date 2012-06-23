@@ -7,9 +7,9 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	if (argc != 4 && argc != 5) {
+	if (argc < 4) {
 		std::cout << "Too many or too few arguments." << std::endl
-				  << "Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [-yn]" << std::endl;
+				  << "Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [L_out.mtx] [D_out.mtx] [-yn]" << std::endl;
 		return 0;
 	}
 	
@@ -30,9 +30,13 @@ int main(int argc, char* argv[]) {
     printf("The factorization took %.6lf seconds.\n", t2-t1);
 	printf("L has %d non-zeros.\n", L.nnz()); 
 	
-	if (argc > 4 && strcmp(argv[4], "-y") == 0) {
-	    cout << L << endl;
-	    cout << D << endl;
+	if (argc > 4) {
+		L.save(argv[4]);
+		save(D, argv[5]);
+		if (argc > 6 && strcmp(argv[6], "-y") == 0) {
+			cout << L << endl;
+			cout << D << endl;
+		}
 	}
 	
 	return 0;

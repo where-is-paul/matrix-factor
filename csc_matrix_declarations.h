@@ -78,11 +78,13 @@ public:
     std::string to_string () const;
 	
 	bool load(std::string filename);
+	bool save(std::string filename);
 
 };
 
 #include "csc_matrix_ildl.h"
 #include "csc_matrix_load.h"
+#include "csc_matrix_save.h"
 #include "csc_matrix_to_string.h"
 
 template<class idx_type, class el_type>

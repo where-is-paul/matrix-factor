@@ -4,6 +4,27 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
+
+template<class el_type>
+bool save(const std::vector<el_type>& vec, std::string filename) {
+  std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
+  if(!out)
+    return false;
+
+  out.flags(std::ios_base::scientific);
+  out.precision(12);
+  std::string header = "%%MatrixMarket matrix coordinate real general";; 
+  
+  out << header << std::endl; 
+  out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
+  
+  for(int i = 0; i < (int) vec.size(); i++)
+	out << i+1 << " " << i+1 << " " << vec[i] << "\n";
+	
+  out.close();
+  return true;
+}
 
 template<class el_type>
 std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
