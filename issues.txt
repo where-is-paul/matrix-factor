@@ -1,1 +1,0 @@
-disagreement with matlab implementation when tol is set higher. //possibly resolved. needs further testing.

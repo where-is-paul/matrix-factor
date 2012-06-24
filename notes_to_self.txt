@@ -1,9 +1,11 @@
+g++ -O3 -funroll-loops -Wall -std=c++0x -o ldl_driver ldl_driver.cpp;
+
 http://www.stanford.edu/~dgleich/notebook/2006/03/sorting_two_arrays_simultaneou.html
 
-In li, saad, chow, they meant to use:
+In li, saad, chow, they perhaps meant to use:
 X = (L')^-1 E1  
 Y = E2 (U')^-1   *Apostrophes stand for tildes, not transposes.
 E1 = L - L'
 E2 = U - U'
 
-They were trying to replicate the derivation of Jones and Plassmann.
+Possibly trying to replicate the derivation of Jones and Plassmann.

@@ -1,1 +1,0 @@
-g++ -O3 -funroll-loops -Wall -std=c++0x -o ldl_driver ldl_driver.cpp;
