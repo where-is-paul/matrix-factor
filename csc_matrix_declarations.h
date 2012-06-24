@@ -32,6 +32,7 @@ public:
     csc_matrix (idx_type n_rows = 0, idx_type n_cols = 0, idx_type nz_max = 0): 
         abstract_sparse_matrix<idx_type, el_type> (n_rows, n_cols, nz_max) 
     {
+		m_row_idx.reserve(nz_max);
         m_col_idx.resize (n_cols + 1);
     }
 	
