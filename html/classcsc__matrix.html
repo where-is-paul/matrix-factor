@@ -311,65 +311,68 @@ template&lt;class idx_type , class el_type &gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">{       
-        std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist;
-        std::vector&lt;el_type&gt; work(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0), Lfirst(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0);
-        std::vector&lt;idx_type&gt; curr_nnzs, all_nnzs;
+        <span class="comment">//Llist is a deque of linked lists that gives the non-zero elements in each row of L. since at any time we may swap between two rows, we require a linked lists for each row of L. a deque is used as it might be desireable to deallocate all linked lists for rows i &lt; k on step k (this is currently not done, as the memory used in maintaining linked lists for all rows is not much).</span>
+        std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist; 
         
-        <span class="keywordtype">int</span> count = 0; 
+        <span class="comment">//work is a work vector for the current column. Lfirst is a linked list that gives the first nonzero element in column k with row index i &gt; k. (i.e. the first nonzero in L(k+1:n, k).</span>
+        std::vector&lt;el_type&gt; work(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0), Lfirst(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0);
+        
+        std::vector&lt;idx_type&gt; curr_nnzs; <span class="comment">//non-zeros on current col.</span>
+        
+        <span class="keywordtype">int</span> count = 0; <span class="comment">//the current non-zero in L.</span>
         idx_type i, j, k, offset;
         el_type l_ik;
-        <span class="keyword">typename</span> std::deque&lt;idx_type&gt;::const_iterator it; <span class="comment">//can use auto</span>
+        <span class="keyword">typename</span> std::deque&lt;idx_type&gt;::const_iterator it;
         
-        curr_nnzs.reserve(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>());
-
-        Llist.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//reserve nspots for Llist.</span>
+        curr_nnzs.reserve(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//makes sure that there is enough space if every element in the column is nonzero</span>
+        Llist.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//allocate a vector of size n for Llist.</span>
         
         L.<a class="code" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70">resize</a>(<a class="code" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c">n_rows</a>(), <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), (lfil+1)*<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//(+1 because there are 1s on the diagonal. they wont need to be stored if we want to optimize)</span>
-        D.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//make a tridiagonal matrix class later? will need for 2x2 pivots.</span>
+        D.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); 
         
-        <span class="comment">//the loop below can be made faster by assuming that the matrix has sorted row indices (so that we may iterate over m_col_idx instead).</span>
-        <span class="comment">//#pragma omp parallel for</span>
         <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(); i++) {
                 D[i] = <a class="code" href="classcsc__matrix.html#a48a009bcb2deb370af01f313ea6ae8bf">coeff</a>(i,i);
         }
         
         <span class="keywordflow">for</span> (k = 0; k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(); k++) {
-            <span class="comment">//zero out work vector (opt. later)</span>
-            std::fill (work.begin() + k, work.end(), 0); <span class="comment">//can change to work.begin() + k, but need to fix the norm after.</span>
+            <span class="comment">//zero out work vector</span>
+            std::fill (work.begin() + k, work.end(), 0);
             
-            <span class="comment">//the +1 is to avoid assigning diagonal element as nonzero since its stored in D already</span>
-            curr_nnzs.assign (<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + min(<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + 1, <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]), <a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]); <span class="comment">//the min is in case col_idx[k] == col_idx[k+1]</span>
+            <span class="comment">//the +1 avoids assigning diagonal element as nonzero since its stored in D. the min is in case m_col_idx[k] == m_col_idx[k+1] (an empty column).</span>
+            curr_nnzs.assign (<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + min(<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + 1, <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]), <a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]);
                 
-            <span class="comment">//needs optimization for sparse vector add later (maybe turn work vector into sparse vector,</span>
-            <span class="comment">//use STL merge on row indices).</span>
-                <span class="comment">//#pragma omp parallel for</span>
+                <span class="comment">//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).</span>
             <span class="keywordflow">for</span> (j = <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + 1; j &lt; <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]; j++) {
                         work[<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] = <a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
                 }
                 
+                <span class="comment">//iterate across non-zeros of row k using Llist</span>
                 <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1)
                 <span class="keywordflow">for</span> (it = Llist[k].begin(); it != Llist[k].end(); it++) { <span class="comment">//Llist[k] contains the row idx of row k.</span>
                         
-                        offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + Lfirst[*it] + 1; <span class="comment">//find where A(k, k+1:n) starts</span>
+                        <span class="comment">//find where L(k, k+1:n) starts</span>
+                        offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + Lfirst[*it] + 1; 
                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[offset] == k) {
                                 Lfirst[*it]++; <span class="comment">//update Lfirst</span>
                         
-                                <span class="comment">//assumes matrix is symmetric with only lower triangular part stored. may want to change later.</span>
                                 <span class="keywordflow">for</span> (j = offset+1; j &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]; j++) {
                                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j] &gt; k)
                                                 work[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] -= L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[offset] * D[*it] * L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
                                 }
                                 
                                 
-                                <span class="comment">//find exactly where to merge with binary search. this function will probably be customized to deal with the linked lists</span>
+                                <span class="comment">//find exactly where to merge with binary search.</span>
                                 <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator start = upper_bound(L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + 1, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1], k);
-                                <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">inplace_union</a>(curr_nnzs, start, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]);
+                                
+                                <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
+                                <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(curr_nnzs, start, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]);
                                 
                         }
                         
                 }               
                 
-                <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">drop_tol</a>(work, curr_nnzs, lfil, tol);   
+                <span class="comment">//performs the dual dropping procedure.</span>
+                <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);   
                 
                 <span class="comment">//get 1s on the diagonal</span>
                 L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = k;
@@ -379,27 +382,26 @@ template&lt;class idx_type , class el_type &gt; </div>
                 
                 <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1)
                 <span class="keywordflow">for</span> (i = 0; i &lt; (idx_type) std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()); i++) {
-                    L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = curr_nnzs[i];
-                    L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = work[curr_nnzs[i]]/D[k];
-                        
+                    L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = curr_nnzs[i]; <span class="comment">//row_idx of L is updated</span>
+                    L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = work[curr_nnzs[i]]/D[k]; <span class="comment">//work vector is scaled by D[k]</span>
                         Llist[curr_nnzs[i]].push_back(k); <span class="comment">//update Llist</span>
-                        
                         count++;
                 }
                 
-                L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1] = count;
+                L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1] = count; <span class="comment">//the end of the current column is assigned to col_idx</span>
                 
                 <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1) {
+                        <span class="comment">//finds out where L(k+1:n, k) starts</span>
                         offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + Lfirst[k] + 1;
-                        
                         <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]; i++) {
                                 l_ik = L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[i];
-                                D[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[i]] -= l_ik * D[k] * l_ik;        
+                                D[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[i]] -= l_ik * D[k] * l_ik;        <span class="comment">//update diagonal</span>
                         }
                 }
         }
         
-        L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.resize(count);
+        <span class="comment">//resize vectors of L down to the right size.</span>
+        L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.resize(count); 
         L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>.resize(count);
         
 }
@@ -409,7 +411,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph.png" border="0" usemap="#classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph" alt=""/></div>
 <map name="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph" id="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph">
-<area shape="rect" id="node3" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="drop_tol" alt="" coords="195,5,269,32"/><area shape="rect" id="node5" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="inplace_union" alt="" coords="177,56,287,83"/><area shape="rect" id="node7" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="165,107,299,133"/><area shape="rect" id="node9" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="349,81,565,108"/><area shape="rect" id="node11" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="347,132,568,159"/></map>
+<area shape="rect" id="node3" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="195,5,269,32"/><area shape="rect" id="node5" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="177,56,287,83"/><area shape="rect" id="node7" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="165,107,299,133"/><area shape="rect" id="node9" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="349,81,565,108"/><area shape="rect" id="node11" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="347,132,568,159"/></map>
 </div>
 </p>
 
@@ -687,7 +689,6 @@ template&lt;class idx_type , class el_type &gt; </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="csc__matrix__declarations_8h_source.html">csc_matrix_declarations.h</a></li>
 <li><a class="el" href="csc__matrix__ildl_8h_source.html">csc_matrix_ildl.h</a></li>
-<li><a class="el" href="csc__matrix__ildl__accumulated__nnzs__ver_8h_source.html">csc_matrix_ildl_accumulated_nnzs_ver.h</a></li>
 <li><a class="el" href="csc__matrix__load_8h_source.html">csc_matrix_load.h</a></li>
 <li><a class="el" href="csc__matrix__save_8h_source.html">csc_matrix_save.h</a></li>
 <li><a class="el" href="csc__matrix__to__string_8h_source.html">csc_matrix_to_string.h</a></li>
@@ -707,7 +708,7 @@ template&lt;class idx_type , class el_type &gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 22:26:15 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 23:19:27 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

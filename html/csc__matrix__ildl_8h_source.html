@@ -68,159 +68,158 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00006"></a>00006 <span class="preprocessor">#include &lt;list&gt;</span>
 <a name="l00007"></a>00007 <span class="preprocessor">#include &lt;deque&gt;</span>
 <a name="l00008"></a>00008 
-<a name="l00009"></a>00009 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
-<a name="l00010"></a><a class="code" href="csc__matrix__ildl_8h.html#a78d4c176ec50c62c9d7f092cd7c9dd51">00010</a> <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="csc__matrix__ildl_8h.html#a78d4c176ec50c62c9d7f092cd7c9dd51">norm</a>(<span class="keyword">typename</span> std::vector&lt;el_type&gt;&amp; v, <span class="keyword">typename</span> std::vector&lt;idx_type&gt;&amp; curr_nnzs) { 
-<a name="l00011"></a>00011     <span class="comment">//optimize later. can use auto. can assign begin and end once so it is not evaluated every time. e.g.</span>
-<a name="l00012"></a>00012         <span class="comment">//for (auto itr = new_values.begin(), end_itr = new_values.end(); itr != end_itr; ++itr )</span>
-<a name="l00013"></a>00013     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
-<a name="l00014"></a>00014     <span class="keywordtype">double</span> res = 0;
-<a name="l00015"></a>00015     <span class="comment">//may want to use abs later if want to deal with complex</span>
-<a name="l00016"></a>00016         <span class="comment">//#pragma omp parallel for reduction(+:res)</span>
-<a name="l00017"></a>00017     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-<a name="l00018"></a>00018         res += pow(std::abs(v[*it]), 2);  
-<a name="l00019"></a>00019     }
-<a name="l00020"></a>00020     
-<a name="l00021"></a>00021     <span class="keywordflow">return</span> res;
-<a name="l00022"></a>00022 }
-<a name="l00023"></a>00023 
-<a name="l00024"></a>00024 <span class="comment">//optimize later.</span>
-<a name="l00025"></a>00025 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
-<a name="l00026"></a><a class="code" href="structby__value.html">00026</a> <span class="keyword">struct </span><a class="code" href="structby__value.html">by_value</a> {
-<a name="l00027"></a><a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">00027</a>     std::vector&lt;el_type&gt;&amp; <a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>; 
-<a name="l00028"></a><a class="code" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">00028</a>     <a class="code" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">by_value</a>(std::vector&lt;el_type&gt;&amp; vec) : <a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>(vec) {}
-<a name="l00029"></a><a class="code" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">00029</a>     <span class="keywordtype">bool</span> <a class="code" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">operator()</a>(idx_type <span class="keyword">const</span> &amp;a, idx_type <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ 
-<a name="l00030"></a>00030         <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[b]);
-<a name="l00031"></a>00031     }
-<a name="l00032"></a>00032 };
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
-<a name="l00035"></a><a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">00035</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">drop_tol</a>(std::vector&lt;el_type&gt;&amp; v, std::vector&lt;idx_type&gt;&amp; curr_nnzs, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; lfil, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; tol) { 
-<a name="l00036"></a>00036     <span class="comment">//optimize later. e.g. can use auto instead of manually declaring iterator type. see comments in norm func.</span>
-<a name="l00037"></a>00037     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
-<a name="l00038"></a>00038     el_type tolerance = tol*norm&lt;idx_type, el_type&gt;(v, curr_nnzs);
-<a name="l00039"></a>00039     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
-<a name="l00040"></a>00040         <span class="keywordflow">if</span> (std::abs(v[*it]) &lt; tolerance) v[*it] = 0;
-<a name="l00041"></a>00041         
-<a name="l00042"></a>00042     <span class="comment">//do lfil later. approach: use merge while doing delayed updates to obtain list of non zeros. sort curr_nnzs by value. only assign lfil largest to new vector</span>
-<a name="l00043"></a>00043     <a class="code" href="structby__value.html">by_value&lt;idx_type, el_type&gt;</a> sorter(v);
-<a name="l00044"></a>00044     std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
-<a name="l00045"></a>00045     
-<a name="l00046"></a>00046     std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()));
-<a name="l00047"></a>00047 }
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="keyword">template</span> &lt;<span class="keyword">class</span> InputContainer, <span class="keyword">class</span> InputIterator&gt;
-<a name="l00050"></a><a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">00050</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">inplace_union</a>(InputContainer&amp; a, InputIterator <span class="keyword">const</span>&amp; b_start, InputIterator <span class="keyword">const</span>&amp; b_end)
-<a name="l00051"></a>00051 {
-<a name="l00052"></a>00052     <span class="keywordtype">int</span> mid = a.size(); <span class="comment">//Store the end of first sorted range</span>
-<a name="l00053"></a>00053 
-<a name="l00054"></a>00054     <span class="comment">//First copy the second sorted range into the destination vector</span>
-<a name="l00055"></a>00055     std::copy(b_start, b_end, std::back_inserter(a));
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057     <span class="comment">//Then perform the in place merge on the two sub-sorted ranges.</span>
-<a name="l00058"></a>00058     std::inplace_merge(a.begin(), a.begin() + mid, a.end());
-<a name="l00059"></a>00059 
-<a name="l00060"></a>00060     <span class="comment">//Remove duplicate elements from the sorted vector</span>
-<a name="l00061"></a>00061     a.erase(std::unique(a.begin(), a.end()), a.end());
-<a name="l00062"></a>00062 }
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
-<a name="l00066"></a><a class="code" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45">00066</a> <span class="keywordtype">void</span> <a class="code" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45">csc_matrix&lt;idx_type, el_type&gt; :: ildl</a>(<a class="code" href="classcsc__matrix.html" title="A matrix using the compressed sparse column format.">csc_matrix&lt;idx_type, el_type&gt;</a>&amp; L, <a class="code" href="classabstract__sparse__matrix.html#a2f9b32d149519131b4c13aa145a9059a">elt_vector_type</a>&amp; D, <span class="keywordtype">int</span> lfil, <span class="keywordtype">double</span> tol)
-<a name="l00067"></a>00067 {       
-<a name="l00068"></a>00068         std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist;
-<a name="l00069"></a>00069         std::vector&lt;el_type&gt; work(n_cols(), 0), Lfirst(n_cols(), 0);
-<a name="l00070"></a>00070         std::vector&lt;idx_type&gt; curr_nnzs, all_nnzs;
-<a name="l00071"></a>00071         
-<a name="l00072"></a>00072         <span class="keywordtype">int</span> count = 0; 
-<a name="l00073"></a>00073         idx_type i, j, k, offset;
-<a name="l00074"></a>00074         el_type l_ik;
-<a name="l00075"></a>00075         <span class="keyword">typename</span> std::deque&lt;idx_type&gt;::const_iterator it; <span class="comment">//can use auto</span>
-<a name="l00076"></a>00076         
-<a name="l00077"></a>00077         curr_nnzs.reserve(n_cols());
-<a name="l00078"></a>00078 
-<a name="l00079"></a>00079         Llist.resize(n_cols()); <span class="comment">//reserve nspots for Llist.</span>
-<a name="l00080"></a>00080         
-<a name="l00081"></a>00081         L.<a class="code" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70">resize</a>(n_rows(), n_cols(), (lfil+1)*n_cols()); <span class="comment">//(+1 because there are 1s on the diagonal. they wont need to be stored if we want to optimize)</span>
-<a name="l00082"></a>00082         D.resize(n_cols()); <span class="comment">//make a tridiagonal matrix class later? will need for 2x2 pivots.</span>
-<a name="l00083"></a>00083         
-<a name="l00084"></a>00084         <span class="comment">//the loop below can be made faster by assuming that the matrix has sorted row indices (so that we may iterate over m_col_idx instead).</span>
-<a name="l00085"></a>00085         <span class="comment">//#pragma omp parallel for</span>
-<a name="l00086"></a>00086         <span class="keywordflow">for</span> (i = 0; i &lt; n_cols(); i++) {
-<a name="l00087"></a>00087                 D[i] = coeff(i,i);
-<a name="l00088"></a>00088         }
-<a name="l00089"></a>00089         
-<a name="l00090"></a>00090         <span class="keywordflow">for</span> (k = 0; k &lt; n_cols(); k++) {
-<a name="l00091"></a>00091             <span class="comment">//zero out work vector (opt. later)</span>
-<a name="l00092"></a>00092             std::fill (work.begin() + k, work.end(), 0); <span class="comment">//can change to work.begin() + k, but need to fix the norm after.</span>
-<a name="l00093"></a>00093             
-<a name="l00094"></a>00094             <span class="comment">//the +1 is to avoid assigning diagonal element as nonzero since its stored in D already</span>
-<a name="l00095"></a>00095             curr_nnzs.assign (m_row_idx.begin() + min(m_col_idx[k] + 1, m_col_idx[k+1]), m_row_idx.begin() + m_col_idx[k+1]); <span class="comment">//the min is in case col_idx[k] == col_idx[k+1]</span>
-<a name="l00096"></a>00096                 
-<a name="l00097"></a>00097             <span class="comment">//needs optimization for sparse vector add later (maybe turn work vector into sparse vector,</span>
-<a name="l00098"></a>00098             <span class="comment">//use STL merge on row indices).</span>
-<a name="l00099"></a>00099                 <span class="comment">//#pragma omp parallel for</span>
-<a name="l00100"></a>00100             <span class="keywordflow">for</span> (j = m_col_idx[k] + 1; j &lt; m_col_idx[k+1]; j++) {
-<a name="l00101"></a>00101                         work[m_row_idx[j]] = m_x[j];
-<a name="l00102"></a>00102                 }
-<a name="l00103"></a>00103                 
-<a name="l00104"></a>00104                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1)
-<a name="l00105"></a>00105                 <span class="keywordflow">for</span> (it = Llist[k].begin(); it != Llist[k].end(); it++) { <span class="comment">//Llist[k] contains the row idx of row k.</span>
-<a name="l00106"></a>00106                         
-<a name="l00107"></a>00107                         offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + Lfirst[*it] + 1; <span class="comment">//find where A(k, k+1:n) starts</span>
-<a name="l00108"></a>00108                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[offset] == k) {
-<a name="l00109"></a>00109                                 Lfirst[*it]++; <span class="comment">//update Lfirst</span>
-<a name="l00110"></a>00110                         
-<a name="l00111"></a>00111                                 <span class="comment">//assumes matrix is symmetric with only lower triangular part stored. may want to change later.</span>
-<a name="l00112"></a>00112                                 <span class="keywordflow">for</span> (j = offset+1; j &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]; j++) {
-<a name="l00113"></a>00113                                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j] &gt; k)
-<a name="l00114"></a>00114                                                 work[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] -= L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[offset] * D[*it] * L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
-<a name="l00115"></a>00115                                 }
-<a name="l00116"></a>00116                                 
-<a name="l00117"></a>00117                                 
-<a name="l00118"></a>00118                                 <span class="comment">//find exactly where to merge with binary search. this function will probably be customized to deal with the linked lists</span>
-<a name="l00119"></a>00119                                 <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator start = upper_bound(L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + 1, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1], k);
-<a name="l00120"></a>00120                                 <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">inplace_union</a>(curr_nnzs, start, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]);
-<a name="l00121"></a>00121                                 
-<a name="l00122"></a>00122                         }
-<a name="l00123"></a>00123                         
-<a name="l00124"></a>00124                 }               
-<a name="l00125"></a>00125                 
-<a name="l00126"></a>00126                 <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">drop_tol</a>(work, curr_nnzs, lfil, tol);   
-<a name="l00127"></a>00127                 
-<a name="l00128"></a>00128                 <span class="comment">//get 1s on the diagonal</span>
-<a name="l00129"></a>00129                 L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = k;
-<a name="l00130"></a>00130                 L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = 1;
-<a name="l00131"></a>00131                 count++;
-<a name="l00132"></a>00132                 
-<a name="l00133"></a>00133                 
-<a name="l00134"></a>00134                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1)
-<a name="l00135"></a>00135                 <span class="keywordflow">for</span> (i = 0; i &lt; (idx_type) std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()); i++) {
-<a name="l00136"></a>00136                     L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = curr_nnzs[i];
-<a name="l00137"></a>00137                     L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = work[curr_nnzs[i]]/D[k];
-<a name="l00138"></a>00138                         
-<a name="l00139"></a>00139                         Llist[curr_nnzs[i]].push_back(k); <span class="comment">//update Llist</span>
+<a name="l00027"></a>00027 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
+<a name="l00028"></a><a class="code" href="csc__matrix__ildl_8h.html#a78d4c176ec50c62c9d7f092cd7c9dd51">00028</a> <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="csc__matrix__ildl_8h.html#a78d4c176ec50c62c9d7f092cd7c9dd51" title="Computes the norm of v(curr_nnzs)">norm</a>(<span class="keyword">typename</span> std::vector&lt;el_type&gt;&amp; v, <span class="keyword">typename</span> std::vector&lt;idx_type&gt;&amp; curr_nnzs) { 
+<a name="l00029"></a>00029     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
+<a name="l00030"></a>00030     <span class="keywordtype">double</span> res = 0;
+<a name="l00031"></a>00031     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+<a name="l00032"></a>00032         res += pow(std::abs(v[*it]), 2);  
+<a name="l00033"></a>00033     }
+<a name="l00034"></a>00034     
+<a name="l00035"></a>00035     <span class="keywordflow">return</span> res;
+<a name="l00036"></a>00036 }
+<a name="l00037"></a>00037 
+<a name="l00041"></a>00041 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
+<a name="l00042"></a><a class="code" href="structby__value.html">00042</a> <span class="keyword">struct </span><a class="code" href="structby__value.html" title="Functor for comparing elements by value (in decreasing order) instead of by index.">by_value</a> {
+<a name="l00043"></a><a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">00043</a>     std::vector&lt;el_type&gt;&amp; <a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>; 
+<a name="l00044"></a><a class="code" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">00044</a>     <a class="code" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">by_value</a>(std::vector&lt;el_type&gt;&amp; vec) : <a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>(vec) {}
+<a name="l00045"></a><a class="code" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">00045</a>     <span class="keywordtype">bool</span> <a class="code" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">operator()</a>(idx_type <span class="keyword">const</span> &amp;a, idx_type <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ 
+<a name="l00046"></a>00046         <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[b]);
+<a name="l00047"></a>00047     }
+<a name="l00048"></a>00048 };
+<a name="l00049"></a>00049 
+<a name="l00056"></a>00056 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
+<a name="l00057"></a><a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">00057</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(std::vector&lt;el_type&gt;&amp; v, std::vector&lt;idx_type&gt;&amp; curr_nnzs, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; lfil, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; tol) { 
+<a name="l00058"></a>00058     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
+<a name="l00059"></a>00059         
+<a name="l00060"></a>00060         <span class="comment">//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.</span>
+<a name="l00061"></a>00061     el_type tolerance = tol*norm&lt;idx_type, el_type&gt;(v, curr_nnzs);
+<a name="l00062"></a>00062     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
+<a name="l00063"></a>00063         <span class="keywordflow">if</span> (std::abs(v[*it]) &lt; tolerance) v[*it] = 0;
+<a name="l00064"></a>00064      
+<a name="l00065"></a>00065         <span class="comment">//sort the remaining elements by value in decreasing order.</span>
+<a name="l00066"></a>00066     <a class="code" href="structby__value.html" title="Functor for comparing elements by value (in decreasing order) instead of by index.">by_value&lt;idx_type, el_type&gt;</a> sorter(v);
+<a name="l00067"></a>00067     std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
+<a name="l00068"></a>00068     
+<a name="l00069"></a>00069         <span class="comment">//sort the first lfil elements by index, only these will be assigned into L.</span>
+<a name="l00070"></a>00070     std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()));
+<a name="l00071"></a>00071 }
+<a name="l00072"></a>00072 
+<a name="l00078"></a>00078 <span class="keyword">template</span> &lt;<span class="keyword">class</span> InputContainer, <span class="keyword">class</span> InputIterator&gt;
+<a name="l00079"></a><a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">00079</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(InputContainer&amp; a, InputIterator <span class="keyword">const</span>&amp; b_start, InputIterator <span class="keyword">const</span>&amp; b_end)
+<a name="l00080"></a>00080 {
+<a name="l00081"></a>00081     <span class="keywordtype">int</span> mid = a.size(); <span class="comment">//store the end of first sorted range</span>
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     <span class="comment">//copy the second sorted range into the destination vector</span>
+<a name="l00084"></a>00084     std::copy(b_start, b_end, std::back_inserter(a));
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     <span class="comment">//perform the in place merge on the two sub-sorted ranges.</span>
+<a name="l00087"></a>00087     std::inplace_merge(a.begin(), a.begin() + mid, a.end());
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     <span class="comment">//remove duplicate elements from the sorted vector</span>
+<a name="l00090"></a>00090     a.erase(std::unique(a.begin(), a.end()), a.end());
+<a name="l00091"></a>00091 }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="keywordtype">id</span>x_type, <span class="keyword">class</span> el_type&gt;
+<a name="l00095"></a><a class="code" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45">00095</a> <span class="keywordtype">void</span> <a class="code" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45">csc_matrix&lt;idx_type, el_type&gt; :: ildl</a>(<a class="code" href="classcsc__matrix.html" title="A matrix using the compressed sparse column format.">csc_matrix&lt;idx_type, el_type&gt;</a>&amp; L, <a class="code" href="classabstract__sparse__matrix.html#a2f9b32d149519131b4c13aa145a9059a">elt_vector_type</a>&amp; D, <span class="keywordtype">int</span> lfil, <span class="keywordtype">double</span> tol)
+<a name="l00096"></a>00096 {       
+<a name="l00097"></a>00097         <span class="comment">//Llist is a deque of linked lists that gives the non-zero elements in each row of L. since at any time we may swap between two rows, we require a linked lists for each row of L. a deque is used as it might be desireable to deallocate all linked lists for rows i &lt; k on step k (this is currently not done, as the memory used in maintaining linked lists for all rows is not much).</span>
+<a name="l00098"></a>00098         std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist; 
+<a name="l00099"></a>00099         
+<a name="l00100"></a>00100         <span class="comment">//work is a work vector for the current column. Lfirst is a linked list that gives the first nonzero element in column k with row index i &gt; k. (i.e. the first nonzero in L(k+1:n, k).</span>
+<a name="l00101"></a>00101         std::vector&lt;el_type&gt; work(n_cols(), 0), Lfirst(n_cols(), 0);
+<a name="l00102"></a>00102         
+<a name="l00103"></a>00103         std::vector&lt;idx_type&gt; curr_nnzs; <span class="comment">//non-zeros on current col.</span>
+<a name="l00104"></a>00104         
+<a name="l00105"></a>00105         <span class="keywordtype">int</span> count = 0; <span class="comment">//the current non-zero in L.</span>
+<a name="l00106"></a>00106         idx_type i, j, k, offset;
+<a name="l00107"></a>00107         el_type l_ik;
+<a name="l00108"></a>00108         <span class="keyword">typename</span> std::deque&lt;idx_type&gt;::const_iterator it;
+<a name="l00109"></a>00109         
+<a name="l00110"></a>00110         curr_nnzs.reserve(n_cols()); <span class="comment">//makes sure that there is enough space if every element in the column is nonzero</span>
+<a name="l00111"></a>00111         Llist.resize(n_cols()); <span class="comment">//allocate a vector of size n for Llist.</span>
+<a name="l00112"></a>00112         
+<a name="l00113"></a>00113         L.<a class="code" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70">resize</a>(n_rows(), n_cols(), (lfil+1)*n_cols()); <span class="comment">//(+1 because there are 1s on the diagonal. they wont need to be stored if we want to optimize)</span>
+<a name="l00114"></a>00114         D.resize(n_cols()); 
+<a name="l00115"></a>00115         
+<a name="l00116"></a>00116         <span class="keywordflow">for</span> (i = 0; i &lt; n_cols(); i++) {
+<a name="l00117"></a>00117                 D[i] = coeff(i,i);
+<a name="l00118"></a>00118         }
+<a name="l00119"></a>00119         
+<a name="l00120"></a>00120         <span class="keywordflow">for</span> (k = 0; k &lt; n_cols(); k++) {
+<a name="l00121"></a>00121             <span class="comment">//zero out work vector</span>
+<a name="l00122"></a>00122             std::fill (work.begin() + k, work.end(), 0);
+<a name="l00123"></a>00123             
+<a name="l00124"></a>00124             <span class="comment">//the +1 avoids assigning diagonal element as nonzero since its stored in D. the min is in case m_col_idx[k] == m_col_idx[k+1] (an empty column).</span>
+<a name="l00125"></a>00125             curr_nnzs.assign (m_row_idx.begin() + min(m_col_idx[k] + 1, m_col_idx[k+1]), m_row_idx.begin() + m_col_idx[k+1]);
+<a name="l00126"></a>00126                 
+<a name="l00127"></a>00127                 <span class="comment">//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).</span>
+<a name="l00128"></a>00128             <span class="keywordflow">for</span> (j = m_col_idx[k] + 1; j &lt; m_col_idx[k+1]; j++) {
+<a name="l00129"></a>00129                         work[m_row_idx[j]] = m_x[j];
+<a name="l00130"></a>00130                 }
+<a name="l00131"></a>00131                 
+<a name="l00132"></a>00132                 <span class="comment">//iterate across non-zeros of row k using Llist</span>
+<a name="l00133"></a>00133                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1)
+<a name="l00134"></a>00134                 <span class="keywordflow">for</span> (it = Llist[k].begin(); it != Llist[k].end(); it++) { <span class="comment">//Llist[k] contains the row idx of row k.</span>
+<a name="l00135"></a>00135                         
+<a name="l00136"></a>00136                         <span class="comment">//find where L(k, k+1:n) starts</span>
+<a name="l00137"></a>00137                         offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + Lfirst[*it] + 1; 
+<a name="l00138"></a>00138                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[offset] == k) {
+<a name="l00139"></a>00139                                 Lfirst[*it]++; <span class="comment">//update Lfirst</span>
 <a name="l00140"></a>00140                         
-<a name="l00141"></a>00141                         count++;
-<a name="l00142"></a>00142                 }
-<a name="l00143"></a>00143                 
-<a name="l00144"></a>00144                 L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1] = count;
-<a name="l00145"></a>00145                 
-<a name="l00146"></a>00146                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1) {
-<a name="l00147"></a>00147                         offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + Lfirst[k] + 1;
-<a name="l00148"></a>00148                         
-<a name="l00149"></a>00149                         <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]; i++) {
-<a name="l00150"></a>00150                                 l_ik = L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[i];
-<a name="l00151"></a>00151                                 D[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[i]] -= l_ik * D[k] * l_ik;        
-<a name="l00152"></a>00152                         }
-<a name="l00153"></a>00153                 }
-<a name="l00154"></a>00154         }
-<a name="l00155"></a>00155         
-<a name="l00156"></a>00156         L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.resize(count);
-<a name="l00157"></a>00157         L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>.resize(count);
-<a name="l00158"></a>00158         
-<a name="l00159"></a>00159 }
-<a name="l00160"></a>00160 
-<a name="l00161"></a>00161 <span class="preprocessor">#endif </span>
+<a name="l00141"></a>00141                                 <span class="keywordflow">for</span> (j = offset+1; j &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]; j++) {
+<a name="l00142"></a>00142                                         <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j] &gt; k)
+<a name="l00143"></a>00143                                                 work[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] -= L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[offset] * D[*it] * L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
+<a name="l00144"></a>00144                                 }
+<a name="l00145"></a>00145                                 
+<a name="l00146"></a>00146                                 
+<a name="l00147"></a>00147                                 <span class="comment">//find exactly where to merge with binary search.</span>
+<a name="l00148"></a>00148                                 <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator start = upper_bound(L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + 1, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1], k);
+<a name="l00149"></a>00149                                 
+<a name="l00150"></a>00150                                 <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
+<a name="l00151"></a>00151                                 <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(curr_nnzs, start, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]);
+<a name="l00152"></a>00152                                 
+<a name="l00153"></a>00153                         }
+<a name="l00154"></a>00154                         
+<a name="l00155"></a>00155                 }               
+<a name="l00156"></a>00156                 
+<a name="l00157"></a>00157                 <span class="comment">//performs the dual dropping procedure.</span>
+<a name="l00158"></a>00158                 <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);   
+<a name="l00159"></a>00159                 
+<a name="l00160"></a>00160                 <span class="comment">//get 1s on the diagonal</span>
+<a name="l00161"></a>00161                 L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = k;
+<a name="l00162"></a>00162                 L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = 1;
+<a name="l00163"></a>00163                 count++;
+<a name="l00164"></a>00164                 
+<a name="l00165"></a>00165                 
+<a name="l00166"></a>00166                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1)
+<a name="l00167"></a>00167                 <span class="keywordflow">for</span> (i = 0; i &lt; (idx_type) std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()); i++) {
+<a name="l00168"></a>00168                     L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = curr_nnzs[i]; <span class="comment">//row_idx of L is updated</span>
+<a name="l00169"></a>00169                     L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = work[curr_nnzs[i]]/D[k]; <span class="comment">//work vector is scaled by D[k]</span>
+<a name="l00170"></a>00170                         Llist[curr_nnzs[i]].push_back(k); <span class="comment">//update Llist</span>
+<a name="l00171"></a>00171                         count++;
+<a name="l00172"></a>00172                 }
+<a name="l00173"></a>00173                 
+<a name="l00174"></a>00174                 L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1] = count; <span class="comment">//the end of the current column is assigned to col_idx</span>
+<a name="l00175"></a>00175                 
+<a name="l00176"></a>00176                 <span class="keywordflow">if</span> (k &lt; n_cols() - 1) {
+<a name="l00177"></a>00177                         <span class="comment">//finds out where L(k+1:n, k) starts</span>
+<a name="l00178"></a>00178                         offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k] + Lfirst[k] + 1;
+<a name="l00179"></a>00179                         <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[k+1]; i++) {
+<a name="l00180"></a>00180                                 l_ik = L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[i];
+<a name="l00181"></a>00181                                 D[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[i]] -= l_ik * D[k] * l_ik;        <span class="comment">//update diagonal</span>
+<a name="l00182"></a>00182                         }
+<a name="l00183"></a>00183                 }
+<a name="l00184"></a>00184         }
+<a name="l00185"></a>00185         
+<a name="l00186"></a>00186         <span class="comment">//resize vectors of L down to the right size.</span>
+<a name="l00187"></a>00187         L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.resize(count); 
+<a name="l00188"></a>00188         L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>.resize(count);
+<a name="l00189"></a>00189         
+<a name="l00190"></a>00190 }
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192 <span class="preprocessor">#endif </span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -237,7 +236,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 22:26:14 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 23:19:26 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

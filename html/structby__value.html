@@ -67,6 +67,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <!-- doxytag: class="by_value" -->
+<p>Functor for comparing elements by value (in decreasing order) instead of by index.  
+ <a href="structby__value.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="csc__matrix__ildl_8h_source.html">csc_matrix_ildl.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for by_value&lt; idx_type, el_type &gt;:</div>
@@ -80,16 +83,22 @@ Collaboration diagram for by_value&lt; idx_type, el_type &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">by_value</a> (std::vector&lt; el_type &gt; &amp;vec)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">operator()</a> (idx_type const &amp;a, idx_type const &amp;b) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">by_value</a> (std::vector&lt; el_type &gt; &amp;vec)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">operator()</a> (idx_type const &amp;a, idx_type const &amp;b) const </td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; el_type &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; el_type &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a></td></tr>
 </table>
-<h3>template&lt;class idx_type, class el_type&gt;<br/>
- struct by_value&lt; idx_type, el_type &gt;</h3>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class idx_type, class el_type&gt;<br/>
+struct by_value&lt; idx_type, el_type &gt;</h3>
 
-<hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<p>Functor for comparing elements by value (in decreasing order) instead of by index. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the vector that contains the values being compared. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a08c1a2a7be54e7119183581ca2be86d9"></a><!-- doxytag: member="by_value::by_value" ref="a08c1a2a7be54e7119183581ca2be86d9" args="(std::vector&lt; el_type &gt; &amp;vec)" -->
 <div class="memitem">
 <div class="memproto">
@@ -106,27 +115,7 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">: <a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>(vec) {}
-</pre></div>
-</div>
-</div>
-<a class="anchor" id="a08c1a2a7be54e7119183581ca2be86d9"></a><!-- doxytag: member="by_value::by_value" ref="a08c1a2a7be54e7119183581ca2be86d9" args="(std::vector&lt; el_type &gt; &amp;vec)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class idx_type, class el_type&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::<a class="el" href="structby__value.html">by_value</a> </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; el_type &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vec</em></td><td>)</td>
-          <td><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<div class="fragment"><pre class="fragment">: <a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>(vec) {}
+<div class="fragment"><pre class="fragment">: <a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>(vec) {}
 </pre></div>
 </div>
 </div>
@@ -158,52 +147,20 @@ template&lt;class idx_type, class el_type&gt; </div>
 </div>
 <div class="memdoc">
 <div class="fragment"><pre class="fragment">                                                                { 
-        <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[b]);
-    }
-</pre></div>
-</div>
-</div>
-<a class="anchor" id="a2917f29b65753d6047a7a14bdc1aae8c"></a><!-- doxytag: member="by_value::operator()" ref="a2917f29b65753d6047a7a14bdc1aae8c" args="(idx_type const &amp;a, idx_type const &amp;b) const " -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class idx_type, class el_type&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">idx_type const &amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">idx_type const &amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const<code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<div class="fragment"><pre class="fragment">                                                                { 
-        <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a>[b]);
+        <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[b]);
     }
 </pre></div>
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="a87e956b2a23afcee241375b65c00ba01"></a><!-- doxytag: member="by_value::v" ref="a87e956b2a23afcee241375b65c00ba01" args="" -->
+<a class="anchor" id="a7e8bb05dc53f9f61fe2cce6b8b7f906e"></a><!-- doxytag: member="by_value::v" ref="a7e8bb05dc53f9f61fe2cce6b8b7f906e" args="" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class idx_type, class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; el_type &gt; &amp; <a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::<a class="el" href="structby__value.html#a87e956b2a23afcee241375b65c00ba01">v</a></td>
+          <td class="memname">std::vector&lt;el_type&gt;&amp; <a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::<a class="el" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a></td>
         </tr>
       </table>
 </div>
@@ -211,9 +168,8 @@ template&lt;class idx_type, class el_type&gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="csc__matrix__ildl_8h_source.html">csc_matrix_ildl.h</a></li>
-<li><a class="el" href="csc__matrix__ildl__accumulated__nnzs__ver_8h_source.html">csc_matrix_ildl_accumulated_nnzs_ver.h</a></li>
 </ul>
 </div>
 <!-- window showing the filter options -->
@@ -230,7 +186,7 @@ template&lt;class idx_type, class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 22:26:15 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 23:19:26 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

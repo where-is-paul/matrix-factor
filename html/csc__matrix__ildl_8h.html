@@ -86,14 +86,18 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html">by_value&lt; idx_type, el_type &gt;</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Functor for comparing elements by value (in decreasing order) instead of by index.  <a href="structby__value.html#details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class idx_type , class el_type &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="csc__matrix__ildl_8h.html#a78d4c176ec50c62c9d7f092cd7c9dd51">norm</a> (typename std::vector&lt; el_type &gt; &amp;v, typename std::vector&lt; idx_type &gt; &amp;curr_nnzs)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the norm of v(curr_nnzs)  <a href="#a78d4c176ec50c62c9d7f092cd7c9dd51"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class idx_type , class el_type &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e">drop_tol</a> (std::vector&lt; el_type &gt; &amp;v, std::vector&lt; idx_type &gt; &amp;curr_nnzs, const int &amp;lfil, const double &amp;tol)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).  <a href="#ab97bd15d8d3486326ee4ee72b30b047e"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class InputContainer , class InputIterator &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d">inplace_union</a> (InputContainer &amp;a, InputIterator const &amp;b_start, InputIterator const &amp;b_end)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list.  <a href="#a0a185c1bdf4296a723845f2ab561778d"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="ab97bd15d8d3486326ee4ee72b30b047e"></a><!-- doxytag: member="csc_matrix_ildl.h::drop_tol" ref="ab97bd15d8d3486326ee4ee72b30b047e" args="(std::vector&lt; el_type &gt; &amp;v, std::vector&lt; idx_type &gt; &amp;curr_nnzs, const int &amp;lfil, const double &amp;tol)" -->
@@ -134,17 +138,30 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Performs the dual-dropping criteria outlined in Li &amp; Saad (2005). </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the vector that whose elements will be selectively dropped. </td></tr>
+    <tr><td class="paramname">curr_nnzs</td><td>the non-zeros in the vector v. </td></tr>
+    <tr><td class="paramname">lfil</td><td>a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements. </td></tr>
+    <tr><td class="paramname">tol</td><td>a parameter to control agressiveness of dropping. Elements less than tol*norm(v) are dropped. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><pre class="fragment">                                                                                                                { 
-    <span class="comment">//optimize later. e.g. can use auto instead of manually declaring iterator type. see comments in norm func.</span>
     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
+        
+        <span class="comment">//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.</span>
     el_type tolerance = tol*norm&lt;idx_type, el_type&gt;(v, curr_nnzs);
     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
         <span class="keywordflow">if</span> (std::abs(v[*it]) &lt; tolerance) v[*it] = 0;
-        
-    <span class="comment">//do lfil later. approach: use merge while doing delayed updates to obtain list of non zeros. sort curr_nnzs by value. only assign lfil largest to new vector</span>
-    <a class="code" href="structby__value.html">by_value&lt;idx_type, el_type&gt;</a> sorter(v);
+     
+        <span class="comment">//sort the remaining elements by value in decreasing order.</span>
+    <a class="code" href="structby__value.html" title="Functor for comparing elements by value (in decreasing order) instead of by index.">by_value&lt;idx_type, el_type&gt;</a> sorter(v);
     std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
     
+        <span class="comment">//sort the first lfil elements by index, only these will be assigned into L.</span>
     std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()));
 }
 </pre></div>
@@ -182,16 +199,26 @@ template&lt;class InputContainer , class InputIterator &gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">{
-    <span class="keywordtype">int</span> mid = a.size(); <span class="comment">//Store the end of first sorted range</span>
 
-    <span class="comment">//First copy the second sorted range into the destination vector</span>
+<p>Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>the sorted list to contain the final merged list. </td></tr>
+    <tr><td class="paramname">b_start</td><td>an iterator to the start of b. </td></tr>
+    <tr><td class="paramname">b_end</td><td>an iterator to the end of b. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><pre class="fragment">{
+    <span class="keywordtype">int</span> mid = a.size(); <span class="comment">//store the end of first sorted range</span>
+
+    <span class="comment">//copy the second sorted range into the destination vector</span>
     std::copy(b_start, b_end, std::back_inserter(a));
 
-    <span class="comment">//Then perform the in place merge on the two sub-sorted ranges.</span>
+    <span class="comment">//perform the in place merge on the two sub-sorted ranges.</span>
     std::inplace_merge(a.begin(), a.begin() + mid, a.end());
 
-    <span class="comment">//Remove duplicate elements from the sorted vector</span>
+    <span class="comment">//remove duplicate elements from the sorted vector</span>
     a.erase(std::unique(a.begin(), a.end()), a.end());
 }
 </pre></div>
@@ -223,13 +250,32 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Computes the norm of v(curr_nnzs) </p>
+<p>possible optimizations/to-do's:</p>
+<ul>
+<li>some easy parallelization of for loops.</li>
+</ul>
+<ul>
+<li>using a vector to accumulate all nonzeros in previous cols during iteration.</li>
+</ul>
+<ul>
+<li>small changes to loops (e.g. assign .begin(), and .end() so that they will not be evaluated each iter. ---&gt; for (auto itr = new_values.begin(), end_itr = new_values.end(); itr != end_itr; ++itr ) )</li>
+</ul>
+<ul>
+<li>make a special diagonal matrix class for storing 1x1 and 2x2 pivots later.</li>
+</ul>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the vector whose norm is to be computed. </td></tr>
+    <tr><td class="paramname">curr_nnzs</td><td>a list of indices representing non-zero elements in v. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the norm of v. </dd></dl>
 <div class="fragment"><pre class="fragment">                                                                                            { 
-    <span class="comment">//optimize later. can use auto. can assign begin and end once so it is not evaluated every time. e.g.</span>
-        <span class="comment">//for (auto itr = new_values.begin(), end_itr = new_values.end(); itr != end_itr; ++itr )</span>
     <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator it;
     <span class="keywordtype">double</span> res = 0;
-    <span class="comment">//may want to use abs later if want to deal with complex</span>
-        <span class="comment">//#pragma omp parallel for reduction(+:res)</span>
     <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
         res += pow(std::abs(v[*it]), 2);  
     }
@@ -254,7 +300,7 @@ template&lt;class idx_type , class el_type &gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 22:26:14 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 23:19:26 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
