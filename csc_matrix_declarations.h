@@ -4,6 +4,13 @@
 
 #include "abstract_sparse_matrix.h"
 
+/*! \brief A matrix using the compressed sparse column format.
+
+	In compressed sparse column storage, the col_idx array is of size N + 1. col_idx[j] gives the starting position of the first non-zero element in column j. Hence col_idx[j+1] - col_idx[j] gives the total number of non-zero values in column j and therefore, col_idx[n_cols] gives the total number of non-zero elements in the matrix. 
+	
+	row_idx[j] and m_x[j] are arrays of size n_nzs, so col_idx[n_cols] == row_idx.size()
+*/
+	
 template<class idx_type, class el_type> 
 class csc_matrix : public abstract_sparse_matrix<idx_type, el_type>
 {
@@ -36,15 +43,7 @@ public:
         m_col_idx.resize (n_cols + 1);
     }
 	
-    /// In compressed sparse column storage, the col_idx array is of size N + 1
-    /// 
-    /// col_idx[j] gives the starting position of the first non-zero element in column j
-    /// 
-    /// Hence col_idx[j+1] - col_idx[j] gives the total number of
-    /// non-zero values in column j and therefore, col_idx[n_cols] gives the
-    /// total number of non-zero elements in the matrix.
-    /// 
-    /// row_idx[j] and m_x[j] are arrays of size n_nzs, so col_idx[n_cols] == row_idx.size()  
+	/*! Returns number of nonzeros in the matrix. */
     virtual idx_type nnz() const
     {
         return m_row_idx.size();
@@ -52,33 +51,51 @@ public:
 	
 	//----Matrix referencing/filling----//
 	
-	//uses binary search to find an element.
+	/*! Finds the (i,j)th coefficient of the matrix. Uses binary search to find an element.
+		\param i the row of the (i,j)th element (zero-indexed).
+		\param j the col of the (i,j)th element (zero-indexed).
+		\return The (i,j)th element of the matrix. 
+	*/
 	virtual el_type coeff(const idx_type& i, const idx_type& j) const {
 		typename idx_vector_type::const_iterator low = lower_bound(m_row_idx.begin() + m_col_idx[j], m_row_idx.begin() + m_col_idx[j+1], i);
 		return (*low == i) ? *(m_x.begin() + std::distance(m_row_idx.begin(), low)) : 0;
 	}
 	
+	/*! Resizes the matrix. For use in preallocating space before factorization begins.
+		\param n_rows the number of rows in the resized matrix.
+		\param n_cols the number of cols in the resized matrix.
+		\param n_nnzs the number of non-zeros expected in the matrix. 
+	*/
 	void resize(idx_type n_rows, idx_type n_cols, idx_type n_nzs)
 	{
 		m_n_rows = n_rows;
 		m_n_cols = n_cols;
 		m_col_idx.resize(n_cols + 1);
 		m_row_idx.resize(n_nzs);
-        m_x.resize(n_nzs);
+		m_x.resize(n_nzs);
 	}
 	
 	//----Factorizations----//
+	/*! Performs an LDL' factorization of this matrix. The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005). Results are stored in L and D.
+		\param L the L factor of this matrix.
+		\param D the D factor of this matrix.
+		\param lfil a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements.
+		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
+	*/
 	void ildl(csc_matrix<idx_type, el_type>& L, elt_vector_type& D, int lfil, double tol);
 	
 	//----IO Functions----//
 	
-    /**
-     * Returns a string representation of a CSC matrix.
-     * @returns A string representation of this matrix.
-     */
+    /*! \return A string reprepsentation of this matrix.
+	*/
     std::string to_string () const;
 	
+	/*! \param filename the filename of the matrix to be loaded. Must be in matrix market format (.mtx).
+	*/
 	bool load(std::string filename);
+	
+	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
+	*/
 	bool save(std::string filename);
 
 };

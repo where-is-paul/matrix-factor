@@ -132,7 +132,8 @@ public:
 		\return The (i,j)th element of the matrix. */
     virtual el_type coeff(const idx_type& i, const idx_type& j) const = 0;
 	
-	/*! Returns a string representation of the matrix. */
+	/*! \return A string reprepsentation of this matrix.
+	*/
     virtual std::string to_string() const = 0;
 
 	/*! Generic class destructor. */

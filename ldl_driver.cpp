@@ -6,6 +6,14 @@
 
 using namespace std;
 
+/*! \mainpage Main Page
+ *
+ * \section intro_sec Introduction
+ *
+ * This page will contain some information on how to use the package in the future. For now it is empty.
+ *
+ */
+ 
 int main(int argc, char* argv[]) {
 	if (argc < 4) {
 		std::cout << "Too many or too few arguments." << std::endl

@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">matrix-factor&#160;<span id="projectnumber">1.0</span></div>
-   <div id="projectbrief">Provides an incomplete LDL' factorization of a symmetric matrix.</div>
+   <div id="projectbrief">Incomplete LDL' factorizations of symmetric matrices.</div>
   </td>
  </tr>
  </tbody>
@@ -67,6 +67,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <!-- doxytag: class="csc_matrix" --><!-- doxytag: inherits="abstract_sparse_matrix" -->
+<p>A matrix using the compressed sparse column format.  
+ <a href="classcsc__matrix.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="csc__matrix__declarations_8h_source.html">csc_matrix_declarations.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for csc_matrix&lt; idx_type, el_type &gt;:</div>
@@ -106,10 +109,14 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcsc__matrix.html#a4614f32a3d6cf63e0d006f475e2d44c7">load</a> (std::string filename)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcsc__matrix.html#a8eabd2e218a42e3a38d0b50493a669f3">save</a> (std::string filename)</td></tr>
 </table>
-<h3>template&lt;class idx_type, class el_type&gt;<br/>
- class csc_matrix&lt; idx_type, el_type &gt;</h3>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class idx_type, class el_type&gt;<br/>
+class csc_matrix&lt; idx_type, el_type &gt;</h3>
 
-<hr/><h2>Member Typedef Documentation</h2>
+<p>A matrix using the compressed sparse column format. </p>
+<p>In compressed sparse column storage, the col_idx array is of size N + 1. col_idx[j] gives the starting position of the first non-zero element in column j. Hence col_idx[j+1] - col_idx[j] gives the total number of non-zero values in column j and therefore, col_idx[n_cols] gives the total number of non-zero elements in the matrix.</p>
+<p>row_idx[j] and m_x[j] are arrays of size n_nzs, so col_idx[n_cols] == row_idx.size() </p>
+</div><hr/><h2>Member Typedef Documentation</h2>
 <a class="anchor" id="a1c762ce19c1b0a677a81ad1935bff09f"></a><!-- doxytag: member="csc_matrix::csc_t" ref="a1c762ce19c1b0a677a81ad1935bff09f" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +244,7 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the matrix storage type. </p>
+<p>Finds the (i,j)th coefficient of the matrix. Uses binary search to find an element. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">i</td><td>the row of the (i,j)th element (zero-indexed). </td></tr>
@@ -293,6 +300,16 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<p>Performs an LDL' factorization of this matrix. The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005). Results are stored in L and D. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">L</td><td>the L factor of this matrix. </td></tr>
+    <tr><td class="paramname">D</td><td>the D factor of this matrix. </td></tr>
+    <tr><td class="paramname">lfil</td><td>a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements. </td></tr>
+    <tr><td class="paramname">tol</td><td>a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><pre class="fragment">{       
         std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist;
         std::vector&lt;el_type&gt; work(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0), Lfirst(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0);
@@ -414,6 +431,12 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>the filename of the matrix to be loaded. Must be in matrix market format (.mtx). </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><pre class="fragment">{
   std::ifstream input(filename.c_str(), std::ios::in);
 
@@ -507,10 +530,7 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>In compressed sparse column storage, the col_idx array is of size N + 1</p>
-<p>col_idx[j] gives the starting position of the first non-zero element in column j</p>
-<p>Hence col_idx[j+1] - col_idx[j] gives the total number of non-zero values in column j and therefore, col_idx[n_cols] gives the total number of non-zero elements in the matrix.</p>
-<p>row_idx[j] and m_x[j] are arrays of size n_nzs, so col_idx[n_cols] == row_idx.size() </p>
+<p>Returns number of nonzeros in the matrix. </p>
 
 <p>Implements <a class="el" href="classabstract__sparse__matrix.html#a17ed22a2da66ad522eaeba9d38774571">abstract_sparse_matrix&lt; idx_type, el_type &gt;</a>.</p>
 <div class="fragment"><pre class="fragment">    {
@@ -551,12 +571,21 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<p>Resizes the matrix. For use in preallocating space before factorization begins. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n_rows</td><td>the number of rows in the resized matrix. </td></tr>
+    <tr><td class="paramname">n_cols</td><td>the number of cols in the resized matrix. </td></tr>
+    <tr><td class="paramname">n_nnzs</td><td>the number of non-zeros expected in the matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><pre class="fragment">        {
                 <a class="code" href="classabstract__sparse__matrix.html#af0761a0f580d5da3655eaaf735020934">m_n_rows</a> = <a class="code" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c">n_rows</a>;
                 <a class="code" href="classabstract__sparse__matrix.html#a7cb271a2aadd7e2bd0b287985789f4e1">m_n_cols</a> = <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>;
                 <a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a> + 1);
                 <a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.resize(n_nzs);
-        <a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>.resize(n_nzs);
+                <a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>.resize(n_nzs);
         }
 </pre></div>
 <p><div class="dynheader">
@@ -586,6 +615,12 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx). </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="fragment"><pre class="fragment">{
   std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
   <span class="keywordflow">if</span>(!out)
@@ -634,8 +669,7 @@ template&lt;class idx_type , class el_type &gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns a string representation of a CSC matrix. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A string representation of this matrix. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A string reprepsentation of this matrix. </dd></dl>
 
 <p>Implements <a class="el" href="classabstract__sparse__matrix.html#a881263d3a128af1da87885f43e243b4c">abstract_sparse_matrix&lt; idx_type, el_type &gt;</a>.</p>
 <div class="fragment"><pre class="fragment">{
@@ -673,7 +707,7 @@ template&lt;class idx_type , class el_type &gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 18:49:22 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 22:26:15 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
