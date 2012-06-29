@@ -15,7 +15,7 @@ using namespace std;
  */
  
 int main(int argc, char* argv[]) {
-	if (argc < 4) {
+	if (argc < 4 || argc > 7) {
 		std::cout << "Too many or too few arguments." << std::endl
 				  << "Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [L_out.mtx] [D_out.mtx] [-yn]" << std::endl;
 		return 0;
@@ -24,8 +24,8 @@ int main(int argc, char* argv[]) {
 	csc_matrix<int, double> A, L;
 	vector<double> D;
 	
-	assert( A.load(argv[3]) );
-	//cout << A << endl;
+	assert( A.load(argv[3]));
+	printf("A has %d non-zeros.\n", A.nnz() );
 	
 	struct timeval tim;  
     gettimeofday(&tim, NULL);  

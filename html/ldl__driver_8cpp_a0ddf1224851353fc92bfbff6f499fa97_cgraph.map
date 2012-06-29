@@ -1,14 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45" title="csc_matrix::ildl" alt="" coords="113,68,225,95"/>
-<area shape="rect" id="node15" href="$classcsc__matrix.html#a4614f32a3d6cf63e0d006f475e2d44c7" title="csc_matrix::load" alt="" coords="108,144,231,171"/>
-<area shape="rect" id="node19" href="$classcsc__matrix.html#a6a956b3480b07fe4abba088ed3c74de9" title="csc_matrix::nnz" alt="" coords="110,195,229,221"/>
-<area shape="rect" id="node21" href="$abstract__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="143,245,195,272"/>
-<area shape="rect" id="node23" href="$classcsc__matrix.html#a8eabd2e218a42e3a38d0b50493a669f3" title="csc_matrix::save" alt="" coords="107,296,232,323"/>
-<area shape="rect" id="node5" href="$csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="309,5,384,32"/>
-<area shape="rect" id="node7" href="$csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="292,56,401,83"/>
+<area shape="rect" id="node3" href="$classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45" title="csc_matrix::ildl" alt="" coords="113,107,225,133"/>
+<area shape="rect" id="node19" href="$classcsc__matrix.html#a4614f32a3d6cf63e0d006f475e2d44c7" title="csc_matrix::load" alt="" coords="108,183,231,209"/>
+<area shape="rect" id="node23" href="$classcsc__matrix.html#a6a956b3480b07fe4abba088ed3c74de9" title="csc_matrix::nnz" alt="" coords="110,233,229,260"/>
+<area shape="rect" id="node25" href="$abstract__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="143,284,195,311"/>
+<area shape="rect" id="node27" href="$classcsc__matrix.html#a8eabd2e218a42e3a38d0b50493a669f3" title="csc_matrix::save" alt="" coords="107,335,232,361"/>
+<area shape="rect" id="node5" href="$csc__matrix__ildl__helpers_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="309,5,384,32"/>
+<area shape="rect" id="node7" href="$csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="323,56,371,83"/>
 <area shape="rect" id="node9" href="$classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="280,107,413,133"/>
-<area shape="rect" id="node11" href="$classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="464,81,680,108"/>
-<area shape="rect" id="node13" href="$classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="461,132,683,159"/>
-<area shape="rect" id="node17" href="$csc__matrix__load_8h.html#a41ea61857cb4937c99d1191af9db075b" title="readline" alt="" coords="310,157,383,184"/>
-<area shape="rect" id="node25" href="$csc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="299,296,394,323"/>
+<area shape="rect" id="node15" href="$csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="314,157,379,184"/>
+<area shape="rect" id="node11" href="$classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="464,56,680,83"/>
+<area shape="rect" id="node13" href="$classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="461,107,683,133"/>
+<area shape="rect" id="node17" href="$csc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="517,157,627,184"/>
+<area shape="rect" id="node21" href="$csc__matrix__load_8h.html#a41ea61857cb4937c99d1191af9db075b" title="readline" alt="" coords="310,208,383,235"/>
+<area shape="rect" id="node29" href="$csc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="299,335,394,361"/>
 </map>

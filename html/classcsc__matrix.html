@@ -306,23 +306,42 @@ template&lt;class idx_type , class el_type &gt; </div>
     <tr><td class="paramname">L</td><td>the L factor of this matrix. </td></tr>
     <tr><td class="paramname">D</td><td>the D factor of this matrix. </td></tr>
     <tr><td class="paramname">lfil</td><td>a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements. </td></tr>
-    <tr><td class="paramname">tol</td><td>a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped. </td></tr>
+    <tr><td class="paramname">tol</td><td>a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.</td></tr>
   </table>
   </dd>
 </dl>
+<p>possible optimizations/to-do's:</p>
+<ul>
+<li>some easy parallelization of for loops.</li>
+</ul>
+<ul>
+<li>using a vector to accumulate all nonzeros in previous cols during iteration.</li>
+</ul>
+<ul>
+<li>small changes to loops (e.g. assign .begin(), and .end() so that they will not be evaluated each iter. ---&gt; for (auto itr = new_values.begin(), end_itr = new_values.end(); itr != end_itr; ++itr ) )</li>
+</ul>
+<ul>
+<li>make a special diagonal matrix class for storing 1x1 and 2x2 pivots later.</li>
+</ul>
+<ul>
+<li>typedef some of the std::vector&lt;...&gt; into more readable names.</li>
+</ul>
+<ul>
+<li>use epsilon tolerances in comparing doubles later. </li>
+</ul>
 <div class="fragment"><pre class="fragment">{       
         <span class="comment">//Llist is a deque of linked lists that gives the non-zero elements in each row of L. since at any time we may swap between two rows, we require a linked lists for each row of L. a deque is used as it might be desireable to deallocate all linked lists for rows i &lt; k on step k (this is currently not done, as the memory used in maintaining linked lists for all rows is not much).</span>
         std::vector&lt; std::deque&lt; idx_type &gt; &gt; Llist; 
         
         <span class="comment">//work is a work vector for the current column. Lfirst is a linked list that gives the first nonzero element in column k with row index i &gt; k. (i.e. the first nonzero in L(k+1:n, k).</span>
-        std::vector&lt;el_type&gt; work(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0), Lfirst(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0);
+        std::vector&lt;el_type&gt; work(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0), temp(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0);
         
-        std::vector&lt;idx_type&gt; curr_nnzs; <span class="comment">//non-zeros on current col.</span>
+        std::vector&lt;idx_type&gt; curr_nnzs, temp_nnzs, Lfirst(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>(), 0); <span class="comment">//non-zeros on current col.</span>
         
         <span class="keywordtype">int</span> count = 0; <span class="comment">//the current non-zero in L.</span>
-        idx_type i, j, k, offset;
-        el_type l_ik;
-        <span class="keyword">typename</span> std::deque&lt;idx_type&gt;::const_iterator it;
+        <span class="keyword">const</span> <span class="keywordtype">double</span> alpha = (1+sqrt(17))/8;  <span class="comment">//for use in pivoting.</span>
+        idx_type i, j, k, offset, r;
+        el_type l_ik, w1, wr;
         
         curr_nnzs.reserve(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//makes sure that there is enough space if every element in the column is nonzero</span>
         Llist.resize(<a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>()); <span class="comment">//allocate a vector of size n for Llist.</span>
@@ -346,40 +365,58 @@ template&lt;class idx_type , class el_type &gt; </div>
                         work[<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] = <a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
                 }
                 
-                <span class="comment">//iterate across non-zeros of row k using Llist</span>
-                <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1)
-                <span class="keywordflow">for</span> (it = Llist[k].begin(); it != Llist[k].end(); it++) { <span class="comment">//Llist[k] contains the row idx of row k.</span>
+                <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1) {
+                        <span class="comment">//--------------begin pivoting--------------//</span>
+                        <span class="comment">//perform delayed updates on the current col (k) of A</span>
+                        <a class="code" href="csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(k, work, curr_nnzs, L, D, Lfirst, Llist);
                         
-                        <span class="comment">//find where L(k, k+1:n) starts</span>
-                        offset = L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + Lfirst[*it] + 1; 
-                        <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[offset] == k) {
-                                Lfirst[*it]++; <span class="comment">//update Lfirst</span>
-                        
-                                <span class="keywordflow">for</span> (j = offset+1; j &lt; L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]; j++) {
-                                        <span class="keywordflow">if</span> (L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j] &gt; k)
-                                                work[L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[j]] -= L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[offset] * D[*it] * L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[j];
+                        w1 = <a class="code" href="csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">max</a>(work, curr_nnzs, r);
+                        <span class="keywordflow">if</span> (w1 == 0) {
+                                <span class="comment">//case 0: do nothing. pivot is k.</span>
+                        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (std::abs(D[k]) &gt;= alpha * w1 ) {
+                                <span class="comment">//case 1: do nothing. pivot is k.</span>
+                        } <span class="keywordflow">else</span> {
+                                <span class="keywordflow">continue</span>; <span class="comment">//have not finished implementing pivoting just yet.</span>
+                                
+                                <span class="comment">//assign A(k+1:n, r) to temp. also update the diagonal elements. we&#39;ll need a_rr</span>
+                                <span class="comment">/* </span>
+<span class="comment">                                </span>
+<span class="comment">                                        fill in code here </span>
+<span class="comment">                                </span>
+<span class="comment">                                */</span>
+                                
+                                <span class="comment">//perform delated updates on col (r) of A.</span>
+                                <a class="code" href="csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(r, temp, temp_nnzs, L, D, Lfirst, Llist);
+                                wr = <a class="code" href="csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">max</a>(temp, temp_nnzs, r);
+                                <span class="keywordflow">if</span> (std::abs(D[k] * wr)&gt;= alpha*w1*w1) {
+                                        <span class="comment">//case 2: do nothing. pivot is k.</span>
+                                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (std::abs(D[r]) &gt;= alpha * wr) {
+                                        <span class="comment">//case 3: pivot is k with r. 1x1 pivot.</span>
+                                        <span class="comment">/*</span>
+<span class="comment">                                        pivot(k,r);</span>
+<span class="comment">                                        */</span>
+                                        
+                                        work.swap(temp);        <span class="comment">//swap work with temp.</span>
+                                        curr_nnzs.swap(temp_nnzs);      <span class="comment">//swap curr_nnzs with temp_nnzs</span>
+                                } <span class="keywordflow">else</span> {
+                                        <span class="comment">//case 4: pivot is k+1 with r: 2x2 pivot case.</span>
+                                        <span class="comment">/*</span>
+<span class="comment">                                        pivot(k+1,r);</span>
+<span class="comment">                                        */</span>
                                 }
-                                
-                                
-                                <span class="comment">//find exactly where to merge with binary search.</span>
-                                <span class="keyword">typename</span> std::vector&lt;idx_type&gt;::iterator start = upper_bound(L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it] + 1, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1], k);
-                                
-                                <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
-                                <a class="code" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(curr_nnzs, start, L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>.begin() + L.<a class="code" href="classabstract__sparse__matrix.html#af3916fb4aa6133781a370cdbc95e5920">m_col_idx</a>[*it+1]);
-                                
                         }
                         
-                }               
-                
-                <span class="comment">//performs the dual dropping procedure.</span>
-                <a class="code" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);   
-                
+                        <span class="comment">//--------------end pivoting--------------//</span>
+                        
+                        <span class="comment">//performs the dual dropping procedure.</span>
+                        <a class="code" href="csc__matrix__ildl__helpers_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);
+                        
+                }
                 <span class="comment">//get 1s on the diagonal</span>
                 L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = k;
                 L.<a class="code" href="classabstract__sparse__matrix.html#ac5969b6288916a71d1c063ae72cb4ccf">m_x</a>[count] = 1;
                 count++;
-                
-                
+
                 <span class="keywordflow">if</span> (k &lt; <a class="code" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc">n_cols</a>() - 1)
                 <span class="keywordflow">for</span> (i = 0; i &lt; (idx_type) std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()); i++) {
                     L.<a class="code" href="classabstract__sparse__matrix.html#a5349db3095583ec31a1e9699576fa206">m_row_idx</a>[count] = curr_nnzs[i]; <span class="comment">//row_idx of L is updated</span>
@@ -411,7 +448,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph.png" border="0" usemap="#classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph" alt=""/></div>
 <map name="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph" id="classcsc__matrix_a310f5db603cf79a961db26d7013bea45_cgraph">
-<area shape="rect" id="node3" href="csc__matrix__ildl_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="195,5,269,32"/><area shape="rect" id="node5" href="csc__matrix__ildl_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="177,56,287,83"/><area shape="rect" id="node7" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="165,107,299,133"/><area shape="rect" id="node9" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="349,81,565,108"/><area shape="rect" id="node11" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="347,132,568,159"/></map>
+<area shape="rect" id="node3" href="csc__matrix__ildl__helpers_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="195,5,269,32"/><area shape="rect" id="node5" href="csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="208,56,256,83"/><area shape="rect" id="node7" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="165,107,299,133"/><area shape="rect" id="node13" href="csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="199,157,265,184"/><area shape="rect" id="node9" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="349,56,565,83"/><area shape="rect" id="node11" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="347,107,568,133"/><area shape="rect" id="node15" href="csc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="403,157,512,184"/></map>
 </div>
 </p>
 
@@ -708,7 +745,7 @@ template&lt;class idx_type , class el_type &gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Sat Jun 23 2012 23:19:27 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 27 2012 20:28:02 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

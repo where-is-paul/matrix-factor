@@ -5,6 +5,7 @@
 #include <cmath>
 #include <list>
 #include <deque>
+#include "csc_matrix_ildl_helpers.h"
 
 /*! possible optimizations/to-do's: 
 	- some easy parallelization of for loops. 
@@ -17,79 +18,11 @@
 	
 	- make a special diagonal matrix class for storing 1x1 and 2x2 pivots later.
 	
-*/
-
-/*! \brief Computes the norm of v(curr_nnzs)
-	\param v the vector whose norm is to be computed.
-	\param curr_nnzs a list of indices representing non-zero elements in v.
-	\return the norm of v.
-*/
-template <class idx_type, class el_type>
-inline double norm(typename std::vector<el_type>& v, typename std::vector<idx_type>& curr_nnzs) { 
-    typename std::vector<idx_type>::iterator it;
-    double res = 0;
-    for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-        res += pow(std::abs(v[*it]), 2);  
-    }
-    
-    return res;
-}
-
-/*! \brief Functor for comparing elements by value (in decreasing order) instead of by index.
-	\param v the vector that contains the values being compared.
-*/
-template <class idx_type, class el_type>
-struct by_value {
-    std::vector<el_type>& v; 
-    by_value(std::vector<el_type>& vec) : v(vec) {}
-    bool operator()(idx_type const &a, idx_type const &b) const { 
-        return std::abs(v[a]) > std::abs(v[b]);
-    }
-};
-
-/*! \brief Performs the dual-dropping criteria outlined in Li & Saad (2005).
-	\param v the vector that whose elements will be selectively dropped.
-	\param curr_nnzs the non-zeros in the vector v.
-	\param lfil a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements.
-	\param tol a parameter to control agressiveness of dropping. Elements less than tol*norm(v) are dropped.
-*/
-template <class idx_type, class el_type>
-inline void drop_tol(std::vector<el_type>& v, std::vector<idx_type>& curr_nnzs, const int& lfil, const double& tol) { 
-    typename std::vector<idx_type>::iterator it;
+	- typedef some of the std::vector<...> into more readable names.
 	
-	//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.
-    el_type tolerance = tol*norm<idx_type, el_type>(v, curr_nnzs);
-    for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
-        if (std::abs(v[*it]) < tolerance) v[*it] = 0;
-     
-	//sort the remaining elements by value in decreasing order.
-    by_value<idx_type, el_type> sorter(v);
-    std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
-    
-	//sort the first lfil elements by index, only these will be assigned into L.
-    std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (int) curr_nnzs.size()));
-}
-
-/*! \brief Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list.
-	\param a the sorted list to contain the final merged list.
-	\param b_start an iterator to the start of b.
-	\param b_end an iterator to the end of b.
+	- use epsilon tolerances in comparing doubles later.
+	
 */
-template <class InputContainer, class InputIterator>
-inline void inplace_union(InputContainer& a, InputIterator const& b_start, InputIterator const& b_end)
-{
-    int mid = a.size(); //store the end of first sorted range
-
-    //copy the second sorted range into the destination vector
-    std::copy(b_start, b_end, std::back_inserter(a));
-
-    //perform the in place merge on the two sub-sorted ranges.
-    std::inplace_merge(a.begin(), a.begin() + mid, a.end());
-
-    //remove duplicate elements from the sorted vector
-    a.erase(std::unique(a.begin(), a.end()), a.end());
-}
-
 
 template <class idx_type, class el_type>
 void csc_matrix<idx_type, el_type> :: ildl(csc_matrix<idx_type, el_type>& L, elt_vector_type& D, int lfil, double tol)
@@ -98,14 +31,14 @@ void csc_matrix<idx_type, el_type> :: ildl(csc_matrix<idx_type, el_type>& L, elt
 	std::vector< std::deque< idx_type > > Llist; 
 	
 	//work is a work vector for the current column. Lfirst is a linked list that gives the first nonzero element in column k with row index i > k. (i.e. the first nonzero in L(k+1:n, k).
-	std::vector<el_type> work(n_cols(), 0), Lfirst(n_cols(), 0);
+	std::vector<el_type> work(n_cols(), 0), temp(n_cols(), 0);
 	
-	std::vector<idx_type> curr_nnzs; //non-zeros on current col.
+	std::vector<idx_type> curr_nnzs, temp_nnzs, Lfirst(n_cols(), 0); //non-zeros on current col.
 	
 	int count = 0; //the current non-zero in L.
-	idx_type i, j, k, offset;
-	el_type l_ik;
-	typename std::deque<idx_type>::const_iterator it;
+	const double alpha = (1+sqrt(17))/8;  //for use in pivoting.
+	idx_type i, j, k, offset, r;
+	el_type l_ik, w1, wr;
 	
 	curr_nnzs.reserve(n_cols()); //makes sure that there is enough space if every element in the column is nonzero
 	Llist.resize(n_cols()); //allocate a vector of size n for Llist.
@@ -129,40 +62,58 @@ void csc_matrix<idx_type, el_type> :: ildl(csc_matrix<idx_type, el_type>& L, elt
 			work[m_row_idx[j]] = m_x[j];
 		}
 		
-		//iterate across non-zeros of row k using Llist
-		if (k < n_cols() - 1)
-		for (it = Llist[k].begin(); it != Llist[k].end(); it++) { //Llist[k] contains the row idx of row k.
+		if (k < n_cols() - 1) {
+			//--------------begin pivoting--------------//
+			//perform delayed updates on the current col (k) of A
+			update(k, work, curr_nnzs, L, D, Lfirst, Llist);
 			
-			//find where L(k, k+1:n) starts
-			offset = L.m_col_idx[*it] + Lfirst[*it] + 1; 
-			if (L.m_row_idx[offset] == k) {
-				Lfirst[*it]++; //update Lfirst
-			
-				for (j = offset+1; j < L.m_col_idx[*it+1]; j++) {
-					if (L.m_row_idx[j] > k)
-						work[L.m_row_idx[j]] -= L.m_x[offset] * D[*it] * L.m_x[j];
+			w1 = max(work, curr_nnzs, r);
+			if (w1 == 0) {
+				//case 0: do nothing. pivot is k.
+			} else if (std::abs(D[k]) >= alpha * w1 ) {
+				//case 1: do nothing. pivot is k.
+			} else {
+				continue; //have not finished implementing pivoting just yet.
+				
+				//assign A(k+1:n, r) to temp. also update the diagonal elements. we'll need a_rr
+				/* 
+				
+					fill in code here 
+				
+				*/
+				
+				//perform delated updates on col (r) of A.
+				update(r, temp, temp_nnzs, L, D, Lfirst, Llist);
+				wr = max(temp, temp_nnzs, r);
+				if (std::abs(D[k] * wr)>= alpha*w1*w1) {
+					//case 2: do nothing. pivot is k.
+				} else if (std::abs(D[r]) >= alpha * wr) {
+					//case 3: pivot is k with r. 1x1 pivot.
+					/*
+					pivot(k,r);
+					*/
+					
+					work.swap(temp);	//swap work with temp.
+					curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
+				} else {
+					//case 4: pivot is k+1 with r: 2x2 pivot case.
+					/*
+					pivot(k+1,r);
+					*/
 				}
-				
-				
-				//find exactly where to merge with binary search.
-				typename std::vector<idx_type>::iterator start = upper_bound(L.m_row_idx.begin() + L.m_col_idx[*it] + 1, L.m_row_idx.begin() + L.m_col_idx[*it+1], k);
-				
-				//merge current non-zeros of col k with nonzeros of col *it. 
-				inplace_union(curr_nnzs, start, L.m_row_idx.begin() + L.m_col_idx[*it+1]);
-				
 			}
 			
-		}		
-		
-		//performs the dual dropping procedure.
-		drop_tol(work, curr_nnzs, lfil, tol);	
-		
+			//--------------end pivoting--------------//
+			
+			//performs the dual dropping procedure.
+			drop_tol(work, curr_nnzs, lfil, tol);
+			
+		}
 		//get 1s on the diagonal
 		L.m_row_idx[count] = k;
 		L.m_x[count] = 1;
 		count++;
-		
-		
+
 		if (k < n_cols() - 1)
 		for (i = 0; i < (idx_type) std::min(lfil, (int) curr_nnzs.size()); i++) {
 		    L.m_row_idx[count] = curr_nnzs[i]; //row_idx of L is updated

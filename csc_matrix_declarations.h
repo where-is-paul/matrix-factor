@@ -64,7 +64,7 @@ public:
 	/*! Resizes the matrix. For use in preallocating space before factorization begins.
 		\param n_rows the number of rows in the resized matrix.
 		\param n_cols the number of cols in the resized matrix.
-		\param n_nnzs the number of non-zeros expected in the matrix. 
+		\param n_nzs the number of non-zeros expected in the matrix. 
 	*/
 	void resize(idx_type n_rows, idx_type n_cols, idx_type n_nzs)
 	{
@@ -74,7 +74,7 @@ public:
 		m_row_idx.resize(n_nzs);
 		m_x.resize(n_nzs);
 	}
-	
+
 	//----Factorizations----//
 	/*! Performs an LDL' factorization of this matrix. The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005). Results are stored in L and D.
 		\param L the L factor of this matrix.
