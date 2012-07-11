@@ -67,13 +67,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;cassert&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &lt;sys/time.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="csc__matrix_8h_source.html">csc_matrix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="lilc__matrix_8h_source.html">lilc_matrix.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ldl_driver.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="ldl__driver_8cpp__incl.png" border="0" usemap="#ldl__driver_8cpp" alt=""/></div>
 <map name="ldl__driver_8cpp" id="ldl__driver_8cpp">
-<area shape="rect" id="node11" href="csc__matrix_8h.html" title="csc_matrix.h" alt="" coords="415,80,515,107"/><area shape="rect" id="node13" href="abstract__sparse__matrix_8h.html" title="abstract_sparse_matrix.h" alt="" coords="559,229,739,256"/><area shape="rect" id="node21" href="csc__matrix__declarations_8h.html" title="csc_matrix_declarations.h" alt="" coords="373,155,557,181"/><area shape="rect" id="node24" href="csc__matrix__ildl_8h.html" title="csc_matrix_ildl.h" alt="" coords="777,229,903,256"/><area shape="rect" id="node36" href="csc__matrix__load_8h.html" title="csc_matrix_load.h" alt="" coords="237,229,371,256"/><area shape="rect" id="node43" href="csc__matrix__save_8h.html" title="csc_matrix_save.h" alt="" coords="396,229,535,256"/><area shape="rect" id="node45" href="csc__matrix__to__string_8h.html" title="csc_matrix_to_string.h" alt="" coords="49,229,212,256"/><area shape="rect" id="node34" href="csc__matrix__ildl__helpers_8h.html" title="csc_matrix_ildl_helpers.h" alt="" coords="923,304,1103,331"/></map>
+<area shape="rect" id="node11" href="lilc__matrix_8h.html" title="lilc_matrix.h" alt="" coords="580,80,674,107"/><area shape="rect" id="node13" href="lil__sparse__matrix_8h.html" title="lil_sparse_matrix.h" alt="" coords="1295,229,1434,256"/><area shape="rect" id="node21" href="lilc__matrix__declarations_8h.html" title="lilc_matrix_declarations.h" alt="" coords="537,155,716,181"/><area shape="rect" id="node30" href="lilc__matrix__ildl_8h.html" title="lilc_matrix_ildl.h" alt="" coords="482,229,602,256"/><area shape="rect" id="node32" href="lilc__matrix__ildl__helpers_8h.html" title="lilc_matrix_ildl_helpers.h" alt="" coords="626,229,800,256"/><area shape="rect" id="node34" href="lilc__matrix__pivot_8h.html" title="lilc_matrix_pivot.h" alt="" coords="826,229,959,256"/><area shape="rect" id="node36" href="lilc__matrix__load_8h.html" title="lilc_matrix_load.h" alt="" coords="1140,229,1270,256"/><area shape="rect" id="node44" href="lilc__matrix__save_8h.html" title="lilc_matrix_save.h" alt="" coords="983,229,1116,256"/><area shape="rect" id="node46" href="lilc__matrix__to__string_8h.html" title="lilc_matrix_to_string.h" alt="" coords="24,229,182,256"/></map>
 </div>
 </div><table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
@@ -106,38 +106,48 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <div class="fragment"><pre class="fragment">                                 {
+
         <span class="keywordflow">if</span> (argc &lt; 4 || argc &gt; 7) {
                 std::cout &lt;&lt; <span class="stringliteral">&quot;Too many or too few arguments.&quot;</span> &lt;&lt; std::endl
-                                  &lt;&lt; <span class="stringliteral">&quot;Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [L_out.mtx] [D_out.mtx] [-yn]&quot;</span> &lt;&lt; std::endl;
+                &lt;&lt; <span class="stringliteral">&quot;Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [-save] [-yn]&quot;</span> &lt;&lt; std::endl;
                 <span class="keywordflow">return</span> 0;
         }
+
         
-        <a class="code" href="classcsc__matrix.html" title="A matrix using the compressed sparse column format.">csc_matrix&lt;int, double&gt;</a> A, L;
+        <a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix&lt;double&gt;</a> A, L;
+        vector&lt;int&gt; perm;
         vector&lt;double&gt; D;
         
-        assert( A.<a class="code" href="classcsc__matrix.html#a4614f32a3d6cf63e0d006f475e2d44c7">load</a>(argv[3]) );
-        <span class="comment">//cout &lt;&lt; A &lt;&lt; endl;</span>
-        
+        assert( A.<a class="code" href="classlilc__matrix.html#aea5613e9a57231a6991dcf99d6d7b37a">load</a>(argv[3]));
+        printf(<span class="stringliteral">&quot;A has %d non-zeros.\n&quot;</span>, A.<a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>() );
+
         <span class="keyword">struct </span>timeval tim;  
-    gettimeofday(&amp;tim, NULL);  
-    <span class="keywordtype">double</span> t1=tim.tv_sec+(tim.tv_usec/1e6);  
-    
-        A.<a class="code" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45">ildl</a>(L, D, atof(argv[1]), atof(argv[2]));
+        gettimeofday(&amp;tim, NULL);  
+        <span class="keywordtype">double</span> t1=tim.tv_sec+(tim.tv_usec/1e6);  
+        
+        perm.resize(A.<a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>());
+        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; A.<a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>(); i++) perm[i] = i;
+        
+        A.<a class="code" href="classlilc__matrix.html#a5ba119d9a2edb6313442890a10657786">ildl</a>(L, D, perm, atof(argv[1]), atof(argv[2]));
         
         gettimeofday(&amp;tim, NULL);  
-    <span class="keywordtype">double</span> t2=tim.tv_sec+(tim.tv_usec/1e6);  
-    printf(<span class="stringliteral">&quot;The factorization took %.6lf seconds.\n&quot;</span>, t2-t1);
-        printf(<span class="stringliteral">&quot;L has %d non-zeros.\n&quot;</span>, L.<a class="code" href="classcsc__matrix.html#a6a956b3480b07fe4abba088ed3c74de9">nnz</a>()); 
+        <span class="keywordtype">double</span> t2=tim.tv_sec+(tim.tv_usec/1e6);  
+        printf(<span class="stringliteral">&quot;The factorization took %.6lf seconds.\n&quot;</span>, t2-t1);
+        printf(<span class="stringliteral">&quot;L has %d non-zeros.\n&quot;</span>, L.<a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>()); 
         
         <span class="keywordflow">if</span> (argc &gt; 4) {
-                L.<a class="code" href="classcsc__matrix.html#a8eabd2e218a42e3a38d0b50493a669f3">save</a>(argv[4]);
-                <a class="code" href="abstract__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">save</a>(D, argv[5]);
-                <span class="keywordflow">if</span> (argc &gt; 6 &amp;&amp; strcmp(argv[6], <span class="stringliteral">&quot;-y&quot;</span>) == 0) {
+                cout &lt;&lt; <span class="stringliteral">&quot;Saving matrices...&quot;</span> &lt;&lt; endl;
+                L.<a class="code" href="classlilc__matrix.html#ac7ae3a4b8a4dbf7ad111a9546e261f47">save</a>(<span class="stringliteral">&quot;output_matrices/outL.mtx&quot;</span>);
+                <a class="code" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">save</a>(D, <span class="stringliteral">&quot;output_matrices/outD.mtx&quot;</span>);
+                <a class="code" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">save</a>(perm, <span class="stringliteral">&quot;output_matrices/outPerm.mtx&quot;</span>);
+                <span class="keywordflow">if</span> (argc &gt; 5 &amp;&amp; strcmp(argv[5], <span class="stringliteral">&quot;-y&quot;</span>) == 0) {
                         cout &lt;&lt; L &lt;&lt; endl;
                         cout &lt;&lt; D &lt;&lt; endl;
+                        cout &lt;&lt; perm &lt;&lt; endl;
                 }
+                cout &lt;&lt; <span class="stringliteral">&quot;Done.&quot;</span> &lt;&lt; endl;
         }
-        
+
         <span class="keywordflow">return</span> 0;
 }
 </pre></div>
@@ -146,7 +156,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="ldl__driver_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#ldl__driver_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
 <map name="ldl__driver_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="ldl__driver_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
-<area shape="rect" id="node3" href="classcsc__matrix.html#a310f5db603cf79a961db26d7013bea45" title="csc_matrix::ildl" alt="" coords="113,107,225,133"/><area shape="rect" id="node19" href="classcsc__matrix.html#a4614f32a3d6cf63e0d006f475e2d44c7" title="csc_matrix::load" alt="" coords="108,183,231,209"/><area shape="rect" id="node23" href="classcsc__matrix.html#a6a956b3480b07fe4abba088ed3c74de9" title="csc_matrix::nnz" alt="" coords="110,233,229,260"/><area shape="rect" id="node25" href="abstract__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="143,284,195,311"/><area shape="rect" id="node27" href="classcsc__matrix.html#a8eabd2e218a42e3a38d0b50493a669f3" title="csc_matrix::save" alt="" coords="107,335,232,361"/><area shape="rect" id="node5" href="csc__matrix__ildl__helpers_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="309,5,384,32"/><area shape="rect" id="node7" href="csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="323,56,371,83"/><area shape="rect" id="node9" href="classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="280,107,413,133"/><area shape="rect" id="node15" href="csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="314,157,379,184"/><area shape="rect" id="node11" href="classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="464,56,680,83"/><area shape="rect" id="node13" href="classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="461,107,683,133"/><area shape="rect" id="node17" href="csc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="517,157,627,184"/><area shape="rect" id="node21" href="csc__matrix__load_8h.html#a41ea61857cb4937c99d1191af9db075b" title="readline" alt="" coords="310,208,383,235"/><area shape="rect" id="node29" href="csc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="299,335,394,361"/></map>
+<area shape="rect" id="node3" href="classlilc__matrix.html#a5ba119d9a2edb6313442890a10657786" title="lilc_matrix::ildl" alt="" coords="132,183,239,209"/><area shape="rect" id="node13" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2" title="lil_sparse_matrix::n_cols" alt="" coords="493,360,667,387"/><area shape="rect" id="node25" href="classlilc__matrix.html#aea5613e9a57231a6991dcf99d6d7b37a" title="lilc_matrix::load" alt="" coords="127,411,244,437"/><area shape="rect" id="node30" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76" title="lil_sparse_matrix::nnz" alt="" coords="107,461,264,488"/><area shape="rect" id="node32" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="159,512,211,539"/><area shape="rect" id="node34" href="classlilc__matrix.html#ac7ae3a4b8a4dbf7ad111a9546e261f47" title="lilc_matrix::save" alt="" coords="125,563,245,589"/><area shape="rect" id="node5" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="519,145,641,172"/><area shape="rect" id="node7" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="339,208,413,235"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="352,259,400,285"/><area shape="rect" id="node11" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="lilc_matrix::resize" alt="" coords="312,309,440,336"/><area shape="rect" id="node17" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be" title="safe_swap" alt="" coords="331,5,421,32"/><area shape="rect" id="node19" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="489,69,671,96"/><area shape="rect" id="node21" href="lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="343,107,409,133"/><area shape="rect" id="node15" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76" title="lil_sparse_matrix::n_rows" alt="" coords="490,309,670,336"/><area shape="rect" id="node27" href="lilc__matrix__load_8h.html#a6de8c02a91b0862a6d2221d4e8deb59e" title="readline" alt="" coords="339,411,413,437"/><area shape="rect" id="node36" href="lilc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="329,563,423,589"/></map>
 </div>
 </p>
 
@@ -167,7 +177,7 @@ Here is the call graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 27 2012 20:28:02 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:28 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

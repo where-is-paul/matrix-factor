@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>matrix-factor: by_value&lt; idx_type, el_type &gt; Struct Template Reference</title>
+<title>matrix-factor: by_value&lt; el_type &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -63,33 +63,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
-<div class="title">by_value&lt; idx_type, el_type &gt; Struct Template Reference</div>  </div>
+<div class="title">by_value&lt; el_type &gt; Struct Template Reference</div>  </div>
 </div>
 <div class="contents">
 <!-- doxytag: class="by_value" -->
 <p>Functor for comparing elements by value (in decreasing order) instead of by index.  
  <a href="structby__value.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="csc__matrix__ildl__helpers_8h_source.html">csc_matrix_ildl_helpers.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="lilc__matrix__ildl__helpers_8h_source.html">lilc_matrix_ildl_helpers.h</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for by_value&lt; idx_type, el_type &gt;:</div>
+Collaboration diagram for by_value&lt; el_type &gt;:</div>
 <div class="dyncontent">
-<div class="center"><img src="structby__value__coll__graph.png" border="0" usemap="#by__value_3_01idx__type_00_01el__type_01_4_coll__map" alt="Collaboration graph"/></div>
+<div class="center"><img src="structby__value__coll__graph.png" border="0" usemap="#by__value_3_01el__type_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="by__value_3_01el__type_01_4_coll__map" id="by__value_3_01el__type_01_4_coll__map">
+</map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="structby__value-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a08c1a2a7be54e7119183581ca2be86d9">by_value</a> (std::vector&lt; el_type &gt; &amp;vec)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a2917f29b65753d6047a7a14bdc1aae8c">operator()</a> (idx_type const &amp;a, idx_type const &amp;b) const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a8efbaaba33f3ce07724e82dee572528c">by_value</a> (std::vector&lt; el_type &gt; &amp;vec)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a108e97ce590526c4f233b5bcea9aed47">operator()</a> (int const &amp;a, int const &amp;b) const </td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; el_type &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; el_type &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby__value.html#aaa09bfaf3347381eed282431e1850e00">v</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class idx_type, class el_type&gt;<br/>
-struct by_value&lt; idx_type, el_type &gt;</h3>
+<div class="textblock"><h3>template&lt;class el_type&gt;<br/>
+struct by_value&lt; el_type &gt;</h3>
 
 <p>Functor for comparing elements by value (in decreasing order) instead of by index. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
@@ -99,14 +101,14 @@ struct by_value&lt; idx_type, el_type &gt;</h3>
   </dd>
 </dl>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a08c1a2a7be54e7119183581ca2be86d9"></a><!-- doxytag: member="by_value::by_value" ref="a08c1a2a7be54e7119183581ca2be86d9" args="(std::vector&lt; el_type &gt; &amp;vec)" -->
+<a class="anchor" id="a8efbaaba33f3ce07724e82dee572528c"></a><!-- doxytag: member="by_value::by_value" ref="a8efbaaba33f3ce07724e82dee572528c" args="(std::vector&lt; el_type &gt; &amp;vec)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class idx_type, class el_type&gt; </div>
+template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::<a class="el" href="structby__value.html">by_value</a> </td>
+          <td class="memname"><a class="el" href="structby__value.html">by_value</a>&lt; el_type &gt;::<a class="el" href="structby__value.html">by_value</a> </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; el_type &gt; &amp;&#160;</td>
           <td class="paramname"><em>vec</em></td><td>)</td>
@@ -115,27 +117,27 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">: <a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>(vec) {}
+<div class="fragment"><pre class="fragment">: <a class="code" href="structby__value.html#aaa09bfaf3347381eed282431e1850e00">v</a>(vec) {}
 </pre></div>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a2917f29b65753d6047a7a14bdc1aae8c"></a><!-- doxytag: member="by_value::operator()" ref="a2917f29b65753d6047a7a14bdc1aae8c" args="(idx_type const &amp;a, idx_type const &amp;b) const " -->
+<a class="anchor" id="a108e97ce590526c4f233b5bcea9aed47"></a><!-- doxytag: member="by_value::operator()" ref="a108e97ce590526c4f233b5bcea9aed47" args="(int const &amp;a, int const &amp;b) const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class idx_type, class el_type&gt; </div>
+template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::operator() </td>
+          <td class="memname">bool <a class="el" href="structby__value.html">by_value</a>&lt; el_type &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">idx_type const &amp;&#160;</td>
+          <td class="paramtype">int const &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">idx_type const &amp;&#160;</td>
+          <td class="paramtype">int const &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -146,21 +148,21 @@ template&lt;class idx_type, class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">                                                                { 
-        <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a>[b]);
-    }
+<div class="fragment"><pre class="fragment">                                                          { 
+                <span class="keywordflow">return</span> std::abs(<a class="code" href="structby__value.html#aaa09bfaf3347381eed282431e1850e00">v</a>[a]) &gt; std::abs(<a class="code" href="structby__value.html#aaa09bfaf3347381eed282431e1850e00">v</a>[b]);
+        }
 </pre></div>
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="a7e8bb05dc53f9f61fe2cce6b8b7f906e"></a><!-- doxytag: member="by_value::v" ref="a7e8bb05dc53f9f61fe2cce6b8b7f906e" args="" -->
+<a class="anchor" id="aaa09bfaf3347381eed282431e1850e00"></a><!-- doxytag: member="by_value::v" ref="aaa09bfaf3347381eed282431e1850e00" args="" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class idx_type, class el_type&gt; </div>
+template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;el_type&gt;&amp; <a class="el" href="structby__value.html">by_value</a>&lt; idx_type, el_type &gt;::<a class="el" href="structby__value.html#a7e8bb05dc53f9f61fe2cce6b8b7f906e">v</a></td>
+          <td class="memname">std::vector&lt;el_type&gt;&amp; <a class="el" href="structby__value.html">by_value</a>&lt; el_type &gt;::<a class="el" href="structby__value.html#aaa09bfaf3347381eed282431e1850e00">v</a></td>
         </tr>
       </table>
 </div>
@@ -169,7 +171,7 @@ template&lt;class idx_type, class el_type&gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="csc__matrix__ildl__helpers_8h_source.html">csc_matrix_ildl_helpers.h</a></li>
+<li><a class="el" href="lilc__matrix__ildl__helpers_8h_source.html">lilc_matrix_ildl_helpers.h</a></li>
 </ul>
 </div>
 <!-- window showing the filter options -->
@@ -186,7 +188,7 @@ template&lt;class idx_type, class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jun 27 2012 20:28:02 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:28 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -7,7 +7,7 @@ CFLAGS := -Wall -O3 -funroll-loops -std=c++0x
 TARGET := ldl_driver
  
 SRCEXT := cpp
-SOURCES := $(shell find $(SRCDIR) -name *.$(SRCEXT))
+SOURCES := $(shell find $(SRCDIR) -name "*.$(SRCEXT)")
 ALL := $(shell find $(SRCDIR) -name "*.h" -or -name "*.cpp")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)

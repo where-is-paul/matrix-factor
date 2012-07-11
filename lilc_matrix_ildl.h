@@ -126,6 +126,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 					//--------end pivot rest---------//
 					
 				} else {
+					continue;
 					//case 4: pivot is k+1 with r: 2x2 pivot case.
 					size_two_piv = true;
 					
@@ -143,11 +144,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 					std::swap(work[k+1], work[r]);
 					std::swap(temp[k+1], temp[r]);
 					
-					safe_swap(curr_nnzs, k, r);
-					safe_swap(temp_nnzs, k, r);
+					safe_swap(curr_nnzs, k+1, r);
+					safe_swap(temp_nnzs, k+1, r);
 				}
 			}
-			
 			//--------------end pivoting--------------//
 			//update lfirst
 			for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) {
@@ -203,7 +203,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 		
 		L.m_x[k].resize(col_size);
 		L.m_idx[k].resize(col_size);
-		
 	}
 	
 	L.nnz_count = count;

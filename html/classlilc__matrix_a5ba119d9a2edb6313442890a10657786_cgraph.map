@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="367,58,489,85"/>
+<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="187,33,261,59"/>
+<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="200,83,248,110"/>
+<area shape="rect" id="node9" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="lilc_matrix::resize" alt="" coords="160,286,288,313"/>
+<area shape="rect" id="node15" href="$lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be" title="safe_swap" alt="" coords="179,185,269,211"/>
+<area shape="rect" id="node17" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="337,173,519,199"/>
+<area shape="rect" id="node19" href="$lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="191,134,257,161"/>
+<area shape="rect" id="node11" href="$classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2" title="lil_sparse_matrix::n_cols" alt="" coords="341,261,515,287"/>
+<area shape="rect" id="node13" href="$classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76" title="lil_sparse_matrix::n_rows" alt="" coords="338,311,518,338"/>
+</map>

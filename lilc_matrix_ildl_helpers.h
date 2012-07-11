@@ -128,7 +128,7 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 		//find where L(k, k+1:n) starts
 		offset = L.first[*it];
 		if (offset >= L.m_idx[*it].size()) continue;
-		if (L.m_idx[*it][offset] < k) offset++;
+		while (L.m_idx[*it][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
 		if (L.m_idx[*it][offset] == k && !include_kth) offset++;
 		
 		l_ki = L.coeff(k, *it);

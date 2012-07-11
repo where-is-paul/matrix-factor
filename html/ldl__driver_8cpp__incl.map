@@ -1,10 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="node11" href="$csc__matrix_8h.html" title="csc_matrix.h" alt="" coords="415,80,515,107"/>
-<area shape="rect" id="node13" href="$abstract__sparse__matrix_8h.html" title="abstract_sparse_matrix.h" alt="" coords="559,229,739,256"/>
-<area shape="rect" id="node21" href="$csc__matrix__declarations_8h.html" title="csc_matrix_declarations.h" alt="" coords="373,155,557,181"/>
-<area shape="rect" id="node24" href="$csc__matrix__ildl_8h.html" title="csc_matrix_ildl.h" alt="" coords="777,229,903,256"/>
-<area shape="rect" id="node36" href="$csc__matrix__load_8h.html" title="csc_matrix_load.h" alt="" coords="237,229,371,256"/>
-<area shape="rect" id="node43" href="$csc__matrix__save_8h.html" title="csc_matrix_save.h" alt="" coords="396,229,535,256"/>
-<area shape="rect" id="node45" href="$csc__matrix__to__string_8h.html" title="csc_matrix_to_string.h" alt="" coords="49,229,212,256"/>
-<area shape="rect" id="node34" href="$csc__matrix__ildl__helpers_8h.html" title="csc_matrix_ildl_helpers.h" alt="" coords="923,304,1103,331"/>
+<area shape="rect" id="node11" href="$lilc__matrix_8h.html" title="lilc_matrix.h" alt="" coords="580,80,674,107"/>
+<area shape="rect" id="node13" href="$lil__sparse__matrix_8h.html" title="lil_sparse_matrix.h" alt="" coords="1295,229,1434,256"/>
+<area shape="rect" id="node21" href="$lilc__matrix__declarations_8h.html" title="lilc_matrix_declarations.h" alt="" coords="537,155,716,181"/>
+<area shape="rect" id="node30" href="$lilc__matrix__ildl_8h.html" title="lilc_matrix_ildl.h" alt="" coords="482,229,602,256"/>
+<area shape="rect" id="node32" href="$lilc__matrix__ildl__helpers_8h.html" title="lilc_matrix_ildl_helpers.h" alt="" coords="626,229,800,256"/>
+<area shape="rect" id="node34" href="$lilc__matrix__pivot_8h.html" title="lilc_matrix_pivot.h" alt="" coords="826,229,959,256"/>
+<area shape="rect" id="node36" href="$lilc__matrix__load_8h.html" title="lilc_matrix_load.h" alt="" coords="1140,229,1270,256"/>
+<area shape="rect" id="node44" href="$lilc__matrix__save_8h.html" title="lilc_matrix_save.h" alt="" coords="983,229,1116,256"/>
+<area shape="rect" id="node46" href="$lilc__matrix__to__string_8h.html" title="lilc_matrix_to_string.h" alt="" coords="24,229,182,256"/>
 </map>
