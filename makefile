@@ -5,6 +5,8 @@ SRCDIR := .
 BUILDDIR := build
 CFLAGS := -Wall -O3 -funroll-loops -std=c++0x
 TARGET := ldl_driver
+TARBALL := matrix_factor.tar
+OUTPUT := $(shell find $(SRCDIR)/output_matrices -name out*)
  
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -name "*.$(SRCEXT)")
@@ -20,7 +22,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo " CC $<"; $(CC) $(CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
  
 clean:
-	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET)
+	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET) $(TARBALL) $(OUTPUT); 
 
 tar:
 	tar cfv matrix_factor.tar $(ALL)
