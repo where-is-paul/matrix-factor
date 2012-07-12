@@ -2,6 +2,7 @@
 #include <cassert>
 #include <string.h>
 #include <sys/time.h>
+#include "block_diag_matrix.h"
 #include "lilc_matrix.h"
 
 using namespace std;
@@ -25,7 +26,7 @@ int main(int argc, char* argv[]) {
 	
 	lilc_matrix<double> A, L;
 	vector<int> perm;
-	vector<double> D;
+	block_diag_matrix<double> D;
 	
 	assert( A.load(argv[3]));
 	printf("A has %d non-zeros.\n", A.nnz() );
@@ -45,10 +46,13 @@ int main(int argc, char* argv[]) {
 	printf("L has %d non-zeros.\n", L.nnz()); 
 	
 	if (argc > 4) {
-		cout << "Saving matrices..." << endl;
-		L.save("output_matrices/outL.mtx");
-		save(D, "output_matrices/outD.mtx");
-		save(perm, "output_matrices/outPerm.mtx");
+		if (strcmp(argv[4], "-y") == 0) {
+			cout << "Saving matrices..." << endl;
+			L.save("output_matrices/outL.mtx");
+			D.save("output_matrices/outD.mtx");
+			save(perm, "output_matrices/outPerm.mtx");
+		}
+		
 		if (argc > 5 && strcmp(argv[5], "-y") == 0) {
 			cout << L << endl;
 			cout << D << endl;

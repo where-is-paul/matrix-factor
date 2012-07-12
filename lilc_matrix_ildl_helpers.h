@@ -108,6 +108,21 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 
 //----------------Column updates------------------//
 
+template <class el_type>
+inline void update_single(const int& k, const int& j, const el_type& l_ki, const el_type& d, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, vector<bool>& in_set, bool include_kth = false) {
+	//find where L(k, k+1:n) starts
+	unsigned int i, offset = L.first[j];
+	//if (offset >= L.m_idx[*it].size()) continue;
+	if (L.m_idx[j][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
+	if (L.m_idx[j][offset] == k && !include_kth) offset++;
+	
+	for (i = offset; i < L.m_idx[j].size(); i++) {
+		work[L.m_idx[j][i]] -= l_ki * d * L.m_x[j][i];
+	}
+	
+	//merge current non-zeros of col k with nonzeros of col *it. 
+	unordered_inplace_union(curr_nnzs, L.m_idx[j].begin() + offset,  L.m_idx[j].end(), in_set);
+}
 
 /*! \brief Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.
 	\param k the column number to be updated.
@@ -117,27 +132,28 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 	\param D the (partial) diagonal factor of A.
 */
 template <class el_type>
-inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, std::vector<el_type>& D, vector<bool>& in_set, bool include_kth = false) {
-	unsigned int j, offset;
-	el_type l_ki;
-	
+inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, vector<bool>& in_set, bool include_kth = false) {
+	unsigned int j;
+	int blk_sz;
+	el_type d_12, l_ki;	
+
 	typename std::deque<int>::const_iterator it;
 	//iterate across non-zeros of row k using Llist
 	for (it = L.list[k].begin(); it != L.list[k].end(); it++) {
-
-		//find where L(k, k+1:n) starts
-		offset = L.first[*it];
-		if (offset >= L.m_idx[*it].size()) continue;
-		while (L.m_idx[*it][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
-		if (L.m_idx[*it][offset] == k && !include_kth) offset++;
+		j = *it;
 		
-		l_ki = L.coeff(k, *it);
-		for (j = offset; j < L.m_idx[*it].size(); j++) {
-			work[L.m_idx[*it][j]] -= l_ki * D[*it] * L.m_x[*it][j];
+		l_ki = L.coeff(k, j);
+		update_single(k, j, l_ki, D[j], work, curr_nnzs, L, in_set, include_kth); //update col using d11
+		
+		blk_sz = D.block_size(j);
+		if (blk_sz == 2) {
+			d_12 = D.off_diagonal(j);
+			update_single(k, j + 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth);
+		} else if (blk_sz == -2) {
+			d_12 = D.off_diagonal(j-1);
+			update_single(k, j - 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth); //update col using d12
 		}
-
-		//merge current non-zeros of col k with nonzeros of col *it. 
-		unordered_inplace_union(curr_nnzs, L.m_idx[*it].begin() + offset,  L.m_idx[*it].end(), in_set);
+		
 	}
 	
 	for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
@@ -172,9 +188,9 @@ inline void safe_swap(std::vector<int>& curr_nnzs, int k, int r) {
 	
 	if (con_k == con_r) {
 		//do nothing
-	} else if (con_k && !con_r) {
-		*r_idx = r;
+	} else if (con_k) {
+		*k_idx = r;
 	} else {
-		*k_idx = k;
+		*r_idx = k;
 	}
 }

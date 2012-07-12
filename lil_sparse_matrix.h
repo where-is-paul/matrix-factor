@@ -26,6 +26,8 @@ bool save(const std::vector<el_type>& vec, std::string filename) {
 	return true;
 }
 
+#ifndef VECTOR_SHIFT
+#define VECTOR_SHIFT
 template<class el_type>
 std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 {
@@ -42,6 +44,7 @@ std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 	os << "]";
 	return os;
 }
+#endif
 
 using std::vector;
 

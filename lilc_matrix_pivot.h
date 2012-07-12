@@ -22,14 +22,22 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 		col_k.push_back(coeff(r, r));
 	}
 	
+	
 	if (coeff(k, k) !=0){
 		col_r_nnzs.push_back(r);
 		col_r.push_back(coeff(k, k));
 	}
 	
 	for (i = 0; i < (int) list[r].size(); i++) {
+		// if (list[r][i] < k) {  //list[r] does not update correctly on each iteration. the invariant is somehow violated. the code below works but is bad code. pretty sure this only fixes a subset of the problems.
+			// std::swap(list[r][i], list[r][0]);
+			// list[r].pop_front();
+			// i--;
+			// continue;
+		// }
+		
 		coeffRef(r, list[r][i], its_k);
-		col_k_nnzs.push_back(*its_k.first);
+		col_k_nnzs.push_back(list[r][i]);
 		col_k.push_back(*its_k.second);
 		
 		*its_k.first = m_idx[list[r][i]].back();
@@ -38,7 +46,9 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 		m_idx[list[r][i]].pop_back();
 		m_x[list[r][i]].pop_back();
 	}
-	
+
+
+
 	//is it possible to select an all zeros col as a pivot?
 	if (m_idx[r].size() > 0) {
 		offset = (m_idx[r][0] == r ? 1 : 0);
@@ -56,11 +66,11 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 			}
 		}
 	}
-	
+
 	if (m_idx[k].size() > 0) {
 		//swap A(k:r, k) with A(r, k:r);
 		offset = (m_idx[k][0] == k ? 1 : 0);
-		for (i = 0; i < (int) m_idx[k].size(); i++) {
+		for (i = offset; i < (int) m_idx[k].size(); i++) {
 			if (m_idx[k][i] < r) {
 				m_idx[m_idx[k][i]].push_back(r);
 				m_x[m_idx[k][i]].push_back(m_x[k][i]);
@@ -81,7 +91,9 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 	}
 	
 	for (auto it = swapk_.begin(); it != swapk_.end(); it++) {
+
 		**it = k;
+
 	}
 	
 	for (auto it = swapr_.begin(); it != swapr_.end(); it++) {
@@ -93,14 +105,17 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 		for (i = 0; i < (int) list[*it].size(); i++) {
 			min = 0;
 			if (list[*it][i] == k) {
-				min = i; break;
+				min = i; 
+				break;
 			} else if ( list[*it][i] < list[*it][min] ) {
 				min = i;
 			}
 		}
 		
+
+
 		std::swap(list[*it][0], list[*it][min]);
-		std::swap(list[*it][0], list[*it][min]);
+		
 	}
 	
 	//set the kth col

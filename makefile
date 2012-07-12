@@ -6,7 +6,7 @@ BUILDDIR := build
 CFLAGS := -Wall -O3 -funroll-loops -std=c++0x
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
-OUTPUT := $(shell find $(SRCDIR)/output_matrices -name out*)
+OUTPUT := $(shell find $(SRCDIR)/output_matrices -name out*.mtx)
  
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -name "*.$(SRCEXT)")
@@ -18,6 +18,7 @@ $(TARGET): $(OBJECTS)
 	@echo " Linking..."; $(CC) $^ -o $(TARGET)
  
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p output_matrices
 	@mkdir -p $(BUILDDIR)
 	@echo " CC $<"; $(CC) $(CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
  

@@ -1,11 +1,13 @@
 #ifndef _LILC_MATRIX_ILDL_H_
 #define _LILC_MATRIX_ILDL_H_
 
+
+using std::endl;
 template <class el_type>
-void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, idx_vector_type& perm, int lfil, double tol)
+void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, int lfil, double tol)
 {	
 	const double alpha = (1+sqrt(17))/8;  //for use in pivoting.
-	el_type w1, wr, d1, dr;
+	el_type w1, wr, d1, dr, det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
 	
 	//L.list is a deque of linked lists that gives the non-zero elements in each row of L. 
 	//since at any time we may swap between two rows, we require a linked lists for each row of L. 
@@ -79,7 +81,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 				}
 				
 				offset = (list[r][0] == k ? 1 : 0);
-				for (j = 0; j < (int) list[r].size(); j++) {
+				for (j = offset; j < (int) list[r].size(); j++) {
 					temp_nnzs.push_back(list[r][j]);
 					temp[list[r][j]] = coeff(r, list[r][j]);
 				}
@@ -103,9 +105,22 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 					
 				} else if (std::abs(dr) >= std::abs(alpha * wr)) {
 					//case 3: pivot is k with r: 1x1 pivot case.
+
+					
+					if (m_idx[k].size() > 0) {
+
+						for (j = 0; j < (int) m_idx[k].size(); j++) {
+							if (!list[m_idx[k][j]].empty() && m_idx[k][j] < r) {
+								
+
+								list[m_idx[k][j]].pop_front();
+							}
+						}
+					}
+			
 					//--------pivot A and L ---------//
 					pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k, r);
-
+					
 					//----------pivot rest ----------//
 					temp[r] = dr;
 					work[k] = d1;
@@ -125,27 +140,44 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 					}
 					//--------end pivot rest---------//
 					
-				} else {
-					continue;
-					//case 4: pivot is k+1 with r: 2x2 pivot case.
-					size_two_piv = true;
-					
-					pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k+1, r);
 
-					//----------pivot rest ----------//
+
+
+				} else {
+					
+					if (m_idx[k].size() > 0) {
+
+						for (j = 0; j < (int) m_idx[k+1].size(); j++) {
+							if (!list[m_idx[k+1][j]].empty() && m_idx[k+1][j] < r) {
+								
+
+								list[m_idx[k+1][j]].pop_front();
+							}
+						}
+					}
+					
 					temp[r] = dr;
 					work[k] = d1;
-					std::swap(d1, dr);
+					//case 4: pivot is k+1 with r: 2x2 pivot case.
+
+					size_two_piv = true;
 					
-					//permute perm
-					std::swap(perm[k+1], perm[r]);
-					
-					//swap two cols of L
-					std::swap(work[k+1], work[r]);
-					std::swap(temp[k+1], temp[r]);
-					
-					safe_swap(curr_nnzs, k+1, r);
-					safe_swap(temp_nnzs, k+1, r);
+					if (k+1 != r) {
+						pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k+1, r);
+						
+
+						//----------pivot rest ----------//
+						
+						//permute perm
+						std::swap(perm[k+1], perm[r]);
+						
+						//swap two cols of L
+						std::swap(work[k+1], work[r]);
+						std::swap(temp[k+1], temp[r]);
+						
+						safe_swap(curr_nnzs, k+1, r);
+						safe_swap(temp_nnzs, k+1, r);
+					}
 				}
 			}
 			//--------------end pivoting--------------//
@@ -154,20 +186,27 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 				L.first[*it]++;
 			}
 			
+
 			if (m_idx[k].size() > 0) {
-				offset = (m_idx[k][0] == k ? 1 : 0);
-				for (j = offset; j < (int) m_idx[k].size(); j++) {
-					if (!list[m_idx[k][j]].empty())
-					list[m_idx[k][j]].pop_front();
+
+				for (j = 0; j < (int) m_idx[k].size(); j++) {
+					if (!list[m_idx[k][j]].empty()) {
+						
+
+						list[m_idx[k][j]].pop_front();
+					}
 				}
 			}
 			
 			if (size_two_piv) {
+
 				if (m_idx[k+1].size() > 0) {
-					offset = (m_idx[k+1][0] == k+1 ? 1 : 0);
-					for (j = offset; j < (int) m_idx[k+1].size(); j++) {
-						if (!list[m_idx[k+1][j]].empty())
-						list[m_idx[k+1][j]].pop_front();
+
+					for (j = 0; j < (int) m_idx[k+1].size(); j++) {
+						if (!list[m_idx[k+1][j]].empty() && m_idx[k+1][j] > r) {
+	
+							list[m_idx[k+1][j]].pop_front();
+						}
 					}
 				}
 			}
@@ -177,17 +216,29 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 			
 			if (size_two_piv) {
 				drop_tol(temp, temp_nnzs, lfil, tol);
-				col_size2 = 1+std::min(lfil, (int) temp_nnzs.size());
+				
+
+				
+				curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());
+				temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
+				
+				unordered_inplace_union(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);
+				for (i = 0; i < (int) curr_nnzs.size(); i++) in_set[i] = false;
+				
+				//col_size2 = 1+std::min(lfil, (int) temp_nnzs.size());
+				col_size = 1+std::min(lfil, (int) curr_nnzs.size());
 			}
+			
+			
 		}
 		
+		D[k] = d1;
+			
+		L.m_x[k][0] = 1;
+		L.m_idx[k][0] = k;
+		count++;
 		if (!size_two_piv) {
-			D[k] = d1;
-			
-			L.m_x[k][0] = 1;
-			L.m_idx[k][0] = k;
-			count++;
-			
+
 			if (D[k] == 0) col_size = 1;
 			if (k < ncols - 1)
 				for (i = 0; i < col_size-1; i++) //need -1 on col_size to remove offset from initializing col_size to 1
@@ -198,11 +249,68 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, elt_vector_type& D, i
 					L.list[curr_nnzs[i]].push_back(k); //update Llist
 					count++;
 				}
-		}
+		} else {
+
+			D.off_diagonal(i) = work[k+1];
+			D[k+1] = dr;
+			
+			L.m_x[k+1][0] = 1;
+			L.m_idx[k+1][0] = k+1;
+			count++;
 		
+			det_D = d1*dr - work[k+1]*work[k+1];
+			
+			if (det_D != 0) { //replace with EPS later
+				D_inv11 = dr/det_D;
+				D_inv22 = d1/det_D;
+				D_inv12 = -work[k+1]/det_D;
+
+
+				for (r = 0, i = 0, j = 0; r < col_size-1; r++) //need -1 on col_size to remove offset from initializing col_size to 1
+				{
+					l_11 = work[curr_nnzs[i]]*D_inv11 + temp[curr_nnzs[i]]*D_inv12; 
+					l_12 = work[curr_nnzs[i]]*D_inv12 + temp[curr_nnzs[i]]*D_inv22; 
+					
+					if (l_11 != 0) {
+						L.m_idx[k][i+1] = l_11; //row_idx of L is updated
+						L.m_x[k][i+1] = curr_nnzs[i]; //work vector is scaled by D[k]
+						L.list[curr_nnzs[i]].push_back(k); //update Llist
+						count++;
+						i++;
+					}
+
+					if (l_12 != 0) {
+						L.m_idx[k+1][j+1] = l_12; //row_idx of L is updated
+						L.m_x[k+1][j+1] = curr_nnzs[i]; //work vector is scaled by D[k]
+						L.list[curr_nnzs[i]].push_back(k+1); //update Llist
+						count++;
+						j++;
+					}
+					
+				}
+				
+				col_size = 1 + i;
+				col_size2 = 1 + j;
+				
+				//update lfirst
+				for (auto it = L.list[k+1].begin(); it != L.list[k+1].end(); it++) {
+					L.first[*it]++;
+				}
+			}
+			
+
+		}
 		
 		L.m_x[k].resize(col_size);
 		L.m_idx[k].resize(col_size);
+		
+		if (size_two_piv) {
+			L.m_x[k+1].resize(col_size2);
+			L.m_idx[k+1].resize(col_size2);
+			k++;
+		}
+		
+
 	}
 	
 	L.nnz_count = count;
