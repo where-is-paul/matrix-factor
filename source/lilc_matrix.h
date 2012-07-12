@@ -2,6 +2,7 @@
 #ifndef _LILC_MATRIX_H_
 #define _LILC_MATRIX_H_
 
+#include "block_diag_matrix.h"
 #include "lil_sparse_matrix.h"
 
 template<class el_type> 

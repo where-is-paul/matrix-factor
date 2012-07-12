@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>matrix-factor: lilc_matrix_ildl_helpers.h Source File</title>
+<title>matrix-factor: source/lilc_matrix_ildl_helpers.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -57,7 +57,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 <div class="header">
   <div class="headertitle">
-<div class="title">lilc_matrix_ildl_helpers.h</div>  </div>
+<div class="title">source/lilc_matrix_ildl_helpers.h</div>  </div>
 </div>
 <div class="contents">
 <a href="lilc__matrix__ildl__helpers_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
@@ -146,69 +146,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00108"></a>00108 
 <a name="l00109"></a>00109 <span class="comment">//----------------Column updates------------------//</span>
 <a name="l00110"></a>00110 
-<a name="l00111"></a>00111 
-<a name="l00119"></a>00119 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00120"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7">00120</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; k, std::vector&lt;el_type&gt;&amp; work, std::vector&lt;int&gt;&amp; curr_nnzs, <a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix&lt;el_type&gt;</a>&amp; L, std::vector&lt;el_type&gt;&amp; D, vector&lt;bool&gt;&amp; in_set, <span class="keywordtype">bool</span> include_kth = <span class="keyword">false</span>) {
-<a name="l00121"></a>00121         <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j, offset;
-<a name="l00122"></a>00122         el_type l_ki;
-<a name="l00123"></a>00123         
-<a name="l00124"></a>00124         <span class="keyword">typename</span> std::deque&lt;int&gt;::const_iterator it;
-<a name="l00125"></a>00125         <span class="comment">//iterate across non-zeros of row k using Llist</span>
-<a name="l00126"></a>00126         <span class="keywordflow">for</span> (it = L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].begin(); it != L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].end(); it++) {
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128                 <span class="comment">//find where L(k, k+1:n) starts</span>
-<a name="l00129"></a>00129                 offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">first</a>[*it];
-<a name="l00130"></a>00130                 <span class="keywordflow">if</span> (offset &gt;= L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size()) <span class="keywordflow">continue</span>;
-<a name="l00131"></a>00131                 <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][offset] &lt; k) offset++;
-<a name="l00132"></a>00132                 <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][offset] == k &amp;&amp; !include_kth) offset++;
-<a name="l00133"></a>00133                 
-<a name="l00134"></a>00134                 l_ki = L.<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a>(k, *it);
-<a name="l00135"></a>00135                 <span class="keywordflow">for</span> (j = offset; j &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size(); j++) {
-<a name="l00136"></a>00136                         work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][j]] -= l_ki * D[*it] * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[*it][j];
-<a name="l00137"></a>00137                 }
-<a name="l00138"></a>00138 
-<a name="l00139"></a>00139                 <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
-<a name="l00140"></a>00140                 <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].end(), in_set);
-<a name="l00141"></a>00141         }
-<a name="l00142"></a>00142         
-<a name="l00143"></a>00143         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-<a name="l00144"></a>00144                 in_set[*it] = <span class="keyword">false</span>;
-<a name="l00145"></a>00145         }
-<a name="l00146"></a>00146 }
-<a name="l00147"></a>00147 
-<a name="l00148"></a>00148 <span class="comment">//not needed anymore</span>
-<a name="l00149"></a>00149 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00150"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">00150</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">vec_add</a>(std::vector&lt;el_type&gt;&amp; v1, std::vector&lt;int&gt;&amp; v1_nnzs, std::vector&lt;el_type&gt;&amp; v2, std::vector&lt;int&gt;&amp; v2_nnzs) {
-<a name="l00151"></a>00151         <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
-<a name="l00152"></a>00152         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(v1_nnzs, v2_nnzs.begin(), v2_nnzs.end());
-<a name="l00153"></a>00153         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = v1_nnzs.begin(); it != v1_nnzs.end(); it++) {
-<a name="l00154"></a>00154                 v1[*it] += v2[*it];
-<a name="l00155"></a>00155         }
-<a name="l00156"></a>00156 }
-<a name="l00157"></a>00157 
-<a name="l00158"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be">00158</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be">safe_swap</a>(std::vector&lt;int&gt;&amp; curr_nnzs, <span class="keywordtype">int</span> k, <span class="keywordtype">int</span> r) {
-<a name="l00159"></a>00159         <span class="keywordtype">bool</span> con_k = <span class="keyword">false</span>, con_r = <span class="keyword">false</span>;
-<a name="l00160"></a>00160         std::vector&lt;int&gt;::iterator k_idx, r_idx;
-<a name="l00161"></a>00161         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
-<a name="l00162"></a>00162                 <span class="keywordflow">if</span> (*it == k) {
-<a name="l00163"></a>00163                         con_k = <span class="keyword">true</span>;
-<a name="l00164"></a>00164                         k_idx = it;
-<a name="l00165"></a>00165                 }
-<a name="l00166"></a>00166                 
-<a name="l00167"></a>00167                 <span class="keywordflow">if</span> (*it == r) {
-<a name="l00168"></a>00168                         con_r = <span class="keyword">true</span>;
-<a name="l00169"></a>00169                         r_idx = it;
-<a name="l00170"></a>00170                 }
+<a name="l00111"></a>00111 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00112"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">00112</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; k, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; j, <span class="keyword">const</span> el_type&amp; l_ki, <span class="keyword">const</span> el_type&amp; d, std::vector&lt;el_type&gt;&amp; work, std::vector&lt;int&gt;&amp; curr_nnzs, <a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix&lt;el_type&gt;</a>&amp; L, vector&lt;bool&gt;&amp; in_set, <span class="keywordtype">bool</span> include_kth = <span class="keyword">false</span>) {
+<a name="l00113"></a>00113         <span class="comment">//find where L(k, k+1:n) starts</span>
+<a name="l00114"></a>00114         <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">first</a>[j];
+<a name="l00115"></a>00115         <span class="comment">//if (offset &gt;= L.m_idx[*it].size()) continue;</span>
+<a name="l00116"></a>00116         <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] &lt; k) offset++;  <span class="comment">//bug with L.first. shouldnt need more than one offset++.</span>
+<a name="l00117"></a>00117         <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] == k &amp;&amp; !include_kth) offset++;
+<a name="l00118"></a>00118         
+<a name="l00119"></a>00119         <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); i++) {
+<a name="l00120"></a>00120                 work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][i]] -= l_ki * d * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][i];
+<a name="l00121"></a>00121         }
+<a name="l00122"></a>00122         
+<a name="l00123"></a>00123         <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
+<a name="l00124"></a>00124         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].end(), in_set);
+<a name="l00125"></a>00125 }
+<a name="l00126"></a>00126 
+<a name="l00134"></a>00134 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00135"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9">00135</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; k, std::vector&lt;el_type&gt;&amp; work, std::vector&lt;int&gt;&amp; curr_nnzs, <a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix&lt;el_type&gt;</a>&amp; L, <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a>&amp; D, vector&lt;bool&gt;&amp; in_set, <span class="keywordtype">bool</span> include_kth = <span class="keyword">false</span>) {
+<a name="l00136"></a>00136         <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j;
+<a name="l00137"></a>00137         <span class="keywordtype">int</span> blk_sz;
+<a name="l00138"></a>00138         el_type d_12, l_ki;     
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140         <span class="keyword">typename</span> std::deque&lt;int&gt;::const_iterator it;
+<a name="l00141"></a>00141         <span class="comment">//iterate across non-zeros of row k using Llist</span>
+<a name="l00142"></a>00142         <span class="keywordflow">for</span> (it = L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].begin(); it != L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].end(); it++) {
+<a name="l00143"></a>00143                 j = *it;
+<a name="l00144"></a>00144                 
+<a name="l00145"></a>00145                 l_ki = L.<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a>(k, j);
+<a name="l00146"></a>00146                 <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j, l_ki, D[j], work, curr_nnzs, L, in_set, include_kth); <span class="comment">//update col using d11</span>
+<a name="l00147"></a>00147                 
+<a name="l00148"></a>00148                 blk_sz = D.<a class="code" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a>(j);
+<a name="l00149"></a>00149                 <span class="keywordflow">if</span> (blk_sz == 2) {
+<a name="l00150"></a>00150                         d_12 = D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(j);
+<a name="l00151"></a>00151                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j + 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth);
+<a name="l00152"></a>00152                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (blk_sz == -2) {
+<a name="l00153"></a>00153                         d_12 = D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(j-1);
+<a name="l00154"></a>00154                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j - 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth); <span class="comment">//update col using d12</span>
+<a name="l00155"></a>00155                 }
+<a name="l00156"></a>00156                 
+<a name="l00157"></a>00157         }
+<a name="l00158"></a>00158         
+<a name="l00159"></a>00159         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+<a name="l00160"></a>00160                 in_set[*it] = <span class="keyword">false</span>;
+<a name="l00161"></a>00161         }
+<a name="l00162"></a>00162 }
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="comment">//not needed anymore</span>
+<a name="l00165"></a>00165 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00166"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">00166</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">vec_add</a>(std::vector&lt;el_type&gt;&amp; v1, std::vector&lt;int&gt;&amp; v1_nnzs, std::vector&lt;el_type&gt;&amp; v2, std::vector&lt;int&gt;&amp; v2_nnzs) {
+<a name="l00167"></a>00167         <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
+<a name="l00168"></a>00168         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(v1_nnzs, v2_nnzs.begin(), v2_nnzs.end());
+<a name="l00169"></a>00169         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = v1_nnzs.begin(); it != v1_nnzs.end(); it++) {
+<a name="l00170"></a>00170                 v1[*it] += v2[*it];
 <a name="l00171"></a>00171         }
-<a name="l00172"></a>00172         
-<a name="l00173"></a>00173         <span class="keywordflow">if</span> (con_k == con_r) {
-<a name="l00174"></a>00174                 <span class="comment">//do nothing</span>
-<a name="l00175"></a>00175         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (con_k &amp;&amp; !con_r) {
-<a name="l00176"></a>00176                 *r_idx = r;
-<a name="l00177"></a>00177         } <span class="keywordflow">else</span> {
-<a name="l00178"></a>00178                 *k_idx = k;
-<a name="l00179"></a>00179         }
-<a name="l00180"></a>00180 }
+<a name="l00172"></a>00172 }
+<a name="l00173"></a>00173 
+<a name="l00174"></a><a class="code" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be">00174</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be">safe_swap</a>(std::vector&lt;int&gt;&amp; curr_nnzs, <span class="keywordtype">int</span> k, <span class="keywordtype">int</span> r) {
+<a name="l00175"></a>00175         <span class="keywordtype">bool</span> con_k = <span class="keyword">false</span>, con_r = <span class="keyword">false</span>;
+<a name="l00176"></a>00176         std::vector&lt;int&gt;::iterator k_idx, r_idx;
+<a name="l00177"></a>00177         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
+<a name="l00178"></a>00178                 <span class="keywordflow">if</span> (*it == k) {
+<a name="l00179"></a>00179                         con_k = <span class="keyword">true</span>;
+<a name="l00180"></a>00180                         k_idx = it;
+<a name="l00181"></a>00181                 }
+<a name="l00182"></a>00182                 
+<a name="l00183"></a>00183                 <span class="keywordflow">if</span> (*it == r) {
+<a name="l00184"></a>00184                         con_r = <span class="keyword">true</span>;
+<a name="l00185"></a>00185                         r_idx = it;
+<a name="l00186"></a>00186                 }
+<a name="l00187"></a>00187         }
+<a name="l00188"></a>00188         
+<a name="l00189"></a>00189         <span class="keywordflow">if</span> (con_k == con_r) {
+<a name="l00190"></a>00190                 <span class="comment">//do nothing</span>
+<a name="l00191"></a>00191         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (con_k) {
+<a name="l00192"></a>00192                 *k_idx = r;
+<a name="l00193"></a>00193         } <span class="keywordflow">else</span> {
+<a name="l00194"></a>00194                 *r_idx = k;
+<a name="l00195"></a>00195         }
+<a name="l00196"></a>00196 }
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -216,7 +232,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -225,7 +241,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:28 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

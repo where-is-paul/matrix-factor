@@ -59,6 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_defs.html"><span>Defines</span></a></li>
     </ul>
   </div>
 </div>
@@ -80,7 +81,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="lilc__matrix__ildl__helpers_8h.html#a83b72afe154ecc3b08511517c0f63112">lilc_matrix_ildl_helpers.h</a>
 </li>
 <li>operator&lt;&lt;()
-: <a class="el" href="lil__sparse__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">lil_sparse_matrix.h</a>
+: <a class="el" href="block__diag__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">block_diag_matrix.h</a>
+, <a class="el" href="lil__sparse__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">lil_sparse_matrix.h</a>
 </li>
 <li>put_header()
 : <a class="el" href="lilc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431">lilc_matrix_save.h</a>
@@ -98,10 +100,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65">lilc_matrix_ildl_helpers.h</a>
 </li>
 <li>update()
-: <a class="el" href="lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7">lilc_matrix_ildl_helpers.h</a>
+: <a class="el" href="lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9">lilc_matrix_ildl_helpers.h</a>
+</li>
+<li>update_single()
+: <a class="el" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">lilc_matrix_ildl_helpers.h</a>
 </li>
 <li>vec_add()
 : <a class="el" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">lilc_matrix_ildl_helpers.h</a>
+</li>
+<li>VECTOR_SHIFT
+: <a class="el" href="lil__sparse__matrix_8h.html#a4807a3710678876a258e3ac105e6c451">lil_sparse_matrix.h</a>
+, <a class="el" href="block__diag__matrix_8h.html#a4807a3710678876a258e3ac105e6c451">block_diag_matrix.h</a>
 </li>
 </ul>
 </div>
@@ -110,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:28 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:14 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

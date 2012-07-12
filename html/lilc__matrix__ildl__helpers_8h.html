@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>matrix-factor: lilc_matrix_ildl_helpers.h File Reference</title>
+<title>matrix-factor: source/lilc_matrix_ildl_helpers.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -61,15 +61,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">lilc_matrix_ildl_helpers.h File Reference</div>  </div>
+<div class="title">source/lilc_matrix_ildl_helpers.h File Reference</div>  </div>
 </div>
 <div class="contents">
 <div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="lilc__matrix__ildl__helpers_8h__dep__incl.png" border="0" usemap="#lilc__matrix__ildl__helpers_8hdep" alt=""/></div>
-<map name="lilc__matrix__ildl__helpers_8hdep" id="lilc__matrix__ildl__helpers_8hdep">
-<area shape="rect" id="node3" href="lilc__matrix__declarations_8h.html" title="lilc_matrix_declarations.h" alt="" coords="5,80,184,107"/><area shape="rect" id="node9" href="lilc__matrix__ildl__good_8h.html" title="lilc_matrix_ildl_good.h" alt="" coords="209,80,368,107"/><area shape="rect" id="node5" href="lilc__matrix_8h.html" title="lilc_matrix.h" alt="" coords="47,155,141,181"/><area shape="rect" id="node7" href="ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="41,229,148,256"/></map>
+<div class="center"><img src="lilc__matrix__ildl__helpers_8h__dep__incl.png" border="0" usemap="#source_2lilc__matrix__ildl__helpers_8hdep" alt=""/></div>
+<map name="source_2lilc__matrix__ildl__helpers_8hdep" id="source_2lilc__matrix__ildl__helpers_8hdep">
+<area shape="rect" id="node3" href="lilc__matrix__declarations_8h.html" title="source/lilc_matrix_declarations.h" alt="" coords="5,80,232,107"/><area shape="rect" id="node5" href="lilc__matrix_8h.html" title="source/lilc_matrix.h" alt="" coords="48,155,188,181"/><area shape="rect" id="node7" href="ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="65,229,172,256"/></map>
 </div>
 </div>
 <p><a href="lilc__matrix__ildl__helpers_8h_source.html">Go to the source code of this file.</a></p>
@@ -95,8 +95,10 @@ Functions</h2></td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad">drop_tol</a> (std::vector&lt; el_type &gt; &amp;v, std::vector&lt; int &gt; &amp;curr_nnzs, const int &amp;lfil, const double &amp;tol)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).  <a href="#a67cef3500c6f2df4556228bcb05e24ad"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class el_type &gt; </td></tr>
-<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#ac496176b3f5a3c8425d6418ec94c32b7">update</a> (const int &amp;k, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, <a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;L, std::vector&lt; el_type &gt; &amp;D, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.  <a href="#ac496176b3f5a3c8425d6418ec94c32b7"></a><br/></td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a> (const int &amp;k, const int &amp;j, const el_type &amp;l_ki, const el_type &amp;d, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, <a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;L, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class el_type &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9">update</a> (const int &amp;k, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, <a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;L, <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;D, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.  <a href="#aa97814d8199ae28757c566f7b13532e9"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class el_type &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#adff2a40efc5ef594c196feea40346bd8">vec_add</a> (std::vector&lt; el_type &gt; &amp;v1, std::vector&lt; int &gt; &amp;v1_nnzs, std::vector&lt; el_type &gt; &amp;v2, std::vector&lt; int &gt; &amp;v2_nnzs)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be">safe_swap</a> (std::vector&lt; int &gt; &amp;curr_nnzs, int k, int r)</td></tr>
@@ -379,10 +381,10 @@ template&lt;class el_type &gt; </div>
         
         <span class="keywordflow">if</span> (con_k == con_r) {
                 <span class="comment">//do nothing</span>
-        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (con_k &amp;&amp; !con_r) {
-                *r_idx = r;
+        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (con_k) {
+                *k_idx = r;
         } <span class="keywordflow">else</span> {
-                *k_idx = k;
+                *r_idx = k;
         }
 }
 </pre></div>
@@ -441,7 +443,7 @@ template&lt;class InputContainer , class InputIterator &gt; </div>
 </pre></div>
 </div>
 </div>
-<a class="anchor" id="ac496176b3f5a3c8425d6418ec94c32b7"></a><!-- doxytag: member="lilc_matrix_ildl_helpers.h::update" ref="ac496176b3f5a3c8425d6418ec94c32b7" args="(const int &amp;k, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, lilc_matrix&lt; el_type &gt; &amp;L, std::vector&lt; el_type &gt; &amp;D, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)" -->
+<a class="anchor" id="aa97814d8199ae28757c566f7b13532e9"></a><!-- doxytag: member="lilc_matrix_ildl_helpers.h::update" ref="aa97814d8199ae28757c566f7b13532e9" args="(const int &amp;k, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, lilc_matrix&lt; el_type &gt; &amp;L, block_diag_matrix&lt; el_type &gt; &amp;D, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -474,7 +476,7 @@ template&lt;class el_type &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; el_type &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;&#160;</td>
           <td class="paramname"><em>D</em>, </td>
         </tr>
         <tr>
@@ -509,27 +511,28 @@ template&lt;class el_type &gt; </div>
   </table>
   </dd>
 </dl>
-<div class="fragment"><pre class="fragment">                                                                                                                                                                                      {
-        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j, offset;
-        el_type l_ki;
-        
+<div class="fragment"><pre class="fragment">                                                                                                                                                                                              {
+        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j;
+        <span class="keywordtype">int</span> blk_sz;
+        el_type d_12, l_ki;     
+
         <span class="keyword">typename</span> std::deque&lt;int&gt;::const_iterator it;
         <span class="comment">//iterate across non-zeros of row k using Llist</span>
         <span class="keywordflow">for</span> (it = L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].begin(); it != L.<a class="code" href="classlilc__matrix.html#a4d5f46926a479b2ca4c75a5d6f01bccb">list</a>[k].end(); it++) {
-
-                <span class="comment">//find where L(k, k+1:n) starts</span>
-                offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">first</a>[*it];
-                <span class="keywordflow">if</span> (offset &gt;= L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size()) <span class="keywordflow">continue</span>;
-                <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][offset] &lt; k) offset++;
-                <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][offset] == k &amp;&amp; !include_kth) offset++;
+                j = *it;
                 
-                l_ki = L.<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a>(k, *it);
-                <span class="keywordflow">for</span> (j = offset; j &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size(); j++) {
-                        work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][j]] -= l_ki * D[*it] * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[*it][j];
+                l_ki = L.<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a>(k, j);
+                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j, l_ki, D[j], work, curr_nnzs, L, in_set, include_kth); <span class="comment">//update col using d11</span>
+                
+                blk_sz = D.<a class="code" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a>(j);
+                <span class="keywordflow">if</span> (blk_sz == 2) {
+                        d_12 = D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(j);
+                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j + 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth);
+                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (blk_sz == -2) {
+                        d_12 = D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(j-1);
+                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2">update_single</a>(k, j - 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth); <span class="comment">//update col using d12</span>
                 }
-
-                <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
-                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].end(), in_set);
+                
         }
         
         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
@@ -540,9 +543,103 @@ template&lt;class el_type &gt; </div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="lilc__matrix__ildl__helpers_8h_ac496176b3f5a3c8425d6418ec94c32b7_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_ac496176b3f5a3c8425d6418ec94c32b7_cgraph" alt=""/></div>
-<map name="lilc__matrix__ildl__helpers_8h_ac496176b3f5a3c8425d6418ec94c32b7_cgraph" id="lilc__matrix__ildl__helpers_8h_ac496176b3f5a3c8425d6418ec94c32b7_cgraph">
-<area shape="rect" id="node3" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="151,5,273,32"/><area shape="rect" id="node5" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="121,56,303,83"/></map>
+<div class="center"><img src="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph" alt=""/></div>
+<map name="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph" id="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph">
+<area shape="rect" id="node3" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="126,5,333,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="169,56,290,83"/><area shape="rect" id="node7" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="174,157,285,184"/><area shape="rect" id="node11" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="387,157,570,184"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a56cd3d014fb6b03abcc1e59999916ed2"></a><!-- doxytag: member="lilc_matrix_ildl_helpers.h::update_single" ref="a56cd3d014fb6b03abcc1e59999916ed2" args="(const int &amp;k, const int &amp;j, const el_type &amp;l_ki, const el_type &amp;d, std::vector&lt; el_type &gt; &amp;work, std::vector&lt; int &gt; &amp;curr_nnzs, lilc_matrix&lt; el_type &gt; &amp;L, vector&lt; bool &gt; &amp;in_set, bool include_kth=false)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class el_type &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void update_single </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const el_type &amp;&#160;</td>
+          <td class="paramname"><em>l_ki</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const el_type &amp;&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; el_type &gt; &amp;&#160;</td>
+          <td class="paramname"><em>work</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>curr_nnzs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;&#160;</td>
+          <td class="paramname"><em>L</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>in_set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>include_kth</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<div class="fragment"><pre class="fragment">                                                                                                                                                                                                                           {
+        <span class="comment">//find where L(k, k+1:n) starts</span>
+        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">first</a>[j];
+        <span class="comment">//if (offset &gt;= L.m_idx[*it].size()) continue;</span>
+        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] &lt; k) offset++;  <span class="comment">//bug with L.first. shouldnt need more than one offset++.</span>
+        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] == k &amp;&amp; !include_kth) offset++;
+        
+        <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); i++) {
+                work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][i]] -= l_ki * d * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][i];
+        }
+        
+        <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
+        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].end(), in_set);
+}
+</pre></div>
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph" alt=""/></div>
+<map name="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph" id="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph">
+<area shape="rect" id="node3" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="166,5,349,32"/></map>
 </div>
 </p>
 
@@ -611,7 +708,7 @@ Here is the call graph for this function:</div>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -620,7 +717,7 @@ Here is the call graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:28 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

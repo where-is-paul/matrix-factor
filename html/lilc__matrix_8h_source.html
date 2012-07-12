@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>matrix-factor: lilc_matrix.h Source File</title>
+<title>matrix-factor: source/lilc_matrix.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -57,21 +57,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 <div class="header">
   <div class="headertitle">
-<div class="title">lilc_matrix.h</div>  </div>
+<div class="title">source/lilc_matrix.h</div>  </div>
 </div>
 <div class="contents">
 <a href="lilc__matrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">// -*- mode: c++ -*-</span>
 <a name="l00002"></a>00002 <span class="preprocessor">#ifndef _LILC_MATRIX_H_</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span><span class="preprocessor">#define _LILC_MATRIX_H_</span>
 <a name="l00004"></a>00004 <span class="preprocessor"></span>
-<a name="l00005"></a>00005 <span class="preprocessor">#include &quot;<a class="code" href="lil__sparse__matrix_8h.html">lil_sparse_matrix.h</a>&quot;</span>
-<a name="l00006"></a>00006 
-<a name="l00007"></a>00007 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; 
-<a name="l00008"></a>00008 <span class="keyword">class </span><a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix</a>;
-<a name="l00009"></a>00009 
-<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="lilc__matrix__declarations_8h.html">lilc_matrix_declarations.h</a>&quot;</span>
-<a name="l00011"></a>00011 
-<a name="l00012"></a>00012 <span class="preprocessor">#endif </span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &quot;<a class="code" href="block__diag__matrix_8h.html">block_diag_matrix.h</a>&quot;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="lil__sparse__matrix_8h.html">lil_sparse_matrix.h</a>&quot;</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; 
+<a name="l00009"></a>00009 <span class="keyword">class </span><a class="code" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format.">lilc_matrix</a>;
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="lilc__matrix__declarations_8h.html">lilc_matrix_declarations.h</a>&quot;</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="preprocessor">#endif </span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -79,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Jul 11 2012 09:14:27 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

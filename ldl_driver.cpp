@@ -2,8 +2,7 @@
 #include <cassert>
 #include <string.h>
 #include <sys/time.h>
-#include "block_diag_matrix.h"
-#include "lilc_matrix.h"
+#include "source/lilc_matrix.h"
 
 using namespace std;
 
