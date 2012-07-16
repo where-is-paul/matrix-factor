@@ -79,6 +79,10 @@ inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_st
 			a.push_back(*it);
 		}
 	}
+	
+	for (auto it = a.begin(); it != a.end(); it++) {
+		in_set[*it] = false;
+	}
 }
 
 //-------------Dropping rules-------------//
@@ -112,8 +116,10 @@ template <class el_type>
 inline void update_single(const int& k, const int& j, const el_type& l_ki, const el_type& d, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, vector<bool>& in_set, bool include_kth = false) {
 	//find where L(k, k+1:n) starts
 	unsigned int i, offset = L.first[j];
-	//if (offset >= L.m_idx[*it].size()) continue;
-	if (L.m_idx[j][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
+	
+	if (offset >= L.m_idx[j].size()) return;
+	
+	//if (L.m_idx[j][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
 	if (L.m_idx[j][offset] == k && !include_kth) offset++;
 	
 	for (i = offset; i < L.m_idx[j].size(); i++) {
@@ -155,10 +161,6 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 		}
 		
 	}
-	
-	for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-		in_set[*it] = false;
-	}
 }
 
 //not needed anymore
@@ -194,3 +196,18 @@ inline void safe_swap(std::vector<int>& curr_nnzs, int k, int r) {
 		*r_idx = k;
 	}
 }
+
+// template <class el_type>
+// inline void remove_k(std::vector<el_type>& work, std::vector<int>& curr_nnzs, const int& k) {
+	// for (int i = 0; i < (int) curr_nnzs.size(); i++) {
+		// if (curr_nnzs[i] == k) {
+			// std::swap(curr_nnzs[i], curr_nnzs[curr_nnzs.size() - 1]);
+			// std::swap(work[i], work[work.size() - 1]);
+			
+			// curr_nnzs.pop_back();
+			// work.pop_back();
+			
+			// return;
+		// }
+	// }
+// }

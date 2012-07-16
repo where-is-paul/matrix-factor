@@ -1,13 +1,14 @@
 #ifndef _LILC_MATRIX_ILDL_H_
 #define _LILC_MATRIX_ILDL_H_
 
-
+using std::cout;
 using std::endl;
+
 template <class el_type>
 void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, int lfil, double tol)
 {	
 	const double alpha = (1+sqrt(17))/8;  //for use in pivoting.
-	el_type w1, wr, d1, dr, det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
+	el_type w1, wr, d1(0), dr(0), det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
 	
 	//L.list is a deque of linked lists that gives the non-zero elements in each row of L. 
 	//since at any time we may swap between two rows, we require a linked lists for each row of L. 
@@ -24,7 +25,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	vector<list_it> swapk_, swapr_;
 	
 	int count = 0; //the current non-zero in L.
-	int i, j, k, r, offset, col_size, col_size2;
+	int i, j, k, r, offset, col_size, col_size2(1);
 	bool size_two_piv = false;
 
 	L.resize(ncols, ncols);
@@ -38,15 +39,21 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	}
 	
 	for (k = 0; k < ncols; k++) {
+		// if (k == 6) cout << endl << endl;
+		// if (k == 8) {cout << L; return;}
+		
 		size_two_piv = false;
 		
 		//zero out work vector
 		std::fill (work.begin() + k, work.end(), 0);
+		curr_nnzs.clear();
+		
 		col_size = 1;
 		
 		//future self: remember you need m_idx[k]+1 only if there is a diag elem in A.col(k)
 		if (m_idx[k].size() > 0) {
-			offset = (m_idx[k][0] == k ? 1 : 0);
+			offset = 0;
+			//offset = (m_idx[k][0] == k ? 1 : 0);
 			curr_nnzs.assign (m_idx[k].begin()+offset, m_idx[k].end());
 			
 			//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).
@@ -55,17 +62,30 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 		}
 		
-		d1 = coeff(k,k);
-		for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) { 
-			offset = L.first[*it];
-			d1 -= L.m_x[*it][offset] * D[*it] * L.m_x[*it][offset];	//update diagonal
-		}
-		
-		if (k < ncols - 1) {
+		// d1 = coeff(k,k);
+		// for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) { 
+			// offset = L.first[*it];
+			// d1 -= L.m_x[*it][offset] * D[*it] * L.m_x[*it][offset];	//update diagonal
+		// }
+
+		//cout << "bisect 1" << endl;
+
 			//--------------begin pivoting--------------//
-			update(k, work, curr_nnzs, L, D, in_set);
+			//cout << work << endl;
+			//cout << curr_nnzs << endl;
+			update(k, work, curr_nnzs, L, D, in_set, true);
+			
+			//cout << "after updates for work" << endl;
+			//cout << work << endl;
+			//cout << curr_nnzs << endl;
+			
+			d1 = work[k];
+			work[k] = 0;
 			
 			w1 = max(work, curr_nnzs, r);
+			
+
+			//cout << "bisect 1.1" << endl;
 			if (w1 == 0) {
 				//case 0: do nothing. pivot is k.
 			} else if (std::abs(d1) >= alpha * w1 ) {
@@ -74,56 +94,57 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				std::fill (temp.begin() + k, temp.end(), 0);
 				temp_nnzs.clear();
 				
-				temp[k] = coeff(k,r);
-				for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) { 
-					offset = L.first[*it];
-					temp[k] -= L.coeff(r, *it) * D[*it] * L.m_x[*it][offset];
-				}
+           //TODO: should it be coeff(r,k)?
+				// temp[k] = coeff(r,k);
+				// for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) { 
+					// offset = L.first[*it];
+					// temp[k] -= L.coeff(r, *it) * D[*it] * L.m_x[*it][offset];
+				// }
 				
-				offset = (list[r][0] == k ? 1 : 0);
+				offset = 0;
+				//offset = (list[r][0] == k ? 1 : 0);
 				for (j = offset; j < (int) list[r].size(); j++) {
 					temp_nnzs.push_back(list[r][j]);
 					temp[list[r][j]] = coeff(r, list[r][j]);
 				}
 				
 				unordered_inplace_union(temp_nnzs, m_idx[r].begin(), m_idx[r].end(), in_set);
-				for (j = 0; j < (int) temp_nnzs.size(); j++) 
-				in_set[temp_nnzs[j]] = false;
 				
 				for (j = 0; j < (int) m_idx[r].size(); j++) {
 					temp[m_idx[r][j]] = m_x[r][j];
 				}
 				
+				//cout << temp << endl;
+				//cout << temp_nnzs << endl;
 				update(r, temp, temp_nnzs, L, D, in_set, true);
+				//cout << "after updates for temp" << endl;
+				//cout << temp << endl;
+				//cout << temp_nnzs << endl;
 				
 				dr = temp[r];
 				temp[r] = 0;
 				
 				wr = max(temp, temp_nnzs, j);
+				
+
+
 				if (std::abs(d1 * wr)>= alpha*w1*w1) {
 					//case 2: do nothing. pivot is k.
 					
 				} else if (std::abs(dr) >= std::abs(alpha * wr)) {
 					//case 3: pivot is k with r: 1x1 pivot case.
-
+					//cout << "case 3! " << k << " " << r << endl;
+					temp[r] = dr;
+					work[k] = d1;
 					
-					if (m_idx[k].size() > 0) {
-
-						for (j = 0; j < (int) m_idx[k].size(); j++) {
-							if (!list[m_idx[k][j]].empty() && m_idx[k][j] < r) {
-								
-
-								list[m_idx[k][j]].pop_front();
-							}
-						}
-					}
-			
+					//TODO: needed?
+					//advance_list(k);
+					
 					//--------pivot A and L ---------//
 					pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k, r);
 					
+					//cout << "bisect pre-piv" << endl;
 					//----------pivot rest ----------//
-					temp[r] = dr;
-					work[k] = d1;
 					std::swap(d1, dr);
 					
 					//permute perm
@@ -134,31 +155,24 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					
 					curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
 					
-					for (auto it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
-						if (*it == r && work[r] == 0) 
-						curr_nnzs.erase(it);
-					}
+					//cout << "bisect post-piv" << endl;
+					//check if this is working.
+					safe_swap(curr_nnzs, k, r);
+					//cout << "bisect post-piv" << endl;
 					//--------end pivot rest---------//
 					
 
 
 
 				} else {
-					
-					if (m_idx[k].size() > 0) {
+					//case 4: pivot is k+1 with r: 2x2 pivot case.
+					//cout << "case 4!" << k+1 << " " << r << endl;
 
-						for (j = 0; j < (int) m_idx[k+1].size(); j++) {
-							if (!list[m_idx[k+1][j]].empty() && m_idx[k+1][j] < r) {
-								
-
-								list[m_idx[k+1][j]].pop_front();
-							}
-						}
-					}
+					//TODO: needed?
+					//advance_list(k+1);
 					
 					temp[r] = dr;
 					work[k] = d1;
-					//case 4: pivot is k+1 with r: 2x2 pivot case.
 
 					size_two_piv = true;
 					
@@ -182,82 +196,68 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 			//--------------end pivoting--------------//
 			//update lfirst
-			for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) {
-				L.first[*it]++;
-			}
+			L.advance_first(k);
 			
-
-			if (m_idx[k].size() > 0) {
-
-				for (j = 0; j < (int) m_idx[k].size(); j++) {
-					if (!list[m_idx[k][j]].empty()) {
-						
-
-						list[m_idx[k][j]].pop_front();
-					}
-				}
-			}
+			//! danger below
+			advance_list(k);
 			
 			if (size_two_piv) {
-
-				if (m_idx[k+1].size() > 0) {
-
-					for (j = 0; j < (int) m_idx[k+1].size(); j++) {
-						if (!list[m_idx[k+1][j]].empty() && m_idx[k+1][j] > r) {
-	
-							list[m_idx[k+1][j]].pop_front();
-						}
-					}
-				}
+				advance_list(k+1);
 			}
+			//!
+			
+			curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());
+				
 			//performs the dual dropping procedure.
 			drop_tol(work, curr_nnzs, lfil, tol);
 			col_size += std::min(lfil, (int) curr_nnzs.size());
 			
 			if (size_two_piv) {
-				drop_tol(temp, temp_nnzs, lfil, tol);
-				
+				temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());
 
-				
 				curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());
 				temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
 				
+				
+				drop_tol(temp, temp_nnzs, lfil, tol);
+				
 				unordered_inplace_union(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);
-				for (i = 0; i < (int) curr_nnzs.size(); i++) in_set[i] = false;
 				
 				//col_size2 = 1+std::min(lfil, (int) temp_nnzs.size());
-				col_size = 1+std::min(lfil, (int) curr_nnzs.size());
+				col_size = std::min(lfil, (int) curr_nnzs.size());
 			}
 			
 			
-		}
+		
+		
+		//cout << "bisect 2" << endl;
 		
 		D[k] = d1;
-			
+		
 		L.m_x[k][0] = 1;
 		L.m_idx[k][0] = k;
 		count++;
 		if (!size_two_piv) {
 
-			if (D[k] == 0) col_size = 1;
 			if (k < ncols - 1)
-				for (i = 0; i < col_size-1; i++) //need -1 on col_size to remove offset from initializing col_size to 1
-				{
-					L.m_idx[k][i+1] = curr_nnzs[i]; //row_idx of L is updated
-					L.m_x[k][i+1] = work[curr_nnzs[i]]/D[k]; //work vector is scaled by D[k]
-					
-					L.list[curr_nnzs[i]].push_back(k); //update Llist
-					count++;
-				}
+			for (i = 0; i < col_size-1; i++) //need -1 on col_size to remove offset from initializing col_size to 1
+			{
+				L.m_idx[k][i+1] = curr_nnzs[i]; //row_idx of L is updated
+				L.m_x[k][i+1] = work[curr_nnzs[i]]/D[k]; //work vector is scaled by D[k]
+				
+				L.list[curr_nnzs[i]].push_back(k); //update Llist
+				count++;
+			}
 		} else {
-
-			D.off_diagonal(i) = work[k+1];
+			//cout << "all non zeros: " << endl;
+			//cout << curr_nnzs << endl;
+			D.off_diagonal(k) = work[k+1];
 			D[k+1] = dr;
 			
 			L.m_x[k+1][0] = 1;
 			L.m_idx[k+1][0] = k+1;
 			count++;
-		
+			
 			det_D = d1*dr - work[k+1]*work[k+1];
 			
 			if (det_D != 0) { //replace with EPS later
@@ -266,23 +266,23 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				D_inv12 = -work[k+1]/det_D;
 
 
-				for (r = 0, i = 0, j = 0; r < col_size-1; r++) //need -1 on col_size to remove offset from initializing col_size to 1
+				for (r = 0, i = 0, j = 0; r < col_size; r++) //need -1 on col_size to remove offset from initializing col_size to 1
 				{
-					l_11 = work[curr_nnzs[i]]*D_inv11 + temp[curr_nnzs[i]]*D_inv12; 
-					l_12 = work[curr_nnzs[i]]*D_inv12 + temp[curr_nnzs[i]]*D_inv22; 
+					l_11 = work[curr_nnzs[r]]*D_inv11 + temp[curr_nnzs[r]]*D_inv12; 
+					l_12 = work[curr_nnzs[r]]*D_inv12 + temp[curr_nnzs[r]]*D_inv22; 
 					
 					if (l_11 != 0) {
-						L.m_idx[k][i+1] = l_11; //row_idx of L is updated
-						L.m_x[k][i+1] = curr_nnzs[i]; //work vector is scaled by D[k]
-						L.list[curr_nnzs[i]].push_back(k); //update Llist
+						L.m_x[k][i+1] = l_11; //row_idx of L is updated
+						L.m_idx[k][i+1] = curr_nnzs[r]; //work vector is scaled by D[k]
+						L.list[curr_nnzs[r]].push_back(k); //update Llist
 						count++;
 						i++;
 					}
 
 					if (l_12 != 0) {
-						L.m_idx[k+1][j+1] = l_12; //row_idx of L is updated
-						L.m_x[k+1][j+1] = curr_nnzs[i]; //work vector is scaled by D[k]
-						L.list[curr_nnzs[i]].push_back(k+1); //update Llist
+						L.m_x[k+1][j+1] = l_12; //row_idx of L is updated
+						L.m_idx[k+1][j+1] = curr_nnzs[r]; //work vector is scaled by D[k]
+						L.list[curr_nnzs[r]].push_back(k+1); //update Llist
 						count++;
 						j++;
 					}
@@ -293,9 +293,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				col_size2 = 1 + j;
 				
 				//update lfirst
-				for (auto it = L.list[k+1].begin(); it != L.list[k+1].end(); it++) {
-					L.first[*it]++;
-				}
+				L.advance_first(k+1);
 			}
 			
 
@@ -310,7 +308,21 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			k++;
 		}
 		
-
+		// std::string s;
+		// std::cin >> s;
+		
+		// switch (s.c_str()[0]) {
+			// case 'a':
+				// cout << to_string() << endl;
+			// break;
+			// case 'l':
+				// cout << L << endl;
+			// break;
+			// default:
+				// break;
+		// }
+		
+		//cout << k << endl << endl;
 	}
 	
 	L.nnz_count = count;

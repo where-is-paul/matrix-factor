@@ -55,6 +55,7 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 				readsizes = true;
 				
 				resize(n_rows, n_cols);
+				std::fill(first.begin(), first.end(), 0); //a bit of optimization could be used here since resize sets all elem in first to 1
 			}
 		}
 		else

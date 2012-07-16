@@ -1,5 +1,5 @@
 template <class el_type>
-void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r)
+inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r)
 {	
 	std::pair<idx_it, elt_it> its_k, its_r;
 	int i, j, offset;
@@ -21,7 +21,7 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 		col_k_nnzs.push_back(k);
 		col_k.push_back(coeff(r, r));
 	}
-	
+	//TODO: if zero, need to halt linear search.
 	
 	if (coeff(k, k) !=0){
 		col_r_nnzs.push_back(r);
@@ -36,6 +36,7 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 			// continue;
 		// }
 		
+		if (list[r][i] < k) continue;
 		coeffRef(r, list[r][i], its_k);
 		col_k_nnzs.push_back(list[r][i]);
 		col_k.push_back(*its_k.second);
@@ -46,7 +47,11 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 		m_idx[list[r][i]].pop_back();
 		m_x[list[r][i]].pop_back();
 	}
-
+	
+	if (coeff(r, k) != 0) {
+		col_k_nnzs.push_back(r);
+		col_k_nnzs.push_back(coeff(r, k));
+	}
 
 
 	//is it possible to select an all zeros col as a pivot?
@@ -99,23 +104,9 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 	for (auto it = swapr_.begin(); it != swapr_.end(); it++) {
 		**it = r;
 	}
-	
-	int min = 0;
+
 	for (auto it = all_swaps.begin(); it != all_swaps.end(); it++) {
-		for (i = 0; i < (int) list[*it].size(); i++) {
-			min = 0;
-			if (list[*it][i] == k) {
-				min = i; 
-				break;
-			} else if ( list[*it][i] < list[*it][min] ) {
-				min = i;
-			}
-		}
-		
-
-
-		std::swap(list[*it][0], list[*it][min]);
-		
+		ensure_invariant(*it, k, list[*it]);
 	}
 	
 	//set the kth col
@@ -165,20 +156,8 @@ void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr,
 	unordered_inplace_union(all_swaps, L.list[k].begin(), L.list[k].end(), in_set);
 	
 	//invariant: ensure m_idx[:][L.first[i]+1] all contain the index nearest in value to k. 
-	min = 0;
 	for (auto it = all_swaps.begin(); it != all_swaps.end(); it++) {
-		in_set[*it] = 0; //reset in_set for future use;
-		for (i = L.first[*it]; i < (int) L.m_idx[*it].size(); i++) {
-			min = L.first[*it];
-			if (L.m_idx[*it][i] == k) {
-				min = i; break;
-			} else if ( L.m_idx[*it][i] < L.m_idx[*it][min] ) {
-				min = i;
-			}
-		}
-		
-		std::swap(L.m_idx[*it][L.first[*it]], L.m_idx[*it][min]);
-		std::swap(L.m_x[*it][L.first[*it]], L.m_x[*it][min]);
+		L.ensure_invariant(*it, k, L.m_idx[*it], L.first[*it]);		
 	}
 	
 	L.list[k].swap(L.list[r]);

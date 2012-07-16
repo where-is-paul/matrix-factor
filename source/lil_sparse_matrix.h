@@ -68,7 +68,7 @@ public:
 	};
 
 protected:
-
+	
 	/*! Number of rows/cols in the matrix */
 	int m_n_rows, m_n_cols, nnz_count;
 

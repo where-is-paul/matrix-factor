@@ -81,7 +81,7 @@ public:
 	el_type& operator[](int i) {
 		return main_diag.at(i);
 	}
-
+	
 	el_type& off_diagonal(int i) {
 		if (!off_diag.count(i)) {
 			off_diag.insert(std::make_pair(i, 0));
