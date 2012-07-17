@@ -1,14 +1,23 @@
 template <class el_type>
 inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r)
 {	
+	std::deque<int> row_k, row_r;
+	std::vector<int> swap_cols;
 	std::pair<idx_it, elt_it> its_k, its_r;
 	int i, j, offset;
+	
+	row_k.clear();
+	row_r.clear();
 	
 	col_k.clear();
 	col_k_nnzs.clear();
 	
 	col_r.clear();
 	col_r_nnzs.clear();
+	
+	//TODO: check if two lines below are needed
+	//ensure_invariant(r, k, list[r], first[r], true);
+	//ensure_invariant(k, k, list[k], first[k], true);
 	
 	//----------pivot A ----------//
 	swapr_.clear();
@@ -28,7 +37,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		col_r.push_back(coeff(k, k));
 	}
 	
-	for (i = 0; i < (int) list[r].size(); i++) {
+	for (i = first[r]; i < (int) list[r].size(); i++) {
 		// if (list[r][i] < k) {  //list[r] does not update correctly on each iteration. the invariant is somehow violated. the code below works but is bad code. pretty sure this only fixes a subset of the problems.
 			// std::swap(list[r][i], list[r][0]);
 			// list[r].pop_front();
@@ -36,7 +45,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 			// continue;
 		// }
 		
-		if (list[r][i] < k) continue;
+		if (list[r][i] <= k || list[r][i] >= r) continue;
 		coeffRef(r, list[r][i], its_k);
 		col_k_nnzs.push_back(list[r][i]);
 		col_k.push_back(*its_k.second);
@@ -48,21 +57,41 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		m_x[list[r][i]].pop_back();
 	}
 	
+
+
+			
+	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; it++) {
+		row_r.push_back(*it);
+	}
+	
+	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; it++) {
+		row_k.push_back(*it);
+	}
+	
+		
 	if (coeff(r, k) != 0) {
 		col_k_nnzs.push_back(r);
-		col_k_nnzs.push_back(coeff(r, k));
+		col_k.push_back(coeff(r, k));
+		row_r.push_back(r);
 	}
+   //did we forget to add the kth elem to row_k?
 
 
+
+
+		
 	//is it possible to select an all zeros col as a pivot?
 	if (m_idx[r].size() > 0) {
 		offset = (m_idx[r][0] == r ? 1 : 0);
 		std::copy(m_x[r].begin()+offset, m_x[r].end(), std::back_inserter(col_k));
 		std::copy(m_idx[r].begin()+offset, m_idx[r].end(), std::back_inserter(col_k_nnzs));
 		
+
+
+
 		//invariant: ensure list[:][0] contain the index nearest in value to k.
 		for (auto it = m_idx[r].begin() + offset; it != m_idx[r].end(); it++) {
-			for (i = 0; i < (int) list[*it].size(); i++) {
+			for (i = first[*it]; i < (int) list[*it].size(); i++) {
 				if (list[*it][i] == r) {
 					swapk_.push_back(list[*it].begin() + i);
 					all_swaps.push_back(*it);
@@ -72,6 +101,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		}
 	}
 
+	
 	if (m_idx[k].size() > 0) {
 		//swap A(k:r, k) with A(r, k:r);
 		offset = (m_idx[k][0] == k ? 1 : 0);
@@ -79,12 +109,19 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 			if (m_idx[k][i] < r) {
 				m_idx[m_idx[k][i]].push_back(r);
 				m_x[m_idx[k][i]].push_back(m_x[k][i]);
+				
+           //TODO: add ensure_invariant here to be safe
+				ensure_invariant(m_idx[k][i], k, list[m_idx[k][i]], first[m_idx[k][i]], true);
+				std::swap(list[m_idx[k][i]][first[m_idx[k][i]]], list[m_idx[k][i]][list[m_idx[k][i]].size() - 1]);
+				list[m_idx[k][i]].pop_back();
+				
+				row_r.push_back(m_idx[k][i]);
 			} else if (m_idx[k][i] != r) {
 				col_r.push_back(m_x[k][i]);
 				col_r_nnzs.push_back(m_idx[k][i]);
 				
 				//this part can be simplified since invariant ensures list[:][0] is always the idx closest to k. wont make a diff on running time though
-				for (j = 0; j < (int) list[m_idx[k][i]].size(); j++) {
+				for (j = first[m_idx[k][i]]; j < (int) list[m_idx[k][i]].size(); j++) {
 					if (list[m_idx[k][i]][j] == k) {
 						swapr_.push_back(list[m_idx[k][i]].begin() + j);
 						all_swaps.push_back(m_idx[k][i]);
@@ -95,6 +132,19 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		}
 	}
 	
+	// swap_cols.clear();
+	// swap_cols.assign(list[k].begin(), list[k].end());
+	// unordered_inplace_union(swap_cols, list[r].begin(), list[r].begin() + first[r], in_set);
+	
+	// for (auto it = swap_cols.begin(); it != swap_cols.end(); it++) {
+
+
+		
+		// safe_swap(m_idx[*it], k, r);
+		
+
+	// }
+
 	for (auto it = swapk_.begin(); it != swapk_.end(); it++) {
 
 		**it = k;
@@ -106,9 +156,13 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	}
 
 	for (auto it = all_swaps.begin(); it != all_swaps.end(); it++) {
-		ensure_invariant(*it, k, list[*it]);
+		ensure_invariant(*it, k, list[*it], first[*it], true);
 	}
 	
+
+
+
+		
 	//set the kth col
 	m_idx[k].swap(col_k_nnzs);
 	m_x[k].swap(col_k);
@@ -117,7 +171,10 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	m_idx[r].swap(col_r_nnzs);
 	m_x[r].swap(col_r);
 	
-	list[k].swap(list[r]);
+	list[k].swap(row_k);
+	list[r].swap(row_r);
+
+	std::swap(first[k], first[r]);
 	//--------end pivot A---------//
 	
 	//----------pivot L ----------//
@@ -127,6 +184,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	
 	for (auto it = L.list[k].begin(); it != L.list[k].end(); it++)
 	{
+		//L.ensure_invariant(*it, k, L.m_idx[*it], L.first[*it]);
 		for (i = L.first[*it]; i < (int) L.m_idx[*it].size(); i++) {
 			if (L.m_idx[*it][i] == k) {
 				swapr.push_back(L.m_idx[*it].begin() + i);
@@ -136,6 +194,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	}
 	
 	for (auto it = L.list[r].begin(); it != L.list[r].end(); it++) {
+		//L.ensure_invariant(*it, k, L.m_idx[*it], L.first[*it]);
 		for (i = L.first[*it]; i < (int) L.m_idx[*it].size(); i++) {
 			if (L.m_idx[*it][i] == r) {				
 				swapk.push_back(L.m_idx[*it].begin() + i);

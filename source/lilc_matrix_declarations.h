@@ -106,16 +106,16 @@ public:
 		\param lfil a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements.
 		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
 	*/
-	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, int lfil, double tol);
+	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, double fill_factor, double tol);
 	
 	//------Helpers------//
 	inline void pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r);
 	
 	template <class Container>
-	inline void ensure_invariant(const int& j, const int& k, Container& con, int offset = 0) {
+	inline void ensure_invariant(const int& j, const int& k, Container& con, int offset, bool update_list = false) {
 		if (con.empty() || con[offset] == k) return;
 		
-		int i, min;
+		int i, min(0);
 		for (i = offset; i < (int) con.size(); i++) {
 			min = offset;
 			if (con[i] == k) {
@@ -126,8 +126,8 @@ public:
 			}
 		}
 		
-		if (offset == 0)
-			std::swap(con[0], con[min]);
+		if (update_list)
+			std::swap(con[offset], con[min]);
 		else {
 			std::swap(con[first[j]], con[min]);
 			std::swap(m_x[j][first[j]], m_x[j][min]);
@@ -140,6 +140,8 @@ public:
 			//ensure invariant (perhaps not needed here since the invariant is always ensured during pivoting).
 			offset = first[*it];
 
+			if (offset >= (int) m_idx[*it].size()) continue;
+			
 			ensure_invariant(*it, k, m_idx[*it], offset);
 			
 			if (m_idx[*it][offset] == k)
@@ -148,18 +150,22 @@ public:
 	}
 	
 	inline void advance_list(const int& k) {
-		
-		if (m_idx[k].size() > 0) {
-			int j;
-			for (j = 0; j < (int) m_idx[k].size(); j++) {
-				ensure_invariant(m_idx[k][j], k, list[m_idx[k][j]]);
+			
+
+
+
+			int offset;
+			for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
+				offset = first[*it];
 				
-				if (!list[m_idx[k][j]].empty() && (list[m_idx[k][j]][0] == k)) {
-					//first[m_idx[k][j]]++;
-					list[m_idx[k][j]].pop_front();
-				}
+
+				if (offset >= (int) list[*it].size()) continue;
+				
+				ensure_invariant(*it, k, list[*it], offset, true);
+				
+				if (list[*it][offset] == k)
+					first[*it]++;
 			}
-		}
 					
 	}
 	
