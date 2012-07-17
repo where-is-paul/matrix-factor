@@ -15,10 +15,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	col_r.clear();
 	col_r_nnzs.clear();
 	
-	//TODO: check if two lines below are needed
-	//ensure_invariant(r, k, list[r], first[r], true);
-	//ensure_invariant(k, k, list[k], first[k], true);
-	
 	//----------pivot A ----------//
 	swapr_.clear();
 	swapk_.clear();
@@ -38,13 +34,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	}
 	
 	for (i = first[r]; i < (int) list[r].size(); i++) {
-		// if (list[r][i] < k) {  //list[r] does not update correctly on each iteration. the invariant is somehow violated. the code below works but is bad code. pretty sure this only fixes a subset of the problems.
-			// std::swap(list[r][i], list[r][0]);
-			// list[r].pop_front();
-			// i--;
-			// continue;
-		// }
-		
 		if (list[r][i] <= k || list[r][i] >= r) continue;
 		coeffRef(r, list[r][i], its_k);
 		col_k_nnzs.push_back(list[r][i]);
@@ -74,20 +63,11 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		col_k.push_back(coeff(r, k));
 		row_r.push_back(r);
 	}
-   //did we forget to add the kth elem to row_k?
 
-
-
-
-		
-	//is it possible to select an all zeros col as a pivot?
 	if (m_idx[r].size() > 0) {
 		offset = (m_idx[r][0] == r ? 1 : 0);
 		std::copy(m_x[r].begin()+offset, m_x[r].end(), std::back_inserter(col_k));
 		std::copy(m_idx[r].begin()+offset, m_idx[r].end(), std::back_inserter(col_k_nnzs));
-		
-
-
 
 		//invariant: ensure list[:][0] contain the index nearest in value to k.
 		for (auto it = m_idx[r].begin() + offset; it != m_idx[r].end(); it++) {
@@ -101,7 +81,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		}
 	}
 
-	
 	if (m_idx[k].size() > 0) {
 		//swap A(k:r, k) with A(r, k:r);
 		offset = (m_idx[k][0] == k ? 1 : 0);
@@ -110,7 +89,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 				m_idx[m_idx[k][i]].push_back(r);
 				m_x[m_idx[k][i]].push_back(m_x[k][i]);
 				
-           //TODO: add ensure_invariant here to be safe
 				ensure_invariant(m_idx[k][i], k, list[m_idx[k][i]], first[m_idx[k][i]], true);
 				std::swap(list[m_idx[k][i]][first[m_idx[k][i]]], list[m_idx[k][i]][list[m_idx[k][i]].size() - 1]);
 				list[m_idx[k][i]].pop_back();
@@ -131,19 +109,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 			}
 		}
 	}
-	
-	// swap_cols.clear();
-	// swap_cols.assign(list[k].begin(), list[k].end());
-	// unordered_inplace_union(swap_cols, list[r].begin(), list[r].begin() + first[r], in_set);
-	
-	// for (auto it = swap_cols.begin(); it != swap_cols.end(); it++) {
-
-
-		
-		// safe_swap(m_idx[*it], k, r);
-		
-
-	// }
 
 	for (auto it = swapk_.begin(); it != swapk_.end(); it++) {
 
@@ -158,11 +123,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	for (auto it = all_swaps.begin(); it != all_swaps.end(); it++) {
 		ensure_invariant(*it, k, list[*it], first[*it], true);
 	}
-	
 
-
-
-		
 	//set the kth col
 	m_idx[k].swap(col_k_nnzs);
 	m_x[k].swap(col_k);
