@@ -1,3 +1,6 @@
+#ifndef _LILC_MATRIX_ILDL_HELPERS_H
+#define _LILC_MATRIX_ILDL_HELPERS_H
+
 /*! \brief Computes the maximum (in absolute value) element of v(curr_nnzs) and it's index.
 	\param v the vector whose max element is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
@@ -119,6 +122,7 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
 	
 	if (offset >= L.m_idx[j].size()) return;
 	
+	L.ensure_invariant(j, k, L.m_idx[j], offset);
 	//if (L.m_idx[j][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
 	if (L.m_idx[j][offset] == k && !include_kth) offset++;
 	
@@ -211,3 +215,5 @@ inline void safe_swap(std::vector<int>& curr_nnzs, int k, int r) {
 		// }
 	// }
 // }
+
+#endif

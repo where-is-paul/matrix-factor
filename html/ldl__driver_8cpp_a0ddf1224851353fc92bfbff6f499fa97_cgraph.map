@@ -1,23 +1,25 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$classlilc__matrix.html#aec93c7ce204b3f5f61ac8ba090578f43" title="lilc_matrix::ildl" alt="" coords="139,226,245,253"/>
-<area shape="rect" id="node17" href="$classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2" title="lil_sparse_matrix::n_cols" alt="" coords="574,454,749,481"/>
-<area shape="rect" id="node34" href="$classlilc__matrix.html#aea5613e9a57231a6991dcf99d6d7b37a" title="lilc_matrix::load" alt="" coords="133,505,251,532"/>
-<area shape="rect" id="node39" href="$classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76" title="lil_sparse_matrix::nnz" alt="" coords="113,556,271,582"/>
-<area shape="rect" id="node41" href="$lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="166,606,218,633"/>
-<area shape="rect" id="node43" href="$classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d" title="block_diag_matrix::save" alt="" coords="107,657,277,684"/>
-<area shape="rect" id="node45" href="$classlilc__matrix.html#ac7ae3a4b8a4dbf7ad111a9546e261f47" title="lilc_matrix::save" alt="" coords="132,708,252,734"/>
-<area shape="rect" id="node5" href="$classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="601,201,722,228"/>
-<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="377,302,452,329"/>
-<area shape="rect" id="node9" href="$lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="391,353,439,380"/>
-<area shape="rect" id="node11" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="552,24,771,50"/>
-<area shape="rect" id="node13" href="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="block_diag_matrix::resize" alt="" coords="325,49,504,76"/>
-<area shape="rect" id="node15" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="lilc_matrix::resize" alt="" coords="351,404,479,430"/>
-<area shape="rect" id="node21" href="$lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be" title="safe_swap" alt="" coords="369,150,460,177"/>
-<area shape="rect" id="node23" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="819,176,1002,202"/>
-<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="382,100,447,126"/>
-<area shape="rect" id="node19" href="$classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76" title="lil_sparse_matrix::n_rows" alt="" coords="571,404,751,430"/>
-<area shape="rect" id="node27" href="$classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="558,150,765,177"/>
-<area shape="rect" id="node31" href="$lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="606,100,717,126"/>
-<area shape="rect" id="node36" href="$lilc__matrix__load_8h.html#a6de8c02a91b0862a6d2221d4e8deb59e" title="readline" alt="" coords="378,505,451,532"/>
-<area shape="rect" id="node47" href="$lilc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="367,708,462,734"/>
+<area shape="rect" id="node3" href="$classlilc__matrix.html#aec93c7ce204b3f5f61ac8ba090578f43" title="lilc_matrix::ildl" alt="" coords="139,297,245,324"/>
+<area shape="rect" id="node19" href="$classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2" title="lil_sparse_matrix::n_cols" alt="" coords="574,6,749,33"/>
+<area shape="rect" id="node21" href="$classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76" title="lil_sparse_matrix::n_rows" alt="" coords="571,82,751,109"/>
+<area shape="rect" id="node38" href="$classlilc__matrix.html#aea5613e9a57231a6991dcf99d6d7b37a" title="lilc_matrix::load" alt="" coords="133,348,251,374"/>
+<area shape="rect" id="node44" href="$classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76" title="lil_sparse_matrix::nnz" alt="" coords="113,398,271,425"/>
+<area shape="rect" id="node46" href="$lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5" title="save" alt="" coords="166,449,218,476"/>
+<area shape="rect" id="node48" href="$classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d" title="block_diag_matrix::save" alt="" coords="107,500,277,526"/>
+<area shape="rect" id="node50" href="$classlilc__matrix.html#ac7ae3a4b8a4dbf7ad111a9546e261f47" title="lilc_matrix::save" alt="" coords="132,576,252,602"/>
+<area shape="rect" id="node5" href="$classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="lilc_matrix::advance_first" alt="" coords="574,221,749,248"/>
+<area shape="rect" id="node9" href="$lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="377,145,452,172"/>
+<area shape="rect" id="node11" href="$lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="391,246,439,273"/>
+<area shape="rect" id="node13" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="552,297,771,324"/>
+<area shape="rect" id="node15" href="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="block_diag_matrix::resize" alt="" coords="325,348,504,374"/>
+<area shape="rect" id="node17" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="lilc_matrix::resize" alt="" coords="351,44,479,70"/>
+<area shape="rect" id="node23" href="$lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be" title="safe_swap" alt="" coords="369,398,460,425"/>
+<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="825,398,1007,425"/>
+<area shape="rect" id="node27" href="$lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="382,449,447,476"/>
+<area shape="rect" id="node7" href="$classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f" title="lilc_matrix::ensure_invariant" alt="" coords="819,297,1013,324"/>
+<area shape="rect" id="node29" href="$classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="558,449,765,476"/>
+<area shape="rect" id="node31" href="$classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="601,398,722,425"/>
+<area shape="rect" id="node34" href="$lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="606,348,717,374"/>
+<area shape="rect" id="node40" href="$lilc__matrix__load_8h.html#a6de8c02a91b0862a6d2221d4e8deb59e" title="readline" alt="" coords="378,550,451,577"/>
+<area shape="rect" id="node52" href="$lilc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431" title="put_header" alt="" coords="367,601,462,628"/>
 </map>

@@ -439,6 +439,10 @@ template&lt;class InputContainer , class InputIterator &gt; </div>
                         a.push_back(*it);
                 }
         }
+        
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = a.begin(); it != a.end(); it++) {
+                in_set[*it] = <span class="keyword">false</span>;
+        }
 }
 </pre></div>
 </div>
@@ -534,10 +538,6 @@ template&lt;class el_type &gt; </div>
                 }
                 
         }
-        
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-                in_set[*it] = <span class="keyword">false</span>;
-        }
 }
 </pre></div>
 <p><div class="dynheader">
@@ -545,7 +545,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph" id="lilc__matrix__ildl__helpers_8h_aa97814d8199ae28757c566f7b13532e9_cgraph">
-<area shape="rect" id="node3" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="126,5,333,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="169,56,290,83"/><area shape="rect" id="node7" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="174,157,285,184"/><area shape="rect" id="node11" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="387,157,570,184"/></map>
+<area shape="rect" id="node3" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="126,5,333,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="169,56,290,83"/><area shape="rect" id="node7" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="174,157,285,184"/><area shape="rect" id="node11" href="classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f" title="lilc_matrix::ensure_invariant" alt="" coords="387,132,581,159"/><area shape="rect" id="node13" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="393,183,575,209"/></map>
 </div>
 </p>
 
@@ -622,8 +622,11 @@ template&lt;class el_type &gt; </div>
 <div class="fragment"><pre class="fragment">                                                                                                                                                                                                                           {
         <span class="comment">//find where L(k, k+1:n) starts</span>
         <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">first</a>[j];
-        <span class="comment">//if (offset &gt;= L.m_idx[*it].size()) continue;</span>
-        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] &lt; k) offset++;  <span class="comment">//bug with L.first. shouldnt need more than one offset++.</span>
+        
+        <span class="keywordflow">if</span> (offset &gt;= L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size()) <span class="keywordflow">return</span>;
+        
+        L.<a class="code" href="classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f">ensure_invariant</a>(j, k, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j], offset);
+        <span class="comment">//if (L.m_idx[j][offset] &lt; k) offset++;  //bug with L.first. shouldnt need more than one offset++.</span>
         <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][offset] == k &amp;&amp; !include_kth) offset++;
         
         <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); i++) {
@@ -639,7 +642,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph" id="lilc__matrix__ildl__helpers_8h_a56cd3d014fb6b03abcc1e59999916ed2_cgraph">
-<area shape="rect" id="node3" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="166,5,349,32"/></map>
+<area shape="rect" id="node3" href="classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f" title="lilc_matrix::ensure_invariant" alt="" coords="165,5,360,32"/><area shape="rect" id="node5" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="171,56,354,83"/></map>
 </div>
 </p>
 
@@ -717,7 +720,7 @@ Here is the call graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:33 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -72,8 +72,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Include dependency graph for lil_sparse_matrix.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="lil__sparse__matrix_8h__incl.png" border="0" usemap="#source_2lil__sparse__matrix_8h" alt=""/></div>
-<map name="source_2lil__sparse__matrix_8h" id="source_2lil__sparse__matrix_8h">
-</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -96,8 +94,8 @@ Defines</h2></td></tr>
 Functions</h2></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;class el_type &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">save</a> (const std::vector&lt; el_type &gt; &amp;vec, std::string filename)</td></tr>
-<tr><td class="memTemplParams" colspan="2">template&lt;class el_type &gt; </td></tr>
-<tr><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lil__sparse__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">operator&lt;&lt;</a> (std::ostream &amp;os, const std::vector&lt; el_type &gt; &amp;vec)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="lil__sparse__matrix_8h.html#ae6b6c276aa28bcbb8d28f0b2b87ecbd5">operator&lt;&lt;</a> (std::ostream &amp;os, const Container &amp;vec)</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="a4807a3710678876a258e3ac105e6c451"></a><!-- doxytag: member="lil_sparse_matrix.h::VECTOR_SHIFT" ref="a4807a3710678876a258e3ac105e6c451" args="" -->
@@ -114,11 +112,11 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a63a8ff9b311a0f82a01ca1b2c473e8c0"></a><!-- doxytag: member="lil_sparse_matrix.h::operator&lt;&lt;" ref="a63a8ff9b311a0f82a01ca1b2c473e8c0" args="(std::ostream &amp;os, const std::vector&lt; el_type &gt; &amp;vec)" -->
+<a class="anchor" id="ae6b6c276aa28bcbb8d28f0b2b87ecbd5"></a><!-- doxytag: member="lil_sparse_matrix.h::operator&lt;&lt;" ref="ae6b6c276aa28bcbb8d28f0b2b87ecbd5" args="(std::ostream &amp;os, const Container &amp;vec)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class el_type &gt; </div>
+template&lt;class Container &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
@@ -129,7 +127,7 @@ template&lt;class el_type &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; el_type &gt; &amp;&#160;</td>
+          <td class="paramtype">const Container &amp;&#160;</td>
           <td class="paramname"><em>vec</em>&#160;</td>
         </tr>
         <tr>
@@ -144,12 +142,13 @@ template&lt;class el_type &gt; </div>
         os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
         <span class="keywordflow">if</span> (!vec.empty())
         {
-                <span class="keywordflow">for</span> (<span class="keyword">typename</span> std::vector&lt;el_type&gt;::size_type index = 0; index &lt; vec.size() - 1; index ++)
+                <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = vec.begin(); it+1 != vec.end(); it++)
                 {
-                        os &lt;&lt; vec[index] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;
+                        os &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;
                 }
-
-                os &lt;&lt; vec[vec.size()-1];
+                
+                it++;
+                os &lt;&lt; *it;
         }
         os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;
         <span class="keywordflow">return</span> os;
@@ -219,7 +218,7 @@ template&lt;class el_type &gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:33 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

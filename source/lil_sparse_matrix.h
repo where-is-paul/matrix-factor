@@ -28,18 +28,19 @@ bool save(const std::vector<el_type>& vec, std::string filename) {
 
 #ifndef VECTOR_SHIFT
 #define VECTOR_SHIFT
-template<class el_type>
-std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
+template<class Container>
+std::ostream& operator<< (std::ostream& os, const Container& vec)
 {
 	os << "[";
 	if (!vec.empty())
 	{
-		for (typename std::vector<el_type>::size_type index = 0; index < vec.size() - 1; index ++)
+		for (auto it = vec.begin(); it+1 != vec.end(); it++)
 		{
-			os << vec[index] << ", ";
+			os << *it << ", ";
 		}
-
-		os << vec[vec.size()-1];
+		
+		it++;
+		os << *it;
 	}
 	os << "]";
 	return os;

@@ -73,8 +73,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00011"></a>00011   std::ostringstream os;
 <a name="l00012"></a>00012   os &lt;&lt; <span class="stringliteral">&quot;Block Diagonal Matrix (&quot;</span> &lt;&lt; n_rows() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; n_cols() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; nnz() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
 <a name="l00013"></a>00013   
-<a name="l00014"></a>00014   os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values          = &quot;</span> &lt;&lt; main_diag &lt;&lt; std::endl;
-<a name="l00015"></a>00015   os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (Column, Value)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
+<a name="l00014"></a>00014   os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values     = &quot;</span> &lt;&lt; main_diag &lt;&lt; std::endl;
+<a name="l00015"></a>00015   os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (col, val)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
 <a name="l00016"></a>00016   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n_cols(); i++) {
 <a name="l00017"></a>00017     <span class="keywordflow">if</span> (block_size(i) == 2) {
 <a name="l00018"></a>00018                 os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; off_diag.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;
@@ -104,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:13 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:32 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -77,8 +77,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for block_diag_matrix&lt; el_type &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblock__diag__matrix__coll__graph.png" border="0" usemap="#block__diag__matrix_3_01el__type_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="block__diag__matrix_3_01el__type_01_4_coll__map" id="block__diag__matrix_3_01el__type_01_4_coll__map">
-</map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classblock__diag__matrix-members.html">List of all members.</a></p>
@@ -451,8 +449,8 @@ template&lt;class el_type &gt; </div>
   std::ostringstream os;
   os &lt;&lt; <span class="stringliteral">&quot;Block Diagonal Matrix (&quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ada4ab4f3c8a7542880030f762dbf4898">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
   
-  os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values          = &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a> &lt;&lt; std::endl;
-  os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (Column, Value)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
+  os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values     = &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a> &lt;&lt; std::endl;
+  os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (col, val)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>(); i++) {
     <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a>(i) == 2) {
                 os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;
@@ -583,7 +581,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 12 2012 08:14:14 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:34 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
