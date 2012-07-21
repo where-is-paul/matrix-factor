@@ -45,6 +45,7 @@ struct by_value {
 	std::vector<el_type>& v; 
 	by_value(std::vector<el_type>& vec) : v(vec) {}
 	bool operator()(int const &a, int const &b) const { 
+		if (std::abs(v[a]) == std::abs(v[b])) return a < b;
 		return std::abs(v[a]) > std::abs(v[b]);
 	}
 };
@@ -109,7 +110,7 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 	by_value<el_type> sorter(v);
 	std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
 	
-	//sort the first lfil elements by index, only these will be assigned into L.
+	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.
 	std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (int) curr_nnzs.size()));
 }
 

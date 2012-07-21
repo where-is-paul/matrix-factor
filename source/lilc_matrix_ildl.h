@@ -8,7 +8,7 @@ using std::cout;
 template <class el_type>
 void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, double fill_factor, double tol)
 {
-	int lfil = fill_factor*nnz()/n_cols();
+	int lfil = 2*fill_factor*nnz()/n_cols(); //roughly a factor of 2 since only lower tri. of A is stored
 	const double alpha = (1+sqrt(17))/8;  //for use in pivoting.
 	el_type w1, wr, d1(0), dr(0), det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
 
@@ -40,6 +40,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		L.m_x[i].resize(lfil+1);
 	}
 
+	int debug = 18;
 	for (k = 0; k < ncols; k++) {
 		size_two_piv = false;
 
@@ -70,8 +71,19 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 		if (w1 == 0) {
 			//case 0: do nothing. pivot is k.
+			if (k == debug) {
+				cout << "case 0" << endl;
+				cout << curr_nnzs << " " << r << endl;
+				for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+					cout << work[*it] << " ";
+				}
+				cout << endl;
+			}
 		} else if (std::abs(d1) >= alpha * w1 ) {
 			//case 1: do nothing. pivot is k.
+			if (k == debug) {
+				cout << "case 1" << endl;
+			}
 		} else {
 			std::fill (temp.begin() + k, temp.end(), 0);
 			temp_nnzs.clear();
@@ -99,9 +111,15 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			if (std::abs(d1 * wr)>= alpha*w1*w1) {
 				//case 2: do nothing. pivot is k.
-
+				if (k == debug) {
+					cout << "case 2" << endl;
+					cout << "d1: " << d1 << " wr: " << wr << " w1: " << w1 << endl;
+				}
+				
+				
 			} else if (std::abs(dr) >= std::abs(alpha * wr)) {
 				//case 3: pivot is k with r: 1x1 pivot case.
+				if (k == debug) cout << "case 3 " << k << " " << r << endl;
 				temp[r] = dr;
 				work[k] = d1;
 
@@ -132,7 +150,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			} else {
 				//case 4: pivot is k+1 with r: 2x2 pivot case.
-
+				if (k == debug) cout << "case 4" << " " << k+1 << " " << r << endl;
 				if (k >= r) {
 					cout << "fault! " << k+1 << " " << r << endl;
 					return;
@@ -171,7 +189,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 		//performs the dual dropping procedure.
 		drop_tol(work, curr_nnzs, lfil, tol);
-		col_size += std::min(lfil, (int) curr_nnzs.size());
+		col_size = std::min(lfil, (int) curr_nnzs.size());
 
 		if (size_two_piv) {
 			temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());
@@ -192,15 +210,17 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		count++;
 
 		if (!size_two_piv) {
-			if (k < ncols - 1)
-				for (i = 0; i < col_size-1; i++) { //need -1 on col_size to remove offset from initializing col_size to 1
+			i = 0;
+			if (k < ncols - 1) //check if D[k] == 0? assuming matrix is non-singular for now.
+				for (i = 0; i < col_size; i++) { //need -1 on col_size to remove offset from initializing col_size to 1
 					L.m_idx[k][i+1] = curr_nnzs[i]; //row_idx of L is updated
 					L.m_x[k][i+1] = work[curr_nnzs[i]]/D[k]; //work vector is scaled by D[k]
 
 					L.list[curr_nnzs[i]].push_back(k); //update Llist
 					count++;
 				}
-
+			
+			col_size = 1 + i;
 			//update lfirst
 			L.advance_first(k);
 			advance_list(k);
@@ -213,7 +233,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			count++;
 
 			det_D = d1*dr - work[k+1]*work[k+1];
-			if (det_D != 0) { //replace with EPS later
+			//if (det_D != 0) { //assuming matrix is non-singular for now. replace != 0 with EPS later
 				D_inv11 = dr/det_D;
 				D_inv22 = d1/det_D;
 				D_inv12 = -work[k+1]/det_D;
@@ -248,7 +268,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				//update lfirst
 				L.advance_first(k+1);
 				advance_list(k+1);
-			}
+			//}
 		}
 
 		L.m_x[k].resize(col_size);
@@ -258,6 +278,18 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.m_x[k+1].resize(col_size2);
 			L.m_idx[k+1].resize(col_size2);
 			k++;
+		}
+		
+		
+		if (k == debug) {
+			cout << lfil << endl;
+			cout << "D[k]: " << D[k] << endl;
+		
+			cout << curr_nnzs << " " << r << endl;
+			for (i = 0; i < col_size; i++) {
+				cout << work[curr_nnzs[i]]/D[k] << " ";
+			}
+			cout << endl;
 		}
 	}
 
