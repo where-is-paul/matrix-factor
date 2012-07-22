@@ -56,7 +56,13 @@ public:
 		\return The (i,j)th element of the matrix. 
 	*/
 	virtual el_type coeff(const int& i, const int& j) const 
-	{		
+	{	
+		//invariant: first elem in each col of a is the diagonal elem if it exists.
+		if (i == j) {
+			if (m_idx[j].size() == 0) return 0;
+			return (m_idx[j][0] == i ? m_x[j][0] : 0);
+		}
+		
 		for (unsigned int k = 0; k < m_idx[j].size(); k++) {
 			if (m_idx[j][k] == i) return m_x[j][k];
 		}

@@ -1,8 +1,8 @@
 template <class el_type>
 inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r)
 {	
+	//clear old stuff
 	std::deque<int> row_k, row_r;
-	std::vector<int> swap_cols;
 	std::pair<idx_it, elt_it> its_k, its_r;
 	int i, j, offset;
 	
@@ -14,27 +14,29 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	
 	col_r.clear();
 	col_r_nnzs.clear();
+	//
 	
 	//----------pivot A ----------//
 	swapr_.clear();
 	swapk_.clear();
 	all_swaps.clear();
 	
-	//swap A(:, k) with A(:, r)
-	//invariant: ensure m_idx[:][0] and m_x[:][0] contains the smallest index element.
+	//after sym. perm, a_rr will be swapped to a_kk, so we put a_rr as first
+	//elem of col k if its non-zero. this also means that we ensure the first
+	//elem of col k is the diagonal element if it exists.
 	if (coeff(r, r) !=0){
 		col_k_nnzs.push_back(k);
 		col_k.push_back(coeff(r, r));
 	}
-	//TODO: if zero, need to halt linear search.
 	
+	//same as above, put a_kk in new col r if it exists.
 	if (coeff(k, k) !=0){
 		col_r_nnzs.push_back(r);
 		col_r.push_back(coeff(k, k));
 	}
 	
+	//first[r] should have A(r, k:r), not including A(k, r) element
 	for (i = first[r]; i < (int) list[r].size(); i++) {
-		if (list[r][i] <= k || list[r][i] >= r) continue;
 		coeffRef(r, list[r][i], its_k);
 		col_k_nnzs.push_back(list[r][i]);
 		col_k.push_back(*its_k.second);
@@ -46,7 +48,11 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		m_x[list[r][i]].pop_back();
 	}
 	
-
+	// if (coeff(r, k) != 0) {
+		// col_k_nnzs.push_back(r);
+		// col_k.push_back(coeff(r, k));
+		// row_r.push_back(r);
+	// }
 
 			
 	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; it++) {
@@ -55,13 +61,6 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	
 	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; it++) {
 		row_k.push_back(*it);
-	}
-	
-		
-	if (coeff(r, k) != 0) {
-		col_k_nnzs.push_back(r);
-		col_k.push_back(coeff(r, k));
-		row_r.push_back(r);
 	}
 
 	if (m_idx[r].size() > 0) {

@@ -10,7 +10,7 @@ bool block_diag_matrix<el_type> :: save(std::string filename)
 	return false;
 
 	out.flags(std::ios_base::scientific);
-	out.precision(10);
+	out.precision(16);
 	std::string header;
 	
 	header= "%%MatrixMarket matrix coordinate ";
