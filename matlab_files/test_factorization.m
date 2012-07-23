@@ -5,13 +5,13 @@ for i = 1:8
     mat_names = [mat_names; strcat('testmat', num2str(i))];
 end
 mat_names = cellstr(mat_names);
-other_mats = {'aug3dcqp'; 'aug3dcqp_rcm_perm'; ...
-            'stokes64'; 'stokes64_rcm_perm'; '1138_bus'};
+other_mats = { 'aug3dcqp_rcm_perm'; 'bloweya'; 'bratu3d'; 'tuma1'; ...
+            '1138_bus'};
 
-all_mats = {'1138_bus'};%mat_names;%[mat_names; other_mats];
+all_mats = other_mats;%mat_names;%[mat_names; other_mats];
         
-lfil = 3;
-tol = 0.00;
+lfil = 2;
+tol = 0.001;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -37,9 +37,11 @@ for i = 1:length(all_mats)
     %testmat 5 gives 4.5*10^-2 residual but lfil = 5, droptol = 0.01 gives
     %1.8*10^-1 as a residual. the latter is a better preconditioner, but
     %measures further from the original matrix.
-    fprintf('The relative residual is %d.\n\n', norm(A(p,p) - l*d*l', 1)/norm(A, 1));
+    fprintf('The relative residual is %d.\n', norm(A(p,p) - l*d*l', 1)/norm(A, 1));
     %spy(A(p,p)); figure; spy(abs(l*d*l') > 1e-8);
 
     e = ones(size(A,1),1);
-    %gmres(A(p,p),e,60,1e-6,250,l*d, l');
+    gmres(A(p,p),e,60,1e-6,250,l*d, l');
+    %gmres(A,e,30,1e-6,2);
+    fprintf('\n');
 end

@@ -35,17 +35,17 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	L.list.resize(ncols ); //allocate a vector of size n for Llist.
 	D.resize(ncols );
 
-	for (i = 0; i < ncols; i++) {
-		L.m_idx[i].resize(lfil+1);
-		L.m_x[i].resize(lfil+1);
-	}
+	// for (i = 0; i < ncols; i++) {
+		// L.m_idx[i].resize(lfil+1);
+		// L.m_x[i].resize(lfil+1);
+	// }
 
 	int debug = -1;//16097;
 	for (k = 0; k < ncols; k++) {
 		size_two_piv = false;
 
 		//zero out work vector
-		std::fill (work.begin() + k, work.end(), 0); //just fill the nonzeros. same with temp. otherwise this is O(n^2). totally bad.
+		//std::fill (work.begin() + k, work.end(), 0); //just fill the nonzeros. same with temp. otherwise this is O(n^2). totally bad.
 		curr_nnzs.clear();
 
 		if (k == debug) { 
@@ -91,7 +91,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				cout << "case 1" << endl;
 			}
 		} else {
-			std::fill (temp.begin() + k, temp.end(), 0);
+			//std::fill (temp.begin() + k, temp.end(), 0);
 			temp_nnzs.clear();
 
 			ensure_invariant(r, k, list[r], first[r], true);
@@ -237,21 +237,27 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 		}
 
+		L.m_idx[k].resize(curr_nnzs.size()+1);
+		L.m_x[k].resize(curr_nnzs.size()+1);
+		
 		D[k] = d1;
-
+		
 		L.m_x[k][0] = 1;
 		L.m_idx[k][0] = k;
 		count++;
-
+		
 		if (!size_two_piv) {
+			
 			i = 0;
-			if (k < ncols - 1) //check if D[k] == 0? assuming matrix is non-singular for now.
-			for (i = 0; i < (int) curr_nnzs.size(); i++) { //need -1 on col_size to remove offset from initializing col_size to 1
-				L.m_idx[k][i+1] = curr_nnzs[i]; //row_idx of L is updated
-				L.m_x[k][i+1] = work[curr_nnzs[i]]/D[k]; //work vector is scaled by D[k]
+			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { //need -1 on col_size to remove offset from initializing col_size to 1
+				if (work[*it] != 0) {
+					L.m_idx[k][i+1] = *it; //row_idx of L is updated
+					L.m_x[k][i+1] = work[*it]/D[k]; //work vector is scaled by D[k]
 
-				L.list[curr_nnzs[i]].push_back(k); //update Llist
-				count++;
+					L.list[*it].push_back(k); //update Llist
+					count++;
+					i++;
+				}
 			}
 			
 			col_size = 1 + i;
@@ -259,6 +265,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.advance_first(k);
 			advance_list(k);
 		} else {
+			L.m_idx[k+1].resize(temp_nnzs.size()+1);
+			L.m_x[k+1].resize(temp_nnzs.size()+1);
 			
 			D.off_diagonal(k) = work[k+1];
 			D[k+1] = dr;
@@ -276,6 +284,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					count++;
 					i++;
 				}
+				
 			}
 			
 			j = 0;
@@ -297,20 +306,31 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.advance_first(k+1);
 			advance_list(k+1);
 			
-			temp[k] = 0;
-			temp[k+1] = 0;
-			work[k+1] = 0;
-			for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
-				temp[*it] = 0;
-			}
+			
+			// for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
+				// temp[*it] = 0;
+			// }
 			//}
 		}
 		
 		//cleanup
 		work[k] = 0;
+		temp[k] = 0;
+		
+		if (k + 1 < ncols) {
+			temp[k+1] = 0;
+			work[k+1] = 0;
+		}
+		
 		for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 			work[*it] = 0;
 		}
+		curr_nnzs.clear();
+		
+		for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
+			temp[*it] = 0;
+		}
+		temp_nnzs.clear();
 		
 		L.m_x[k].resize(col_size);
 		L.m_idx[k].resize(col_size);
@@ -342,6 +362,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		// std::cout << L << std::endl;
 		// } else if (s == "a") {
 		// std::cout << to_string() << std::endl;
+		// } else if (s == "w") {
+			// cout << work << endl;
+		// } else if (s == "t") {
+			// cout << temp << endl;
 		// }
 		
 	}
