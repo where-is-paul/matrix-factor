@@ -4,7 +4,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	//clear old stuff
 	std::deque<int> row_k, row_r;
 	std::pair<idx_it, elt_it> its_k, its_r;
-	int i, j, offset;
+	int i, j, idx, offset;
 	
 	row_k.clear();
 	row_r.clear();
@@ -21,6 +21,43 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	swapk_.clear();
 	all_swaps.clear();
 	
+	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; it++) {
+		row_r.push_back(*it);
+	}
+	
+	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; it++) {
+		row_k.push_back(*it);
+	}
+	
+	// cout << "first[k]: " << first[k] << " now outputting list[k]" << endl;
+	// for (auto it = list[k].begin(); it != list[k].end(); it++) {
+		// cout << *it << " ";
+	// }
+	// cout << endl;
+	
+	// cout << "first[r]: " << first[r] << " now outputting list[r]" << endl;
+	// for (auto it = list[r].begin(); it != list[r].end(); it++) {
+		// cout << *it << " ";
+	// }
+	// cout << endl;
+	
+	if (first[k] <= (int) list[k].size())
+	all_swaps.assign(list[k].begin(), list[k].begin() + first[k]);
+
+	if (first[r] <= (int) list[r].size())
+	unordered_inplace_union(all_swaps, list[r].begin(), list[r].begin() + first[r], in_set);
+	
+	// cout << "sym swap on " << k << " and " << r << endl;
+	for (auto it = all_swaps.begin(); it != all_swaps.end(); it++) {
+		// cout << "curr swap on col " << *it << endl;
+		
+		// cout << m_idx[*it] << endl;
+		safe_swap(m_idx[*it], k, r);
+		// cout << m_idx[*it] << endl;
+	}
+	// cout << endl;
+	all_swaps.clear();
+	
 	//after sym. perm, a_rr will be swapped to a_kk, so we put a_rr as first
 	//elem of col k if its non-zero. this also means that we ensure the first
 	//elem of col k is the diagonal element if it exists.
@@ -35,32 +72,23 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		col_r.push_back(coeff(k, k));
 	}
 	
+	
 	//first[r] should have A(r, k:r), not including A(k, r) element
 	for (i = first[r]; i < (int) list[r].size(); i++) {
-		coeffRef(r, list[r][i], its_k);
-		col_k_nnzs.push_back(list[r][i]);
-		col_k.push_back(*its_k.second);
-		
-		*its_k.first = m_idx[list[r][i]].back();
-		*its_k.second = m_x[list[r][i]].back();
-		
-		m_idx[list[r][i]].pop_back();
-		m_x[list[r][i]].pop_back();
-	}
-	
-	// if (coeff(r, k) != 0) {
-		// col_k_nnzs.push_back(r);
-		// col_k.push_back(coeff(r, k));
-		// row_r.push_back(r);
-	// }
-
+		if (coeffRef(r, list[r][i], its_k)) {
+			if (list[r][i] == k) {
+				col_k_nnzs.push_back(r);
+			} else {
+				col_k_nnzs.push_back(list[r][i]);
+			}
+			col_k.push_back(*its_k.second);
 			
-	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; it++) {
-		row_r.push_back(*it);
-	}
-	
-	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; it++) {
-		row_k.push_back(*it);
+			*its_k.first = m_idx[list[r][i]].back();
+			*its_k.second = m_x[list[r][i]].back();
+			
+			m_idx[list[r][i]].pop_back();
+			m_x[list[r][i]].pop_back();
+		}
 	}
 
 	if (m_idx[r].size() > 0) {
@@ -68,8 +96,8 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		std::copy(m_x[r].begin()+offset, m_x[r].end(), std::back_inserter(col_k));
 		std::copy(m_idx[r].begin()+offset, m_idx[r].end(), std::back_inserter(col_k_nnzs));
 
-		//invariant: ensure list[:][0] contain the index nearest in value to k.
 		for (auto it = m_idx[r].begin() + offset; it != m_idx[r].end(); it++) {
+			if (first[*it] < (int) list[*it].size())
 			for (i = first[*it]; i < (int) list[*it].size(); i++) {
 				if (list[*it][i] == r) {
 					swapk_.push_back(list[*it].begin() + i);
@@ -84,24 +112,26 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		//swap A(k:r, k) with A(r, k:r);
 		offset = (m_idx[k][0] == k ? 1 : 0);
 		for (i = offset; i < (int) m_idx[k].size(); i++) {
-			if (m_idx[k][i] < r) {
-				m_idx[m_idx[k][i]].push_back(r);
-				m_x[m_idx[k][i]].push_back(m_x[k][i]);
+			idx = m_idx[k][i];
+			if (idx < r) {
+				m_idx[idx].push_back(r);
+				m_x[idx].push_back(m_x[k][i]);
 				
-				ensure_invariant(m_idx[k][i], k, list[m_idx[k][i]], first[m_idx[k][i]], true);
-				std::swap(list[m_idx[k][i]][first[m_idx[k][i]]], list[m_idx[k][i]][list[m_idx[k][i]].size() - 1]);
-				list[m_idx[k][i]].pop_back();
+				if (first[idx] < (int) list[idx].size()) {
+					ensure_invariant(idx, k, list[idx], first[idx], true);
+					std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
+					list[idx].pop_back();
+				}
 				
-				row_r.push_back(m_idx[k][i]);
-			} else if (m_idx[k][i] != r) {
+				row_r.push_back(idx);
+			} else if (idx > r) {
 				col_r.push_back(m_x[k][i]);
-				col_r_nnzs.push_back(m_idx[k][i]);
+				col_r_nnzs.push_back(idx);
 				
-				//this part can be simplified since invariant ensures list[:][0] is always the idx closest to k. wont make a diff on running time though
-				for (j = first[m_idx[k][i]]; j < (int) list[m_idx[k][i]].size(); j++) {
-					if (list[m_idx[k][i]][j] == k) {
-						swapr_.push_back(list[m_idx[k][i]].begin() + j);
-						all_swaps.push_back(m_idx[k][i]);
+				for (j = first[idx]; j < (int) list[idx].size(); j++) {
+					if (list[idx][j] == k) {
+						swapr_.push_back(list[idx].begin() + j);
+						all_swaps.push_back(idx);
 						break;
 					}
 				}
@@ -110,9 +140,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 	}
 
 	for (auto it = swapk_.begin(); it != swapk_.end(); it++) {
-
 		**it = k;
-
 	}
 	
 	for (auto it = swapr_.begin(); it != swapr_.end(); it++) {
@@ -123,6 +151,13 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		ensure_invariant(*it, k, list[*it], first[*it], true);
 	}
 
+	for (auto it = col_k_nnzs.begin(); it != col_k_nnzs.end(); it++) {
+		if ((*it != k) && (*it <= r)) {
+			list[*it].push_back(k);
+			ensure_invariant(*it, k, list[*it], first[*it], true);
+		}
+	}
+	
 	//set the kth col
 	m_idx[k].swap(col_k_nnzs);
 	m_x[k].swap(col_k);

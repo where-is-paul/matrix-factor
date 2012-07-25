@@ -119,11 +119,10 @@ public:
 	
 	template <class Container>
 	inline void ensure_invariant(const int& j, const int& k, Container& con, int offset, bool update_list = false) {
-		if (con.empty() || con[offset] == k) return;
+		if ((offset >= (int) con.size()) || con.empty() || con[offset] == k) return;
 		
-		int i, min(0);
+		int i, min(offset);
 		for (i = offset; i < (int) con.size(); i++) {
-			min = offset;
 			if (con[i] == k) {
 				min = i; 
 				break;

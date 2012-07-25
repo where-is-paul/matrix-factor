@@ -22,7 +22,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	elt_vector_type work(ncols, 0), temp(ncols, 0), col_k, col_r;
 	idx_vector_type curr_nnzs, temp_nnzs, col_k_nnzs, col_r_nnzs, all_swaps;  //non-zeros on current col.
 	vector<bool> in_set(ncols, 0);
-	std::pair<idx_it, elt_it> its_k, its_r;
 	vector<idx_it> swapk, swapr;
 	vector<list_it> swapk_, swapr_;
 
@@ -35,17 +34,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	L.list.resize(ncols ); //allocate a vector of size n for Llist.
 	D.resize(ncols );
 
-	// for (i = 0; i < ncols; i++) {
-		// L.m_idx[i].resize(lfil+1);
-		// L.m_x[i].resize(lfil+1);
-	// }
 
-	int debug = -1;//16097;
+	int debug = -1;
 	for (k = 0; k < ncols; k++) {
 		size_two_piv = false;
 
 		//zero out work vector
-		//std::fill (work.begin() + k, work.end(), 0); //just fill the nonzeros. same with temp. otherwise this is O(n^2). totally bad.
 		curr_nnzs.clear();
 
 		if (k == debug) { 
@@ -64,7 +58,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 		//--------------begin pivoting--------------//
 
-		update(k, work, curr_nnzs, L, D, in_set, true);
+		update(k, work, curr_nnzs, L, D, in_set);
 		
 		d1 = work[k];
 		work[k] = 0;
@@ -91,7 +85,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				cout << "case 1" << endl;
 			}
 		} else {
-			//std::fill (temp.begin() + k, temp.end(), 0);
 			temp_nnzs.clear();
 
 			ensure_invariant(r, k, list[r], first[r], true);
@@ -108,7 +101,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				temp[m_idx[r][j]] = m_x[r][j];
 			}
 
-			update(r, temp, temp_nnzs, L, D, in_set, true);
+			update(r, temp, temp_nnzs, L, D, in_set);
 
 			
 			dr = temp[r];
@@ -131,7 +124,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 				if (k > r) {
 					cout << "case 3 " << k << " " << r << endl;
-					cout << "fault! " << k+1 << " " << r << endl;
+					cout << "fault! " << k << " " << r << endl;
 					return;
 				}
 
@@ -179,7 +172,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				size_two_piv = true;
 
 				if (k+1 != r) {
-					safe_swap(m_idx[k], k+1, r);
+					//safe_swap(m_idx[k], k+1, r);
 					pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k+1, r);
 
 

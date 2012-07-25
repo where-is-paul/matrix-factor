@@ -27,14 +27,14 @@ inline double max(typename std::vector<el_type>& v, typename std::vector<int>& c
 	\return the norm of v.
 */
 template <class el_type>
-inline double norm(typename std::vector<el_type>& v, typename std::vector<int>& curr_nnzs) { 
+inline double norm(typename std::vector<el_type>& v, typename std::vector<int>& curr_nnzs, el_type p = 1) { 
 	typename std::vector<int>::iterator it;
-	double res = 0;
+	el_type res = 0;
 	for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-		res += pow(std::abs(v[*it]), 2);  
+		res += pow(std::abs(v[*it]), p);  
 	}
 	
-	return sqrt(res);
+	return pow(res, 1/p);
 }
 
 /*! \brief Functor for comparing elements by value (in decreasing order) instead of by index.
@@ -121,16 +121,14 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 //----------------Column updates------------------//
 
 template <class el_type>
-inline void update_single(const int& k, const int& j, const el_type& l_ki, const el_type& d, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, vector<bool>& in_set, bool include_kth = false) {
+inline void update_single(const int& k, const int& j, const el_type& l_ki, const el_type& d, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, vector<bool>& in_set) {
 	//find where L(k, k+1:n) starts
 	unsigned int i, offset = L.first[j];
 	
 	if (offset >= L.m_idx[j].size()) return;
 	
 	L.ensure_invariant(j, k, L.m_idx[j], offset);
-	//if (L.m_idx[j][offset] < k) offset++;  //bug with L.first. shouldnt need more than one offset++.
-	if (L.m_idx[j][offset] == k && !include_kth) offset++;
-	
+
 	for (i = offset; i < L.m_idx[j].size(); i++) {
 		work[L.m_idx[j][i]] -= l_ki * d * L.m_x[j][i];
 	}
@@ -147,7 +145,7 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
 	\param D the (partial) diagonal factor of A.
 */
 template <class el_type>
-inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, vector<bool>& in_set, bool include_kth = false) {
+inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, vector<bool>& in_set) {
 	unsigned int j;
 	int blk_sz;
 	el_type d_12, l_ki;	
@@ -158,15 +156,15 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 		j = *it;
 		
 		l_ki = L.coeff(k, j);
-		update_single(k, j, l_ki, D[j], work, curr_nnzs, L, in_set, include_kth); //update col using d11
+		update_single(k, j, l_ki, D[j], work, curr_nnzs, L, in_set); //update col using d11
 		
 		blk_sz = D.block_size(j);
 		if (blk_sz == 2) {
 			d_12 = D.off_diagonal(j);
-			update_single(k, j + 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth);
+			update_single(k, j + 1, l_ki, d_12, work, curr_nnzs, L, in_set);
 		} else if (blk_sz == -2) {
 			d_12 = D.off_diagonal(j-1);
-			update_single(k, j - 1, l_ki, d_12, work, curr_nnzs, L, in_set, include_kth); //update col using d12
+			update_single(k, j - 1, l_ki, d_12, work, curr_nnzs, L, in_set); //update col using d12
 		}
 		
 	}
@@ -182,7 +180,7 @@ inline void vec_add(std::vector<el_type>& v1, std::vector<int>& v1_nnzs, std::ve
 	}
 }
 
-inline void safe_swap(std::vector<int>& curr_nnzs, int k, int r) {
+inline void safe_swap(std::vector<int>& curr_nnzs, const int& k, const int& r) {
 	bool con_k = false, con_r = false;
 	std::vector<int>::iterator k_idx, r_idx;
 	for (auto it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
@@ -198,6 +196,9 @@ inline void safe_swap(std::vector<int>& curr_nnzs, int k, int r) {
 	}
 	
 	if (con_k == con_r) {
+		if (con_k) {
+			std::iter_swap(k_idx, r_idx);
+		}
 		//do nothing
 	} else if (con_k) {
 		*k_idx = r;

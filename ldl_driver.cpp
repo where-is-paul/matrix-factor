@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
 	if (argc > 4) {
 		if (strcmp(argv[4], "-y") == 0) {
 			cout << "Saving matrices..." << endl;
+			A.save("output_matrices/outA.mtx");
 			L.save("output_matrices/outL.mtx");
 			D.save("output_matrices/outD.mtx");
 			save(perm, "output_matrices/outPerm.mtx");

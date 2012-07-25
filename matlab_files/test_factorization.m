@@ -5,13 +5,14 @@ for i = 1:8
     mat_names = [mat_names; strcat('testmat', num2str(i))];
 end
 mat_names = cellstr(mat_names);
-other_mats = { 'aug3dcqp_rcm_perm'; 'bloweya'; 'bratu3d'; 'tuma1'; ...
+other_mats = { 'aug3dcqp_rcm_perm'; 'bloweya'; 'bratu3d'; ...
+            'stokes_regularized'; 'tuma1'; 'tuma2'; ...
             '1138_bus'};
 
-all_mats = other_mats;%mat_names;%[mat_names; other_mats];
+all_mats = {'tuma1'};%mat_names;%other_mats;%[mat_names; other_mats];
         
 lfil = 2;
-tol = 0.001;
+tol = 0.00;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -24,9 +25,8 @@ for i = 1:length(all_mats)
     cmd = horzcat(cmd, ' test_matrices/', file, ' -y -n');
     [~, ~] = system(cmd);
 
-    %pause(0.5);
-
     A = mmread(file);
+    B = mmread(strcat(base, 'outA.mtx')); B = B+B'-diag(diag(B));
     l = mmread(strcat(base, 'outL.mtx'));
     d = mmread(strcat(base, 'outD.mtx'));
     p = mmread(strcat(base, 'outPerm.mtx'));
@@ -38,10 +38,13 @@ for i = 1:length(all_mats)
     %1.8*10^-1 as a residual. the latter is a better preconditioner, but
     %measures further from the original matrix.
     fprintf('The relative residual is %d.\n', norm(A(p,p) - l*d*l', 1)/norm(A, 1));
+    fprintf('The fill factor is is %d.\n', nnz(l+d+l')/nnz(A));
+    
     %spy(A(p,p)); figure; spy(abs(l*d*l') > 1e-8);
-
+    spy(B); figure; spy(A(p,p));
+    
     e = ones(size(A,1),1);
-    gmres(A(p,p),e,60,1e-6,250,l*d, l');
-    %gmres(A,e,30,1e-6,2);
+    gmres(A(p,p),e,60,1e-8,3,l*d, l');
+    %gmres(A,e,30,1e-8,2);
     fprintf('\n');
 end
