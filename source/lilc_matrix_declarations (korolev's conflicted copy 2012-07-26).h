@@ -39,8 +39,6 @@ public:
 	std::vector< std::deque< int > > list;
 	std::vector<int> first;
 	
-	block_diag_matrix<el_type> S;
-	
 public:
 	
 	lilc_matrix (int n_rows = 0, int n_cols = 0): 
@@ -105,14 +103,8 @@ public:
 		
 		first.resize(n_cols, 1);
 		list.resize(n_cols);
-		
-		S.resize(n_cols);
 	}
-	//-----Reorderings------//
-	/*!the symmetric  matrix A of order n is equilibrated  and  the symmetric  equilibrated  matrix  SAS  is stored  in the  lower triangular  part  of A,  where  S-1 = diag (S[1],..., S[n]);
-	*/
-	void sym_equil();
-	
+
 	//----Factorizations----//
 	/*! Performs an LDL' factorization of this matrix. The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005). Results are stored in L and D.
 		\param L the L factor of this matrix.
@@ -163,6 +155,10 @@ public:
 	}
 	
 	inline void advance_list(const int& k) {
+			
+
+
+
 			int offset;
 			for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
 				offset = first[*it];
@@ -194,7 +190,6 @@ public:
 
 };
 
-#include "lilc_matrix_sym_equil.h"
 #include "lilc_matrix_ildl.h"
 #include "lilc_matrix_ildl_helpers.h"
 #include "lilc_matrix_pivot.h"
