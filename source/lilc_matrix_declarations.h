@@ -108,7 +108,9 @@ public:
 		
 		S.resize(n_cols);
 	}
-	//-----Reorderings------//
+	//-----Reorderings/Rescalings------//
+	void sym_perm(vector<int>& perm);
+	
 	/*!the symmetric  matrix A of order n is equilibrated  and  the symmetric  equilibrated  matrix  SAS  is stored  in the  lower triangular  part  of A,  where  S-1 = diag (S[1],..., S[n]);
 	*/
 	void sym_equil();
@@ -190,10 +192,11 @@ public:
 	
 	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
 	*/
-	bool save(std::string filename);
+	bool save(std::string filename, bool sym);
 
 };
 
+#include "lilc_matrix_sym_perm.h"
 #include "lilc_matrix_sym_equil.h"
 #include "lilc_matrix_ildl.h"
 #include "lilc_matrix_ildl_helpers.h"
