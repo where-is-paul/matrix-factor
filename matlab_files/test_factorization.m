@@ -9,11 +9,7 @@ other_mats = { 'aug3dcqp_rcm_perm'; 'bloweya'; 'bratu3d'; ...
             'stokes_regularized'; 'tuma1'; 'tuma2'; ...
             '1138_bus'};
 
-<<<<<<< HEAD
 all_mats = other_mats;%[mat_names; other_mats];
-=======
-all_mats = {'tuma1'};%mat_names;%other_mats;%[mat_names; other_mats];
->>>>>>> 8989cff3a7b4631d24200678860b1e19321867cc
         
 lfil = 2;
 tol = 0.00;
@@ -42,7 +38,6 @@ for i = 1:length(all_mats)
     %1.8*10^-1 as a residual. the latter is a better preconditioner, but
     %measures further from the original matrix.
     fprintf('The relative residual is %d.\n', norm(A(p,p) - l*d*l', 1)/norm(A, 1));
-<<<<<<< HEAD
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(A));
     norm(A(p,p)-B, 1)
     
@@ -52,15 +47,6 @@ for i = 1:length(all_mats)
     
     e = ones(size(A,1),1);
     %gmres(A(p,p),e,60,1e-8,3,l*d, l');
-=======
-    fprintf('The fill factor is is %d.\n', nnz(l+d+l')/nnz(A));
-    
-    %spy(A(p,p)); figure; spy(abs(l*d*l') > 1e-8);
-    spy(B); figure; spy(A(p,p));
-    
-    e = ones(size(A,1),1);
-    gmres(A(p,p),e,60,1e-8,3,l*d, l');
->>>>>>> 8989cff3a7b4631d24200678860b1e19321867cc
     %gmres(A,e,30,1e-8,2);
     fprintf('\n');
 end

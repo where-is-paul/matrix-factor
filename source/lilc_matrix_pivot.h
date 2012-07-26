@@ -78,10 +78,7 @@ inline void lilc_matrix<el_type> :: pivot(vector<idx_it>& swapk, vector<idx_it>&
 		if (coeffRef(r, list[r][i], its_k)) {
 			if (list[r][i] == k) {
 				col_k_nnzs.push_back(r);
-<<<<<<< HEAD
 				row_r.push_back(k);
-=======
->>>>>>> 8989cff3a7b4631d24200678860b1e19321867cc
 			} else {
 				col_k_nnzs.push_back(list[r][i]);
 			}
