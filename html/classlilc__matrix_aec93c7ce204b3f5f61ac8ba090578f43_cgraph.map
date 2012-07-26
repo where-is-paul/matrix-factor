@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="lilc_matrix::advance_first" alt="" coords="409,36,583,62"/>
+<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="212,48,287,74"/>
+<area shape="rect" id="node9" href="$lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="225,98,273,125"/>
+<area shape="rect" id="node11" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="387,250,605,277"/>
+<area shape="rect" id="node13" href="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="block_diag_matrix::resize" alt="" coords="160,200,339,226"/>
+<area shape="rect" id="node15" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="lilc_matrix::resize" alt="" coords="185,149,313,176"/>
+<area shape="rect" id="node21" href="$lilc__matrix__ildl__helpers_8h.html#a3a205752bb9fe0b8462ea2d9929d02be" title="safe_swap" alt="" coords="204,301,295,328"/>
+<area shape="rect" id="node23" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="659,352,842,378"/>
+<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html#aa97814d8199ae28757c566f7b13532e9" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="217,352,282,378"/>
+<area shape="rect" id="node5" href="$classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f" title="lilc_matrix::ensure_invariant" alt="" coords="653,250,848,277"/>
+<area shape="rect" id="node17" href="$classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2" title="lil_sparse_matrix::n_cols" alt="" coords="409,124,583,150"/>
+<area shape="rect" id="node19" href="$classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76" title="lil_sparse_matrix::n_rows" alt="" coords="406,174,586,201"/>
+<area shape="rect" id="node27" href="$classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574" title="block_diag_matrix::block_size" alt="" coords="393,402,599,429"/>
+<area shape="rect" id="node29" href="$classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="lilc_matrix::coeff" alt="" coords="435,352,557,378"/>
+<area shape="rect" id="node32" href="$lilc__matrix__ildl__helpers_8h.html#a56cd3d014fb6b03abcc1e59999916ed2" title="update_single" alt="" coords="441,301,551,328"/>
+</map>

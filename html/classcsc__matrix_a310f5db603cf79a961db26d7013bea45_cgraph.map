@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$csc__matrix__ildl__helpers_8h.html#ab97bd15d8d3486326ee4ee72b30b047e" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="195,5,269,32"/>
+<area shape="rect" id="node5" href="$csc__matrix__ildl__helpers_8h.html#aed0918ead8ed4312ff691fda0bee2566" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="208,56,256,83"/>
+<area shape="rect" id="node7" href="$classcsc__matrix.html#a9cdbdb1db7e864d3626d63f65a820b70" title="csc_matrix::resize" alt="" coords="165,107,299,133"/>
+<area shape="rect" id="node13" href="$csc__matrix__ildl__helpers_8h.html#a89d88cfc799f1fb717df5f3f08bf7389" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="199,157,265,184"/>
+<area shape="rect" id="node9" href="$classabstract__sparse__matrix.html#a80e493277e4813e3dff89f2eeee428bc" title="abstract_sparse_matrix::n_cols" alt="" coords="349,56,565,83"/>
+<area shape="rect" id="node11" href="$classabstract__sparse__matrix.html#a144a350d9ac41f1325822724603b104c" title="abstract_sparse_matrix::n_rows" alt="" coords="347,107,568,133"/>
+<area shape="rect" id="node15" href="$csc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="403,157,512,184"/>
+</map>
