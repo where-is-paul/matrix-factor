@@ -17,7 +17,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 		//before factorization pivots matrix, this is a fair assumption
 		//for most matrix market matrices.
 		for (auto it = list[i].begin(); it != list[i].end(); it++) {
-			S[i] = std::max(S[i], std::abs(coeff(i, *it))); //can use bin. search on coeff since no reordering is done yet.
+			S[i] = std::max(S[i], std::abs(coeff(i, *it)));
 		}
 		
 		if (S[i] != 0) { //use eps later

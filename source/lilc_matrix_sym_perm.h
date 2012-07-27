@@ -9,20 +9,30 @@ void lilc_matrix<el_type> :: sym_perm(std::vector<int>& perm) {
 	
 	int i, j, pi, pj;
 	el_type px;
+	vector<int> pinv(m_n_cols);
+	for (i = 0; i < m_n_cols; i++) {
+		pinv[perm[i]] = i;
+		list[i].clear();
+	}
+	
 	for (i = 0; i < m_n_cols; i++) { //no need to use function call n_cols() every iter
-		pj = perm[i];
+		pj = pinv[i];
 		
 		for (j = 0; j < (int) m_idx[i].size(); j++) {
-			pi = perm[m_idx[i][j]];
+			pi = pinv[m_idx[i][j]];
 			px = m_x[i][j];
 			
 			if (pi < pj) {
 				m_idx_new[ pi ].push_back(pj);
 				m_x_new[ pi ].push_back(px);
+				list[pj].push_back(pi);
 				
 			} else {
 				m_idx_new[ pj ].push_back(pi);
 				m_x_new[ pj ].push_back(px);
+				
+				if (pi != pj)
+				list[pi].push_back(pj);
 				
 			}
 		}
@@ -33,6 +43,7 @@ void lilc_matrix<el_type> :: sym_perm(std::vector<int>& perm) {
 	
 	for (i = 0; i < m_n_cols; i++) {
 		ensure_invariant(i, i, m_idx[i], 0);
+		ensure_invariant(i, i, list[i], 0, true);
 	}
 }
 

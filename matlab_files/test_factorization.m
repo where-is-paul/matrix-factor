@@ -8,14 +8,10 @@ mat_names = cellstr(mat_names);
 other_mats = { 'aug3dcqp'; 'bloweya_rcm_perm'; 'bratu3d'; ...
             'tuma1_rcm_perm'; 'tuma2_rcm_perm'; '1138_bus'};
 
-% for i = 1:length(other_mats)
-%     other_mats{i} = strcat(other_mats{i}, '_rcm_perm');
-% end
-
-all_mats = mat_names;
+all_mats = [mat_names; other_mats];
         
-lfil = 3;
-tol = 0.00;
+lfil = 1.1;
+tol = 0.001;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -45,7 +41,7 @@ for i = 1:length(all_mats)
     %spy(B); figure; spy(A(p,p));
     
     e = ones(size(B,1),1);
-    %gmres(B,e,min(60,size(B,1)),1e-8,4,l*d, l');
+    gmres(B,e,min(60,size(B,1)),1e-8,3,l*d, l');
     %gmres(A,e,30,1e-8,2);
     fprintf('\n');
 end

@@ -129,8 +129,9 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
 	
 	L.ensure_invariant(j, k, L.m_idx[j], offset);
 
+	el_type factor = l_ki * d;
 	for (i = offset; i < L.m_idx[j].size(); i++) {
-		work[L.m_idx[j][i]] -= l_ki * d * L.m_x[j][i];
+		work[L.m_idx[j][i]] -= factor * L.m_x[j][i];
 	}
 	
 	//merge current non-zeros of col k with nonzeros of col *it. 
