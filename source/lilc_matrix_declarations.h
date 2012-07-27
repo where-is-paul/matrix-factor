@@ -4,6 +4,7 @@
 
 #include "lil_sparse_matrix.h"
 #include <deque>
+#include <queue>
 #include <algorithm>
 #include <cmath>
 
@@ -109,6 +110,14 @@ public:
 		S.resize(n_cols);
 	}
 	//-----Reorderings/Rescalings------//
+	/*!returns a pseudo-peripheral root of A
+	*/
+	void find_root(int& s);
+	
+	bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
+	
+	void sym_rcm(vector<int>& perm);
+	
 	void sym_perm(vector<int>& perm);
 	
 	/*!the symmetric  matrix A of order n is equilibrated  and  the symmetric  equilibrated  matrix  SAS  is stored  in the  lower triangular  part  of A,  where  S-1 = diag (S[1],..., S[n]);
@@ -196,6 +205,9 @@ public:
 
 };
 
+#include "lilc_matrix_find_level_set.h"
+#include "lilc_matrix_find_root.h"
+#include "lilc_matrix_sym_rcm.h"
 #include "lilc_matrix_sym_perm.h"
 #include "lilc_matrix_sym_equil.h"
 #include "lilc_matrix_ildl.h"

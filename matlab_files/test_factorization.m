@@ -12,10 +12,10 @@ other_mats = { 'aug3dcqp'; 'bloweya_rcm_perm'; 'bratu3d'; ...
 %     other_mats{i} = strcat(other_mats{i}, '_rcm_perm');
 % end
 
-all_mats = [other_mats];%{'tuma1_rcm_perm'};%mat_names;%other_mats;%
+all_mats = mat_names;
         
-lfil = 0.95;
-tol = 0.001;
+lfil = 3;
+tol = 0.00;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -30,7 +30,6 @@ for i = 1:length(all_mats)
 
     %A = mmread(file);
     B = mmread(strcat(base, 'outA.mtx')); 
-    B = B+B'-diag(diag(B));
         
     S = mmread(strcat(base, 'outS.mtx'));
     l = mmread(strcat(base, 'outL.mtx'));
@@ -46,7 +45,7 @@ for i = 1:length(all_mats)
     %spy(B); figure; spy(A(p,p));
     
     e = ones(size(B,1),1);
-    gmres(B,e,min(60,size(B,1)),1e-8,4,l*d, l');
+    %gmres(B,e,min(60,size(B,1)),1e-8,4,l*d, l');
     %gmres(A,e,30,1e-8,2);
     fprintf('\n');
 end
