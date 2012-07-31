@@ -9,7 +9,7 @@ struct by_degree {
 	bool operator()(int const &a, int const &b) const { 
 		int deg_a = A->list[a].size() + A->m_idx[a].size();
 		int deg_b = A->list[b].size() + A->m_idx[b].size();
-		if (deg_a == deg_b) return a < b;
+		if (deg_a == deg_b) return a > b;
 		return deg_a < deg_b;
 	}
 };

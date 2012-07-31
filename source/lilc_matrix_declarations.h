@@ -28,6 +28,7 @@ public:
 	using lil_sparse_matrix<el_type>::n_cols;
 	using lil_sparse_matrix<el_type>::nnz;
 	using lil_sparse_matrix<el_type>::nnz_count;
+	using lil_sparse_matrix<el_type>::eps;
 
 
 	typedef typename lil_sparse_matrix<el_type>::idx_vector_type idx_vector_type;
@@ -131,7 +132,7 @@ public:
 		\param lfil a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements.
 		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
 	*/
-	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, double fill_factor, double tol);
+	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
 	
 	//------Helpers------//
 	inline void pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r);

@@ -2,6 +2,8 @@
 #ifndef _LIL_MATRIX_SYM_EQUIL_H_
 #define _LIL_MATRIX_SYM_EQUIL_H_
 
+using std::abs;
+
 template<class el_type>
 void lilc_matrix<el_type> :: sym_equil() {
 
@@ -11,16 +13,16 @@ void lilc_matrix<el_type> :: sym_equil() {
 	for (i = 0; i < ncols; i++) {
 		//assumes diag elem is always in 0th pos. if possible.
 		if (!m_idx[i].empty() && m_idx[i][0] == i)
-		S[i] = sqrt(std::abs(m_x[i][0]));
+		S[i] = sqrt(abs(m_x[i][0]));
 		
 		//assumes indices are ordered. since this procedure is run
 		//before factorization pivots matrix, this is a fair assumption
 		//for most matrix market matrices.
 		for (auto it = list[i].begin(); it != list[i].end(); it++) {
-			S[i] = std::max(S[i], std::abs(coeff(i, *it)));
+			S[i] = std::max(S[i], abs(coeff(i, *it)));
 		}
 		
-		if (S[i] != 0) { //use eps later
+		if (abs(S[i]) > eps) { 
 			for (auto it = list[i].begin(); it != list[i].end(); it++) {
 				coeffRef(i, *it, elem_its);
 				
@@ -28,16 +30,21 @@ void lilc_matrix<el_type> :: sym_equil() {
 				*(elem_its.second) /= S[i]; 
 			}
 
-			if (!m_idx[i].empty() && m_idx[i][0] == i) m_x[i][0] /= S[i];
+			if (!m_idx[i].empty() && (m_idx[i][0] == i) ) 
+			m_x[i][0] /= S[i];
 			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				*it /= S[i];
 			}
-		} else {
+		} 
+	}
+	
+	for (i = 0; i < ncols; i++) {
+		if (abs(S[i]) < eps) {
 			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
-				S[i] = std::max(S[i], std::abs(*it));
+				S[i] = std::max(S[i], abs(*it));
 			}
 
-			if (S[i] == 0) {
+			if (abs(S[i]) < eps) {
 				std::cerr << "Error: Matrix has a null column/row." << std::endl;
 				return;
 			}
@@ -46,7 +53,6 @@ void lilc_matrix<el_type> :: sym_equil() {
 				*it /= S[i];
 			}
 		}
-		
 	}
 }
 

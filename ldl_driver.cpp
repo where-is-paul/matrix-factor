@@ -31,10 +31,15 @@ int main(int argc, char* argv[]) {
 	assert( A.load(argv[3]));
 	printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 	
-	perm.resize(A.n_cols());
-	for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
-	//A.sym_rcm(perm);
-	//A.sym_perm(perm);
+	// perm.resize(A.n_cols());
+	// for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
+	
+	A.save("output_matrices/outA.mtx", true);
+	A.S.save("output_matrices/outS.mtx");
+	save(perm, "output_matrices/outPerm.mtx");
+
+	A.sym_rcm(perm);
+	A.sym_perm(perm);
 	A.sym_equil();
 	
 	struct timeval tim;  
@@ -54,9 +59,9 @@ int main(int argc, char* argv[]) {
 			cout << "Saving matrices..." << endl;
 			A.save("output_matrices/outA.mtx", true);
 			A.S.save("output_matrices/outS.mtx");
+			save(perm, "output_matrices/outPerm.mtx");
 			L.save("output_matrices/outL.mtx");
 			D.save("output_matrices/outD.mtx");
-			save(perm, "output_matrices/outPerm.mtx");
 		}
 		
 		if (argc > 5 && strcmp(argv[5], "-y") == 0) {

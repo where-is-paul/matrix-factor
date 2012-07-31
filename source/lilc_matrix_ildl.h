@@ -4,12 +4,14 @@
 
 using std::endl;
 using std::cout;
+using std::abs;
 
 template <class el_type>
-void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, double fill_factor, double tol)
+void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
+	
 	int lfil = 2*fill_factor*nnz()/n_cols(); //roughly a factor of 2 since only lower tri. of A is stored
-	const double alpha = (1+sqrt(17))/8;  //for use in pivoting.
+	const el_type alpha = (1+sqrt(17))/8;  //for use in pivoting.
 	el_type w1, wr, d1(0), dr(0), det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
 
 	//L.list is a deque of linked lists that gives the non-zero elements in each row of L.
@@ -21,7 +23,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	//work is a work vector for the current column. L.first is a linked list that gives the first nonzero element in column k with row index i > k. (i.e. the first nonzero in L(k+1:n, k).
 	elt_vector_type work(ncols, 0), temp(ncols, 0), col_k, col_r;
 	idx_vector_type curr_nnzs, temp_nnzs, col_k_nnzs, col_r_nnzs, all_swaps;  //non-zeros on current col.
-	vector<bool> in_set(ncols, 0);
+	vector<bool> in_set(ncols, false);
 	vector<idx_it> swapk, swapr;
 	vector<list_it> swapk_, swapr_;
 
@@ -47,13 +49,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			cout << "m_x[k]: " << m_x[k] << endl;
 		}
 		
-		if (m_idx[k].size() > 0) {
-			curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
+		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
 
-			//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).
-			for (j = 0; j < (int) curr_nnzs.size(); j++) {
-				work[curr_nnzs[j]] = m_x[k][j];
-			}
+		//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).
+		for (j = 0; j < (int) curr_nnzs.size(); j++) {
+			work[curr_nnzs[j]] = m_x[k][j];
 		}
 
 		//--------------begin pivoting--------------//
@@ -74,12 +74,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			cout << "w1: " << w1 << endl;
 		}
 		
-		if (w1 == 0) {
+		if (w1 < eps) {
 			//case 0: do nothing. pivot is k.
 			if (k == debug) {
 				cout << "case 0" << endl;
 			}
-		} else if (std::abs(d1) >= alpha * w1 ) {
+		} else if ( (alpha * w1 - abs(d1)) < eps  ) {
 			//case 1: do nothing. pivot is k.
 			if (k == debug) {
 				cout << "case 1" << endl;
@@ -109,7 +109,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			wr = max(temp, temp_nnzs, j);
 
-			if (std::abs(d1 * wr)>= alpha*w1*w1) {
+			if ((alpha*w1*w1 - abs(d1)*wr) < eps) {
 				//case 2: do nothing. pivot is k.
 				if (k == debug) {
 					cout << "case 2" << endl;
@@ -117,7 +117,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				}
 				
 				
-			} else if (std::abs(dr) >= std::abs(alpha * wr)) {
+			} else if ( (alpha * wr - abs(dr)) < eps) {
 				//case 3: pivot is k with r: 1x1 pivot case.
 				temp[r] = dr;
 				work[k] = d1;
@@ -142,8 +142,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 				curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
 
-
-				//check if this is working.
 				safe_swap(curr_nnzs, k, r);
 
 				//--------end pivot rest---------//
@@ -204,7 +202,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
 			
 			det_D = d1*dr - work[k+1]*work[k+1];
-			//if (det_D != 0) { //assuming matrix is non-singular for now. replace != 0 with EPS later
+			if ( abs(det_D) < eps) det_D = 1e-3;  //statically pivot;
 			D_inv11 = dr/det_D;
 			D_inv22 = d1/det_D;
 			D_inv12 = -work[k+1]/det_D;
@@ -240,10 +238,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		count++;
 		
 		if (!size_two_piv) {
-			
+			if ( abs(D[k]) < eps) D[k] = 1e-3; //statically pivot
 			i = 0;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { //need -1 on col_size to remove offset from initializing col_size to 1
-				if (work[*it] != 0) {
+				if ( abs(work[*it]) > eps) {
 					L.m_idx[k][i+1] = *it; //row_idx of L is updated
 					L.m_x[k][i+1] = work[*it]/D[k]; //work vector is scaled by D[k]
 
@@ -270,7 +268,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			i = 0;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-				if (work[*it] != 0) {
+				if ( abs(work[*it]) > eps) {
 					L.m_x[k][i+1] = work[*it]; //row_idx of L is updated
 					L.m_idx[k][i+1] = *it; //work vector is scaled by D[k]
 					L.list[*it].push_back(k); //update Llist
@@ -282,7 +280,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			
 			j = 0;
 			for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
-				if (temp[*it] != 0) {
+				if ( abs(temp[*it]) > eps) {
 					L.m_x[k+1][j+1] = temp[*it]; //row_idx of L is updated
 					L.m_idx[k+1][j+1] = *it; //work vector is scaled by D[k]
 					L.list[*it].push_back(k+1); //update Llist

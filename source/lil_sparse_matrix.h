@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <limits>
 
 template<class el_type>
 bool save(const std::vector<el_type>& vec, std::string filename) {
@@ -72,6 +73,7 @@ protected:
 	
 	/*! Number of rows/cols in the matrix */
 	int m_n_rows, m_n_cols, nnz_count;
+	el_type eps;
 
 	/*! The row/col indices. The way m_col_idx and m_row_idx are used depends on whether the matrix is in CSC, CSR, or Triplet form. */
 	vector<idx_vector_type> m_idx;
@@ -82,6 +84,7 @@ protected:
 	lil_sparse_matrix (int n_rows, int n_cols) : m_n_rows(n_rows), m_n_cols (n_cols)
 	{
 		nnz_count = 0;
+		eps = std::numeric_limits<el_type>::epsilon();
 	}
 
 public:

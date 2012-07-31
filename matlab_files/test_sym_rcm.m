@@ -9,7 +9,9 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
             'tuma1'; 'tuma2'; '1138_bus'};
         
 all_mats = mat_names;
-        
+
+lfil = 0;
+tol = 0;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -30,6 +32,11 @@ for i = 1:length(all_mats)
     p = diag(p)+1;
    
     fprintf('The relative residual is %d.\n', norm(S*B*S- A(p,p), 1)/norm(B, 1));
+
+%     close all;
+%     spy(A); figure; spy(B)
+%     p = symrcm(A);
+%     figure; spy(A(p,p))
 
     fprintf('\n');
 end
