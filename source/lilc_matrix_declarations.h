@@ -3,23 +3,23 @@
 #define _LILC_MATRIX_DECLARATIONS_H_
 
 #include "lil_sparse_matrix.h"
-#include <deque>
-#include <queue>
 #include <algorithm>
 #include <cmath>
+#include "swap_struct.h"
 
-/*! \brief A matrix using the compressed sparse column format.
+/*! \brief A list-of-lists (LIL) matrix in column oriented format.
 
-	In compressed sparse column storage, the col_idx array is of size N + 1. col_idx[j] gives the starting position of the first non-zero element in column j. Hence col_idx[j+1] - col_idx[j] gives the total number of non-zero values in column j and therefore, col_idx[n_cols] gives the total number of non-zero elements in the matrix. 
+	For convience, the matrix this class represents will be refered to as matrix A.
+	In LIL-C format, each column of A (an n*n matrix) is stored as a separate vector. The nonzeros are stored in m_idx while the non-zeros are stored in m_x. Both m_x and m_idx are initialized to a list of n lists. m_idx and m_x are ordered dependent on each other, in that A(m_idx[k][j], k) = m_x[k][j].
 	
-	row_idx[j] and m_x[j] are arrays of size n_nzs, so col_idx[n_cols] == row_idx.size()
 */
 
 template<class el_type> 
 class lilc_matrix : public lil_sparse_matrix<el_type>
 {
 public:
-
+	
+	//-------------- typedefs and inherited variables --------------//
 	using lil_sparse_matrix<el_type>::m_idx;
 	using lil_sparse_matrix<el_type>::m_x;
 	using lil_sparse_matrix<el_type>::m_n_rows;
@@ -36,15 +36,23 @@ public:
 	
 	typedef typename idx_vector_type::iterator idx_it;
 	typedef typename elt_vector_type::iterator elt_it;
-	typedef std::deque< int > ::iterator list_it;
 
-	std::vector< std::deque< int > > list;
+	/*! \brief A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A. 
+	*/
+	std::vector< std::vector< int > > list;
+	
+	/*! \brief On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
+	*/
 	std::vector<int> first;
 	
+	/*! \brief A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil function below, after which S^(-1) * A * S^(-1) will be stored in A.
+	*/
 	block_diag_matrix<el_type> S;
 	
 public:
 	
+	/*! \brief Constructor for a column oriented list-of-lists (LIL) matrix. Space for both the values list and the indices list of the matrix is allocated here.
+	*/
 	lilc_matrix (int n_rows = 0, int n_cols = 0): 
 	lil_sparse_matrix<el_type> (n_rows, n_cols) 
 	{
@@ -54,12 +62,12 @@ public:
 	
 	//----Matrix referencing/filling----//
 	
-	/*! Finds the (i,j)th coefficient of the matrix.
+	/*! \brief Finds the (i,j)th coefficient of the matrix.
 		\param i the row of the (i,j)th element (zero-indexed).
 		\param j the col of the (i,j)th element (zero-indexed).
 		\return The (i,j)th element of the matrix. 
 	*/
-	virtual el_type coeff(const int& i, const int& j) const 
+	inline virtual el_type coeff(const int& i, const int& j) const 
 	{	
 		//invariant: first elem in each col of a is the diagonal elem if it exists.
 		if (i == j) {
@@ -74,12 +82,14 @@ public:
 		return 0;
 	}
 	
-	/*! Finds the (i,j)th coefficient of the matrix.
+	/*! \brief Finds the index/value pointers to (i,j)th coefficient of the matrix.
 		\param i the row of the (i,j)th element (zero-indexed).
 		\param j the col of the (i,j)th element (zero-indexed).
+		\param its a pair of pointers, one for the index of the found element, and the other for the value of the element. If the element is not found, the pointers point to the end of column j.
+		
 		\return True if (i,j)th element is nonzero, false otherwise. 
 	*/
-	bool coeffRef(const int& i, const int& j, std::pair<idx_it, elt_it>& its)
+	inline bool coeffRef(const int& i, const int& j, std::pair<idx_it, elt_it>& its)
 	{	
 		for (unsigned int k = 0; k < m_idx[j].size(); k++) {
 			if (m_idx[j][k] == i) {
@@ -92,10 +102,9 @@ public:
 		return false;
 	}
 	
-	/*! Resizes the matrix. For use in preallocating space before factorization begins.
+	/*! \brief Resizes the matrix. For use in preallocating space before factorization begins.
 		\param n_rows the number of rows in the resized matrix.
 		\param n_cols the number of cols in the resized matrix.
-		\param n_nzs the number of non-zeros expected in the matrix. 
 	*/
 	void resize(int n_rows, int n_cols)
 	{
@@ -111,32 +120,72 @@ public:
 		S.resize(n_cols);
 	}
 	//-----Reorderings/Rescalings------//
-	/*!returns a pseudo-peripheral root of A
+	/*!	\brief Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across the graph of A (where A is viewed as an adjacency matrix).
+
+		\param s contains the initial node to seed the algorithm. A pseudo-peripheral root of A is stored in s at the end of the algorithm.
 	*/
 	void find_root(int& s);
 	
+	/*!	\brief Returns the next level set given the current level set of A. This is essentially all neighbours of the currently enqueued nodes in breath-first search.
+		
+		\param lvl_set the current level set (a list of nodes).
+		\param visited all previously visited nodes.
+	*/
 	bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
 	
+	/*!	\brief Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). 
+		
+		The implementation is based on the general algorithm outlined in A detailed description of this function as well as all its subfunctions can be found in "Computer Solution of Large Sparse Positive Definite Systems" by George and Liu (1981).
+		\param perm The original permutation of A (usually initialized with 0 ... n-1).
+	*/
 	void sym_rcm(vector<int>& perm);
 	
+	/*! \brief Given a permutation vector perm, A is permuted to P'AP, where P is the permutation matrix associated with perm. 
+		\param perm the permutation vector.
+	*/
 	void sym_perm(vector<int>& perm);
 	
-	/*!the symmetric  matrix A of order n is equilibrated  and  the symmetric  equilibrated  matrix  SAS  is stored  in the  lower triangular  part  of A,  where  S-1 = diag (S[1],..., S[n]);
+	/*!	\brief The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S^(-1) * A * S^(-1) is stored in A, where  S = diag (S[1],..., S[n]). 
+		
+		This algorithm is based on the one outlined in "Equilibration of Symmetric Matrices in the Max-Norm" by Bunch (1971).
 	*/
 	void sym_equil();
 	
 	//----Factorizations----//
-	/*! Performs an LDL' factorization of this matrix. The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005). Results are stored in L and D.
+	/*! \brief Performs an LDL' factorization of this matrix. 
+		
+		The pivoted matrix P'AP will be stored in place of A. In addition, the L and D factors of P'AP will be stored in L and D (so that P'AP = LDL'). The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005).
+	
 		\param L the L factor of this matrix.
 		\param D the D factor of this matrix.
-		\param lfil a parameter to control memory usage. Each column is guarannted to have fewer than lfil elements.
+		\param perm the current permutation of A.
+		\param fill_factor a parameter to control memory usage. Each column is guaranteed to have fewer than fill_factor*(nnz(A)/n_col(A)) elements.
 		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
 	*/
 	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
 	
 	//------Helpers------//
-	inline void pivot(vector<idx_it>& swapk, vector<idx_it>& swapr, vector<list_it>& swapk_, vector<list_it>& swapr_, idx_vector_type& all_swaps, vector<bool>& in_set, elt_vector_type& col_k, idx_vector_type& col_k_nnzs, elt_vector_type& col_r, idx_vector_type& col_r_nnzs, lilc_matrix<el_type>& L, const int& k, const int& r);
+	/*! \brief Performs a symmetric permutation between row/col k & r of A.
 	
+		\param s a struct containing temporary variables needed during pivoting.
+		\param in_set a bitset needed for unordered unions during pivoting.
+		\param L the lower triangular factor of A.
+		\param k index of row/col k.
+		\param r index of row/col r.
+	*/
+	inline void pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r);
+	
+	/*! Ensures two invariants obeyed during factorization:
+		If \this
+			1. On iteration k, first[k] will give the number of non-zero elements on col (or row depending on how its used) i of A before A(i, k).
+			2. On iteration k, list[k][first[k]] will contain the 
+			
+		\param j
+		\param k
+		\param con
+		\param offset
+		\param update_list
+	*/
 	template <class Container>
 	inline void ensure_invariant(const int& j, const int& k, Container& con, int offset, bool update_list = false) {
 		if ((offset >= (int) con.size()) || con.empty() || con[offset] == k) return;
@@ -159,6 +208,9 @@ public:
 		}
 	}
 	
+	/*! \brief Updates A.first for iteration k.
+		\param k current iteration index.	
+	*/
 	inline void advance_first(const int& k) {
 		int offset;
 		for (auto it = list[k].begin(); it != list[k].end(); it++) {	
@@ -174,11 +226,13 @@ public:
 		}
 	}
 	
+	/*! \brief Updates A.list for iteration k.
+		\param k current iteration index.	
+	*/
 	inline void advance_list(const int& k) {
 			int offset;
 			for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
 				offset = first[*it];
-				
 
 				if (offset >= (int) list[*it].size()) continue;
 				
@@ -192,7 +246,7 @@ public:
 	
 	//----IO Functions----//
 	
-	/*! \return A string reprepsentation of this matrix.
+	/*! \return A string representation of this matrix.
 	*/
 	std::string to_string () const;
 	
@@ -201,10 +255,13 @@ public:
 	bool load(std::string filename);
 	
 	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
+		\param sym flags whether the matrix is symmetric or not.
 	*/
 	bool save(std::string filename, bool sym);
 
 };
+
+//------------------ include files for class functions -------------------//
 
 #include "lilc_matrix_find_level_set.h"
 #include "lilc_matrix_find_root.h"

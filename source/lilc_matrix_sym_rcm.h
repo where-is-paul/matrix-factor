@@ -9,13 +9,17 @@ struct by_degree {
 	bool operator()(int const &a, int const &b) const { 
 		int deg_a = A->list[a].size() + A->m_idx[a].size();
 		int deg_b = A->list[b].size() + A->m_idx[b].size();
+		
+		if (A->m_idx[a].size() > 0 && A->m_idx[a][0] == a) deg_a--;
+		if (A->m_idx[b].size() > 0 && A->m_idx[b][0] == b) deg_b--;
+		
 		if (deg_a == deg_b) return a > b;
 		return deg_a < deg_b;
 	}
 };
 
 template<class el_type> 
-void lilc_matrix<el_type> :: sym_rcm(vector<int>& perm) {
+inline void lilc_matrix<el_type> :: sym_rcm(vector<int>& perm) {
 	int i, s;
 	vector<bool> visited(m_n_cols, false);
 	vector<int> lvl_set;
@@ -33,9 +37,7 @@ void lilc_matrix<el_type> :: sym_rcm(vector<int>& perm) {
 		visited[s] = true;
 		while (find_level_set(lvl_set, visited)) {
 			sort(lvl_set.begin(), lvl_set.end(), sorter);
-			for (auto it = lvl_set.begin(); it != lvl_set.end(); it++) {
-				perm.push_back(*it);
-			}
+			perm.insert( perm.end(), lvl_set.begin(), lvl_set.end() );	
 		}
 	}
 	

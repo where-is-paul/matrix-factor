@@ -9,11 +9,11 @@ mat_names = cellstr(mat_names);
 other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
             'tuma1'; 'tuma2'; '1138_bus'};
 
-%bratu3d has a terrible condition number
+%aug3dcqp has a terrible condition number
 all_mats = [mat_names; other_mats];
         
 lfil = 1.1;
-tol = 0.0005;
+tol = 0.001;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -44,7 +44,7 @@ for i = 1:length(all_mats)
     
     e = ones(size(B,1),1);
     %[y, flag, relres, iter, resvec] = ...
-        gmres(B,e,min(60,size(B,1)),1e-8,3,l*d, l');
+        gmres(B,S*e,min(60,size(B,1)),1e-8,3,l*d, l');
     
     %semilogy(1:length(resvec), resvec, 'r-');
 

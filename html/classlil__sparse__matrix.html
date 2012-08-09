@@ -62,8 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">lil_sparse_matrix&lt; el_type &gt; Class Template Reference</div>  </div>
@@ -91,30 +90,31 @@ Collaboration diagram for lil_sparse_matrix&lt; el_type &gt;:</div>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a8fd091d28a4d5ec819f8a4666853b9e3">element_type</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef vector&lt; el_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">lil_sparse_matrix</a> (int n_rows, int n_cols)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (CSC, CSR, or Triplet).  <a href="#a74dff1c9df79556341d714d4530ffe38"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#ab07c1e7d548a442634bfa694f56befe9">coeff</a> (const int &amp;i, const int &amp;j) const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the matrix storage type.  <a href="#ab07c1e7d548a442634bfa694f56befe9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a> () const =0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d">~lil_sparse_matrix</a> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">lil_sparse_matrix</a> (int n_rows, int n_cols)</td></tr>
-<tr><td colspan="2"><h2><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a></td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a> &amp;A)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows outputting the contents of the matrix via &lt;&lt; operators.  <a href="#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class el_type&gt;<br/>
@@ -122,22 +122,6 @@ class lil_sparse_matrix&lt; el_type &gt;</h3>
 
 <p>The abstract parent of all sparse matrices. </p>
 </div><hr/><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="a8fd091d28a4d5ec819f8a4666853b9e3"></a><!-- doxytag: member="lil_sparse_matrix::element_type" ref="a8fd091d28a4d5ec819f8a4666853b9e3" args="" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class el_type&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef el_type <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#a8fd091d28a4d5ec819f8a4666853b9e3">element_type</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>The element type of the matrix (double, complex, etc). </p>
-
-</div>
-</div>
 <a class="anchor" id="aac442ebc44706f184c7ce4ee7e1fdd6d"></a><!-- doxytag: member="lil_sparse_matrix::elt_vector_type" ref="aac442ebc44706f184c7ce4ee7e1fdd6d" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -194,15 +178,17 @@ template&lt;class el_type&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td><code> [inline, protected]</code></td>
+          <td></td><td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+
 <p>Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (CSC, CSR, or Triplet). </p>
 <div class="fragment"><pre class="fragment">                                                   : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(<a class="code" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a>), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (<a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>)
         {
                 <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = 0;
+                <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a> = std::numeric_limits&lt;el_type&gt;::epsilon();
         }
 </pre></div>
 </div>
@@ -255,6 +241,7 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
 <p>Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the matrix storage type. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -383,6 +370,7 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
 <p>Allows outputting the contents of the matrix via &lt;&lt; operators. </p>
 <div class="fragment"><pre class="fragment">        {
                 os &lt;&lt; A.<a class="code" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a>();
@@ -392,6 +380,21 @@ template&lt;class el_type&gt; </div>
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="af764d0312eb9f7939ab144b12972bf56"></a><!-- doxytag: member="lil_sparse_matrix::eps" ref="af764d0312eb9f7939ab144b12972bf56" args="" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class el_type&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">el_type <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a133b6db4ddc63626a8787abbb2564aa6"></a><!-- doxytag: member="lil_sparse_matrix::m_idx" ref="a133b6db4ddc63626a8787abbb2564aa6" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -399,7 +402,7 @@ template&lt;class el_type&gt; </div>
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;<a class="el" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a>&gt; <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a><code> [protected]</code></td>
+          <td class="memname">vector&lt;<a class="el" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a>&gt; <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a></td>
         </tr>
       </table>
 </div>
@@ -415,7 +418,7 @@ template&lt;class el_type&gt; </div>
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a><code> [protected]</code></td>
+          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a></td>
         </tr>
       </table>
 </div>
@@ -430,7 +433,7 @@ template&lt;class el_type&gt; </div>
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a><code> [protected]</code></td>
+          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a></td>
         </tr>
       </table>
 </div>
@@ -446,7 +449,7 @@ template&lt;class el_type&gt; </div>
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;<a class="el" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a>&gt; <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a><code> [protected]</code></td>
+          <td class="memname">vector&lt;<a class="el" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a>&gt; <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a></td>
         </tr>
       </table>
 </div>
@@ -462,7 +465,7 @@ template&lt;class el_type&gt; </div>
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a><code> [protected]</code></td>
+          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::<a class="el" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a></td>
         </tr>
       </table>
 </div>
@@ -488,7 +491,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:34 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 00:39:14 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -5,6 +5,7 @@
 	\param v the vector whose max element is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
 	\param r the index of the maximum element of v
+	
 	\return the max element of v.
 */
 template <class el_type>
@@ -70,6 +71,12 @@ inline void inplace_union(InputContainer& a, InputIterator const& b_start, Input
 	a.erase(std::unique(a.begin(), a.end()), a.end());
 }
 
+/*! \brief Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list.
+	\param a the sorted list to contain the final merged list.
+	\param b_start an iterator to the start of b.
+	\param b_end an iterator to the end of b.
+	\param in_set a bitset used to indicate elements present in a and b. Reset to all zeros after union.
+*/
 template <class InputContainer, class InputIterator>
 inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_start, InputIterator const& b_end, vector<bool>& in_set)
 {
@@ -151,9 +158,8 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 	int blk_sz;
 	el_type d_12, l_ki;	
 
-	typename std::deque<int>::const_iterator it;
 	//iterate across non-zeros of row k using Llist
-	for (it = L.list[k].begin(); it != L.list[k].end(); it++) {
+	for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) {
 		j = *it;
 		
 		l_ki = L.coeff(k, j);
@@ -207,20 +213,5 @@ inline void safe_swap(std::vector<int>& curr_nnzs, const int& k, const int& r) {
 		*r_idx = k;
 	}
 }
-
-// template <class el_type>
-// inline void remove_k(std::vector<el_type>& work, std::vector<int>& curr_nnzs, const int& k) {
-	// for (int i = 0; i < (int) curr_nnzs.size(); i++) {
-		// if (curr_nnzs[i] == k) {
-			// std::swap(curr_nnzs[i], curr_nnzs[curr_nnzs.size() - 1]);
-			// std::swap(work[i], work[work.size() - 1]);
-			
-			// curr_nnzs.pop_back();
-			// work.pop_back();
-			
-			// return;
-		// }
-	// }
-// }
 
 #endif

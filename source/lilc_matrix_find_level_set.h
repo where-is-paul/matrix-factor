@@ -3,7 +3,7 @@
 #define _LILC_MATRIX_FIND_LEVEL_SET_H_
 
 template<class el_type>
-bool lilc_matrix<el_type> :: find_level_set(vector<int>& lvl_set, vector<bool>& visited) {
+inline bool lilc_matrix<el_type> :: find_level_set(vector<int>& lvl_set, vector<bool>& visited) {
 	vector<int> new_set;
 	for (auto node_it = lvl_set.begin(); node_it != lvl_set.end(); node_it++) {
 

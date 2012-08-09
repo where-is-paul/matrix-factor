@@ -75,10 +75,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lilc__matrix__save_8h.html#aa7c9d04c7848fbb242800cad7f48c431">put_header</a> (std::string &amp;header)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lilc__matrix__save_8h.html#abea199c89e226136ca0039f1dfcd133f">put_header</a> (std::string &amp;header, bool sym=false)</td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="aa7c9d04c7848fbb242800cad7f48c431"></a><!-- doxytag: member="lilc_matrix_save.h::put_header" ref="aa7c9d04c7848fbb242800cad7f48c431" args="(std::string &amp;header)" -->
+<a class="anchor" id="abea199c89e226136ca0039f1dfcd133f"></a><!-- doxytag: member="lilc_matrix_save.h::put_header" ref="abea199c89e226136ca0039f1dfcd133f" args="(std::string &amp;header, bool sym=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -86,15 +86,28 @@ Functions</h2></td></tr>
           <td class="memname">void put_header </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>header</em></td><td>)</td>
-          <td><code> [inline]</code></td>
+          <td class="paramname"><em>header</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sym</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <div class="fragment"><pre class="fragment">{
-        header= <span class="stringliteral">&quot;%%MatrixMarket matrix coordinate &quot;</span>;
-        header += <span class="stringliteral">&quot;real general&quot;</span>; <span class="comment">//maybe change later to have symmetric/complex/blah as options</span>
+        header= <span class="stringliteral">&quot;%%MatrixMarket matrix coordinate real &quot;</span>;
+        <span class="keywordflow">if</span> (sym)
+                header += <span class="stringliteral">&quot;symmetric&quot;</span>; <span class="comment">//maybe change later to have symmetric/complex/blah as options</span>
+        <span class="keywordflow">else</span>
+                header += <span class="stringliteral">&quot;general&quot;</span>;
 }
 </pre></div>
 </div>
@@ -114,7 +127,7 @@ Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 19 2012 09:53:33 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 00:39:14 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

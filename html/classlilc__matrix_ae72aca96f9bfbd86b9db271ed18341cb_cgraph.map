@@ -1,4 +1,5 @@
 <map id="G" name="G">
 <area shape="rect" id="node3" href="$classlilc__matrix.html#a2aaa6ad737e4d528e5cf9745531e3c0f" title="lilc_matrix::ensure_invariant" alt="" coords="173,5,368,32"/>
-<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="179,56,362,83"/>
+<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="225,56,316,83"/>
+<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="unordered_inplace_union" alt="" coords="179,107,362,133"/>
 </map>

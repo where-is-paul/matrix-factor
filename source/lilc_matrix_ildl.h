@@ -9,37 +9,37 @@ using std::abs;
 template <class el_type>
 void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
-	
+
+	//----------------- initialize temporary variables --------------------//
 	int lfil = 2*fill_factor*nnz()/n_cols(); //roughly a factor of 2 since only lower tri. of A is stored
 	const el_type alpha = (1+sqrt(17))/8;  //for use in pivoting.
-	el_type w1, wr, d1(0), dr(0), det_D, D_inv11, D_inv22, D_inv12, l_11, l_12;
+	el_type w1, wr, d1, dr(-1);
+	el_type det_D, D_inv11, D_inv22, D_inv12;
+	el_type l_11, l_12;
 
-	//L.list is a deque of linked lists that gives the non-zero elements in each row of L.
-	//since at any time we may swap between two rows, we require a linked lists for each row of L.
-	//A deque is used as it might be desirable to deallocate all linked lists for rows i < k on step k
-	//(this is currently not done, as the memory used in maintaining linked lists for all rows is not much).
+	const int ncols = n_cols(); //number of cols in A.
 
-	const int ncols = n_cols();
-	//work is a work vector for the current column. L.first is a linked list that gives the first nonzero element in column k with row index i > k. (i.e. the first nonzero in L(k+1:n, k).
-	elt_vector_type work(ncols, 0), temp(ncols, 0), col_k, col_r;
-	idx_vector_type curr_nnzs, temp_nnzs, col_k_nnzs, col_r_nnzs, all_swaps;  //non-zeros on current col.
-	vector<bool> in_set(ncols, false);
-	vector<idx_it> swapk, swapr;
-	vector<list_it> swapk_, swapr_;
+	vector<bool> in_set(ncols, false); //bitset used for unsorted merges
+	swap_struct<el_type> s;	//struct containing temp vars used in pivoting.
+	
+	elt_vector_type work(ncols, 0), temp(ncols, 0); ////work vector for the current column
+	idx_vector_type curr_nnzs, temp_nnzs;  //non-zeros on current col.
+	curr_nnzs.reserve(ncols); //reserves space for worse case (entire col is non-zero)
 
 	int count = 0; //the current non-zero in L.
-	int i, j, k, r, offset, col_size, col_size2(1);
-	bool size_two_piv = false;
+	int i, j, k, r, offset, col_size, col_size2(-1);
+	bool size_two_piv = false;	//boolean indicating if the pivot is 2x2 or 1x1
 
+	//--------------- allocate memory for L and D ------------------//
 	L.resize(ncols, ncols);
-	curr_nnzs.reserve(ncols); //makes sure that there is enough space if every element in the column is nonzero
 	L.list.resize(ncols ); //allocate a vector of size n for Llist.
 	D.resize(ncols );
-
+	
 
 	int debug = -1;
+	
+	//------------------- main loop: factoring begins -------------------------//
 	for (k = 0; k < ncols; k++) {
-		size_two_piv = false;
 
 		//zero out work vector
 		curr_nnzs.clear();
@@ -49,20 +49,25 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			cout << "m_x[k]: " << m_x[k] << endl;
 		}
 		
+		//assign nonzeros indices of A(k:n, k) to curr_nnzs
 		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
 
-		//assigns the non zeros in A(k,:) to the work vector. since only the lower diagonal of A is stored, this is essentially A(k,k+1:n).
+		//assign nonzero values of A(k:n, k) to work
 		for (j = 0; j < (int) curr_nnzs.size(); j++) {
 			work[curr_nnzs[j]] = m_x[k][j];
 		}
 
 		//--------------begin pivoting--------------//
 
+		//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * L(k:n, i).
 		update(k, work, curr_nnzs, L, D, in_set);
 		
+		//store diagonal element in d1. set diagonal element in work vector to 0
+		//since we want to find the maximum off-diagonal element.
 		d1 = work[k];
 		work[k] = 0;
 
+		//find maximum element in work and store its index in r.
 		w1 = max(work, curr_nnzs, r);
 
 		if (k == debug) { 
@@ -74,6 +79,9 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			cout << "w1: " << w1 << endl;
 		}
 		
+		//bunch-kaufman partial pivoting is used below. for a more detailed reference,
+		//refer to "Accuracy and Stability of Numerical Algorithms." by Higham (2002).
+		//------------------- begin bunch-kaufman pivoting ------------------//
 		if (w1 < eps) {
 			//case 0: do nothing. pivot is k.
 			if (k == debug) {
@@ -85,8 +93,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				cout << "case 1" << endl;
 			}
 		} else {
+			//zero out temp vector.
 			temp_nnzs.clear();
 
+			//ensure invariant 1.
 			ensure_invariant(r, k, list[r], first[r], true);
 			offset = first[r];
 
@@ -129,7 +139,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				}
 
 				//--------pivot A and L ---------//
-				pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k, r);
+				pivot(s, in_set, L, k, r);
 
 				//----------pivot rest ----------//
 				std::swap(d1, dr);
@@ -170,8 +180,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				size_two_piv = true;
 
 				if (k+1 != r) {
-					//safe_swap(m_idx[k], k+1, r);
-					pivot(swapk, swapr, swapk_, swapr_, all_swaps, in_set, col_k, col_k_nnzs, col_r, col_r_nnzs, L, k+1, r);
+					pivot(s, in_set, L, k+1, r);
 
 
 					//----------pivot rest ----------//
@@ -344,6 +353,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.m_x[k+1].resize(col_size2);
 			L.m_idx[k+1].resize(col_size2);
 			k++;
+			
+			size_two_piv = false;
 		}
 		
 		// std::cout << k << std::endl;
