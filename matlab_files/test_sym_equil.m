@@ -9,7 +9,7 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
             'stokes64'; 'tuma1'; 'tuma2'; ...
             '1138_bus'};
 
-all_mats = {'bloweya'};%{'testmat3'};%mat_names;%{'tuma2'};%[mat_names; other_mats];%
+all_mats = mat_names;%{'tuma2'};%[mat_names; other_mats];%
         
 lfil = 1;
 tol = 0.001;
@@ -29,7 +29,7 @@ for i = 1:length(all_mats)
     B = mmread(strcat(base, 'outA.mtx')); 
     S = mmread(strcat(base, 'outS.mtx'));
     p = mmread(strcat(base, 'outPerm.mtx'));
-    p = diag(p)+1;
+    p = diag(p);
     
     P = speye(size(A));
     P = P(p,:);

@@ -1,4 +1,4 @@
 <map id="G" name="G">
 <area shape="rect" id="node1" href="$classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices." alt="" coords="6,5,205,32"/>
-<area shape="rect" id="node3" href="$classlilc__matrix.html" title="A matrix using the compressed sparse column format." alt="" coords="253,5,408,32"/>
+<area shape="rect" id="node3" href="$classlilc__matrix.html" title="A list&#45;of&#45;lists (LIL) matrix in column oriented format." alt="" coords="253,5,408,32"/>
 </map>

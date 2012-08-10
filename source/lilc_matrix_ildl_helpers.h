@@ -1,6 +1,8 @@
 #ifndef _LILC_MATRIX_ILDL_HELPERS_H
 #define _LILC_MATRIX_ILDL_HELPERS_H
 
+using std::abs;
+
 /*! \brief Computes the maximum (in absolute value) element of v(curr_nnzs) and it's index.
 	\param v the vector whose max element is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
@@ -10,11 +12,10 @@
 */
 template <class el_type>
 inline double max(typename std::vector<el_type>& v, typename std::vector<int>& curr_nnzs, int& r) { 
-	typename std::vector<int>::iterator it;
 	double res = 0;
-	for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-		if (std::abs(v[*it]) > res) {
-			res = std::abs(v[*it]);
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
+		if (abs(v[*it]) > res) {
+			res = abs(v[*it]);
 			r = *it;
 		}
 	}
@@ -29,10 +30,9 @@ inline double max(typename std::vector<el_type>& v, typename std::vector<int>& c
 */
 template <class el_type>
 inline double norm(typename std::vector<el_type>& v, typename std::vector<int>& curr_nnzs, el_type p = 1) { 
-	typename std::vector<int>::iterator it;
 	el_type res = 0;
-	for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-		res += pow(std::abs(v[*it]), p);  
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
+		res += pow(abs(v[*it]), p);  
 	}
 	
 	return pow(res, 1/p);
@@ -46,8 +46,8 @@ struct by_value {
 	std::vector<el_type>& v; 
 	by_value(std::vector<el_type>& vec) : v(vec) {}
 	bool operator()(int const &a, int const &b) const { 
-		if (std::abs(v[a]) == std::abs(v[b])) return a < b;
-		return std::abs(v[a]) > std::abs(v[b]);
+		if (abs(v[a]) == abs(v[b])) return a < b;
+		return abs(v[a]) > abs(v[b]);
 	}
 };
 
@@ -80,18 +80,18 @@ inline void inplace_union(InputContainer& a, InputIterator const& b_start, Input
 template <class InputContainer, class InputIterator>
 inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_start, InputIterator const& b_end, vector<bool>& in_set)
 {
-	for (auto it = a.begin(); it != a.end(); it++) {
+	for (auto it = a.begin(), end = a.end(); it != end; ++it) {
 		in_set[*it] = true;
 	}
 	
-	for (auto it = b_start; it != b_end; it++) {
+	for (auto it = b_start; it != b_end; ++it) {
 		if (!in_set[*it]) {
 			in_set[*it] = true;
 			a.push_back(*it);
 		}
 	}
 	
-	for (auto it = a.begin(); it != a.end(); it++) {
+	for (auto it = a.begin(), end = a.end(); it != end; ++it) {
 		in_set[*it] = false;
 	}
 }
@@ -106,18 +106,17 @@ inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_st
 */
 template <class el_type>
 inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const int& lfil, const double& tol) { 
-	typename std::vector<int>::const_iterator it;
 	
 	//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.
 	el_type tolerance = tol*norm<el_type>(v, curr_nnzs);
-	for (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
-	if (std::abs(v[*it]) < tolerance) v[*it] = 0;
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
+	if (abs(v[*it]) < tolerance) v[*it] = 0;
 	
 	//sort the remaining elements by value in decreasing order.
 	by_value<el_type> sorter(v);
 	std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
 	
-	for (int i = lfil; i < (int) curr_nnzs.size(); i++) {
+	for (int i = lfil, end = curr_nnzs.size(); i < end ; ++i) {
 		v[curr_nnzs[i]] = 0;
 	}
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
@@ -134,14 +133,14 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
 	
 	if (offset >= L.m_idx[j].size()) return;
 	
-	L.ensure_invariant(j, k, L.m_idx[j], offset);
+	L.ensure_invariant(j, k, L.m_idx[j]);
 
 	el_type factor = l_ki * d;
-	for (i = offset; i < L.m_idx[j].size(); i++) {
+	for (i = offset; i < L.m_idx[j].size(); ++i) {
 		work[L.m_idx[j][i]] -= factor * L.m_x[j][i];
 	}
 	
-	//merge current non-zeros of col k with nonzeros of col *it. 
+	//merge current non-zeros of col k with nonzeros of col *it.
 	unordered_inplace_union(curr_nnzs, L.m_idx[j].begin() + offset,  L.m_idx[j].end(), in_set);
 }
 
@@ -159,8 +158,8 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 	el_type d_12, l_ki;	
 
 	//iterate across non-zeros of row k using Llist
-	for (auto it = L.list[k].begin(); it != L.list[k].end(); it++) {
-		j = *it;
+	for (int i = 0; i < (int) L.list[k].size(); ++i) {
+		j = L.list[k][i];
 		
 		l_ki = L.coeff(k, j);
 		update_single(k, j, l_ki, D[j], work, curr_nnzs, L, in_set); //update col using d11
@@ -182,7 +181,7 @@ template <class el_type>
 inline void vec_add(std::vector<el_type>& v1, std::vector<int>& v1_nnzs, std::vector<el_type>& v2, std::vector<int>& v2_nnzs) {
 	//merge current non-zeros of col k with nonzeros of col *it. 
 	inplace_union(v1_nnzs, v2_nnzs.begin(), v2_nnzs.end());
-	for (auto it = v1_nnzs.begin(); it != v1_nnzs.end(); it++) {
+	for (auto it = v1_nnzs.begin(), end = v1_nnzs.end(); it != end; ++it) {
 		v1[*it] += v2[*it];
 	}
 }
@@ -190,7 +189,7 @@ inline void vec_add(std::vector<el_type>& v1, std::vector<int>& v1_nnzs, std::ve
 inline void safe_swap(std::vector<int>& curr_nnzs, const int& k, const int& r) {
 	bool con_k = false, con_r = false;
 	std::vector<int>::iterator k_idx, r_idx;
-	for (auto it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
 		if (*it == k) {
 			con_k = true;
 			k_idx = it;

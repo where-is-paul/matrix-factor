@@ -37,17 +37,11 @@ public:
 	typedef typename idx_vector_type::iterator idx_it;
 	typedef typename elt_vector_type::iterator elt_it;
 
-	/*! \brief A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A. 
-	*/
-	std::vector< std::vector< int > > list;
+	std::vector< std::vector< int > > list;	///<A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A.
 	
-	/*! \brief On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
-	*/
-	std::vector<int> first;
-	
-	/*! \brief A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil function below, after which S^(-1) * A * S^(-1) will be stored in A.
-	*/
-	block_diag_matrix<el_type> S;
+	std::vector<int> first;	///<On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
+
+	block_diag_matrix<el_type> S; ///<A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which S^(-1) * A * S^(-1) will be stored in A.
 	
 public:
 	
@@ -67,7 +61,7 @@ public:
 		\param j the col of the (i,j)th element (zero-indexed).
 		\return The (i,j)th element of the matrix. 
 	*/
-	inline virtual el_type coeff(const int& i, const int& j) const 
+	inline el_type coeff(const int& i, const int& j) const 
 	{	
 		//invariant: first elem in each col of a is the diagonal elem if it exists.
 		if (i == j) {
@@ -75,7 +69,7 @@ public:
 			return (m_idx[j][0] == i ? m_x[j][0] : 0);
 		}
 		
-		for (unsigned int k = 0; k < m_idx[j].size(); k++) {
+		for (unsigned int k = 0, end = m_idx[j].size(); k < end; k++) {
 			if (m_idx[j][k] == i) return m_x[j][k];
 		}
 		
@@ -119,6 +113,7 @@ public:
 		
 		S.resize(n_cols);
 	}
+	
 	//-----Reorderings/Rescalings------//
 	/*!	\brief Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across the graph of A (where A is viewed as an adjacency matrix).
 
@@ -131,7 +126,7 @@ public:
 		\param lvl_set the current level set (a list of nodes).
 		\param visited all previously visited nodes.
 	*/
-	bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
+	inline bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
 	
 	/*!	\brief Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). 
 		
@@ -175,19 +170,26 @@ public:
 	*/
 	inline void pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r);
 	
-	/*! Ensures two invariants obeyed during factorization:
-		If \this
-			1. On iteration k, first[k] will give the number of non-zero elements on col (or row depending on how its used) i of A before A(i, k).
-			2. On iteration k, list[k][first[k]] will contain the 
+	/*! \brief Ensures two the invariants observed by A.first and A.list are held.
+		
+		\invariant
+		If this matrix is a lower triangular factor of another matrix:
+			-# On iteration k, first[i] will give the number of non-zero elements on col i of A before A(i, k).
+			-# On iteration k, list[i][ first[i] ] will contain the first element below or on index k of column i of A.
+		
+		\invariant
+		If this matrix is the matrix to be factored:
+			-# On iteration k, first[i] will give the number of non-zero elements on row i of A before A(i, k).
+			-# On iteration k, list[i][ first[i] ] will contain the first element right of or on index k of row i of A.
 			
 		\param j
 		\param k
 		\param con
-		\param offset
 		\param update_list
 	*/
 	template <class Container>
-	inline void ensure_invariant(const int& j, const int& k, Container& con, int offset, bool update_list = false) {
+	inline void ensure_invariant(const int& j, const int& k, Container& con, bool update_list = false) {
+		int offset = first[j];
 		if ((offset >= (int) con.size()) || con.empty() || con[offset] == k) return;
 		
 		int i, min(offset);
@@ -203,8 +205,8 @@ public:
 		if (update_list)
 			std::swap(con[offset], con[min]);
 		else {
-			std::swap(con[first[j]], con[min]);
-			std::swap(m_x[j][first[j]], m_x[j][min]);
+			std::swap(con[offset], con[min]);
+			std::swap(m_x[j][offset], m_x[j][min]);
 		}
 	}
 	
@@ -219,7 +221,7 @@ public:
 
 			if (offset >= (int) m_idx[*it].size()) continue;
 			
-			ensure_invariant(*it, k, m_idx[*it], offset);
+			ensure_invariant(*it, k, m_idx[*it]);
 			
 			if (m_idx[*it][offset] == k)
 				first[*it]++;
@@ -236,7 +238,7 @@ public:
 
 				if (offset >= (int) list[*it].size()) continue;
 				
-				ensure_invariant(*it, k, list[*it], offset, true);
+				ensure_invariant(*it, k, list[*it], true);
 				
 				if (list[*it][offset] == k)
 					first[*it]++;
@@ -246,15 +248,18 @@ public:
 	
 	//----IO Functions----//
 	
-	/*! \return A string representation of this matrix.
+	/*! \brief Returns a string representation of A, with each column and its corresponding indices & non-zero values printed.
+		\return A string representation of this matrix.
 	*/
 	std::string to_string () const;
 	
-	/*! \param filename the filename of the matrix to be loaded. Must be in matrix market format (.mtx).
+	/*! \brief Loads a matrix in matrix market format.
+		\param filename the filename of the matrix to be loaded. Must be in matrix market format (.mtx).
 	*/
 	bool load(std::string filename);
 	
-	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
+	/*! \brief Saves a matrix in matrix market format.
+		\param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
 		\param sym flags whether the matrix is symmetric or not.
 	*/
 	bool save(std::string filename, bool sym);

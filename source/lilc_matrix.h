@@ -5,7 +5,7 @@
 #include "block_diag_matrix.h"
 #include "lil_sparse_matrix.h"
 
-template<class el_type> 
+template<class el_type = double> 
 class lilc_matrix;
 
 #include "lilc_matrix_declarations.h"

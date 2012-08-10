@@ -90,12 +90,12 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">block_diag_matrix</a> (int n_rows=0, int n_cols=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">resize</a> (int n)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#ada4ab4f3c8a7542880030f762dbf4898">nnz</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">el_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">operator[]</a> (int i)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">el_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a> (int i)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a> (int i) const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a> (int i) const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d">save</a> (std::string filename)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">~block_diag_matrix</a> ()</td></tr>
@@ -172,10 +172,10 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">                                                           : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>)
+<div class="fragment"><pre class="fragment">                                                           : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
         {
-                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>;
-                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>);
+                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
+                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
         }
 </pre></div>
 <p><div class="dynheader">
@@ -183,7 +183,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph.png" border="0" usemap="#classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph" alt=""/></div>
 <map name="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph" id="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph">
-<area shape="rect" id="node3" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312" title="block_diag_matrix::n_rows" alt="" coords="309,5,496,32"/></map>
+<area shape="rect" id="node3" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18" title="block_diag_matrix::n_rows" alt="" coords="309,5,496,32"/></map>
 </div>
 </p>
 
@@ -210,14 +210,14 @@ template&lt;class el_type&gt; </div>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="ac06f1c9d979d7e73e51b937452b35574"></a><!-- doxytag: member="block_diag_matrix::block_size" ref="ac06f1c9d979d7e73e51b937452b35574" args="(int i) const " -->
+<a class="anchor" id="ad2a00befe5b5c5718e222fa99cbbefd2"></a><!-- doxytag: member="block_diag_matrix::block_size" ref="ad2a00befe5b5c5718e222fa99cbbefd2" args="(int i) const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::block_size </td>
+          <td class="memname">int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::block_size </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -226,7 +226,7 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">                                          {
+<div class="fragment"><pre class="fragment">                                    {
                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i)) {
                         <span class="keywordflow">return</span> 2;
                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i-1)) {
@@ -238,14 +238,14 @@ template&lt;class el_type&gt; </div>
 </pre></div>
 </div>
 </div>
-<a class="anchor" id="abf1796b7899148df71a3e1a85a33e9ec"></a><!-- doxytag: member="block_diag_matrix::n_cols" ref="abf1796b7899148df71a3e1a85a33e9ec" args="() const " -->
+<a class="anchor" id="a09c9b0481acb773a864fa9f320f76cc7"></a><!-- doxytag: member="block_diag_matrix::n_cols" ref="a09c9b0481acb773a864fa9f320f76cc7" args="() const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::n_cols </td>
+          <td class="memname">int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::n_cols </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline]</code></td>
@@ -260,14 +260,14 @@ template&lt;class el_type&gt; </div>
 </pre></div>
 </div>
 </div>
-<a class="anchor" id="ab23db199039486d8f9f62375819df312"></a><!-- doxytag: member="block_diag_matrix::n_rows" ref="ab23db199039486d8f9f62375819df312" args="() const " -->
+<a class="anchor" id="a7d965a63398622c241a1b28b41cd9d18"></a><!-- doxytag: member="block_diag_matrix::n_rows" ref="a7d965a63398622c241a1b28b41cd9d18" args="() const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::n_rows </td>
+          <td class="memname">int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::n_rows </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline]</code></td>
@@ -282,14 +282,14 @@ template&lt;class el_type&gt; </div>
 </pre></div>
 </div>
 </div>
-<a class="anchor" id="ada4ab4f3c8a7542880030f762dbf4898"></a><!-- doxytag: member="block_diag_matrix::nnz" ref="ada4ab4f3c8a7542880030f762dbf4898" args="() const " -->
+<a class="anchor" id="a7119c39d6ffdf74c2e995d9ae53f57a2"></a><!-- doxytag: member="block_diag_matrix::nnz" ref="a7119c39d6ffdf74c2e995d9ae53f57a2" args="() const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::nnz </td>
+          <td class="memname">int <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt;::nnz </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline]</code></td>
@@ -412,11 +412,11 @@ template&lt;class el_type &gt; </div>
         header += <span class="stringliteral">&quot;real symmetric&quot;</span>; <span class="comment">//maybe change later to have general/complex/blah as options</span>
 
         out &lt;&lt; header &lt;&lt; std::endl; 
-        out &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ada4ab4f3c8a7542880030f762dbf4898">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+        out &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
 
-        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>(); i++) {
+        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>(); i++) {
                 out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
-                <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a>(i) == 2) {
+                <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(i) == 2) {
                         out &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                         out &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; main_diag[i+1] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                         i++;
@@ -447,12 +447,12 @@ template&lt;class el_type &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>A string reprepsentation of this matrix. </dd></dl>
 <div class="fragment"><pre class="fragment">{
   std::ostringstream os;
-  os &lt;&lt; <span class="stringliteral">&quot;Block Diagonal Matrix (&quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ab23db199039486d8f9f62375819df312">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#ada4ab4f3c8a7542880030f762dbf4898">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
+  os &lt;&lt; <span class="stringliteral">&quot;Block Diagonal Matrix (&quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
   
   os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values     = &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a> &lt;&lt; std::endl;
   os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (col, val)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
-  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#abf1796b7899148df71a3e1a85a33e9ec">n_cols</a>(); i++) {
-    <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ac06f1c9d979d7e73e51b937452b35574">block_size</a>(i) == 2) {
+  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>(); i++) {
+    <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(i) == 2) {
                 os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;
                 i++;
         }
@@ -581,7 +581,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 00:39:14 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

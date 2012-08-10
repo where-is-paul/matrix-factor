@@ -78,7 +78,7 @@ Inheritance diagram for lil_sparse_matrix&lt; el_type &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlil__sparse__matrix__inherit__graph.png" border="0" usemap="#lil__sparse__matrix_3_01el__type_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="lil__sparse__matrix_3_01el__type_01_4_inherit__map" id="lil__sparse__matrix_3_01el__type_01_4_inherit__map">
-<area shape="rect" id="node3" href="classlilc__matrix.html" title="A matrix using the compressed sparse column format." alt="" coords="27,80,180,107"/></map>
+<area shape="rect" id="node3" href="classlilc__matrix.html" title="A list&#45;of&#45;lists (LIL) matrix in column oriented format." alt="" coords="27,80,180,107"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for lil_sparse_matrix&lt; el_type &gt;:</div>
@@ -96,8 +96,8 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">lil_sparse_matrix</a> (int n_rows, int n_cols)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (CSC, CSR, or Triplet).  <a href="#a74dff1c9df79556341d714d4530ffe38"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlil__sparse__matrix.html#ab07c1e7d548a442634bfa694f56befe9">coeff</a> (const int &amp;i, const int &amp;j) const =0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the matrix storage type.  <a href="#ab07c1e7d548a442634bfa694f56befe9"></a><br/></td></tr>
@@ -185,7 +185,7 @@ template&lt;class el_type&gt; </div>
 <div class="memdoc">
 
 <p>Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (CSC, CSR, or Triplet). </p>
-<div class="fragment"><pre class="fragment">                                                   : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(<a class="code" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a>), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (<a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>)
+<div class="fragment"><pre class="fragment">                                                   : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(<a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>)
         {
                 <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = 0;
                 <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a> = std::numeric_limits&lt;el_type&gt;::epsilon();
@@ -256,14 +256,14 @@ template&lt;class el_type&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a6617376009a14e1db65d3eceb665aee2"></a><!-- doxytag: member="lil_sparse_matrix::n_cols" ref="a6617376009a14e1db65d3eceb665aee2" args="() const " -->
+<a class="anchor" id="ac88631204bcf7c9a223fb082a7d0cd3d"></a><!-- doxytag: member="lil_sparse_matrix::n_cols" ref="ac88631204bcf7c9a223fb082a7d0cd3d" args="() const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::n_cols </td>
+          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::n_cols </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline]</code></td>
@@ -278,14 +278,14 @@ template&lt;class el_type&gt; </div>
 </pre></div>
 </div>
 </div>
-<a class="anchor" id="a81d22dfb8a1af5d790953f0cfa480d76"></a><!-- doxytag: member="lil_sparse_matrix::n_rows" ref="a81d22dfb8a1af5d790953f0cfa480d76" args="() const " -->
+<a class="anchor" id="a29e9ea5f7c8a9fca9029a91b39c592e0"></a><!-- doxytag: member="lil_sparse_matrix::n_rows" ref="a29e9ea5f7c8a9fca9029a91b39c592e0" args="() const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class el_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::n_rows </td>
+          <td class="memname">int <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::n_rows </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline]</code></td>
@@ -491,7 +491,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 00:39:14 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

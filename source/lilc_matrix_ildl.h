@@ -97,15 +97,17 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			temp_nnzs.clear();
 
 			//ensure invariant 1.
-			ensure_invariant(r, k, list[r], first[r], true);
+			ensure_invariant(r, k, list[r], true);
 			offset = first[r];
 
+			//assign all nonzero indices and values in A(k:r, r) 
+			//( not including A(r,r) ) to temp and temp_nnzs
 			for (j = offset; j < (int) list[r].size(); j++) {
 				temp_nnzs.push_back(list[r][j]);
 				temp[list[r][j]] = coeff(r, list[r][j]);
 			}
 
-			unordered_inplace_union(temp_nnzs, m_idx[r].begin(), m_idx[r].end(), in_set);
+			temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
 
 			for (j = 0; j < (int) m_idx[r].size(); j++) {
 				temp[m_idx[r][j]] = m_x[r][j];
@@ -211,7 +213,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
 			
 			det_D = d1*dr - work[k+1]*work[k+1];
-			if ( abs(det_D) < eps) det_D = 1e-3;  //statically pivot;
+			if ( abs(det_D) < eps) det_D = 1e-6;  //statically pivot;
 			D_inv11 = dr/det_D;
 			D_inv22 = d1/det_D;
 			D_inv12 = -work[k+1]/det_D;
@@ -247,7 +249,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		count++;
 		
 		if (!size_two_piv) {
-			if ( abs(D[k]) < eps) D[k] = 1e-3; //statically pivot
+			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
 			i = 0;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { //need -1 on col_size to remove offset from initializing col_size to 1
 				if ( abs(work[*it]) > eps) {
@@ -306,11 +308,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.advance_first(k+1);
 			advance_list(k+1);
 			
-			
-			// for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
-				// temp[*it] = 0;
-			// }
-			//}
 		}
 		
 		//cleanup

@@ -61,19 +61,19 @@ public:
 	}
 	
 	/*! \return Number of rows in the matrix. */
-	const int n_rows() const
+	int n_rows() const
 	{
 		return m_n_size;
 	}
 
 	/*! \return Number of cols in the matrix. */
-	const int n_cols() const
+	int n_cols() const
 	{
 		return m_n_size;
 	}
 
 	/*! \return Number of nonzeros in the matrix. */
-	const int nnz() const 
+	int nnz() const 
 	{
 		return nnz_count;
 	};
@@ -91,7 +91,7 @@ public:
 		return off_diag.at(i);
 	}
 	
-	const int block_size(int i) const {
+	int block_size(int i) const {
 		if (off_diag.count(i)) {
 			return 2;
 		} else if (off_diag.count(i-1)) {

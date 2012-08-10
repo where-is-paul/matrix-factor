@@ -42,8 +42,8 @@ void lilc_matrix<el_type> :: sym_perm(std::vector<int>& perm) {
 	m_x.swap(m_x_new);
 	
 	for (i = 0; i < m_n_cols; i++) {
-		ensure_invariant(i, i, m_idx[i], 0);
-		ensure_invariant(i, i, list[i], 0, true);
+		ensure_invariant(i, i, m_idx[i]);
+		ensure_invariant(i, i, list[i], true);
 	}
 }
 

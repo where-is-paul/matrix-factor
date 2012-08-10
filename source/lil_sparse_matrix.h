@@ -7,26 +7,6 @@
 #include <fstream>
 #include <limits>
 
-template<class el_type>
-bool save(const std::vector<el_type>& vec, std::string filename) {
-	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
-	if(!out)
-	return false;
-
-	out.flags(std::ios_base::scientific);
-	out.precision(12);
-	std::string header = "%%MatrixMarket matrix coordinate real general";; 
-
-	out << header << std::endl; 
-	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
-
-	for(int i = 0; i < (int) vec.size(); i++)
-	out << i+1 << " " << i+1 << " " << vec[i] << "\n";
-	
-	out.close();
-	return true;
-}
-
 #ifndef VECTOR_SHIFT
 #define VECTOR_SHIFT
 template<class Container>
@@ -71,12 +51,12 @@ public:
 	int m_n_rows, m_n_cols, nnz_count;
 	el_type eps;
 
-	/*! The row/col indices. The way m_col_idx and m_row_idx are used depends on whether the matrix is in CSC, CSR, or Triplet form. */
+	/*! The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R. */
 	vector<idx_vector_type> m_idx;
 	/*! The values of the nonzeros in the matrix. */
 	vector<elt_vector_type> m_x;
 
-	/*! \brief Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (CSC, CSR, or Triplet). */
+	/*! \brief Default constructor for an abstract matrix. This constructor will be extended by base classes depending on the representation of the matrix (LIL-C or LIL-R). */
 	lil_sparse_matrix (int n_rows, int n_cols) : m_n_rows(n_rows), m_n_cols (n_cols)
 	{
 		nnz_count = 0;
@@ -84,19 +64,19 @@ public:
 	}
 	
 	/*! \return Number of rows in the matrix. */
-	const int n_rows() const
+	int n_rows() const
 	{
 		return m_n_rows;
 	}
 
 	/*! \return Number of cols in the matrix. */
-	const int n_cols() const
+	int n_cols() const
 	{
 		return m_n_cols;
 	}
 
 	/*! \return Number of nonzeros in the matrix. */
-	virtual int nnz() const 
+	int nnz() const 
 	{
 		return nnz_count;
 	};

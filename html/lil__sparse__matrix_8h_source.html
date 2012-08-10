@@ -133,18 +133,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00075"></a><a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">00075</a>         vector&lt;idx_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>;
 <a name="l00077"></a><a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">00077</a>         vector&lt;elt_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>;
 <a name="l00078"></a>00078 
-<a name="l00080"></a><a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">00080</a>         <a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38" title="Default constructor for an abstract matrix. This constructor will be extended by base classes dependi...">lil_sparse_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a>, <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>) : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(n_rows), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (n_cols)
+<a name="l00080"></a><a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">00080</a>         <a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38" title="Default constructor for an abstract matrix. This constructor will be extended by base classes dependi...">lil_sparse_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>, <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>) : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(n_rows), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (n_cols)
 <a name="l00081"></a>00081         {
 <a name="l00082"></a>00082                 <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = 0;
 <a name="l00083"></a>00083                 <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a> = std::numeric_limits&lt;el_type&gt;::epsilon();
 <a name="l00084"></a>00084         }
 <a name="l00085"></a>00085         
-<a name="l00087"></a><a class="code" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">00087</a>         <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a81d22dfb8a1af5d790953f0cfa480d76">n_rows</a>()<span class="keyword"> const</span>
+<a name="l00087"></a><a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">00087</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>()<span class="keyword"> const</span>
 <a name="l00088"></a>00088 <span class="keyword">        </span>{
 <a name="l00089"></a>00089                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>;
 <a name="l00090"></a>00090         }
 <a name="l00091"></a>00091 
-<a name="l00093"></a><a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">00093</a>         <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a6617376009a14e1db65d3eceb665aee2">n_cols</a>()<span class="keyword"> const</span>
+<a name="l00093"></a><a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">00093</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>()<span class="keyword"> const</span>
 <a name="l00094"></a>00094 <span class="keyword">        </span>{
 <a name="l00095"></a>00095                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>;
 <a name="l00096"></a>00096         }
@@ -180,7 +180,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 00:39:13 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:25 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

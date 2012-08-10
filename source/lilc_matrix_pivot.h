@@ -9,17 +9,16 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	int i, j, idx, offset;
 	
 	//for vectors of primitive types, clear is always constant time regardless of how many elements are in the container.
-	
 	s.col_clear();
 	
 	//----------pivot A ----------//
 	s.swap_clear();
 	
-	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; it++) {
+	for (auto it = list[k].begin(), end = list[k].begin() + first[k]; it != end; ++it) {
 		row_r.push_back(*it);
 	}
 	
-	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; it++) {
+	for (auto it = list[r].begin(), end = list[r].begin() + first[r]; it != end; ++it) {
 		row_k.push_back(*it);
 	}
 	
@@ -27,7 +26,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 
 	unordered_inplace_union(s.all_swaps, list[r].begin(), list[r].begin() + first[r], in_set);
 	
-	for (auto it = s.all_swaps.begin(); it != s.all_swaps.end(); it++) {
+	for (auto it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; ++it) {
 	
 		safe_swap(m_idx[*it], k, r);
 
@@ -37,15 +36,17 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	//after sym. perm, a_rr will be swapped to a_kk, so we put a_rr as first
 	//elem of col k if its non-zero. this also means that we ensure the first
 	//elem of col k is the diagonal element if it exists.
-	if (abs(coeff(r, r)) > eps){
+	el_type elem = coeff(r, r);
+	if (abs(elem) > eps){
 		s.col_k_nnzs.push_back(k);
-		s.col_k.push_back(coeff(r, r));
+		s.col_k.push_back(elem);
 	}
 	
 	//same as above, put a_kk in new col r if it exists.
-	if (abs(coeff(k, k)) > eps){
+	elem = coeff(k, k);
+	if (abs(elem) > eps){
 		s.col_r_nnzs.push_back(r);
-		s.col_r.push_back(coeff(k, k));
+		s.col_r.push_back(elem);
 	}
 	
 	
@@ -96,7 +97,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 				m_x[idx].push_back(m_x[k][i]);
 				
 				if (first[idx] < (int) list[idx].size()) {
-					ensure_invariant(idx, k, list[idx], first[idx], true);
+					ensure_invariant(idx, k, list[idx], true);
 					std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
 					list[idx].pop_back();
 				}
@@ -126,13 +127,13 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 
 	for (auto it = s.all_swaps.begin(); it != s.all_swaps.end(); it++) {
-		ensure_invariant(*it, k, list[*it], first[*it], true);
+		ensure_invariant(*it, k, list[*it], true);
 	}
 
 	for (auto it = s.col_k_nnzs.begin(); it != s.col_k_nnzs.end(); it++) {
 		if ((*it != k) && (*it <= r)) {
 			list[*it].push_back(k);
-			ensure_invariant(*it, k, list[*it], first[*it], true);
+			ensure_invariant(*it, k, list[*it], true);
 		}
 	}
 	
@@ -184,7 +185,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	unordered_inplace_union(s.all_swaps, L.list[k].begin(), L.list[k].end(), in_set);
 	
 	for (auto it = s.all_swaps.begin(); it != s.all_swaps.end(); it++) {
-		L.ensure_invariant(*it, k, L.m_idx[*it], L.first[*it]);		
+		L.ensure_invariant(*it, k, L.m_idx[*it]);		
 	}
 	
 	L.list[k].swap(L.list[r]);
