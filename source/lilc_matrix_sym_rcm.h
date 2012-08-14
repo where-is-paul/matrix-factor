@@ -2,6 +2,9 @@
 #ifndef _LILC_MATRIX_SYM_RCM_H_
 #define _LILC_MATRIX_SYM_RCM_H_
 
+/*! \brief Functor for comparing elements by degree (in increasing order) instead of by index.
+	\param A a pointer to the matrix being reordered.
+*/
 template <class el_type>
 struct by_degree {
 	lilc_matrix<el_type>* A;

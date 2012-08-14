@@ -90,87 +90,89 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00028"></a>00028 <span class="preprocessor">#endif</span>
 <a name="l00029"></a>00029 <span class="preprocessor"></span>
 <a name="l00030"></a>00030 
-<a name="l00032"></a>00032 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00033"></a><a class="code" href="classblock__diag__matrix.html">00033</a> <span class="keyword">class </span><a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix</a>
-<a name="l00034"></a>00034 {
-<a name="l00035"></a>00035 <span class="keyword">public</span>:
-<a name="l00036"></a>00036 
-<a name="l00037"></a><a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">00037</a>         <span class="keyword">typedef</span> std::unordered_map&lt;int, el_type&gt; <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a>;
-<a name="l00038"></a><a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">00038</a>         <span class="keyword">typedef</span> std::vector&lt;el_type&gt;  <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a>;
-<a name="l00039"></a>00039         
-<a name="l00041"></a><a class="code" href="classblock__diag__matrix.html#a17f3419f2a6f824dea494d9ac229c000">00041</a>         <span class="keyword">friend</span> std::ostream &amp; <a class="code" href="classblock__diag__matrix.html#a17f3419f2a6f824dea494d9ac229c000">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix</a>&amp; D) 
-<a name="l00042"></a>00042         {
-<a name="l00043"></a>00043                 os &lt;&lt; D.<a class="code" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a>();
-<a name="l00044"></a>00044                 <span class="keywordflow">return</span> os;
-<a name="l00045"></a><a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">00045</a>         };
-<a name="l00046"></a>00046         
-<a name="l00047"></a>00047         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>, <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a>;
-<a name="l00048"></a><a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">00048</a>         <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>;
-<a name="l00049"></a><a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">00049</a>         <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>;
-<a name="l00050"></a>00050         
-<a name="l00051"></a><a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">00051</a>         <a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">block_diag_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> = 0, <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a> = 0) : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
-<a name="l00052"></a>00052         {
-<a name="l00053"></a>00053                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
-<a name="l00054"></a>00054                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
-<a name="l00055"></a>00055         }
-<a name="l00056"></a>00056         
-<a name="l00057"></a><a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">00057</a>         <span class="keywordtype">void</span> <a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">resize</a>(<span class="keywordtype">int</span> n) {
-<a name="l00058"></a>00058                 <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a> = n;
-<a name="l00059"></a>00059                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(n);
-<a name="l00060"></a>00060                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = n;
-<a name="l00061"></a>00061         }
-<a name="l00062"></a>00062         
-<a name="l00064"></a><a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">00064</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>()<span class="keyword"> const</span>
-<a name="l00065"></a>00065 <span class="keyword">        </span>{
-<a name="l00066"></a>00066                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>;
-<a name="l00067"></a>00067         }
-<a name="l00068"></a>00068 
-<a name="l00070"></a><a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">00070</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>()<span class="keyword"> const</span>
-<a name="l00071"></a>00071 <span class="keyword">        </span>{
-<a name="l00072"></a>00072                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>;
-<a name="l00073"></a>00073         }
-<a name="l00074"></a>00074 
-<a name="l00076"></a><a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">00076</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>()<span class="keyword"> const </span>
-<a name="l00077"></a>00077 <span class="keyword">        </span>{
-<a name="l00078"></a>00078                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a>;
-<a name="l00079"></a>00079         };
-<a name="l00080"></a>00080         
-<a name="l00081"></a><a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">00081</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">operator[]</a>(<span class="keywordtype">int</span> i) {
-<a name="l00082"></a>00082                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.at(i);
-<a name="l00083"></a>00083         }
-<a name="l00084"></a>00084         
-<a name="l00085"></a><a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">00085</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(<span class="keywordtype">int</span> i) {
-<a name="l00086"></a>00086                 <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i)) {
-<a name="l00087"></a>00087                         <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.insert(std::make_pair(i, 0));
-<a name="l00088"></a>00088                         <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a>++;
-<a name="l00089"></a>00089                 }
-<a name="l00090"></a>00090                 
-<a name="l00091"></a>00091                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.at(i);
-<a name="l00092"></a>00092         }
-<a name="l00093"></a>00093         
-<a name="l00094"></a><a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">00094</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{
-<a name="l00095"></a>00095                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i)) {
-<a name="l00096"></a>00096                         <span class="keywordflow">return</span> 2;
-<a name="l00097"></a>00097                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i-1)) {
-<a name="l00098"></a>00098                         <span class="keywordflow">return</span> -2;
-<a name="l00099"></a>00099                 } <span class="keywordflow">else</span> {
-<a name="l00100"></a>00100                         <span class="keywordflow">return</span> 1;
-<a name="l00101"></a>00101                 }
-<a name="l00102"></a>00102         }
-<a name="l00103"></a>00103         
-<a name="l00106"></a>00106         std::string <a class="code" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a> () <span class="keyword">const</span>;
-<a name="l00107"></a>00107         
-<a name="l00110"></a>00110         <span class="keywordtype">bool</span> <a class="code" href="classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d">save</a>(std::string filename);
-<a name="l00111"></a>00111         
-<a name="l00112"></a><a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">00112</a>         <a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">~block_diag_matrix</a>()
-<a name="l00113"></a>00113         {
-<a name="l00114"></a>00114         }
-<a name="l00115"></a>00115 };
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117 <span class="preprocessor">#include &quot;<a class="code" href="block__diag__matrix__to__string_8h.html">block_diag_matrix_to_string.h</a>&quot;</span>
-<a name="l00118"></a>00118 <span class="preprocessor">#include &quot;<a class="code" href="block__diag__matrix__save_8h.html">block_diag_matrix_save.h</a>&quot;</span>
-<a name="l00119"></a>00119 
-<a name="l00120"></a>00120 <span class="preprocessor">#endif </span>
+<a name="l00033"></a>00033 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00034"></a><a class="code" href="classblock__diag__matrix.html">00034</a> <span class="keyword">class </span><a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix</a>
+<a name="l00035"></a>00035 {
+<a name="l00036"></a>00036 <span class="keyword">public</span>:
+<a name="l00037"></a>00037 
+<a name="l00038"></a><a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">00038</a>         <span class="keyword">typedef</span> std::unordered_map&lt;int, el_type&gt; <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a>;
+<a name="l00039"></a><a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">00039</a>         <span class="keyword">typedef</span> std::vector&lt;el_type&gt;  <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a>;
+<a name="l00040"></a>00040         
+<a name="l00042"></a><a class="code" href="classblock__diag__matrix.html#a17f3419f2a6f824dea494d9ac229c000">00042</a>         <span class="keyword">friend</span> std::ostream &amp; <a class="code" href="classblock__diag__matrix.html#a17f3419f2a6f824dea494d9ac229c000">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix</a>&amp; D) 
+<a name="l00043"></a>00043         {
+<a name="l00044"></a>00044                 os &lt;&lt; D.<a class="code" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a>();
+<a name="l00045"></a>00045                 <span class="keywordflow">return</span> os;
+<a name="l00046"></a><a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">00046</a>         };
+<a name="l00047"></a>00047         
+<a name="l00048"></a>00048         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
+<a name="l00049"></a><a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">00049</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>;
+<a name="l00050"></a><a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">00050</a>         <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>;
+<a name="l00051"></a><a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">00051</a>         <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>;
+<a name="l00052"></a>00052         
+<a name="l00055"></a><a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">00055</a>         <a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b" title="Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.">block_diag_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> = 0, <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a> = 0) : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
+<a name="l00056"></a>00056         {
+<a name="l00057"></a>00057                 assert(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> == <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>);
+<a name="l00058"></a>00058                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
+<a name="l00059"></a>00059                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061         
+<a name="l00064"></a><a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">00064</a>         <span class="keywordtype">void</span> <a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix.">resize</a>(<span class="keywordtype">int</span> n) {
+<a name="l00065"></a>00065                 <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a> = n;
+<a name="l00066"></a>00066                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(n);
+<a name="l00067"></a>00067                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = n;
+<a name="l00068"></a>00068         }
+<a name="l00069"></a>00069         
+<a name="l00071"></a><a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">00071</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>()<span class="keyword"> const</span>
+<a name="l00072"></a>00072 <span class="keyword">        </span>{
+<a name="l00073"></a>00073                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
+<a name="l00074"></a>00074         }
+<a name="l00075"></a>00075 
+<a name="l00077"></a><a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">00077</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>()<span class="keyword"> const</span>
+<a name="l00078"></a>00078 <span class="keyword">        </span>{
+<a name="l00079"></a>00079                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081 
+<a name="l00083"></a><a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">00083</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>()<span class="keyword"> const </span>
+<a name="l00084"></a>00084 <span class="keyword">        </span>{
+<a name="l00085"></a>00085                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>;
+<a name="l00086"></a>00086         };
+<a name="l00087"></a>00087         
+<a name="l00091"></a><a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">00091</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">operator[]</a>(<span class="keywordtype">int</span> i) {
+<a name="l00092"></a>00092                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.at(i);
+<a name="l00093"></a>00093         }
+<a name="l00094"></a>00094         
+<a name="l00098"></a><a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">00098</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(<span class="keywordtype">int</span> i) {
+<a name="l00099"></a>00099                 <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
+<a name="l00100"></a>00100                         <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.insert(std::make_pair(i, 0));
+<a name="l00101"></a>00101                         <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>++;
+<a name="l00102"></a>00102                 }
+<a name="l00103"></a>00103                 
+<a name="l00104"></a>00104                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.at(i);
+<a name="l00105"></a>00105         }
+<a name="l00106"></a>00106         
+<a name="l00112"></a><a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">00112</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{
+<a name="l00113"></a>00113                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
+<a name="l00114"></a>00114                         <span class="keywordflow">return</span> 2;
+<a name="l00115"></a>00115                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i-1)) {
+<a name="l00116"></a>00116                         <span class="keywordflow">return</span> -2;
+<a name="l00117"></a>00117                 } <span class="keywordflow">else</span> {
+<a name="l00118"></a>00118                         <span class="keywordflow">return</span> 1;
+<a name="l00119"></a>00119                 }
+<a name="l00120"></a>00120         }
+<a name="l00121"></a>00121         
+<a name="l00124"></a>00124         std::string <a class="code" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a> () <span class="keyword">const</span>;
+<a name="l00125"></a>00125         
+<a name="l00129"></a>00129         <span class="keywordtype">bool</span> <a class="code" href="classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d">save</a>(std::string filename);
+<a name="l00130"></a>00130         
+<a name="l00133"></a><a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">00133</a>         <a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818" title="Generic class destructor.">~block_diag_matrix</a>()
+<a name="l00134"></a>00134         {
+<a name="l00135"></a>00135         }
+<a name="l00136"></a>00136 };
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 <span class="preprocessor">#include &quot;<a class="code" href="block__diag__matrix__to__string_8h.html">block_diag_matrix_to_string.h</a>&quot;</span>
+<a name="l00139"></a>00139 <span class="preprocessor">#include &quot;<a class="code" href="block__diag__matrix__save_8h.html">block_diag_matrix_save.h</a>&quot;</span>
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 <span class="preprocessor">#endif </span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -187,7 +189,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:25 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:55 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

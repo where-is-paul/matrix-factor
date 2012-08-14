@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 This is the complete list of members for <a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a>, including all inherited members.<table>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(const int &amp;k)</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#ab9ee09328b84657630f52631ea8e5eb1">advance_list</a>(const int &amp;k)</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a>(const int &amp;i, const int &amp;j) const </td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline, virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753">coeff</a>(const int &amp;i, const int &amp;j, int offset=0) const </td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline, virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#a327c165f0c90cd362dd14fc6421ebadd">coeffRef</a>(const int &amp;i, const int &amp;j, std::pair&lt; idx_it, elt_it &gt; &amp;its)</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#ad34c37b7095e283a7e5d7160fe26fd1b">elt_it</a> typedef</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#aa5a7b6e31a6c9ebf2ea3a898fe646af6">elt_vector_type</a> typedef</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td></td></tr>
@@ -88,7 +88,7 @@ This is the complete list of members for <a class="el" href="classlilc__matrix.h
   <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a></td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>() const </td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>() const </td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>() const </td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td><code> [inline, virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>() const </td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a></td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0">operator&lt;&lt;</a>(std::ostream &amp;os, const lil_sparse_matrix &amp;A)</td><td><a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix&lt; el_type &gt;</a></td><td><code> [friend]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classlilc__matrix.html#ad2c9a672941d6b47d3c60f631d21078c">pivot</a>(swap_struct&lt; el_type &gt; s, vector&lt; bool &gt; &amp;in_set, lilc_matrix&lt; el_type &gt; &amp;L, const int &amp;k, const int &amp;r)</td><td><a class="el" href="classlilc__matrix.html">lilc_matrix&lt; el_type &gt;</a></td><td><code> [inline]</code></td></tr>
@@ -115,7 +115,7 @@ This is the complete list of members for <a class="el" href="classlilc__matrix.h
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:56 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

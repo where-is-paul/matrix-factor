@@ -26,6 +26,7 @@ inline double max(typename std::vector<el_type>& v, typename std::vector<int>& c
 /*! \brief Computes the norm of v(curr_nnzs).
 	\param v the vector whose norm is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
+	\param p The norm number.
 	\return the norm of v.
 */
 template <class el_type>
@@ -150,6 +151,7 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
 	\param curr_nnzs the nonzero elements of work.
 	\param L the (partial) lower triangular factor of A.
 	\param D the (partial) diagonal factor of A.
+	\param in_set temporary storage for use in merging two lists of nonzero indices.
 */
 template <class el_type>
 inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& curr_nnzs, lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, vector<bool>& in_set) {
@@ -161,7 +163,7 @@ inline void update(const int& k, std::vector<el_type>& work, std::vector<int>& c
 	for (int i = 0; i < (int) L.list[k].size(); ++i) {
 		j = L.list[k][i];
 		
-		l_ki = L.coeff(k, j);
+		l_ki = L.coeff(k, j, L.first[j]);
 		update_single(k, j, l_ki, D[j], work, curr_nnzs, L, in_set); //update col using d11
 		
 		blk_sz = D.block_size(j);

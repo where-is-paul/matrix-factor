@@ -84,7 +84,7 @@ Collaboration diagram for lilc_matrix&lt; el_type &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlilc__matrix__coll__graph.png" border="0" usemap="#lilc__matrix_3_01el__type_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="lilc__matrix_3_01el__type_01_4_coll__map" id="lilc__matrix_3_01el__type_01_4_coll__map">
-<area shape="rect" id="node2" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices." alt="" coords="125,96,323,123"/></map>
+<area shape="rect" id="node2" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices." alt="" coords="198,96,396,123"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classlilc__matrix-members.html">List of all members.</a></p>
@@ -101,8 +101,8 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#acdaad0931ff27d7bfc361d3033713914">lilc_matrix</a> (int n_rows=0, int n_cols=0)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a column oriented list-of-lists (LIL) matrix. Space for both the values list and the indices list of the matrix is allocated here.  <a href="#acdaad0931ff27d7bfc361d3033713914"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c">coeff</a> (const int &amp;i, const int &amp;j) const </td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the (i,j)th coefficient of the matrix.  <a href="#a325231991a1f4f36c3eb2326b948010c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual el_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753">coeff</a> (const int &amp;i, const int &amp;j, int offset=0) const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the (i,j)th coefficient of the matrix.  <a href="#a0e59d373ec514c8cb264da653d36f753"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a327c165f0c90cd362dd14fc6421ebadd">coeffRef</a> (const int &amp;i, const int &amp;j, std::pair&lt; <a class="el" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a>, <a class="el" href="classlilc__matrix.html#ad34c37b7095e283a7e5d7160fe26fd1b">elt_it</a> &gt; &amp;its)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the index/value pointers to (i,j)th coefficient of the matrix.  <a href="#a327c165f0c90cd362dd14fc6421ebadd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795">resize</a> (int n_rows, int n_cols)</td></tr>
@@ -246,8 +246,8 @@ template&lt;class el_type&gt; </div>
 <div class="fragment"><pre class="fragment">                                                    : 
         <a class="code" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices.">lil_sparse_matrix&lt;el_type&gt;</a> (<a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>, <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>) 
         {
-                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>.reserve(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
-                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>.reserve(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
+                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>.reserve(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
+                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>.reserve(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
         }
 </pre></div>
 <p><div class="dynheader">
@@ -292,11 +292,11 @@ template&lt;class el_type&gt; </div>
                         <span class="comment">//ensure invariant (perhaps not needed here since the invariant is always ensured during pivoting).</span>
                         offset = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it];
 
-                        <span class="keywordflow">if</span> (offset &gt;= (<span class="keywordtype">int</span>) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size()) <span class="keywordflow">continue</span>;
+                        <span class="keywordflow">if</span> (offset &gt;= (<span class="keywordtype">int</span>) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].size()) <span class="keywordflow">continue</span>;
                         
-                        <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it]);
+                        <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it]);
                         
-                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][offset] == k)
+                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it][offset] == k)
                                 <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]++;
                 }
         }
@@ -338,7 +338,7 @@ template&lt;class el_type&gt; </div>
 </dl>
 <div class="fragment"><pre class="fragment">                                               {
                         <span class="keywordtype">int</span> offset;
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].begin(); it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].end(); it++) {
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].begin(); it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].end(); it++) {
                                 offset = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it];
 
                                 <span class="keywordflow">if</span> (offset &gt;= (<span class="keywordtype">int</span>) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size()) <span class="keywordflow">continue</span>;
@@ -362,7 +362,7 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a325231991a1f4f36c3eb2326b948010c"></a><!-- doxytag: member="lilc_matrix::coeff" ref="a325231991a1f4f36c3eb2326b948010c" args="(const int &amp;i, const int &amp;j) const " -->
+<a class="anchor" id="a0e59d373ec514c8cb264da653d36f753"></a><!-- doxytag: member="lilc_matrix::coeff" ref="a0e59d373ec514c8cb264da653d36f753" args="(const int &amp;i, const int &amp;j, int offset=0) const " -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -378,7 +378,13 @@ template&lt;class el_type&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int &amp;&#160;</td>
-          <td class="paramname"><em>j</em>&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -394,21 +400,22 @@ template&lt;class el_type&gt; </div>
   <table class="params">
     <tr><td class="paramname">i</td><td>the row of the (i,j)th element (zero-indexed). </td></tr>
     <tr><td class="paramname">j</td><td>the col of the (i,j)th element (zero-indexed). </td></tr>
+    <tr><td class="paramname">offset</td><td>an optional search offset for use in linear search (start at offset instead of 0). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The (i,j)th element of the matrix. </dd></dl>
 
-<p>Implements <a class="el" href="classlil__sparse__matrix.html#ab07c1e7d548a442634bfa694f56befe9">lil_sparse_matrix&lt; el_type &gt;</a>.</p>
+<p>Implements <a class="el" href="classlil__sparse__matrix.html#a03af482b9f3d8c8b522dd5e49a2500ee">lil_sparse_matrix&lt; el_type &gt;</a>.</p>
 <div class="fragment"><pre class="fragment">        {       
                 <span class="comment">//invariant: first elem in each col of a is the diagonal elem if it exists.</span>
                 <span class="keywordflow">if</span> (i == j) {
-                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size() == 0) <span class="keywordflow">return</span> 0;
-                        <span class="keywordflow">return</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][0] == i ? <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][0] : 0);
+                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].size() == 0) <span class="keywordflow">return</span> 0;
+                        <span class="keywordflow">return</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j][0] == i ? <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j][0] : 0);
                 }
                 
-                <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> k = 0; k &lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); k++) {
-                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][k] == i) <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][k];
+                <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> k = offset, end = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].size(); k &lt; end; k++) {
+                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j][k] == i) <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j][k];
                 }
                 
                 <span class="keywordflow">return</span> 0;
@@ -460,14 +467,14 @@ template&lt;class el_type&gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>True if (i,j)th element is nonzero, false otherwise. </dd></dl>
 <div class="fragment"><pre class="fragment">        {       
-                <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> k = 0; k &lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); k++) {
-                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][k] == i) {
-                                its = make_pair(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].begin() + k, <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j].begin() + k);
+                <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> k = 0; k &lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].size(); k++) {
+                        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j][k] == i) {
+                                its = make_pair(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].begin() + k, <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j].begin() + k);
                                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
                         }
                 }
                 
-                its = make_pair(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].end(), <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j].end());
+                its = make_pair(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].end(), <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j].end());
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
         }
 </pre></div>
@@ -517,21 +524,21 @@ template&lt;class Container &gt; </div>
 <p>Ensures two the invariants observed by A.first and A.list are held. </p>
 <dl class="invariant"><dt><b>Invariant:</b></dt><dd>If this matrix is a lower triangular factor of another matrix:<ol type="1">
 <li>On iteration k, first[i] will give the number of non-zero elements on col i of A before A(i, k).</li>
-<li>On iteration k, list[i][first[i]] will contain the first element below or on index k of column i of A.</li>
+<li>On iteration k, list[i][ first[i] ] will contain the first element below or on index k of column i of A.</li>
 </ol>
 </dd>
 <dd>
 If this matrix is the matrix to be factored:<ol type="1">
 <li>On iteration k, first[i] will give the number of non-zero elements on row i of A before A(i, k).</li>
-<li>On iteration k, list[i][first[i]] will contain the first element right of or on index k of row i of A.</li>
+<li>On iteration k, list[i][ first[i] ] will contain the first element right of or on index k of row i of A.</li>
 </ol>
 </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">j</td><td></td></tr>
-    <tr><td class="paramname">k</td><td></td></tr>
-    <tr><td class="paramname">con</td><td></td></tr>
-    <tr><td class="paramname">update_list</td><td></td></tr>
+    <tr><td class="paramname">j</td><td>the column of con. </td></tr>
+    <tr><td class="paramname">k</td><td>the iteration number. </td></tr>
+    <tr><td class="paramname">con</td><td>the container to be swapped. </td></tr>
+    <tr><td class="paramname">update_list</td><td>boolean indicating whether list or m_x/m_idx should be updated. </td></tr>
   </table>
   </dd>
 </dl>
@@ -553,7 +560,7 @@ If this matrix is the matrix to be factored:<ol type="1">
                         std::swap(con[offset], con[min]);
                 <span class="keywordflow">else</span> {
                         std::swap(con[offset], con[min]);
-                        std::swap(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][offset], <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][min]);
+                        std::swap(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j][offset], <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j][min]);
                 }
         }
 </pre></div>
@@ -605,7 +612,7 @@ template&lt;class el_type&gt; </div>
                         }
                 }
                 
-                <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*node_it].begin(); it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*node_it].end(); it++) {
+                <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*node_it].begin(); it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*node_it].end(); it++) {
                         <span class="keywordflow">if</span> (!visited[*it]) {
                                 visited[*it] = <span class="keyword">true</span>;
                                 new_set.push_back(*it);
@@ -646,7 +653,7 @@ template&lt;class el_type &gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">                                                    {
-        vector&lt;bool&gt; visited(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>, <span class="keyword">false</span>);
+        vector&lt;bool&gt; visited(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>, <span class="keyword">false</span>);
         vector&lt;int&gt; lvl_set;
         <span class="keywordtype">int</span> ls_max = 0, ls = 0;
         
@@ -662,10 +669,10 @@ template&lt;class el_type &gt; </div>
 
                 <span class="keywordflow">if</span> (ls &gt; ls_max) {
                         ls_max = ls;
-                        <span class="keywordtype">int</span> deg, min_deg = <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>;
+                        <span class="keywordtype">int</span> deg, min_deg = <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>;
                         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = lvl_set.begin(); it != lvl_set.end(); it++) {
-                                deg = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size() + <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size();
-                                <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size() &gt; 0 &amp;&amp; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][0] == *it) deg--;
+                                deg = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size() + <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].size();
+                                <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].size() &gt; 0 &amp;&amp; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it][0] == *it) deg--;
                                 <span class="keywordflow">if</span> (deg &lt; min_deg) { <span class="comment">//should consider tie breaking by index later if needed.</span>
                                         min_deg = deg;
                                         s = *it;
@@ -739,7 +746,7 @@ template&lt;class el_type &gt; </div>
 <div class="fragment"><pre class="fragment">{
 
         <span class="comment">//----------------- initialize temporary variables --------------------//</span>
-        <span class="keywordtype">int</span> lfil = 2*fill_factor*<a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>()/<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span>
+        <span class="keywordtype">int</span> lfil = 2*fill_factor*<a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>()/<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span>
         <span class="keyword">const</span> el_type alpha = (1+sqrt(17))/8;  <span class="comment">//for use in pivoting.</span>
         el_type w1, wr, d1, dr(-1);
         el_type det_D, D_inv11, D_inv22, D_inv12;
@@ -748,20 +755,20 @@ template&lt;class el_type &gt; </div>
         <span class="keyword">const</span> <span class="keywordtype">int</span> ncols = <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); <span class="comment">//number of cols in A.</span>
 
         vector&lt;bool&gt; in_set(ncols, <span class="keyword">false</span>); <span class="comment">//bitset used for unsorted merges</span>
-        <a class="code" href="classswap__struct.html">swap_struct&lt;el_type&gt;</a> s; <span class="comment">//struct containing temp vars used in pivoting.</span>
+        <a class="code" href="classswap__struct.html" title="A structure containing variables used in pivoting a LIL-C matrix.">swap_struct&lt;el_type&gt;</a> s; <span class="comment">//struct containing temp vars used in pivoting.</span>
         
         <a class="code" href="classlilc__matrix.html#aa5a7b6e31a6c9ebf2ea3a898fe646af6">elt_vector_type</a> work(ncols, 0), temp(ncols, 0); 
         <a class="code" href="classlilc__matrix.html#a83c70482c28275881562ee3937b5f591">idx_vector_type</a> curr_nnzs, temp_nnzs;  <span class="comment">//non-zeros on current col.</span>
         curr_nnzs.reserve(ncols); <span class="comment">//reserves space for worse case (entire col is non-zero)</span>
 
-        <span class="keywordtype">int</span> count = 0; <span class="comment">//the current non-zero in L.</span>
+        <span class="keywordtype">int</span> count = 0; <span class="comment">//the total number of nonzeros stored in L.</span>
         <span class="keywordtype">int</span> i, j, k, r, offset, col_size, col_size2(-1);
         <span class="keywordtype">bool</span> size_two_piv = <span class="keyword">false</span>;      <span class="comment">//boolean indicating if the pivot is 2x2 or 1x1</span>
 
         <span class="comment">//--------------- allocate memory for L and D ------------------//</span>
         L.<a class="code" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="Resizes the matrix. For use in preallocating space before factorization begins.">resize</a>(ncols, ncols);
         L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>.resize(ncols ); <span class="comment">//allocate a vector of size n for Llist.</span>
-        D.<a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">resize</a>(ncols );
+        D.<a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix.">resize</a>(ncols );
         
 
         <span class="keywordtype">int</span> debug = -1;
@@ -773,21 +780,22 @@ template&lt;class el_type &gt; </div>
                 curr_nnzs.clear();
 
                 <span class="keywordflow">if</span> (k == debug) { 
-                        cout &lt;&lt; <span class="stringliteral">&quot;m_idx[k]: &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k] &lt;&lt; endl;
-                        cout &lt;&lt; <span class="stringliteral">&quot;m_x[k]: &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k] &lt;&lt; endl;
+                        cout &lt;&lt; <span class="stringliteral">&quot;m_idx[k]: &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k] &lt;&lt; endl;
+                        cout &lt;&lt; <span class="stringliteral">&quot;m_x[k]: &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k] &lt;&lt; endl;
                 }
                 
                 <span class="comment">//assign nonzeros indices of A(k:n, k) to curr_nnzs</span>
-                curr_nnzs.assign (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].begin(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].end());
+                curr_nnzs.assign (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].begin(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].end());
 
                 <span class="comment">//assign nonzero values of A(k:n, k) to work</span>
                 <span class="keywordflow">for</span> (j = 0; j &lt; (int) curr_nnzs.size(); j++) {
-                        work[curr_nnzs[j]] = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][j];
+                        work[curr_nnzs[j]] = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][j];
                 }
 
                 <span class="comment">//--------------begin pivoting--------------//</span>
 
-                <span class="comment">//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * L(k:n, i).</span>
+                <span class="comment">//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * D(i,i) * L(k:n, i)</span>
+                <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span>
                 <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ad05d288ce2ed4291f9463a4861487f01" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(k, work, curr_nnzs, L, D, in_set);
                 
                 <span class="comment">//store diagonal element in d1. set diagonal element in work vector to 0</span>
@@ -810,12 +818,12 @@ template&lt;class el_type &gt; </div>
                 <span class="comment">//bunch-kaufman partial pivoting is used below. for a more detailed reference,</span>
                 <span class="comment">//refer to &quot;Accuracy and Stability of Numerical Algorithms.&quot; by Higham (2002).</span>
                 <span class="comment">//------------------- begin bunch-kaufman pivoting ------------------//</span>
-                <span class="keywordflow">if</span> (w1 &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
+                <span class="keywordflow">if</span> (w1 &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
                         <span class="comment">//case 0: do nothing. pivot is k.</span>
                         <span class="keywordflow">if</span> (k == debug) {
                                 cout &lt;&lt; <span class="stringliteral">&quot;case 0&quot;</span> &lt;&lt; endl;
                         }
-                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( (alpha * w1 - abs(d1)) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>  ) {
+                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( (alpha * w1 - abs(d1)) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>  ) {
                         <span class="comment">//case 1: do nothing. pivot is k.</span>
                         <span class="keywordflow">if</span> (k == debug) {
                                 cout &lt;&lt; <span class="stringliteral">&quot;case 1&quot;</span> &lt;&lt; endl;
@@ -824,33 +832,33 @@ template&lt;class el_type &gt; </div>
                         <span class="comment">//zero out temp vector.</span>
                         temp_nnzs.clear();
 
-                        <span class="comment">//ensure invariant 1.</span>
-                        <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(r, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r], <span class="keyword">true</span>);
                         offset = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r];
-
-                        <span class="comment">//assign all nonzero indices and values in A(k:r, r) </span>
+                        <span class="comment">//assign all nonzero indices and values in A(r, k:r) </span>
                         <span class="comment">//( not including A(r,r) ) to temp and temp_nnzs</span>
                         <span class="keywordflow">for</span> (j = offset; j &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].size(); j++) {
                                 temp_nnzs.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r][j]);
-                                temp[<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r][j]] = <a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(r, list[r][j]);
+                                temp[<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r][j]] = <a class="code" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(r, list[r][j]);
                         }
 
-                        temp_nnzs.insert(temp_nnzs.end(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].begin(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].end());
-                        <span class="comment">//unordered_inplace_union(temp_nnzs, m_idx[r].begin(), m_idx[r].end(), in_set);</span>
+                        <span class="comment">//assign nonzero indices of A(r:n, r) to temp_nnzs </span>
+                        temp_nnzs.insert(temp_nnzs.end(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].begin(), <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].end());
 
-                        <span class="keywordflow">for</span> (j = 0; j &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].size(); j++) {
-                                temp[<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r][j]] = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[r][j];
+                        <span class="comment">//assign nonzero values of to temp</span>
+                        <span class="keywordflow">for</span> (j = 0; j &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].size(); j++) {
+                                temp[<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r][j]] = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[r][j];
                         }
 
+                        <span class="comment">//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).</span>
+                        <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span>
                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ad05d288ce2ed4291f9463a4861487f01" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.">update</a>(r, temp, temp_nnzs, L, D, in_set);
 
-                        
                         dr = temp[r];
                         temp[r] = 0;
 
+                        <span class="comment">//find maximum element in temp.</span>
                         wr = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">max</a>(temp, temp_nnzs, j);
 
-                        <span class="keywordflow">if</span> ((alpha*w1*w1 - abs(d1)*wr) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
+                        <span class="keywordflow">if</span> ((alpha*w1*w1 - abs(d1)*wr) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
                                 <span class="comment">//case 2: do nothing. pivot is k.</span>
                                 <span class="keywordflow">if</span> (k == debug) {
                                         cout &lt;&lt; <span class="stringliteral">&quot;case 2&quot;</span> &lt;&lt; endl;
@@ -858,7 +866,7 @@ template&lt;class el_type &gt; </div>
                                 }
                                 
                                 
-                        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( (alpha * wr - abs(dr)) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
+                        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( (alpha * wr - abs(dr)) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
                                 <span class="comment">//case 3: pivot is k with r: 1x1 pivot case.</span>
                                 temp[r] = dr;
                                 work[k] = d1;
@@ -879,11 +887,11 @@ template&lt;class el_type &gt; </div>
                                 std::swap(perm[k], perm[r]);
 
                                 work.swap(temp);        <span class="comment">//swap work with temp.</span>
-                                std::swap(work[k], work[r]);
+                                std::swap(work[k], work[r]); <span class="comment">//swap kth and rth row of work</span>
 
                                 curr_nnzs.swap(temp_nnzs);      <span class="comment">//swap curr_nnzs with temp_nnzs</span>
 
-                                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(curr_nnzs, k, r);
+                                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(curr_nnzs, k, r); <span class="comment">//swap k and r if they are present in curr_nnzs</span>
 
                                 <span class="comment">//--------end pivot rest---------//</span>
 
@@ -902,15 +910,20 @@ template&lt;class el_type &gt; </div>
                                         <span class="keywordflow">return</span>;
                                 }
 
+                                <span class="comment">//must advance list for 2x2 pivot since we are pivoting on col k+1</span>
                                 <a class="code" href="classlilc__matrix.html#ab9ee09328b84657630f52631ea8e5eb1" title="Updates A.list for iteration k.">advance_list</a>(k);
+                                <span class="comment">//for the same reason as above, we must advance L.first as well</span>
                                 L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k.">advance_first</a>(k);
 
+                                <span class="comment">//restore diagonal elements in work and temp</span>
                                 temp[r] = dr;
                                 work[k] = d1;
 
+                                <span class="comment">//indicate that pivot is 2x2</span>
                                 size_two_piv = <span class="keyword">true</span>;
 
                                 <span class="keywordflow">if</span> (k+1 != r) {
+                                        <span class="comment">//symmetrically permute row/col k+1 and r.</span>
                                         <a class="code" href="classlilc__matrix.html#ad2c9a672941d6b47d3c60f631d21078c" title="Performs a symmetric permutation between row/col k &amp; r of A.">pivot</a>(s, in_set, L, k+1, r);
 
 
@@ -919,10 +932,11 @@ template&lt;class el_type &gt; </div>
                                         <span class="comment">//permute perm</span>
                                         std::swap(perm[k+1], perm[r]);
 
-                                        <span class="comment">//swap two cols of L</span>
+                                        <span class="comment">//swap rows k+1 and r of work and temp</span>
                                         std::swap(work[k+1], work[r]);
                                         std::swap(temp[k+1], temp[r]);
 
+                                        <span class="comment">//swap k+1 and r in curr_nnzs and temp_nnzs</span>
                                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(curr_nnzs, k+1, r);
                                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(temp_nnzs, k+1, r);
                                 }
@@ -930,60 +944,75 @@ template&lt;class el_type &gt; </div>
                 }
                 <span class="comment">//--------------end pivoting--------------//</span>
 
+                <span class="comment">//erase diagonal element from non-zero indices (to exclude it from being dropped)</span>
                 curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());
 
                 <span class="comment">//performs the dual dropping procedure.</span>
                 <span class="keywordflow">if</span> (!size_two_piv) {
+                        <span class="comment">//perform dual dropping criteria on work</span>
                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);
 
                 } <span class="keywordflow">else</span> {
+                        <span class="comment">//erase diagonal 2x2 block from non-zero indices (to exclude it from being dropped)</span>
                         temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());
                         curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());
                         temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
                         
+                        <span class="comment">//compute inverse of the 2x2 block diagonal pivot.</span>
                         det_D = d1*dr - work[k+1]*work[k+1];
-                        <span class="keywordflow">if</span> ( abs(det_D) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) det_D = 1e-6;  <span class="comment">//statically pivot;</span>
+                        <span class="keywordflow">if</span> ( abs(det_D) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) det_D = 1e-6;  <span class="comment">//statically pivot;</span>
                         D_inv11 = dr/det_D;
                         D_inv22 = d1/det_D;
                         D_inv12 = -work[k+1]/det_D;
                         
+                        <span class="comment">//assign pivot to D (d1 is assigned to D(k,k) later)</span>
                         D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(k) = work[k+1];
                         D[k+1] = dr;
                         
+                        <span class="comment">//merge nonzeros of curr and temp together so iterating through them will be easier</span>
                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);
 
                         
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { <span class="comment">//need -1 on col_size to remove offset from initializing col_size to 1</span>
+                        <span class="comment">//multiply inverse of pivot to work and temp (gives us two columns of l)</span>
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
                                 l_11 = work[*it]*D_inv11 + temp[*it]*D_inv12;
                                 l_12 = work[*it]*D_inv12 + temp[*it]*D_inv22;
                                 
+                                <span class="comment">//note that work and temp roughly share the same non-zero indices</span>
                                 work[*it] = l_11;
                                 temp[*it] = l_12;
                         }
                         
+                        <span class="comment">//since the work and temp non-zero indices are roughly the same,</span>
+                        <span class="comment">//we can copy it over to temp_nnzs</span>
                         temp_nnzs.assign(curr_nnzs.begin(), curr_nnzs.end());
+                        
+                        <span class="comment">//perform dual dropping procedure on work and temp</span>
                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(temp, temp_nnzs, lfil, tol);
                         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005).">drop_tol</a>(work, curr_nnzs, lfil, tol);
                         
 
                 }
 
-                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(curr_nnzs.size()+1);
-                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(curr_nnzs.size()+1);
+                <span class="comment">//resize kth column of L to proper size.</span>
+                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].resize(curr_nnzs.size()+1);
+                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k].resize(curr_nnzs.size()+1);
                 
+                <span class="comment">//assign diagonal element to D</span>
                 D[k] = d1;
                 
-                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][0] = 1;
-                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][0] = k;
+                <span class="comment">//assign 1s to diagonal of L.</span>
+                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][0] = 1;
+                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k][0] = k;
                 count++;
                 
                 <span class="keywordflow">if</span> (!size_two_piv) {
-                        <span class="keywordflow">if</span> ( abs(D[k]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) D[k] = 1e-6; <span class="comment">//statically pivot</span>
+                        <span class="keywordflow">if</span> ( abs(D[k]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) D[k] = 1e-6; <span class="comment">//statically pivot</span>
                         i = 0;
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { <span class="comment">//need -1 on col_size to remove offset from initializing col_size to 1</span>
-                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
-                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i+1] = *it; <span class="comment">//row_idx of L is updated</span>
-                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i+1] = work[*it]/D[k]; <span class="comment">//work vector is scaled by D[k]</span>
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
+                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
+                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k][i+1] = *it; <span class="comment">//col k nonzero indices of L are stored</span>
+                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][i+1] = work[*it]/D[k]; <span class="comment">//col k nonzero values of L are stored</span>
 
                                         L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k); <span class="comment">//update Llist</span>
                                         count++;
@@ -992,26 +1021,27 @@ template&lt;class el_type &gt; </div>
                         }
                         
                         col_size = 1 + i;
-                        <span class="comment">//update lfirst</span>
+                        
+                        <span class="comment">//advance list and L.first</span>
                         L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k.">advance_first</a>(k);
                         <a class="code" href="classlilc__matrix.html#ab9ee09328b84657630f52631ea8e5eb1" title="Updates A.list for iteration k.">advance_list</a>(k);
                 } <span class="keywordflow">else</span> {
-                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(temp_nnzs.size()+1);
-                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(temp_nnzs.size()+1);
-                        
-                        D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(k) = work[k+1];
-                        D[k+1] = dr;
+                        <span class="comment">//resize k+1th column of L to proper size.</span>
+                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k+1].resize(temp_nnzs.size()+1);
+                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k+1].resize(temp_nnzs.size()+1);
 
-                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][0] = 1;
-                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][0] = k+1;
+                        <span class="comment">//assign 1s to diagonal of L.</span>
+                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k+1][0] = 1;
+                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k+1][0] = k+1;
                         count++;
 
                         i = 0;
                         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
-                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i+1] = work[*it]; <span class="comment">//row_idx of L is updated</span>
-                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i+1] = *it; <span class="comment">//work vector is scaled by D[k]</span>
-                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k); <span class="comment">//update Llist</span>
+                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
+                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][i+1] = work[*it]; <span class="comment">//col k nonzero indices of L are stored</span>
+                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k][i+1] = *it; <span class="comment">//col k nonzero values of L are stored</span>
+                                        
+                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k); <span class="comment">//update L.list</span>
                                         count++;
                                         i++;
                                 }
@@ -1020,10 +1050,11 @@ template&lt;class el_type &gt; </div>
                         
                         j = 0;
                         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
-                                <span class="keywordflow">if</span> ( abs(temp[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
-                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][j+1] = temp[*it]; <span class="comment">//row_idx of L is updated</span>
-                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][j+1] = *it; <span class="comment">//work vector is scaled by D[k]</span>
-                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k+1); <span class="comment">//update Llist</span>
+                                <span class="keywordflow">if</span> ( abs(temp[*it]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
+                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k+1][j+1] = temp[*it]; <span class="comment">//col k+1 nonzero indices of L are stored</span>
+                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k+1][j+1] = *it; <span class="comment">//col k+1 nonzero values of L are stored</span>
+                                        
+                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k+1); <span class="comment">//update L.list</span>
                                         count++;
                                         j++;
                                 }
@@ -1033,13 +1064,13 @@ template&lt;class el_type &gt; </div>
                         col_size = 1 + i;
                         col_size2 = 1 + j;
 
-                        <span class="comment">//update lfirst</span>
+                        <span class="comment">//update list and L.first</span>
                         L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k.">advance_first</a>(k+1);
                         <a class="code" href="classlilc__matrix.html#ab9ee09328b84657630f52631ea8e5eb1" title="Updates A.list for iteration k.">advance_list</a>(k+1);
                         
                 }
                 
-                <span class="comment">//cleanup</span>
+                <span class="comment">// ------------- reset temp and work back to zero -----------------//</span>
                 work[k] = 0;
                 temp[k] = 0;
                 
@@ -1058,9 +1089,20 @@ template&lt;class el_type &gt; </div>
                 }
                 temp_nnzs.clear();
                 
-                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(col_size);
-                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(col_size);
+                <span class="comment">//-------------------------------------------------------------------//</span>
+                
+                <span class="comment">//resize columns of L to correct size</span>
+                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k].resize(col_size);
+                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].resize(col_size);
 
+                <span class="keywordflow">if</span> (size_two_piv) {
+                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k+1].resize(col_size2);
+                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k+1].resize(col_size2);
+                        k++;
+                        
+                        size_two_piv = <span class="keyword">false</span>;
+                }
+                
                 <span class="keywordflow">if</span> (k == debug) {
                         cout &lt;&lt; <span class="stringliteral">&quot;part of two piv? &quot;</span> &lt;&lt; size_two_piv &lt;&lt; endl;
                         cout &lt;&lt; <span class="stringliteral">&quot;lfil: &quot;</span> &lt;&lt; lfil &lt;&lt; endl;
@@ -1073,14 +1115,6 @@ template&lt;class el_type &gt; </div>
                                 cout &lt;&lt; work[curr_nnzs[i]]/D[k] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;
                         }
                         cout &lt;&lt; endl;
-                }
-                
-                <span class="keywordflow">if</span> (size_two_piv) {
-                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(col_size2);
-                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(col_size2);
-                        k++;
-                        
-                        size_two_piv = <span class="keyword">false</span>;
                 }
                 
                 <span class="comment">// std::cout &lt;&lt; k &lt;&lt; std::endl;</span>
@@ -1098,7 +1132,8 @@ template&lt;class el_type &gt; </div>
                 
         }
 
-        L.<a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = count;
+        <span class="comment">//assign number of non-zeros in L to L.nnz_count</span>
+        L.<a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8" title="Number of nonzeros in the matrix.">nnz_count</a> = count;
 
 }
 </pre></div>
@@ -1107,7 +1142,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlilc__matrix_a121e606e3fe15ae0257fd87bef7cf320_cgraph.png" border="0" usemap="#classlilc__matrix_a121e606e3fe15ae0257fd87bef7cf320_cgraph" alt=""/></div>
 <map name="classlilc__matrix_a121e606e3fe15ae0257fd87bef7cf320_cgraph" id="classlilc__matrix_a121e606e3fe15ae0257fd87bef7cf320_cgraph">
-<area shape="rect" id="node3" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k." alt="" coords="409,36,583,62"/><area shape="rect" id="node7" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="212,48,287,74"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="225,98,273,125"/><area shape="rect" id="node11" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="387,250,605,277"/><area shape="rect" id="node13" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="block_diag_matrix::resize" alt="" coords="160,200,339,226"/><area shape="rect" id="node15" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="Resizes the matrix. For use in preallocating space before factorization begins." alt="" coords="185,149,313,176"/><area shape="rect" id="node21" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="204,301,295,328"/><area shape="rect" id="node23" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="659,352,842,378"/><area shape="rect" id="node25" href="lilc__matrix__ildl__helpers_8h.html#ad05d288ce2ed4291f9463a4861487f01" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="217,352,282,378"/><area shape="rect" id="node5" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="653,250,848,277"/><area shape="rect" id="node17" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d" title="lil_sparse_matrix::n_cols" alt="" coords="409,124,583,150"/><area shape="rect" id="node19" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0" title="lil_sparse_matrix::n_rows" alt="" coords="406,174,586,201"/><area shape="rect" id="node27" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="393,402,599,429"/><area shape="rect" id="node29" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="435,352,557,378"/><area shape="rect" id="node32" href="lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="441,301,551,328"/></map>
+<area shape="rect" id="node3" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k." alt="" coords="409,36,583,62"/><area shape="rect" id="node7" href="lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="212,48,287,74"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="225,98,273,125"/><area shape="rect" id="node11" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="387,250,605,277"/><area shape="rect" id="node13" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix." alt="" coords="160,200,339,226"/><area shape="rect" id="node15" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="Resizes the matrix. For use in preallocating space before factorization begins." alt="" coords="185,149,313,176"/><area shape="rect" id="node21" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="204,301,295,328"/><area shape="rect" id="node23" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="659,352,842,378"/><area shape="rect" id="node25" href="lilc__matrix__ildl__helpers_8h.html#ad05d288ce2ed4291f9463a4861487f01" title="Performs a delayed update of subcolumn A(k+1:n,k). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs." alt="" coords="217,352,282,378"/><area shape="rect" id="node5" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="653,250,848,277"/><area shape="rect" id="node17" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d" title="lil_sparse_matrix::n_cols" alt="" coords="409,124,583,150"/><area shape="rect" id="node19" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0" title="lil_sparse_matrix::n_rows" alt="" coords="406,174,586,201"/><area shape="rect" id="node27" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="393,402,599,429"/><area shape="rect" id="node29" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="435,352,557,378"/><area shape="rect" id="node32" href="lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="441,301,551,328"/></map>
 </div>
 </p>
 
@@ -1178,8 +1213,8 @@ template&lt;class el_type &gt; </div>
                         <span class="keywordflow">if</span>( <a class="code" href="lilc__matrix__load_8h.html#a6de8c02a91b0862a6d2221d4e8deb59e">readline</a>(line, <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>, <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>, i, j, value) ) 
                         {
 
-                                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].push_back(i);
-                                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j].push_back(value);
+                                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].push_back(i);
+                                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j].push_back(value);
                                 ++count;
                                 
                                 <span class="keywordflow">if</span> (i != j) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].push_back(j);
@@ -1193,7 +1228,7 @@ template&lt;class el_type &gt; </div>
         
         <span class="keywordflow">if</span> (count != n_nzs) std::cout &lt;&lt; <span class="stringliteral">&quot;Expected &quot;</span> &lt;&lt; n_nzs &lt;&lt; <span class="stringliteral">&quot; elems but read &quot;</span> &lt;&lt; count &lt;&lt; <span class="stringliteral">&quot;.&quot;</span> &lt;&lt; std::endl;
         
-        <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = count;
+        <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8" title="Number of nonzeros in the matrix.">nnz_count</a> = count;
         std::cout &lt;&lt; <span class="stringliteral">&quot;Load succeeded. &quot;</span> &lt;&lt; <span class="stringliteral">&quot;File &quot;</span> &lt;&lt; filename &lt;&lt; <span class="stringliteral">&quot; was loaded.&quot;</span> &lt;&lt; std::endl;
         input.close();
         <span class="keywordflow">return</span> <span class="keyword">true</span>;
@@ -1262,117 +1297,159 @@ template&lt;class el_type&gt; </div>
     <tr><td class="paramname">in_set</td><td>a bitset needed for unordered unions during pivoting. </td></tr>
     <tr><td class="paramname">L</td><td>the lower triangular factor of A. </td></tr>
     <tr><td class="paramname">k</td><td>index of row/col k. </td></tr>
-    <tr><td class="paramname">r</td><td>index of row/col r. </td></tr>
+    <tr><td class="paramname">r</td><td>index of row/col r.</td></tr>
   </table>
   </dd>
 </dl>
+<p>There are four parts to this pivoting algorithm. For A, due to storing only the lower half, there are three steps to performing a symmetric permutation:</p>
+<ol type="1">
+<li>A(k, 1:k) must be swapped with A(r, 1:k) (row-row swap).</li>
+<li>A(k:r, k) must be swapped with A(r, k:r) (row-column swap).</li>
+<li>A(k:r, k) must be swapped with A(k:r, r) (column-column swap).</li>
+</ol>
+<p>For L, since column k and r are not yet formed, there is only one step (a row permutation):</p>
+<ol type="1">
+<li>L(k, 1:k) must be swapped with L(r, 1:k) (row-row swap). </li>
+</ol>
 <div class="fragment"><pre class="fragment">{       
-        <span class="comment">//clear old stuff</span>
-        std::vector&lt;int&gt; row_k, row_r;
+        <span class="comment">//initialize temp variables</span>
         std::pair&lt;idx_it, elt_it&gt; its_k, its_r;
         <span class="keywordtype">int</span> i, j, idx, offset;
         
+        <span class="comment">//----------- clear out old variables from last pivot -------------- //</span>
         <span class="comment">//for vectors of primitive types, clear is always constant time regardless of how many elements are in the container.</span>
-        s.<a class="code" href="classswap__struct.html#ad97200ee23cd1f70668d6b4462228343">col_clear</a>();
+        s.<a class="code" href="classswap__struct.html#ad97200ee23cd1f70668d6b4462228343" title="Clears all col vectors (col_k, col_r, col_k_nnzs, col_r_nnzs).">col_clear</a>();
+        s.<a class="code" href="classswap__struct.html#a9727bf8ea70308977661235c59e3b8da" title="Clears all row vectors (row_k, row_r).">row_clear</a>();
         
         <span class="comment">//----------pivot A ----------//</span>
-        s.<a class="code" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581">swap_clear</a>();
+        s.<a class="code" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581" title="Clears all swap vectors (swapk, swapr, all_swaps).">swap_clear</a>();
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]; it++) {
-                row_r.push_back(*it);
+        <span class="comment">//------------- row-row swap (1) for A -------------//</span>
+        
+        <span class="comment">//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), end = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]; it != end; ++it) {
+                s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(*it);
         }
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]; it++) {
-                row_k.push_back(*it);
+        <span class="comment">//pushes column indices (which contain non-zero elements) of A(r, 1:k) onto row_k</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), end = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]; it != end; ++it) {
+                s.<a class="code" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9" title="Column indices of non-zeros in the new row k.">row_k</a>.push_back(*it);
         }
         
-        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.assign(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]);
-
-        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r], in_set);
+        <span class="comment">//merge these two sets of indices together</span>
+        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.assign(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]);
+        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r], in_set);
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.begin(); it != s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.end(); it++) {
-        
-                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it], k, r);
-
+        <span class="comment">//do row swaps in A (i.e. swap A(k, 1:k) with A(r, 1:k))</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.begin(), end = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.end(); it != end; ++it) {
+                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954">safe_swap</a>(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it], k, r);
         }
-        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.clear();
+        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.clear();
+        
+        <span class="comment">//----------------------------------------------------//</span>
+        
+        
+        <span class="comment">//---------------------- (2) and (3) for A --------------------------//</span>
         
         <span class="comment">//after sym. perm, a_rr will be swapped to a_kk, so we put a_rr as first</span>
         <span class="comment">//elem of col k if its non-zero. this also means that we ensure the first</span>
         <span class="comment">//elem of col k is the diagonal element if it exists.</span>
-        <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(r, r)) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>){
-                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.push_back(k);
-                s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a>.push_back(<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(r, r));
+        el_type elem = <a class="code" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(r, r);
+        <span class="keywordflow">if</span> (abs(elem) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>){
+                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.push_back(k);
+                s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352" title="Non-zero values in the new column k (order dependent on col_k_nnzs).">col_k</a>.push_back(elem);
         }
         
         <span class="comment">//same as above, put a_kk in new col r if it exists.</span>
-        <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(k, k)) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>){
-                s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244">col_r_nnzs</a>.push_back(r);
-                s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d">col_r</a>.push_back(<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(k, k));
+        elem = <a class="code" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(k, k);
+        <span class="keywordflow">if</span> (abs(elem) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>){
+                s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244" title="Row indices of non-zeros in the new column r.">col_r_nnzs</a>.push_back(r);
+                s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d" title="Non-zero values in the new column r (order dependent on col_r_nnzs).">col_r</a>.push_back(elem);
         }
         
         
-        <span class="comment">//first[r] should have A(r, k:r), not including A(k, r) element</span>
+        <span class="comment">//first[r] should have A(r, k:r)</span>
         <span class="keywordflow">for</span> (i = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]; i &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].size(); i++) {
                 j = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r][i];
                 <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#a327c165f0c90cd362dd14fc6421ebadd" title="Finds the index/value pointers to (i,j)th coefficient of the matrix.">coeffRef</a>(r, j, its_k)) {
                         <span class="keywordflow">if</span> (j == k) {
-                                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.push_back(r);
-                                row_r.push_back(k);
+                                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.push_back(r); <span class="comment">//A(r, k) is fixed upon permutation so its index stays r</span>
+                                s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(k);
                         } <span class="keywordflow">else</span> {
-                                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.push_back(j);
+                                s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.push_back(j); <span class="comment">//place A(r, i) (where k &lt; i &lt; r) into A(i, k)</span>
                         }
-                        s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a>.push_back(*its_k.second);
+                        s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352" title="Non-zero values in the new column k (order dependent on col_k_nnzs).">col_k</a>.push_back(*its_k.second);
                         
-                        *its_k.first = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].back();
-                        *its_k.second = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j].back();
+                        <span class="comment">//delete A(r,i) from A.</span>
+                        *its_k.first = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].back();
+                        *its_k.second = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j].back();
                         
-                        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].pop_back();
-                        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j].pop_back();
+                        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].pop_back();
+                        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j].pop_back();
                 }
         }
 
-        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].size() &gt; 0) {
-                offset = (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r][0] == r ? 1 : 0);
-                std::copy(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[r].begin()+offset, <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[r].end(), std::back_inserter(s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a>));
-                std::copy(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].begin()+offset, <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].end(), std::back_inserter(s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>));
+        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].size() &gt; 0) {
+        
+                <span class="comment">//place A(r:n, r) into A(r:n, k). since we already took care of A(r,r) above,</span>
+                <span class="comment">//we need to offset by 1 if necessary.</span>
+                offset = (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r][0] == r ? 1 : 0);
+                std::copy(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[r].begin()+offset, <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[r].end(), std::back_inserter(s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352" title="Non-zero values in the new column k (order dependent on col_k_nnzs).">col_k</a>));
+                std::copy(<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].begin()+offset, <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].end(), std::back_inserter(s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>));
 
-                <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].begin() + offset; it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].end(); it++) {
+                <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].begin() + offset; it != <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].end(); it++) {
+                
+                        <span class="comment">//for each non-zero row index in the rth column, find a pointer to it in list</span>
+                        <span class="comment">//these pointers will be used to perform column swaps on list</span>
                         <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it] &lt; (<span class="keywordtype">int</span>) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size())
                         <span class="keywordflow">for</span> (i = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size(); i++) {
                                 <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it][i] == r) {
-                                        s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].begin() + i);
-                                        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.push_back(*it);
+                                        s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].begin() + i);
+                                        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.push_back(*it);
                                         <span class="keywordflow">break</span>;
                                 }
                         }
                 }
         }
 
-        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].size() &gt; 0) {
-                <span class="comment">//swap A(k:r, k) with A(r, k:r);</span>
-                offset = (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][0] == k ? 1 : 0);
-                <span class="keywordflow">for</span> (i = offset; i &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].size(); i++) {
-                        idx = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i];
+        <span class="comment">//swap A(k:r, k) with A(r, k:r)</span>
+        <span class="keywordflow">if</span> (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].size() &gt; 0) {
+                
+                <span class="comment">//since we already too care of A(k,k), we need an offset of 1 if necessary</span>
+                offset = (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k][0] == k ? 1 : 0);
+                <span class="keywordflow">for</span> (i = offset; i &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].size(); i++) {
+                        idx = <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k][i];
+                        
+                        <span class="comment">//if idx &lt; r, we are in (2) (row-col swap) otherwise we are in (3) (col-col swap)</span>
                         <span class="keywordflow">if</span> (idx &lt; r) {
-                                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[idx].push_back(r);
-                                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[idx].push_back(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i]);
+                        
+                                <span class="comment">//swap A(i, k) with A(r, i) where k &lt; i &lt; r.</span>
+                                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[idx].push_back(r);        
+                                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[idx].push_back(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][i]);
                                 
+                                <span class="comment">//we also have to ensure that list is updated by popping off old entries</span>
+                                <span class="comment">//that were meant for the A(i, k)&#39;s before they were swapped.</span>
                                 <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx] &lt; (<span class="keywordtype">int</span>) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size()) {
                                         <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(idx, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx], <span class="keyword">true</span>);
                                         std::swap(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx]], <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size() - 1]);
                                         <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].pop_back();
                                 }
                                 
-                                row_r.push_back(idx);
-                        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (idx &gt; r) {
-                                s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d">col_r</a>.push_back(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i]);
-                                s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244">col_r_nnzs</a>.push_back(idx);
+                                <span class="comment">//push back new elements on row_r</span>
+                                s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(idx);
                                 
+                        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (idx &gt; r) {
+                        
+                                <span class="comment">//swap A(i, k) with A(i, r) where r &lt; i.</span>
+                                s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d" title="Non-zero values in the new column r (order dependent on col_r_nnzs).">col_r</a>.push_back(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k][i]);
+                                s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244" title="Row indices of non-zeros in the new column r.">col_r_nnzs</a>.push_back(idx);
+                                
+                                <span class="comment">//for each non-zero row index in the kth column, find a pointer to it in list</span>
+                                <span class="comment">//these pointers will be used to perform column swaps on list</span>
                                 <span class="keywordflow">for</span> (j = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx]; j &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size(); j++) {
                                         <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][j] == k) {
-                                                s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].begin() + j);
-                                                s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.push_back(idx);
+                                                s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].begin() + j);
+                                                s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.push_back(idx);
                                                 <span class="keywordflow">break</span>;
                                         }
                                 }
@@ -1380,19 +1457,21 @@ template&lt;class el_type&gt; </div>
                 }
         }
 
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.end(); it++) {
+        <span class="comment">//swap all A(i, k) with A(i, r) in list.</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.end(); it++) {
                 **it = k;
         }
-        
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.end(); it++) {
                 **it = r;
         }
 
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.begin(); it != s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.end(); it++) {
+        <span class="comment">//make sure invariant holds after all swaps.</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.begin(); it != s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.end(); it++) {
                 <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it], <span class="keyword">true</span>);
         }
 
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.end(); it++) {
+        <span class="comment">//add new entries for new col k into list</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.end(); it++) {
                 <span class="keywordflow">if</span> ((*it != k) &amp;&amp; (*it &lt;= r)) {
                         <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].push_back(k);
                         <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it], <span class="keyword">true</span>);
@@ -1400,57 +1479,66 @@ template&lt;class el_type&gt; </div>
         }
         
         <span class="comment">//set the kth col</span>
-        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].swap(s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>);
-        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].swap(s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a>);
+        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[k].swap(s.<a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>);
+        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[k].swap(s.<a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352" title="Non-zero values in the new column k (order dependent on col_k_nnzs).">col_k</a>);
         
         <span class="comment">//set the rth col</span>
-        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[r].swap(s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244">col_r_nnzs</a>);
-        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[r].swap(s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d">col_r</a>);
+        <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[r].swap(s.<a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244" title="Row indices of non-zeros in the new column r.">col_r_nnzs</a>);
+        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[r].swap(s.<a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d" title="Non-zero values in the new column r (order dependent on col_r_nnzs).">col_r</a>);
         
-        <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].swap(row_k);
-        <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].swap(row_r);
+        <span class="comment">//set the kth row and rth row</span>
+        <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].swap(s.<a class="code" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9" title="Column indices of non-zeros in the new row k.">row_k</a>);
+        <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].swap(s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>);
 
+        <span class="comment">//row swaps for first</span>
         std::swap(<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k], <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]);
         <span class="comment">//--------end pivot A---------//</span>
         
         <span class="comment">//----------pivot L ----------//</span>
-        s.<a class="code" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581">swap_clear</a>();
+        s.<a class="code" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581" title="Clears all swap vectors (swapk, swapr, all_swaps).">swap_clear</a>();
 
+        <span class="comment">// -------------------- (1) for L ------------------------//</span>
+        <span class="comment">//push back pointers to L(k, i)</span>
         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(); it != L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].end(); it++)
         {
-                <span class="keywordflow">for</span> (i = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (<span class="keywordtype">int</span>) L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size(); i++) {
-                        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][i] == k) {
-                                s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.push_back(L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].begin() + i);
+                <span class="keywordflow">for</span> (i = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (<span class="keywordtype">int</span>) L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].size(); i++) {
+                        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it][i] == k) {
+                                s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.push_back(L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].begin() + i);
                                 <span class="keywordflow">break</span>;
                         }
                 }
         }
         
+        <span class="comment">//push back pointers to L(r, i)</span>
         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(); it != L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].end(); it++) {
-                <span class="keywordflow">for</span> (i = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (<span class="keywordtype">int</span>) L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].size(); i++) {
-                        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it][i] == r) {                             
-                                s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.push_back(L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it].begin() + i);
+                <span class="keywordflow">for</span> (i = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (<span class="keywordtype">int</span>) L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].size(); i++) {
+                        <span class="keywordflow">if</span> (L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it][i] == r) {                             
+                                s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.push_back(L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it].begin() + i);
                                 <span class="keywordflow">break</span>;
                         }
                 }
         }
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.end(); it++) {
+        <span class="comment">//swap rows k and r</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.end(); it++) {
                 **it = k;
         }
-        
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.begin(); it != s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.end(); it++) {
                 **it = r;
         }
         
-        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.assign(L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].end());
-        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>, L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].end(), in_set);
+        <span class="comment">//merge nonzero indices of row r and row k</span>
+        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.assign(L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].end());
+        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>, L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].end(), in_set);
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.begin(); it != s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.end(); it++) {
-                L.<a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[*it]);               
+        <span class="comment">//ensure invariant is held on the columns we just swapped.</span>
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.begin(); it != s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.end(); it++) {
+                L.<a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(*it, k, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[*it]);               
         }
-        
+
+        <span class="comment">//row swap on row non-zero indices stored in L.list</span>
         L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].swap(L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r]);
+
         <span class="comment">//--------end pivot L---------//</span>
 }
 </pre></div>
@@ -1459,7 +1547,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlilc__matrix_ad2c9a672941d6b47d3c60f631d21078c_cgraph.png" border="0" usemap="#classlilc__matrix_ad2c9a672941d6b47d3c60f631d21078c_cgraph" alt=""/></div>
 <map name="classlilc__matrix_ad2c9a672941d6b47d3c60f631d21078c_cgraph" id="classlilc__matrix_ad2c9a672941d6b47d3c60f631d21078c_cgraph">
-<area shape="rect" id="node3" href="classswap__struct.html#ad97200ee23cd1f70668d6b4462228343" title="swap_struct::col_clear" alt="" coords="191,5,351,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="173,56,368,83"/><area shape="rect" id="node7" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="225,107,316,133"/><area shape="rect" id="node9" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581" title="swap_struct::swap_clear" alt="" coords="183,157,358,184"/><area shape="rect" id="node11" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="179,208,362,235"/></map>
+<area shape="rect" id="node3" href="classswap__struct.html#ad97200ee23cd1f70668d6b4462228343" title="Clears all col vectors (col_k, col_r, col_k_nnzs, col_r_nnzs)." alt="" coords="191,5,351,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="173,56,368,83"/><area shape="rect" id="node7" href="classswap__struct.html#a9727bf8ea70308977661235c59e3b8da" title="Clears all row vectors (row_k, row_r)." alt="" coords="188,107,353,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="225,157,316,184"/><area shape="rect" id="node11" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581" title="Clears all swap vectors (swapk, swapr, all_swaps)." alt="" coords="183,208,358,235"/><area shape="rect" id="node13" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="179,259,362,285"/></map>
 </div>
 </p>
 
@@ -1501,11 +1589,11 @@ template&lt;class el_type&gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">        {
-                <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a> = <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>;
-                <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> = <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>;
+                <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9" title="Number of rows in the matrix.">m_n_rows</a> = <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>;
+                <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a> = <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>;
                 
-                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
-                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
+                <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
+                <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
                 
                 <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>, 1);
                 <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>.resize(<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>);
@@ -1570,11 +1658,11 @@ template&lt;class el_type &gt; </div>
         <a class="code" href="lilc__matrix__save_8h.html#abea199c89e226136ca0039f1dfcd133f">put_header</a>(header, sym); 
 
         out &lt;&lt; header &lt;&lt; std::endl; 
-        out &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+        out &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
 
         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); i++) {
-                <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i].size(); j++) {
-                        out &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i][j]+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i][j] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+                <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i].size(); j++) {
+                        out &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i][j]+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i][j] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                 }
         }
         
@@ -1618,17 +1706,17 @@ template&lt;class el_type &gt; </div>
         std::pair&lt;idx_it, elt_it&gt; elem_its;
         <span class="keywordflow">for</span> (i = 0; i &lt; ncols; i++) {
                 <span class="comment">//assumes diag elem is always in 0th pos. if possible.</span>
-                <span class="keywordflow">if</span> (!<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i].empty() &amp;&amp; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i][0] == i)
-                <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i] = sqrt(abs(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i][0]));
+                <span class="keywordflow">if</span> (!<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i].empty() &amp;&amp; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i][0] == i)
+                <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i] = sqrt(abs(<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i][0]));
                 
                 <span class="comment">//assumes indices are ordered. since this procedure is run</span>
                 <span class="comment">//before factorization pivots matrix, this is a fair assumption</span>
                 <span class="comment">//for most matrix market matrices.</span>
                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].end(); it++) {
-                        <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i] = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">std::max</a>(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i], abs(<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(i, *it)));
+                        <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i] = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">std::max</a>(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i], abs(<a class="code" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(i, *it)));
                 }
                 
-                <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) { 
+                <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &gt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) { 
                         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].end(); it++) {
                                 <a class="code" href="classlilc__matrix.html#a327c165f0c90cd362dd14fc6421ebadd" title="Finds the index/value pointers to (i,j)th coefficient of the matrix.">coeffRef</a>(i, *it, elem_its);
                                 
@@ -1636,26 +1724,26 @@ template&lt;class el_type &gt; </div>
                                 *(elem_its.second) /= <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]; 
                         }
 
-                        <span class="keywordflow">if</span> (!<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i].empty() &amp;&amp; (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i][0] == i) ) 
-                        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i][0] /= <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i];
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].end(); it++) {
+                        <span class="keywordflow">if</span> (!<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i].empty() &amp;&amp; (<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i][0] == i) ) 
+                        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i][0] /= <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i];
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].end(); it++) {
                                 *it /= <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i];
                         }
                 } 
         }
         
         <span class="keywordflow">for</span> (i = 0; i &lt; ncols; i++) {
-                <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].end(); it++) {
+                <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].end(); it++) {
                                 <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i] = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index.">std::max</a>(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i], abs(*it));
                         }
 
-                        <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>) {
+                        <span class="keywordflow">if</span> (abs(<a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i]) &lt; <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>) {
                                 std::cerr &lt;&lt; <span class="stringliteral">&quot;Error: Matrix has a null column/row.&quot;</span> &lt;&lt; std::endl;
                                 <span class="keywordflow">return</span>;
                         }
                         
-                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i].end(); it++) {
+                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].begin(); it != <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i].end(); it++) {
                                 *it /= <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>[i];
                         }
                 }
@@ -1698,23 +1786,23 @@ template&lt;class el_type &gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">                                                          {
-        vector&lt;idx_vector_type&gt; m_idx_new(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>);
-        vector&lt;elt_vector_type&gt; m_x_new(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>);
+        vector&lt;idx_vector_type&gt; m_idx_new(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>);
+        vector&lt;elt_vector_type&gt; m_x_new(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>);
         
         <span class="keywordtype">int</span> i, j, pi, pj;
         el_type px;
-        vector&lt;int&gt; pinv(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>);
-        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>; i++) {
+        vector&lt;int&gt; pinv(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>);
+        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>; i++) {
                 pinv[perm[i]] = i;
                 <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i].clear();
         }
         
-        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>; i++) { <span class="comment">//no need to use function call n_cols() every iter</span>
+        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>; i++) { <span class="comment">//no need to use function call n_cols() every iter</span>
                 pj = pinv[i];
                 
-                <span class="keywordflow">for</span> (j = 0; j &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i].size(); j++) {
-                        pi = pinv[<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i][j]];
-                        px = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i][j];
+                <span class="keywordflow">for</span> (j = 0; j &lt; (int) <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i].size(); j++) {
+                        pi = pinv[<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i][j]];
+                        px = <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i][j];
                         
                         <span class="keywordflow">if</span> (pi &lt; pj) {
                                 m_idx_new[ pi ].push_back(pj);
@@ -1733,9 +1821,9 @@ template&lt;class el_type &gt; </div>
         }
         
         m_idx.swap(m_idx_new);
-        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>.swap(m_x_new);
+        <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>.swap(m_x_new);
         
-        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>; i++) {
+        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>; i++) {
                 <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(i, i, m_idx[i]);
                 <a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(i, i, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[i], <span class="keyword">true</span>);
         }
@@ -1770,9 +1858,9 @@ template&lt;class el_type&gt; </div>
 </dl>
 <div class="fragment"><pre class="fragment">                                                             {
         <span class="keywordtype">int</span> i, s;
-        vector&lt;bool&gt; visited(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>, <span class="keyword">false</span>);
+        vector&lt;bool&gt; visited(<a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>, <span class="keyword">false</span>);
         vector&lt;int&gt; lvl_set;
-        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>; i++) {
+        <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>; i++) {
                 <span class="keywordflow">if</span> (visited[i]) <span class="keywordflow">continue</span>;
                 
                 lvl_set.clear();
@@ -1781,7 +1869,7 @@ template&lt;class el_type&gt; </div>
                 lvl_set.push_back(s);
                 perm.push_back(s);
                 
-                <a class="code" href="structby__degree.html">by_degree&lt;el_type&gt;</a> sorter(<span class="keyword">this</span>);
+                <a class="code" href="structby__degree.html" title="Functor for comparing elements by degree (in increasing order) instead of by index.">by_degree&lt;el_type&gt;</a> sorter(<span class="keyword">this</span>);
                 
                 visited[s] = <span class="keyword">true</span>;
                 <span class="keywordflow">while</span> (<a class="code" href="classlilc__matrix.html#ad343cd9b2f435f40a9866de050f63ce5" title="Returns the next level set given the current level set of A. This is essentially all neighbours of th...">find_level_set</a>(lvl_set, visited)) {
@@ -1817,12 +1905,12 @@ template&lt;class el_type &gt; </div>
 <p>Implements <a class="el" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">lil_sparse_matrix&lt; el_type &gt;</a>.</p>
 <div class="fragment"><pre class="fragment">{
   std::ostringstream os;
-  os &lt;&lt; <span class="stringliteral">&quot;List of Lists Matrix (&quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a> &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
+  os &lt;&lt; <span class="stringliteral">&quot;List of Lists Matrix (&quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9" title="Number of rows in the matrix.">m_n_rows</a> &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a> &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
   
   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); i++) {
     os &lt;&lt; <span class="stringliteral">&quot;Column &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; std::endl;
-    os &lt;&lt; <span class="stringliteral">&quot;Row      Indices = &quot;</span>  &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[i] &lt;&lt; std::endl;
-    os &lt;&lt; <span class="stringliteral">&quot;Non-zero Values  = &quot;</span>  &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[i]       &lt;&lt; std::endl;
+    os &lt;&lt; <span class="stringliteral">&quot;Row      Indices = &quot;</span>  &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[i] &lt;&lt; std::endl;
+    os &lt;&lt; <span class="stringliteral">&quot;Non-zero Values  = &quot;</span>  &lt;&lt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[i]       &lt;&lt; std::endl;
     os &lt;&lt; std::endl;
   }
   
@@ -1911,7 +1999,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:56 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

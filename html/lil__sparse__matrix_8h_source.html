@@ -69,101 +69,83 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00007"></a>00007 <span class="preprocessor">#include &lt;fstream&gt;</span>
 <a name="l00008"></a>00008 <span class="preprocessor">#include &lt;limits&gt;</span>
 <a name="l00009"></a>00009 
-<a name="l00010"></a>00010 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00011"></a><a class="code" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">00011</a> <span class="keywordtype">bool</span> <a class="code" href="lil__sparse__matrix_8h.html#a90ba621c807e8d58b07a1b8898aa3ce5">save</a>(<span class="keyword">const</span> std::vector&lt;el_type&gt;&amp; vec, std::string filename) {
-<a name="l00012"></a>00012         std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
-<a name="l00013"></a>00013         <span class="keywordflow">if</span>(!out)
-<a name="l00014"></a>00014         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00015"></a>00015 
-<a name="l00016"></a>00016         out.flags(std::ios_base::scientific);
-<a name="l00017"></a>00017         out.precision(12);
-<a name="l00018"></a>00018         std::string header = <span class="stringliteral">&quot;%%MatrixMarket matrix coordinate real general&quot;</span>;; 
-<a name="l00019"></a>00019 
-<a name="l00020"></a>00020         out &lt;&lt; header &lt;&lt; std::endl; 
-<a name="l00021"></a>00021         out &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
-<a name="l00022"></a>00022 
-<a name="l00023"></a>00023         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; (int) vec.size(); i++)
-<a name="l00024"></a>00024         out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
-<a name="l00025"></a>00025         
-<a name="l00026"></a>00026         out.close();
-<a name="l00027"></a>00027         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef VECTOR_SHIFT</span>
+<a name="l00011"></a><a class="code" href="lil__sparse__matrix_8h.html#a4807a3710678876a258e3ac105e6c451">00011</a> <span class="preprocessor"></span><span class="preprocessor">#define VECTOR_SHIFT</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Container&gt;
+<a name="l00013"></a><a class="code" href="lil__sparse__matrix_8h.html#ae6b6c276aa28bcbb8d28f0b2b87ecbd5">00013</a> std::ostream&amp; <a class="code" href="block__diag__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">operator&lt;&lt; </a>(std::ostream&amp; os, <span class="keyword">const</span> Container&amp; vec)
+<a name="l00014"></a>00014 {
+<a name="l00015"></a>00015         os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
+<a name="l00016"></a>00016         <span class="keywordflow">if</span> (!vec.empty())
+<a name="l00017"></a>00017         {
+<a name="l00018"></a>00018                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = vec.begin(); it+1 != vec.end(); it++)
+<a name="l00019"></a>00019                 {
+<a name="l00020"></a>00020                         os &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;
+<a name="l00021"></a>00021                 }
+<a name="l00022"></a>00022                 
+<a name="l00023"></a>00023                 it++;
+<a name="l00024"></a>00024                 os &lt;&lt; *it;
+<a name="l00025"></a>00025         }
+<a name="l00026"></a>00026         os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;
+<a name="l00027"></a>00027         <span class="keywordflow">return</span> os;
 <a name="l00028"></a>00028 }
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 <span class="preprocessor">#ifndef VECTOR_SHIFT</span>
-<a name="l00031"></a><a class="code" href="lil__sparse__matrix_8h.html#a4807a3710678876a258e3ac105e6c451">00031</a> <span class="preprocessor"></span><span class="preprocessor">#define VECTOR_SHIFT</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Container&gt;
-<a name="l00033"></a><a class="code" href="lil__sparse__matrix_8h.html#ae6b6c276aa28bcbb8d28f0b2b87ecbd5">00033</a> std::ostream&amp; <a class="code" href="block__diag__matrix_8h.html#a63a8ff9b311a0f82a01ca1b2c473e8c0">operator&lt;&lt; </a>(std::ostream&amp; os, <span class="keyword">const</span> Container&amp; vec)
-<a name="l00034"></a>00034 {
-<a name="l00035"></a>00035         os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
-<a name="l00036"></a>00036         <span class="keywordflow">if</span> (!vec.empty())
-<a name="l00037"></a>00037         {
-<a name="l00038"></a>00038                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = vec.begin(); it+1 != vec.end(); it++)
-<a name="l00039"></a>00039                 {
-<a name="l00040"></a>00040                         os &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;
-<a name="l00041"></a>00041                 }
-<a name="l00042"></a>00042                 
-<a name="l00043"></a>00043                 it++;
-<a name="l00044"></a>00044                 os &lt;&lt; *it;
-<a name="l00045"></a>00045         }
-<a name="l00046"></a>00046         os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;
-<a name="l00047"></a>00047         <span class="keywordflow">return</span> os;
-<a name="l00048"></a>00048 }
-<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span>
-<a name="l00051"></a>00051 <span class="keyword">using</span> std::vector;
-<a name="l00052"></a>00052 
-<a name="l00054"></a>00054 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00055"></a><a class="code" href="classlil__sparse__matrix.html">00055</a> <span class="keyword">class </span><a class="code" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices.">lil_sparse_matrix</a> 
-<a name="l00056"></a>00056 {
+<a name="l00029"></a>00029 <span class="preprocessor">#endif</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span>
+<a name="l00031"></a>00031 <span class="keyword">using</span> std::vector;
+<a name="l00032"></a>00032 
+<a name="l00034"></a>00034 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00035"></a><a class="code" href="classlil__sparse__matrix.html">00035</a> <span class="keyword">class </span><a class="code" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices.">lil_sparse_matrix</a> 
+<a name="l00036"></a>00036 {
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">public</span>:
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">00040</a>         <span class="keyword">typedef</span> vector&lt;int&gt; <a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a>;
+<a name="l00041"></a><a class="code" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">00041</a>         <span class="keyword">typedef</span> vector&lt;el_type&gt;  <a class="code" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a>;
+<a name="l00042"></a>00042         
+<a name="l00044"></a><a class="code" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0">00044</a>         <span class="keyword">friend</span> std::ostream &amp; <a class="code" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0" title="Allows outputting the contents of the matrix via &lt;&lt; operators.">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices.">lil_sparse_matrix</a>&amp; A) 
+<a name="l00045"></a>00045         {
+<a name="l00046"></a>00046                 os &lt;&lt; A.<a class="code" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a>();
+<a name="l00047"></a>00047                 <span class="keywordflow">return</span> os;
+<a name="l00048"></a><a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">00048</a>         };
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9" title="Number of rows in the matrix.">m_n_rows</a>;
+<a name="l00051"></a><a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">00051</a>         <span class="keywordtype">int</span>     <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>;
+<a name="l00052"></a><a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">00052</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8" title="Number of nonzeros in the matrix.">nnz_count</a>;
+<a name="l00053"></a><a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">00053</a>         el_type <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a>;
+<a name="l00054"></a>00054 
+<a name="l00055"></a><a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">00055</a>         vector&lt;idx_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>;
+<a name="l00056"></a><a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">00056</a>         vector&lt;elt_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>;
 <a name="l00057"></a>00057 
-<a name="l00058"></a>00058 <span class="keyword">public</span>:
-<a name="l00059"></a>00059 
-<a name="l00060"></a><a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">00060</a>         <span class="keyword">typedef</span> vector&lt;int&gt; <a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a>;
-<a name="l00061"></a><a class="code" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">00061</a>         <span class="keyword">typedef</span> vector&lt;el_type&gt;  <a class="code" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a>;
-<a name="l00062"></a>00062         
-<a name="l00064"></a><a class="code" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0">00064</a>         <span class="keyword">friend</span> std::ostream &amp; <a class="code" href="classlil__sparse__matrix.html#a9f5c4b354ab1ce7fd0bf6bb146b1f3c0" title="Allows outputting the contents of the matrix via &lt;&lt; operators.">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices.">lil_sparse_matrix</a>&amp; A) 
-<a name="l00065"></a>00065         {
-<a name="l00066"></a>00066                 os &lt;&lt; A.<a class="code" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a>();
-<a name="l00067"></a>00067                 <span class="keywordflow">return</span> os;
-<a name="l00068"></a><a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">00068</a>         };
-<a name="l00069"></a>00069 
-<a name="l00071"></a>00071         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>, <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>, <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a>;
-<a name="l00072"></a><a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">00072</a>         el_type <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a>;
-<a name="l00073"></a>00073 
-<a name="l00075"></a><a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">00075</a>         vector&lt;idx_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>;
-<a name="l00077"></a><a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">00077</a>         vector&lt;elt_vector_type&gt; <a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>;
-<a name="l00078"></a>00078 
-<a name="l00080"></a><a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">00080</a>         <a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38" title="Default constructor for an abstract matrix. This constructor will be extended by base classes dependi...">lil_sparse_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>, <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>) : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>(n_rows), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a> (n_cols)
-<a name="l00081"></a>00081         {
-<a name="l00082"></a>00082                 <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = 0;
-<a name="l00083"></a>00083                 <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56">eps</a> = std::numeric_limits&lt;el_type&gt;::epsilon();
-<a name="l00084"></a>00084         }
-<a name="l00085"></a>00085         
-<a name="l00087"></a><a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">00087</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>()<span class="keyword"> const</span>
-<a name="l00088"></a>00088 <span class="keyword">        </span>{
-<a name="l00089"></a>00089                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9">m_n_rows</a>;
-<a name="l00090"></a>00090         }
-<a name="l00091"></a>00091 
-<a name="l00093"></a><a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">00093</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>()<span class="keyword"> const</span>
-<a name="l00094"></a>00094 <span class="keyword">        </span>{
-<a name="l00095"></a>00095                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a">m_n_cols</a>;
-<a name="l00096"></a>00096         }
-<a name="l00097"></a>00097 
-<a name="l00099"></a><a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">00099</a>         <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a417b985bad44766c4d0177cd0af45f76">nnz</a>()<span class="keyword"> const </span>
-<a name="l00100"></a>00100 <span class="keyword">        </span>{
-<a name="l00101"></a>00101                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a>;
-<a name="l00102"></a>00102         };
-<a name="l00103"></a>00103         
-<a name="l00108"></a>00108         <span class="keyword">virtual</span> el_type <a class="code" href="classlil__sparse__matrix.html#ab07c1e7d548a442634bfa694f56befe9" title="Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the...">coeff</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; i, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; j) <span class="keyword">const</span> = 0;
-<a name="l00109"></a>00109         
-<a name="l00112"></a>00112         <span class="keyword">virtual</span> std::string <a class="code" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a>() <span class="keyword">const</span> = 0;
-<a name="l00113"></a>00113 
-<a name="l00115"></a><a class="code" href="classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d">00115</a>         <span class="keyword">virtual</span> <a class="code" href="classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d">~lil_sparse_matrix</a>()
-<a name="l00116"></a>00116         {
-<a name="l00117"></a>00117         }
-<a name="l00118"></a>00118 };
-<a name="l00119"></a>00119 
-<a name="l00120"></a>00120 <span class="preprocessor">#endif // _LIL_SPARSE_MATRIX_H_</span>
+<a name="l00059"></a><a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38">00059</a>         <a class="code" href="classlil__sparse__matrix.html#a74dff1c9df79556341d714d4530ffe38" title="Default constructor for an abstract matrix. This constructor will be extended by base classes dependi...">lil_sparse_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>, <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>) : <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9" title="Number of rows in the matrix.">m_n_rows</a>(n_rows), <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a> (n_cols)
+<a name="l00060"></a>00060         {
+<a name="l00061"></a>00061                 <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8" title="Number of nonzeros in the matrix.">nnz_count</a> = 0;
+<a name="l00062"></a>00062                 <a class="code" href="classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56" title="Machine epsilon for el_type.">eps</a> = std::numeric_limits&lt;el_type&gt;::epsilon();
+<a name="l00063"></a>00063         }
+<a name="l00064"></a>00064         
+<a name="l00066"></a><a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">00066</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0">n_rows</a>()<span class="keyword"> const</span>
+<a name="l00067"></a>00067 <span class="keyword">        </span>{
+<a name="l00068"></a>00068                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9" title="Number of rows in the matrix.">m_n_rows</a>;
+<a name="l00069"></a>00069         }
+<a name="l00070"></a>00070 
+<a name="l00072"></a><a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">00072</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>()<span class="keyword"> const</span>
+<a name="l00073"></a>00073 <span class="keyword">        </span>{
+<a name="l00074"></a>00074                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a" title="Number of cols in the matrix.">m_n_cols</a>;
+<a name="l00075"></a>00075         }
+<a name="l00076"></a>00076 
+<a name="l00078"></a><a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">00078</a>         <span class="keywordtype">int</span> <a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>()<span class="keyword"> const </span>
+<a name="l00079"></a>00079 <span class="keyword">        </span>{
+<a name="l00080"></a>00080                 <span class="keywordflow">return</span> <a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8" title="Number of nonzeros in the matrix.">nnz_count</a>;
+<a name="l00081"></a>00081         };
+<a name="l00082"></a>00082         
+<a name="l00088"></a>00088         <span class="keyword">virtual</span> el_type <a class="code" href="classlil__sparse__matrix.html#a03af482b9f3d8c8b522dd5e49a2500ee" title="Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the...">coeff</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; i, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; j, <span class="keywordtype">int</span> offset = 0) <span class="keyword">const</span> = 0;
+<a name="l00089"></a>00089         
+<a name="l00092"></a>00092         <span class="keyword">virtual</span> std::string <a class="code" href="classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be">to_string</a>() <span class="keyword">const</span> = 0;
+<a name="l00093"></a>00093 
+<a name="l00095"></a><a class="code" href="classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d">00095</a>         <span class="keyword">virtual</span> <a class="code" href="classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d">~lil_sparse_matrix</a>()
+<a name="l00096"></a>00096         {
+<a name="l00097"></a>00097         }
+<a name="l00098"></a>00098 };
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="preprocessor">#endif // _LIL_SPARSE_MATRIX_H_</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -180,7 +162,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:25 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:55 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

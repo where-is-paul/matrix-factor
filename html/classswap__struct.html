@@ -67,6 +67,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <!-- doxytag: class="swap_struct" -->
+<p>A structure containing variables used in pivoting a LIL-C matrix.  
+ <a href="classswap__struct.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="swap__struct_8h_source.html">swap_struct.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for swap_struct&lt; el_type &gt;:</div>
@@ -79,21 +82,39 @@ Collaboration diagram for swap_struct&lt; el_type &gt;:</div>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581">swap_clear</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all swap vectors (swapk, swapr, all_swaps).  <a href="#ac67fad73735b183c372ef63b4a9cd581"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#ad97200ee23cd1f70668d6b4462228343">col_clear</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all col vectors (col_k, col_r, col_k_nnzs, col_r_nnzs).  <a href="#ad97200ee23cd1f70668d6b4462228343"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a9727bf8ea70308977661235c59e3b8da">row_clear</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all row vectors (row_k, row_r).  <a href="#a9727bf8ea70308977661235c59e3b8da"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">vector&lt; idx_it &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of indices from row r that will be swapped to row k.  <a href="#a609dd0d32e04b30b0db6830ab56a8de9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">vector&lt; idx_it &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of indices from row k that will be swapped to row r.  <a href="#a145f164cc7d5b81b259f0fe558faacf9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Column indices of all swaps done in swapk and swapr.  <a href="#af5461fcf0c0808ef0ef5ac9c6e212839"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Row indices of non-zeros in the new column k.  <a href="#a7a9e67b4e6e1b9d1e6d2aefef3edda71"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244">col_r_nnzs</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Row indices of non-zeros in the new column r.  <a href="#a8d4e30cd03fc142b81a332db04edc244"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">elt_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-zero values in the new column k (order dependent on col_k_nnzs).  <a href="#a39ab00a67015a67c375b620f54cc6352"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">elt_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d">col_r</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-zero values in the new column r (order dependent on col_r_nnzs).  <a href="#a3803a938141694098700de00d5cb6a7d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9">row_k</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Column indices of non-zeros in the new row k.  <a href="#a52180e1635646cd4f2dab0209ae62cb9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427">row_r</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Column indices of non-zeros in the new row r.  <a href="#a3b6ad04f7393ddd5c8b130e33208d427"></a><br/></td></tr>
 </table>
-<h3>template&lt;class el_type&gt;<br/>
- class swap_struct&lt; el_type &gt;</h3>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class el_type&gt;<br/>
+class swap_struct&lt; el_type &gt;</h3>
 
-<hr/><h2>Member Function Documentation</h2>
+<p>A structure containing variables used in pivoting a LIL-C matrix. </p>
+<p>Storing these variables in a combined structure reduces memory requirements and bundles together all temporary structures needed during pivoting. </p>
+</div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="ad97200ee23cd1f70668d6b4462228343"></a><!-- doxytag: member="swap_struct::col_clear" ref="ad97200ee23cd1f70668d6b4462228343" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -109,11 +130,37 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Clears all col vectors (col_k, col_r, col_k_nnzs, col_r_nnzs). </p>
 <div class="fragment"><pre class="fragment">                                 {
-                        <a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352">col_k</a>.clear();
-                        <a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71">col_k_nnzs</a>.clear();
-                        <a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d">col_r</a>.clear();
-                        <a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244">col_r_nnzs</a>.clear();
+                        <a class="code" href="classswap__struct.html#a39ab00a67015a67c375b620f54cc6352" title="Non-zero values in the new column k (order dependent on col_k_nnzs).">col_k</a>.clear();
+                        <a class="code" href="classswap__struct.html#a7a9e67b4e6e1b9d1e6d2aefef3edda71" title="Row indices of non-zeros in the new column k.">col_k_nnzs</a>.clear();
+                        <a class="code" href="classswap__struct.html#a3803a938141694098700de00d5cb6a7d" title="Non-zero values in the new column r (order dependent on col_r_nnzs).">col_r</a>.clear();
+                        <a class="code" href="classswap__struct.html#a8d4e30cd03fc142b81a332db04edc244" title="Row indices of non-zeros in the new column r.">col_r_nnzs</a>.clear();
+                }
+</pre></div>
+</div>
+</div>
+<a class="anchor" id="a9727bf8ea70308977661235c59e3b8da"></a><!-- doxytag: member="swap_struct::row_clear" ref="a9727bf8ea70308977661235c59e3b8da" args="()" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class el_type&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classswap__struct.html">swap_struct</a>&lt; el_type &gt;::row_clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Clears all row vectors (row_k, row_r). </p>
+<div class="fragment"><pre class="fragment">                                 {
+                        <a class="code" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9" title="Column indices of non-zeros in the new row k.">row_k</a>.clear();
+                        <a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.clear();
                 }
 </pre></div>
 </div>
@@ -133,10 +180,12 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Clears all swap vectors (swapk, swapr, all_swaps). </p>
 <div class="fragment"><pre class="fragment">                                  {
-                        <a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9">swapk</a>.clear();
-                        <a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9">swapr</a>.clear();
-                        <a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839">all_swaps</a>.clear();
+                        <a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.clear();
+                        <a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.clear();
+                        <a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.clear();
                 }
 </pre></div>
 </div>
@@ -155,6 +204,8 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Column indices of all swaps done in swapk and swapr. </p>
+
 </div>
 </div>
 <a class="anchor" id="a39ab00a67015a67c375b620f54cc6352"></a><!-- doxytag: member="swap_struct::col_k" ref="a39ab00a67015a67c375b620f54cc6352" args="" -->
@@ -169,6 +220,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Non-zero values in the new column k (order dependent on col_k_nnzs). </p>
 
 </div>
 </div>
@@ -185,6 +238,8 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Row indices of non-zeros in the new column k. </p>
+
 </div>
 </div>
 <a class="anchor" id="a3803a938141694098700de00d5cb6a7d"></a><!-- doxytag: member="swap_struct::col_r" ref="a3803a938141694098700de00d5cb6a7d" args="" -->
@@ -199,6 +254,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Non-zero values in the new column r (order dependent on col_r_nnzs). </p>
 
 </div>
 </div>
@@ -215,6 +272,42 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Row indices of non-zeros in the new column r. </p>
+
+</div>
+</div>
+<a class="anchor" id="a52180e1635646cd4f2dab0209ae62cb9"></a><!-- doxytag: member="swap_struct::row_k" ref="a52180e1635646cd4f2dab0209ae62cb9" args="" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class el_type&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">idx_vector_type <a class="el" href="classswap__struct.html">swap_struct</a>&lt; el_type &gt;::<a class="el" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9">row_k</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Column indices of non-zeros in the new row k. </p>
+
+</div>
+</div>
+<a class="anchor" id="a3b6ad04f7393ddd5c8b130e33208d427"></a><!-- doxytag: member="swap_struct::row_r" ref="a3b6ad04f7393ddd5c8b130e33208d427" args="" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class el_type&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">idx_vector_type <a class="el" href="classswap__struct.html">swap_struct</a>&lt; el_type &gt;::<a class="el" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427">row_r</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Column indices of non-zeros in the new row r. </p>
+
 </div>
 </div>
 <a class="anchor" id="a609dd0d32e04b30b0db6830ab56a8de9"></a><!-- doxytag: member="swap_struct::swapk" ref="a609dd0d32e04b30b0db6830ab56a8de9" args="" -->
@@ -230,6 +323,8 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>List of indices from row r that will be swapped to row k. </p>
+
 </div>
 </div>
 <a class="anchor" id="a145f164cc7d5b81b259f0fe558faacf9"></a><!-- doxytag: member="swap_struct::swapr" ref="a145f164cc7d5b81b259f0fe558faacf9" args="" -->
@@ -244,6 +339,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>List of indices from row k that will be swapped to row r. </p>
 
 </div>
 </div>
@@ -265,7 +362,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:56 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -64,49 +64,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00002"></a>00002 <span class="preprocessor">#ifndef _LILC_MATRIX_SYM_RCM_H_</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span><span class="preprocessor">#define _LILC_MATRIX_SYM_RCM_H_</span>
 <a name="l00004"></a>00004 <span class="preprocessor"></span>
-<a name="l00005"></a>00005 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00006"></a><a class="code" href="structby__degree.html">00006</a> <span class="keyword">struct </span><a class="code" href="structby__degree.html">by_degree</a> {
-<a name="l00007"></a><a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">00007</a>         <a class="code" href="classlilc__matrix.html" title="A list-of-lists (LIL) matrix in column oriented format.">lilc_matrix&lt;el_type&gt;</a>* <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>;
-<a name="l00008"></a><a class="code" href="structby__degree.html#ad8ff9a0d6b7563e791ddec9621196df8">00008</a>         <a class="code" href="structby__degree.html#ad8ff9a0d6b7563e791ddec9621196df8">by_degree</a>(<a class="code" href="classlilc__matrix.html" title="A list-of-lists (LIL) matrix in column oriented format.">lilc_matrix&lt;el_type&gt;</a>* mat) : <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>(mat) {}
-<a name="l00009"></a><a class="code" href="structby__degree.html#a2c6700d813149070f0c22ca1ed9471c1">00009</a>         <span class="keywordtype">bool</span> <a class="code" href="structby__degree.html#a2c6700d813149070f0c22ca1ed9471c1">operator()</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> &amp;a, <span class="keywordtype">int</span> <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ 
-<a name="l00010"></a>00010                 <span class="keywordtype">int</span> deg_a = <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;list[a].size() + <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a].size();
-<a name="l00011"></a>00011                 <span class="keywordtype">int</span> deg_b = <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;list[b].size() + <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b].size();
-<a name="l00012"></a>00012                 
-<a name="l00013"></a>00013                 <span class="keywordflow">if</span> (<a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a].size() &gt; 0 &amp;&amp; <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a][0] == a) deg_a--;
-<a name="l00014"></a>00014                 <span class="keywordflow">if</span> (<a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b].size() &gt; 0 &amp;&amp; <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b][0] == b) deg_b--;
+<a name="l00008"></a>00008 <span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00009"></a><a class="code" href="structby__degree.html">00009</a> <span class="keyword">struct </span><a class="code" href="structby__degree.html" title="Functor for comparing elements by degree (in increasing order) instead of by index.">by_degree</a> {
+<a name="l00010"></a><a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">00010</a>         <a class="code" href="classlilc__matrix.html" title="A list-of-lists (LIL) matrix in column oriented format.">lilc_matrix&lt;el_type&gt;</a>* <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>;
+<a name="l00011"></a><a class="code" href="structby__degree.html#ad8ff9a0d6b7563e791ddec9621196df8">00011</a>         <a class="code" href="structby__degree.html#ad8ff9a0d6b7563e791ddec9621196df8">by_degree</a>(<a class="code" href="classlilc__matrix.html" title="A list-of-lists (LIL) matrix in column oriented format.">lilc_matrix&lt;el_type&gt;</a>* mat) : <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>(mat) {}
+<a name="l00012"></a><a class="code" href="structby__degree.html#a2c6700d813149070f0c22ca1ed9471c1">00012</a>         <span class="keywordtype">bool</span> <a class="code" href="structby__degree.html#a2c6700d813149070f0c22ca1ed9471c1">operator()</a>(<span class="keywordtype">int</span> <span class="keyword">const</span> &amp;a, <span class="keywordtype">int</span> <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ 
+<a name="l00013"></a>00013                 <span class="keywordtype">int</span> deg_a = <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;list[a].size() + <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a].size();
+<a name="l00014"></a>00014                 <span class="keywordtype">int</span> deg_b = <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;list[b].size() + <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b].size();
 <a name="l00015"></a>00015                 
-<a name="l00016"></a>00016                 <span class="keywordflow">if</span> (deg_a == deg_b) <span class="keywordflow">return</span> a &gt; b;
-<a name="l00017"></a>00017                 <span class="keywordflow">return</span> deg_a &lt; deg_b;
-<a name="l00018"></a>00018         }
-<a name="l00019"></a>00019 };
-<a name="l00020"></a>00020 
-<a name="l00021"></a>00021 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; 
-<a name="l00022"></a><a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">00022</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7" title="Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm).">lilc_matrix&lt;el_type&gt; :: sym_rcm</a>(vector&lt;int&gt;&amp; perm) {
-<a name="l00023"></a>00023         <span class="keywordtype">int</span> i, s;
-<a name="l00024"></a>00024         vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);
-<a name="l00025"></a>00025         vector&lt;int&gt; lvl_set;
-<a name="l00026"></a>00026         <span class="keywordflow">for</span> (i = 0; i &lt; m_n_cols; i++) {
-<a name="l00027"></a>00027                 <span class="keywordflow">if</span> (visited[i]) <span class="keywordflow">continue</span>;
-<a name="l00028"></a>00028                 
-<a name="l00029"></a>00029                 lvl_set.clear();
-<a name="l00030"></a>00030                 s = i;
-<a name="l00031"></a>00031                 find_root(s);
-<a name="l00032"></a>00032                 lvl_set.push_back(s);
-<a name="l00033"></a>00033                 perm.push_back(s);
-<a name="l00034"></a>00034                 
-<a name="l00035"></a>00035                 <a class="code" href="structby__degree.html">by_degree&lt;el_type&gt;</a> sorter(<span class="keyword">this</span>);
-<a name="l00036"></a>00036                 
-<a name="l00037"></a>00037                 visited[s] = <span class="keyword">true</span>;
-<a name="l00038"></a>00038                 <span class="keywordflow">while</span> (find_level_set(lvl_set, visited)) {
-<a name="l00039"></a>00039                         sort(lvl_set.begin(), lvl_set.end(), sorter);
-<a name="l00040"></a>00040                         perm.insert( perm.end(), lvl_set.begin(), lvl_set.end() );      
-<a name="l00041"></a>00041                 }
-<a name="l00042"></a>00042         }
-<a name="l00043"></a>00043         
-<a name="l00044"></a>00044         reverse(perm.begin(), perm.end());
-<a name="l00045"></a>00045 }
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047 <span class="preprocessor">#endif</span>
+<a name="l00016"></a>00016                 <span class="keywordflow">if</span> (<a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a].size() &gt; 0 &amp;&amp; <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[a][0] == a) deg_a--;
+<a name="l00017"></a>00017                 <span class="keywordflow">if</span> (<a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b].size() &gt; 0 &amp;&amp; <a class="code" href="structby__degree.html#ac9f6d96c69632109e4aef4d828b157e3">A</a>-&gt;m_idx[b][0] == b) deg_b--;
+<a name="l00018"></a>00018                 
+<a name="l00019"></a>00019                 <span class="keywordflow">if</span> (deg_a == deg_b) <span class="keywordflow">return</span> a &gt; b;
+<a name="l00020"></a>00020                 <span class="keywordflow">return</span> deg_a &lt; deg_b;
+<a name="l00021"></a>00021         }
+<a name="l00022"></a>00022 };
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; 
+<a name="l00025"></a><a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">00025</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7" title="Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm).">lilc_matrix&lt;el_type&gt; :: sym_rcm</a>(vector&lt;int&gt;&amp; perm) {
+<a name="l00026"></a>00026         <span class="keywordtype">int</span> i, s;
+<a name="l00027"></a>00027         vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);
+<a name="l00028"></a>00028         vector&lt;int&gt; lvl_set;
+<a name="l00029"></a>00029         <span class="keywordflow">for</span> (i = 0; i &lt; m_n_cols; i++) {
+<a name="l00030"></a>00030                 <span class="keywordflow">if</span> (visited[i]) <span class="keywordflow">continue</span>;
+<a name="l00031"></a>00031                 
+<a name="l00032"></a>00032                 lvl_set.clear();
+<a name="l00033"></a>00033                 s = i;
+<a name="l00034"></a>00034                 find_root(s);
+<a name="l00035"></a>00035                 lvl_set.push_back(s);
+<a name="l00036"></a>00036                 perm.push_back(s);
+<a name="l00037"></a>00037                 
+<a name="l00038"></a>00038                 <a class="code" href="structby__degree.html" title="Functor for comparing elements by degree (in increasing order) instead of by index.">by_degree&lt;el_type&gt;</a> sorter(<span class="keyword">this</span>);
+<a name="l00039"></a>00039                 
+<a name="l00040"></a>00040                 visited[s] = <span class="keyword">true</span>;
+<a name="l00041"></a>00041                 <span class="keywordflow">while</span> (find_level_set(lvl_set, visited)) {
+<a name="l00042"></a>00042                         sort(lvl_set.begin(), lvl_set.end(), sorter);
+<a name="l00043"></a>00043                         perm.insert( perm.end(), lvl_set.begin(), lvl_set.end() );      
+<a name="l00044"></a>00044                 }
+<a name="l00045"></a>00045         }
+<a name="l00046"></a>00046         
+<a name="l00047"></a>00047         reverse(perm.begin(), perm.end());
+<a name="l00048"></a>00048 }
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -123,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:25 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:55 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

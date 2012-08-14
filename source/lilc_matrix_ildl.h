@@ -26,7 +26,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	idx_vector_type curr_nnzs, temp_nnzs;  //non-zeros on current col.
 	curr_nnzs.reserve(ncols); //reserves space for worse case (entire col is non-zero)
 
-	int count = 0; //the current non-zero in L.
+	int count = 0; //the total number of nonzeros stored in L.
 	int i, j, k, r, offset, col_size, col_size2(-1);
 	bool size_two_piv = false;	//boolean indicating if the pivot is 2x2 or 1x1
 
@@ -59,7 +59,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 		//--------------begin pivoting--------------//
 
-		//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * L(k:n, i).
+		//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * D(i,i) * L(k:n, i)
+		//(the formula above generalizes to block matrix form in the case of 2x2 pivots).
 		update(k, work, curr_nnzs, L, D, in_set);
 		
 		//store diagonal element in d1. set diagonal element in work vector to 0
@@ -96,29 +97,30 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			//zero out temp vector.
 			temp_nnzs.clear();
 
-			//ensure invariant 1.
-			ensure_invariant(r, k, list[r], true);
 			offset = first[r];
-
-			//assign all nonzero indices and values in A(k:r, r) 
+			//assign all nonzero indices and values in A(r, k:r) 
 			//( not including A(r,r) ) to temp and temp_nnzs
 			for (j = offset; j < (int) list[r].size(); j++) {
 				temp_nnzs.push_back(list[r][j]);
 				temp[list[r][j]] = coeff(r, list[r][j]);
 			}
 
+			//assign nonzero indices of A(r:n, r) to temp_nnzs 
 			temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
 
+			//assign nonzero values of to temp
 			for (j = 0; j < (int) m_idx[r].size(); j++) {
 				temp[m_idx[r][j]] = m_x[r][j];
 			}
 
+			//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).
+			//(the formula above generalizes to block matrix form in the case of 2x2 pivots).
 			update(r, temp, temp_nnzs, L, D, in_set);
 
-			
 			dr = temp[r];
 			temp[r] = 0;
 
+			//find maximum element in temp.
 			wr = max(temp, temp_nnzs, j);
 
 			if ((alpha*w1*w1 - abs(d1)*wr) < eps) {
@@ -150,11 +152,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				std::swap(perm[k], perm[r]);
 
 				work.swap(temp);	//swap work with temp.
-				std::swap(work[k], work[r]);
+				std::swap(work[k], work[r]); //swap kth and rth row of work
 
 				curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
 
-				safe_swap(curr_nnzs, k, r);
+				safe_swap(curr_nnzs, k, r); //swap k and r if they are present in curr_nnzs
 
 				//--------end pivot rest---------//
 
@@ -173,15 +175,20 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					return;
 				}
 
+				//must advance list for 2x2 pivot since we are pivoting on col k+1
 				advance_list(k);
+				//for the same reason as above, we must advance L.first as well
 				L.advance_first(k);
 
+				//restore diagonal elements in work and temp
 				temp[r] = dr;
 				work[k] = d1;
 
+				//indicate that pivot is 2x2
 				size_two_piv = true;
 
 				if (k+1 != r) {
+					//symmetrically permute row/col k+1 and r.
 					pivot(s, in_set, L, k+1, r);
 
 
@@ -190,10 +197,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					//permute perm
 					std::swap(perm[k+1], perm[r]);
 
-					//swap two cols of L
+					//swap rows k+1 and r of work and temp
 					std::swap(work[k+1], work[r]);
 					std::swap(temp[k+1], temp[r]);
 
+					//swap k+1 and r in curr_nnzs and temp_nnzs
 					safe_swap(curr_nnzs, k+1, r);
 					safe_swap(temp_nnzs, k+1, r);
 				}
@@ -201,49 +209,64 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		}
 		//--------------end pivoting--------------//
 
+		//erase diagonal element from non-zero indices (to exclude it from being dropped)
 		curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());
 
 		//performs the dual dropping procedure.
 		if (!size_two_piv) {
+			//perform dual dropping criteria on work
 			drop_tol(work, curr_nnzs, lfil, tol);
 
 		} else {
+			//erase diagonal 2x2 block from non-zero indices (to exclude it from being dropped)
 			temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());
 			curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());
 			temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());
 			
+			//compute inverse of the 2x2 block diagonal pivot.
 			det_D = d1*dr - work[k+1]*work[k+1];
 			if ( abs(det_D) < eps) det_D = 1e-6;  //statically pivot;
 			D_inv11 = dr/det_D;
 			D_inv22 = d1/det_D;
 			D_inv12 = -work[k+1]/det_D;
 			
+			//assign pivot to D (d1 is assigned to D(k,k) later)
 			D.off_diagonal(k) = work[k+1];
 			D[k+1] = dr;
 			
+			//merge nonzeros of curr and temp together so iterating through them will be easier
 			unordered_inplace_union(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);
 
 			
-			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { //need -1 on col_size to remove offset from initializing col_size to 1
+			//multiply inverse of pivot to work and temp (gives us two columns of l)
+			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 				l_11 = work[*it]*D_inv11 + temp[*it]*D_inv12;
 				l_12 = work[*it]*D_inv12 + temp[*it]*D_inv22;
 				
+				//note that work and temp roughly share the same non-zero indices
 				work[*it] = l_11;
 				temp[*it] = l_12;
 			}
 			
+			//since the work and temp non-zero indices are roughly the same,
+			//we can copy it over to temp_nnzs
 			temp_nnzs.assign(curr_nnzs.begin(), curr_nnzs.end());
+			
+			//perform dual dropping procedure on work and temp
 			drop_tol(temp, temp_nnzs, lfil, tol);
 			drop_tol(work, curr_nnzs, lfil, tol);
 			
 
 		}
 
+		//resize kth column of L to proper size.
 		L.m_idx[k].resize(curr_nnzs.size()+1);
 		L.m_x[k].resize(curr_nnzs.size()+1);
 		
+		//assign diagonal element to D
 		D[k] = d1;
 		
+		//assign 1s to diagonal of L.
 		L.m_x[k][0] = 1;
 		L.m_idx[k][0] = k;
 		count++;
@@ -251,10 +274,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		if (!size_two_piv) {
 			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
 			i = 0;
-			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { //need -1 on col_size to remove offset from initializing col_size to 1
+			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
 				if ( abs(work[*it]) > eps) {
-					L.m_idx[k][i+1] = *it; //row_idx of L is updated
-					L.m_x[k][i+1] = work[*it]/D[k]; //work vector is scaled by D[k]
+					L.m_idx[k][i+1] = *it; //col k nonzero indices of L are stored
+					L.m_x[k][i+1] = work[*it]/D[k]; //col k nonzero values of L are stored
 
 					L.list[*it].push_back(k); //update Llist
 					count++;
@@ -263,16 +286,16 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 			
 			col_size = 1 + i;
-			//update lfirst
+			
+			//advance list and L.first
 			L.advance_first(k);
 			advance_list(k);
 		} else {
+			//resize k+1th column of L to proper size.
 			L.m_idx[k+1].resize(temp_nnzs.size()+1);
 			L.m_x[k+1].resize(temp_nnzs.size()+1);
-			
-			D.off_diagonal(k) = work[k+1];
-			D[k+1] = dr;
 
+			//assign 1s to diagonal of L.
 			L.m_x[k+1][0] = 1;
 			L.m_idx[k+1][0] = k+1;
 			count++;
@@ -280,9 +303,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			i = 0;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 				if ( abs(work[*it]) > eps) {
-					L.m_x[k][i+1] = work[*it]; //row_idx of L is updated
-					L.m_idx[k][i+1] = *it; //work vector is scaled by D[k]
-					L.list[*it].push_back(k); //update Llist
+					L.m_x[k][i+1] = work[*it]; //col k nonzero indices of L are stored
+					L.m_idx[k][i+1] = *it; //col k nonzero values of L are stored
+					
+					L.list[*it].push_back(k); //update L.list
 					count++;
 					i++;
 				}
@@ -292,9 +316,10 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			j = 0;
 			for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 				if ( abs(temp[*it]) > eps) {
-					L.m_x[k+1][j+1] = temp[*it]; //row_idx of L is updated
-					L.m_idx[k+1][j+1] = *it; //work vector is scaled by D[k]
-					L.list[*it].push_back(k+1); //update Llist
+					L.m_x[k+1][j+1] = temp[*it]; //col k+1 nonzero indices of L are stored
+					L.m_idx[k+1][j+1] = *it; //col k+1 nonzero values of L are stored
+					
+					L.list[*it].push_back(k+1); //update L.list
 					count++;
 					j++;
 				}
@@ -304,13 +329,13 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			col_size = 1 + i;
 			col_size2 = 1 + j;
 
-			//update lfirst
+			//update list and L.first
 			L.advance_first(k+1);
 			advance_list(k+1);
 			
 		}
 		
-		//cleanup
+		// ------------- reset temp and work back to zero -----------------//
 		work[k] = 0;
 		temp[k] = 0;
 		
@@ -329,9 +354,20 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		}
 		temp_nnzs.clear();
 		
+		//-------------------------------------------------------------------//
+		
+		//resize columns of L to correct size
 		L.m_x[k].resize(col_size);
 		L.m_idx[k].resize(col_size);
 
+		if (size_two_piv) {
+			L.m_x[k+1].resize(col_size2);
+			L.m_idx[k+1].resize(col_size2);
+			k++;
+			
+			size_two_piv = false;
+		}
+		
 		if (k == debug) {
 			cout << "part of two piv? " << size_two_piv << endl;
 			cout << "lfil: " << lfil << endl;
@@ -344,14 +380,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				cout << work[curr_nnzs[i]]/D[k] << " ";
 			}
 			cout << endl;
-		}
-		
-		if (size_two_piv) {
-			L.m_x[k+1].resize(col_size2);
-			L.m_idx[k+1].resize(col_size2);
-			k++;
-			
-			size_two_piv = false;
 		}
 		
 		// std::cout << k << std::endl;
@@ -369,6 +397,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		
 	}
 
+	//assign number of non-zeros in L to L.nnz_count
 	L.nnz_count = count;
 
 }

@@ -69,7 +69,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h__dep__incl.png" border="0" usemap="#source_2lilc__matrix__ildl__helpers_8hdep" alt=""/></div>
 <map name="source_2lilc__matrix__ildl__helpers_8hdep" id="source_2lilc__matrix__ildl__helpers_8hdep">
-<area shape="rect" id="node3" href="lilc__matrix__declarations_8h.html" title="source/lilc_matrix_declarations.h" alt="" coords="5,80,232,107"/><area shape="rect" id="node5" href="lilc__matrix_8h.html" title="source/lilc_matrix.h" alt="" coords="48,155,188,181"/><area shape="rect" id="node7" href="ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="65,229,172,256"/></map>
+<area shape="rect" id="node3" href="lilc__matrix__declarations_8h.html" title="source/lilc_matrix_declarations.h" alt="" coords="5,80,232,107"/><area shape="rect" id="node5" href="lilc__matrix_8h.html" title="source/lilc_matrix.h" alt="" coords="48,155,188,181"/><area shape="rect" id="node7" href="solver_8h.html" title="source/solver.h" alt="" coords="60,229,176,256"/><area shape="rect" id="node9" href="ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="65,304,172,331"/></map>
 </div>
 </div>
 <p><a href="lilc__matrix__ildl__helpers_8h_source.html">Go to the source code of this file.</a></p>
@@ -155,18 +155,17 @@ template&lt;class el_type &gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">                                                                                                           { 
-        <span class="keyword">typename</span> std::vector&lt;int&gt;::const_iterator it;
         
         <span class="comment">//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.</span>
         el_type tolerance = tol*norm&lt;el_type&gt;(v, curr_nnzs);
-        <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) 
-        <span class="keywordflow">if</span> (std::abs(v[*it]) &lt; tolerance) v[*it] = 0;
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
+        <span class="keywordflow">if</span> (abs(v[*it]) &lt; tolerance) v[*it] = 0;
         
         <span class="comment">//sort the remaining elements by value in decreasing order.</span>
         <a class="code" href="structby__value.html" title="Functor for comparing elements by value (in decreasing order) instead of by index.">by_value&lt;el_type&gt;</a> sorter(v);
         std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
         
-        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = lfil; i &lt; (int) curr_nnzs.size(); i++) {
+        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = lfil, end = curr_nnzs.size(); i &lt; end ; ++i) {
                 v[curr_nnzs[i]] = 0;
         }
         curr_nnzs.resize( std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()) );
@@ -277,11 +276,10 @@ template&lt;class el_type &gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the max element of v. </dd></dl>
 <div class="fragment"><pre class="fragment">                                                                                              { 
-        <span class="keyword">typename</span> std::vector&lt;int&gt;::iterator it;
         <span class="keywordtype">double</span> res = 0;
-        <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-                <span class="keywordflow">if</span> (std::abs(v[*it]) &gt; res) {
-                        res = std::abs(v[*it]);
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
+                <span class="keywordflow">if</span> (abs(v[*it]) &gt; res) {
+                        res = abs(v[*it]);
                         r = *it;
                 }
         }
@@ -329,15 +327,15 @@ template&lt;class el_type &gt; </div>
   <table class="params">
     <tr><td class="paramname">v</td><td>the vector whose norm is to be computed. </td></tr>
     <tr><td class="paramname">curr_nnzs</td><td>a list of indices representing non-zero elements in v. </td></tr>
+    <tr><td class="paramname">p</td><td>The norm number. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the norm of v. </dd></dl>
 <div class="fragment"><pre class="fragment">                                                                                                      { 
-        <span class="keyword">typename</span> std::vector&lt;int&gt;::iterator it;
         el_type res = 0;
-        <span class="keywordflow">for</span> (it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
-                res += pow(std::abs(v[*it]), p);  
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
+                res += pow(abs(v[*it]), p);  
         }
         
         <span class="keywordflow">return</span> pow(res, 1/p);
@@ -378,7 +376,7 @@ template&lt;class el_type &gt; </div>
 <div class="fragment"><pre class="fragment">                                                                             {
         <span class="keywordtype">bool</span> con_k = <span class="keyword">false</span>, con_r = <span class="keyword">false</span>;
         std::vector&lt;int&gt;::iterator k_idx, r_idx;
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it!= curr_nnzs.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
                 <span class="keywordflow">if</span> (*it == k) {
                         con_k = <span class="keyword">true</span>;
                         k_idx = it;
@@ -454,18 +452,18 @@ template&lt;class InputContainer , class InputIterator &gt; </div>
   </dd>
 </dl>
 <div class="fragment"><pre class="fragment">{
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = a.begin(); it != a.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = a.begin(), end = a.end(); it != end; ++it) {
                 in_set[*it] = <span class="keyword">true</span>;
         }
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = b_start; it != b_end; it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = b_start; it != b_end; ++it) {
                 <span class="keywordflow">if</span> (!in_set[*it]) {
                         in_set[*it] = <span class="keyword">true</span>;
                         a.push_back(*it);
                 }
         }
         
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = a.begin(); it != a.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = a.begin(), end = a.end(); it != end; ++it) {
                 in_set[*it] = <span class="keyword">false</span>;
         }
 }
@@ -531,6 +529,7 @@ template&lt;class el_type &gt; </div>
     <tr><td class="paramname">curr_nnzs</td><td>the nonzero elements of work. </td></tr>
     <tr><td class="paramname">L</td><td>the (partial) lower triangular factor of A. </td></tr>
     <tr><td class="paramname">D</td><td>the (partial) diagonal factor of A. </td></tr>
+    <tr><td class="paramname">in_set</td><td>temporary storage for use in merging two lists of nonzero indices. </td></tr>
   </table>
   </dd>
 </dl>
@@ -540,10 +539,10 @@ template&lt;class el_type &gt; </div>
         el_type d_12, l_ki;     
 
         <span class="comment">//iterate across non-zeros of row k using Llist</span>
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(); it != L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].end(); it++) {
-                j = *it;
+        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int) L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].size(); ++i) {
+                j = L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k][i];
                 
-                l_ki = L.<a class="code" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(k, j);
+                l_ki = L.<a class="code" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix.">coeff</a>(k, j, L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[j]);
                 <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978">update_single</a>(k, j, l_ki, D[j], work, curr_nnzs, L, in_set); <span class="comment">//update col using d11</span>
                 
                 blk_sz = D.<a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(j);
@@ -563,7 +562,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_ad05d288ce2ed4291f9463a4861487f01_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_ad05d288ce2ed4291f9463a4861487f01_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_ad05d288ce2ed4291f9463a4861487f01_cgraph" id="lilc__matrix__ildl__helpers_8h_ad05d288ce2ed4291f9463a4861487f01_cgraph">
-<area shape="rect" id="node3" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="126,5,333,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#a325231991a1f4f36c3eb2326b948010c" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="169,56,290,83"/><area shape="rect" id="node7" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="174,157,285,184"/><area shape="rect" id="node11" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="387,132,581,159"/><area shape="rect" id="node13" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="393,183,575,209"/></map>
+<area shape="rect" id="node3" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="126,5,333,32"/><area shape="rect" id="node5" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="169,56,290,83"/><area shape="rect" id="node7" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="174,157,285,184"/><area shape="rect" id="node11" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="387,132,581,159"/><area shape="rect" id="node13" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="393,183,575,209"/></map>
 </div>
 </p>
 
@@ -635,17 +634,17 @@ template&lt;class el_type &gt; </div>
         <span class="comment">//find where L(k, k+1:n) starts</span>
         <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, offset = L.<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[j];
         
-        <span class="keywordflow">if</span> (offset &gt;= L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size()) <span class="keywordflow">return</span>;
+        <span class="keywordflow">if</span> (offset &gt;= L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].size()) <span class="keywordflow">return</span>;
         
-        L.<a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(j, k, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j]);
+        L.<a class="code" href="classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(j, k, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j]);
 
         el_type factor = l_ki * d;
-        <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].size(); i++) {
-                work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j][i]] -= factor * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[j][i];
+        <span class="keywordflow">for</span> (i = offset; i &lt; L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].size(); ++i) {
+                work[L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j][i]] -= factor * L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de" title="The values of the nonzeros in the matrix.">m_x</a>[j][i];
         }
         
-        <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
-        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[j].end(), in_set);
+        <span class="comment">//merge current non-zeros of col k with nonzeros of col *it.</span>
+        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...">unordered_inplace_union</a>(curr_nnzs, L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].begin() + offset,  L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6" title="The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...">m_idx</a>[j].end(), in_set);
 }
 </pre></div>
 <p><div class="dynheader">
@@ -700,7 +699,7 @@ template&lt;class el_type &gt; </div>
 <div class="fragment"><pre class="fragment">                                                                                                                      {
         <span class="comment">//merge current non-zeros of col k with nonzeros of col *it. </span>
         <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a0a185c1bdf4296a723845f2ab561778d" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list...">inplace_union</a>(v1_nnzs, v2_nnzs.begin(), v2_nnzs.end());
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = v1_nnzs.begin(); it != v1_nnzs.end(); it++) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = v1_nnzs.begin(), end = v1_nnzs.end(); it != end; ++it) {
                 v1[*it] += v2[*it];
         }
 }
@@ -731,7 +730,7 @@ Here is the call graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:55 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

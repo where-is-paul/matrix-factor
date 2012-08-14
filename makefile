@@ -3,19 +3,19 @@
 CC := g++
 SRCDIR := .
 BUILDDIR := build
-CFLAGS := -Wextra -Wall -O3 -funroll-loops -std=c++0x -pg -fopenmp
+CFLAGS := -Wextra -Wall -O3 -funroll-loops -std=c++0x -pg
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := $(shell find ./output_matrices -name out*.mtx)
  
 SRCEXT := cpp
-SOURCES := $(shell find $(SRCDIR) -name "*.$(SRCEXT)")
+SOURCES := ./ldl_driver.cpp
 ALL := $(shell find $(SRCDIR) -name "*.h" -or -name "*.cpp")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
  
 $(TARGET): $(OBJECTS)
-	@echo " Linking..."; $(CC) $^ -pg -fopenmp -o $(TARGET)
+	@echo " Linking..."; $(CC) $^ -pg -o $(TARGET)
  
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p output_matrices

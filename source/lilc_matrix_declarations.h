@@ -5,6 +5,8 @@
 #include "lil_sparse_matrix.h"
 #include <algorithm>
 #include <cmath>
+#include <cassert>
+#include <iostream>
 #include "swap_struct.h"
 
 /*! \brief A list-of-lists (LIL) matrix in column oriented format.
@@ -59,9 +61,10 @@ public:
 	/*! \brief Finds the (i,j)th coefficient of the matrix.
 		\param i the row of the (i,j)th element (zero-indexed).
 		\param j the col of the (i,j)th element (zero-indexed).
+		\param offset an optional search offset for use in linear search (start at offset instead of 0).
 		\return The (i,j)th element of the matrix. 
 	*/
-	inline el_type coeff(const int& i, const int& j) const 
+	inline virtual el_type coeff(const int& i, const int& j, int offset = 0) const 
 	{	
 		//invariant: first elem in each col of a is the diagonal elem if it exists.
 		if (i == j) {
@@ -69,7 +72,7 @@ public:
 			return (m_idx[j][0] == i ? m_x[j][0] : 0);
 		}
 		
-		for (unsigned int k = 0, end = m_idx[j].size(); k < end; k++) {
+		for (unsigned int k = offset, end = m_idx[j].size(); k < end; k++) {
 			if (m_idx[j][k] == i) return m_x[j][k];
 		}
 		
@@ -182,10 +185,10 @@ public:
 			-# On iteration k, first[i] will give the number of non-zero elements on row i of A before A(i, k).
 			-# On iteration k, list[i][ first[i] ] will contain the first element right of or on index k of row i of A.
 			
-		\param j
-		\param k
-		\param con
-		\param update_list
+		\param j the column of con.
+		\param k the iteration number.
+		\param con the container to be swapped.
+		\param update_list boolean indicating whether list or m_x/m_idx should be updated.
 	*/
 	template <class Container>
 	inline void ensure_invariant(const int& j, const int& k, Container& con, bool update_list = false) {

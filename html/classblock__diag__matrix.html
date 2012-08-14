@@ -89,7 +89,9 @@ Public Types</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">block_diag_matrix</a> (int n_rows=0, int n_cols=0)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.  <a href="#a1591d461af4469b500f856745ed2d05b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">resize</a> (int n)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes this matrix to an n*n matrix.  <a href="#a12249531555506377724ff14abec6905"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a> () const </td></tr>
@@ -99,12 +101,17 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d">save</a> (std::string filename)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">~block_diag_matrix</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic class destructor.  <a href="#a060d90add0a7490196fd47f5efb1c818"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Dimension of the matrix.  <a href="#a8e55b8cb27c7686a6e62f5e1655723b4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of non-zeros in the matrix.  <a href="#a13fa6893c7125ff3443e75d3b5f64cd9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores off-diagonal elements of 2x2 pivots.  <a href="#a74396564eee4ad30c97b0eab031dda32"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores main diagonal elements.  <a href="#a894255ea4928f43a2cae577abc4910d3"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="friends"></a>
 Friends</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblock__diag__matrix.html#a17f3419f2a6f824dea494d9ac229c000">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a> &amp;D)</td></tr>
@@ -172,10 +179,13 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
-<div class="fragment"><pre class="fragment">                                                           : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
+
+<p>Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments. </p>
+<div class="fragment"><pre class="fragment">                                                           : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
         {
-                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
-                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
+                assert(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> == <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>);
+                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
+                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
         }
 </pre></div>
 <p><div class="dynheader">
@@ -183,7 +193,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph.png" border="0" usemap="#classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph" alt=""/></div>
 <map name="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph" id="classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b_cgraph">
-<area shape="rect" id="node3" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18" title="block_diag_matrix::n_rows" alt="" coords="309,5,496,32"/></map>
+<area shape="rect" id="node3" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7" title="block_diag_matrix::n_cols" alt="" coords="311,5,494,32"/><area shape="rect" id="node5" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18" title="block_diag_matrix::n_rows" alt="" coords="309,56,496,83"/></map>
 </div>
 </p>
 
@@ -204,6 +214,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Generic class destructor. </p>
 <div class="fragment"><pre class="fragment">        {
         }
 </pre></div>
@@ -226,10 +238,17 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>the index of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>2 if there is a diagonal pivot at D(i,i) and D(i+1,i+1). -2 if there is a diagonal pivot at D(i-1,i-1) and D(i,i). 1 if the pivot is only a 1x1 block. </dd></dl>
 <div class="fragment"><pre class="fragment">                                    {
-                <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i)) {
+                <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
                         <span class="keywordflow">return</span> 2;
-                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i-1)) {
+                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i-1)) {
                         <span class="keywordflow">return</span> -2;
                 } <span class="keywordflow">else</span> {
                         <span class="keywordflow">return</span> 1;
@@ -255,7 +274,7 @@ template&lt;class el_type&gt; </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>Number of cols in the matrix. </dd></dl>
 <div class="fragment"><pre class="fragment">        {
-                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>;
+                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
         }
 </pre></div>
 </div>
@@ -277,7 +296,7 @@ template&lt;class el_type&gt; </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>Number of rows in the matrix. </dd></dl>
 <div class="fragment"><pre class="fragment">        {
-                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a>;
+                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
         }
 </pre></div>
 </div>
@@ -299,7 +318,7 @@ template&lt;class el_type&gt; </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>Number of nonzeros in the matrix. </dd></dl>
 <div class="fragment"><pre class="fragment">        {
-                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a>;
+                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>;
         };
 </pre></div>
 </div>
@@ -320,13 +339,20 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>the index of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The D(i+1,i)th element. </dd></dl>
 <div class="fragment"><pre class="fragment">                                     {
-                <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.count(i)) {
-                        <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.insert(std::make_pair(i, 0));
-                        <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a>++;
+                <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
+                        <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.insert(std::make_pair(i, 0));
+                        <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>++;
                 }
                 
-                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.at(i);
+                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.at(i);
         }
 </pre></div>
 </div>
@@ -347,8 +373,15 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>the index of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The D(i,i)th element. </dd></dl>
 <div class="fragment"><pre class="fragment">                                   {
-                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.at(i);
+                <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.at(i);
         }
 </pre></div>
 </div>
@@ -369,10 +402,12 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Resizes this matrix to an n*n matrix. </p>
 <div class="fragment"><pre class="fragment">                           {
-                <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4">m_n_size</a> = n;
-                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>.resize(n);
-                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">nnz_count</a> = n;
+                <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a> = n;
+                <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(n);
+                <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = n;
         }
 </pre></div>
 </div>
@@ -399,6 +434,7 @@ template&lt;class el_type &gt; </div>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>True if the save succeeded, false otherwise. </dd></dl>
 <div class="fragment"><pre class="fragment">{
         std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
         <span class="keywordflow">if</span>(!out)
@@ -415,9 +451,9 @@ template&lt;class el_type &gt; </div>
         out &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
 
         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>(); i++) {
-                out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+                out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(i) == 2) {
-                        out &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+                        out &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>[i] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                         out &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+2 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; main_diag[i+1] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
                         i++;
                 }
@@ -449,11 +485,11 @@ template&lt;class el_type &gt; </div>
   std::ostringstream os;
   os &lt;&lt; <span class="stringliteral">&quot;Block Diagonal Matrix (&quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>() &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2">nnz</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;
   
-  os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values     = &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">main_diag</a> &lt;&lt; std::endl;
+  os &lt;&lt; <span class="stringliteral">&quot;Main Diagonal Values     = &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a> &lt;&lt; std::endl;
   os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (col, val)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;
   <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>(); i++) {
     <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(i) == 2) {
-                os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">off_diag</a>.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;
+                os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;
                 i++;
         }
   }
@@ -514,6 +550,8 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Dimension of the matrix. </p>
+
 </div>
 </div>
 <a class="anchor" id="a74396564eee4ad30c97b0eab031dda32"></a><!-- doxytag: member="block_diag_matrix::main_diag" ref="a74396564eee4ad30c97b0eab031dda32" args="" -->
@@ -528,6 +566,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Stores off-diagonal elements of 2x2 pivots. </p>
 
 </div>
 </div>
@@ -544,6 +584,8 @@ template&lt;class el_type&gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Number of non-zeros in the matrix. </p>
+
 </div>
 </div>
 <a class="anchor" id="a894255ea4928f43a2cae577abc4910d3"></a><!-- doxytag: member="block_diag_matrix::off_diag" ref="a894255ea4928f43a2cae577abc4910d3" args="" -->
@@ -558,6 +600,8 @@ template&lt;class el_type&gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Stores main diagonal elements. </p>
 
 </div>
 </div>
@@ -581,7 +625,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 9 2012 04:18:26 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:56 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

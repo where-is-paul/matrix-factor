@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cassert>
+#include <iostream>
 
 #ifndef VECTOR_SHIFT
 #define VECTOR_SHIFT
@@ -28,7 +30,8 @@ std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 #endif
 
 
-/*! \brief A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. */
+/*! \brief A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. 
+*/
 template<class el_type>
 class block_diag_matrix
 {
@@ -44,16 +47,22 @@ public:
 		return os;
 	};
 	
-	int m_n_size, nnz_count;
-	elt_vector_type main_diag;
-	int_elt_map off_diag;
+	int m_n_size;///<Dimension of the matrix.
+	int nnz_count;///<Number of non-zeros in the matrix.
+	elt_vector_type main_diag;///<Stores off-diagonal elements of 2x2 pivots.
+	int_elt_map off_diag;///<Stores main diagonal elements.
 	
+	/*!	\brief Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.
+	*/
 	block_diag_matrix (int n_rows = 0, int n_cols = 0) : m_n_size(n_rows)
 	{
+		assert(n_rows == n_cols);
 		nnz_count = n_rows;
 		main_diag.resize(n_rows);
 	}
 	
+	/*!	\brief Resizes this matrix to an n*n matrix.
+	*/
 	void resize(int n) {
 		m_n_size = n;
 		main_diag.resize(n);
@@ -78,10 +87,16 @@ public:
 		return nnz_count;
 	};
 	
+	/*!	\param i the index of the element.
+		\return The D(i,i)th element.
+	*/
 	el_type& operator[](int i) {
 		return main_diag.at(i);
 	}
 	
+	/*!	\param i the index of the element.
+		\return The D(i+1,i)th element.
+	*/
 	el_type& off_diagonal(int i) {
 		if (!off_diag.count(i)) {
 			off_diag.insert(std::make_pair(i, 0));
@@ -91,6 +106,11 @@ public:
 		return off_diag.at(i);
 	}
 	
+	/*!	\param i the index of the element.
+		\return 2 if there is a diagonal pivot at D(i,i) and D(i+1,i+1).
+				-2 if there is a diagonal pivot at D(i-1,i-1) and D(i,i).
+				1 if the pivot is only a 1x1 block.
+	*/
 	int block_size(int i) const {
 		if (off_diag.count(i)) {
 			return 2;
@@ -106,9 +126,12 @@ public:
 	std::string to_string () const;
 	
 	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
+		\return True if the save succeeded, false otherwise.
 	*/
 	bool save(std::string filename);
 	
+	/*! \brief Generic class destructor.
+	*/
 	~block_diag_matrix()
 	{
 	}

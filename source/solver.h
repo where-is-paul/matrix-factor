@@ -3,6 +3,10 @@
 #include <string.h>
 #include "lilc_matrix.h"
 
+/*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
+	\param vec the permutation vector.
+	\param filename the filename the matrix will be saved under.
+*/
 template<class el_type>
 bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
@@ -31,25 +35,92 @@ template<class el_type, class mat_type = lilc_matrix<el_type> >
 class solver
 {
 	public:
-		mat_type A, L;
-		vector<int> perm;
-		block_diag_matrix<el_type> D;
+		mat_type A;	///<The matrix to be factored.
+		mat_type L;	///<The lower triangular factor of A.
+		vector<int> perm;	///<A permutation vector containing all permutations on A.
+		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		
+		/*! \brief Loads the matrix A into solver (A is stored in CSC form).
+			\param m_x the non-zero values stored in the matrix.
+			\param m_col_idx the column pointers for the CSC matrix.
+			\param m_row_idx the row pointers for the CSC matrix.
+		*/
+		void mex_convert(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
+			int count = 0;
+			for (unsigned long int i = 0; i < N; i++) {
+				for (unsigned long int j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {
+					A.m_idx[i].push_back(m_row_idx[j]);
+					A.m_x[i].push_back(m_x[j]);
+					count++;
+				}
+			}
+			
+			A.nnz_count = count;
+		}
+		
+		void mex_set_L(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
+			int i, count = 0;
+			for (i = 0; i < (int) L.n_rows(); i++) {
+				m_col_idx[i] = count;
+				for (unsigned int j = 0; j < L.m_idx[i].size(); i++) {
+					m_row_idx[count] = L.m_idx[i][j];
+					m_x[count] = L.m_x[i][j];
+					count++;
+				}
+			}
+			m_col_idx[i] = count;
+			
+			N = count;
+		}
+		
+		void mex_set_D(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
+			int i, count = 0;
+			for (i = 0; i < D.n_rows(); i++) {
+				m_col_idx[i] = count;
+				m_row_idx[count] = D[i];
+				if (D.block_size(i) == 2) {
+					count++;
+					m_row_idx[count] = i+1;
+					m_x[count] = D.off_diagonal(i);
+					i++;
+				}
+				count++;
+			}
+			m_col_idx[i] = count;
+			
+			N = count;
+		}
+		
+		/*! \brief Loads the matrix A into solver.
+			\param filename the filename of the matrix.
+		*/
 		void load(std::string filename) {
 			assert( A.load(filename) );
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 		
+		/*! \brief Factors the matrix A into P' * S^(-1) * A * S^(-1) * P = LDL' in addition to printing some timing data to screen.
+			
+			More information about the parameters can be found in the documentation for the ildl() function.
+			
+			\param fill_factor a factor controling memory usage of factorization.
+			\param tol a factor controling accuracy of factorization.
+		*/
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
+			struct timeval tim;
+			
+			gettimeofday(&tim, NULL);  
+			double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			A.sym_equil();
 			A.sym_rcm(perm);
 			A.sym_perm(perm);
 			
-			struct timeval tim;  
 			gettimeofday(&tim, NULL);  
 			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			
+			printf("The reordering took %.6lf seconds.\n", t1-t0);
 			
 			A.ildl(L, D, perm, fill_factor, tol);
 			
@@ -60,6 +131,10 @@ class solver
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		
+		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
+			
+			The names of the output matrices follow the format out{}.mtx, where {} describes what the file contains (i.e. A, L, or D).
+		*/
 		void save() {
 			cout << "Saving matrices..." << endl;
 			A.save("output_matrices/outA.mtx", true);
@@ -69,6 +144,8 @@ class solver
 			D.save("output_matrices/outD.mtx");
 		}
 		
+		/*! \brief Prints the L and D factors to stdout.
+		*/
 		void display() {
 			cout << L << endl;
 			cout << D << endl;
