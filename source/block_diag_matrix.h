@@ -9,8 +9,8 @@
 #include <cassert>
 #include <iostream>
 
-#ifndef VECTOR_SHIFT
-#define VECTOR_SHIFT
+#ifndef DEBUG
+#define DEBUG
 template<class el_type>
 std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 {

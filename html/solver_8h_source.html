@@ -60,85 +60,90 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">source/solver.h</div>  </div>
 </div>
 <div class="contents">
-<a href="solver_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#include &lt;iostream&gt;</span>
-<a name="l00002"></a>00002 <span class="preprocessor">#include &lt;sys/time.h&gt;</span>
-<a name="l00003"></a>00003 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00004"></a>00004 <span class="preprocessor">#include &quot;<a class="code" href="lilc__matrix_8h.html">lilc_matrix.h</a>&quot;</span>
-<a name="l00005"></a>00005 
-<a name="l00010"></a>00010 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00011"></a><a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1">00011</a> <span class="keywordtype">bool</span> <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<span class="keyword">const</span> std::vector&lt;el_type&gt;&amp; vec, std::string filename) {
-<a name="l00012"></a>00012         std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
-<a name="l00013"></a>00013         <span class="keywordflow">if</span>(!out)
-<a name="l00014"></a>00014         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00015"></a>00015 
-<a name="l00016"></a>00016         out.flags(std::ios_base::scientific);
-<a name="l00017"></a>00017         out.precision(12);
-<a name="l00018"></a>00018         std::string header = <span class="stringliteral">&quot;%%MatrixMarket matrix coordinate real general&quot;</span>;; 
-<a name="l00019"></a>00019 
-<a name="l00020"></a>00020         out &lt;&lt; header &lt;&lt; std::endl; 
-<a name="l00021"></a>00021         out &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+<a href="solver_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _SOLVER_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _SOLVER_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;iostream&gt;</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;sys/time.h&gt;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="lilc__matrix_8h.html">lilc_matrix.h</a>&quot;</span>
+<a name="l00008"></a>00008 
+<a name="l00013"></a>00013 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
+<a name="l00014"></a><a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1">00014</a> <span class="keywordtype">bool</span> <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<span class="keyword">const</span> std::vector&lt;el_type&gt;&amp; vec, std::string filename) {
+<a name="l00015"></a>00015         std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
+<a name="l00016"></a>00016         <span class="keywordflow">if</span>(!out)
+<a name="l00017"></a>00017         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019         out.flags(std::ios_base::scientific);
+<a name="l00020"></a>00020         out.precision(12);
+<a name="l00021"></a>00021         std::string header = <span class="stringliteral">&quot;%%MatrixMarket matrix coordinate real general&quot;</span>;; 
 <a name="l00022"></a>00022 
-<a name="l00023"></a>00023         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; (int) vec.size(); i++)
-<a name="l00024"></a>00024         out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec[i]+1 &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
-<a name="l00025"></a>00025         
-<a name="l00026"></a>00026         out.close();
-<a name="l00027"></a>00027         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00028"></a>00028 }
-<a name="l00029"></a>00029 
-<a name="l00034"></a>00034 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type, <span class="keyword">class</span> mat_type = lilc_matrix&lt;el_type&gt; &gt;
-<a name="l00035"></a><a class="code" href="classsolver.html">00035</a> <span class="keyword">class </span><a class="code" href="classsolver.html" title="Set of tools that facilitates conversion between different matrix formats. Also contains solver metho...">solver</a>
-<a name="l00036"></a>00036 {
-<a name="l00037"></a>00037         <span class="keyword">public</span>:
-<a name="l00038"></a><a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">00038</a>                 mat_type <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>;     
-<a name="l00039"></a><a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead">00039</a>                 mat_type <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>;     
-<a name="l00040"></a><a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892">00040</a>                 vector&lt;int&gt; <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>;       
-<a name="l00041"></a><a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344">00041</a>                 <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a> <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>;   
-<a name="l00042"></a>00042                 
-<a name="l00046"></a><a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">00046</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432" title="Loads the matrix A into solver.">load</a>(std::string filename) {
-<a name="l00047"></a>00047                         assert( <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.load(filename) );
-<a name="l00048"></a>00048                         printf(<span class="stringliteral">&quot;A is %d by %d with %d non-zeros.\n&quot;</span>, <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_rows(), <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_cols(), <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.nnz() );
-<a name="l00049"></a>00049                 }
-<a name="l00050"></a>00050                 
-<a name="l00058"></a><a class="code" href="classsolver.html#a0731e55c9504797d498952172c931e23">00058</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#a0731e55c9504797d498952172c931e23" title="Factors the matrix A into P&#39; * S^(-1) * A * S^(-1) * P = LDL&#39; in addition to printing some timing dat...">solve</a>(<span class="keywordtype">double</span> fill_factor, <span class="keywordtype">double</span> tol) {
-<a name="l00059"></a>00059                         <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>.reserve(<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_cols());
-<a name="l00060"></a>00060                         <span class="keyword">struct </span>timeval tim;
-<a name="l00061"></a>00061                         
-<a name="l00062"></a>00062                         gettimeofday(&amp;tim, NULL);  
-<a name="l00063"></a>00063                         <span class="keywordtype">double</span> t0=tim.tv_sec+(tim.tv_usec/1e6);
+<a name="l00023"></a>00023         out &lt;&lt; header &lt;&lt; std::endl; 
+<a name="l00024"></a>00024         out &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec.size() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026         <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; (int) vec.size(); i++)
+<a name="l00027"></a>00027         out &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; i+1 &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; vec[i]+1 &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;
+<a name="l00028"></a>00028         
+<a name="l00029"></a>00029         out.close();
+<a name="l00030"></a>00030         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00031"></a>00031 }
+<a name="l00032"></a>00032 
+<a name="l00037"></a>00037 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type, <span class="keyword">class</span> mat_type = lilc_matrix&lt;el_type&gt; &gt;
+<a name="l00038"></a><a class="code" href="classsolver.html">00038</a> <span class="keyword">class </span><a class="code" href="classsolver.html" title="Set of tools that facilitates conversion between different matrix formats. Also contains solver metho...">solver</a>
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040         <span class="keyword">public</span>:
+<a name="l00041"></a><a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">00041</a>                 mat_type <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>;     
+<a name="l00042"></a><a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead">00042</a>                 mat_type <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>;     
+<a name="l00043"></a><a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892">00043</a>                 vector&lt;int&gt; <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>;       
+<a name="l00044"></a><a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344">00044</a>                 <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a> <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>;   
+<a name="l00045"></a>00045                 
+<a name="l00049"></a><a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">00049</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432" title="Loads the matrix A into solver.">load</a>(std::string filename) {
+<a name="l00050"></a>00050                         assert( <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.load(filename) );
+<a name="l00051"></a>00051                         printf(<span class="stringliteral">&quot;A is %d by %d with %d non-zeros.\n&quot;</span>, <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_rows(), <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_cols(), <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.nnz() );
+<a name="l00052"></a>00052                 }
+<a name="l00053"></a>00053                 
+<a name="l00061"></a><a class="code" href="classsolver.html#a0731e55c9504797d498952172c931e23">00061</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#a0731e55c9504797d498952172c931e23" title="Factors the matrix A into P&#39; * S^(-1) * A * S^(-1) * P = LDL&#39; in addition to printing some timing dat...">solve</a>(<span class="keywordtype">double</span> fill_factor, <span class="keywordtype">double</span> tol) {
+<a name="l00062"></a>00062                         <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>.reserve(<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.n_cols());
+<a name="l00063"></a>00063                         <span class="keyword">struct </span>timeval tim;
 <a name="l00064"></a>00064                         
-<a name="l00065"></a>00065                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_equil();
-<a name="l00066"></a>00066                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_rcm(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>);
-<a name="l00067"></a>00067                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_perm(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>);
-<a name="l00068"></a>00068                         
-<a name="l00069"></a>00069                         gettimeofday(&amp;tim, NULL);  
-<a name="l00070"></a>00070                         <span class="keywordtype">double</span> t1=tim.tv_sec+(tim.tv_usec/1e6);  
+<a name="l00065"></a>00065                         gettimeofday(&amp;tim, NULL);  
+<a name="l00066"></a>00066                         <span class="keywordtype">double</span> t0=tim.tv_sec+(tim.tv_usec/1e6);
+<a name="l00067"></a>00067                         
+<a name="l00068"></a>00068                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_equil();
+<a name="l00069"></a>00069                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_rcm(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>);
+<a name="l00070"></a>00070                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.sym_perm(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>);
 <a name="l00071"></a>00071                         
-<a name="l00072"></a>00072                         printf(<span class="stringliteral">&quot;The reordering took %.6lf seconds.\n&quot;</span>, t1-t0);
-<a name="l00073"></a>00073                         
-<a name="l00074"></a>00074                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.ildl(<a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>, <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>, <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, fill_factor, tol);
-<a name="l00075"></a>00075                         
-<a name="l00076"></a>00076                         gettimeofday(&amp;tim, NULL);  
-<a name="l00077"></a>00077                         <span class="keywordtype">double</span> t2=tim.tv_sec+(tim.tv_usec/1e6);  
+<a name="l00072"></a>00072                         gettimeofday(&amp;tim, NULL);  
+<a name="l00073"></a>00073                         <span class="keywordtype">double</span> t1=tim.tv_sec+(tim.tv_usec/1e6);  
+<a name="l00074"></a>00074                         
+<a name="l00075"></a>00075                         printf(<span class="stringliteral">&quot;The reordering took %.6lf seconds.\n&quot;</span>, t1-t0);
+<a name="l00076"></a>00076                         
+<a name="l00077"></a>00077                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.ildl(<a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>, <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>, <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, fill_factor, tol);
 <a name="l00078"></a>00078                         
-<a name="l00079"></a>00079                         printf(<span class="stringliteral">&quot;The factorization took %.6lf seconds.\n&quot;</span>, t2-t1);
-<a name="l00080"></a>00080                         printf(<span class="stringliteral">&quot;L is %d by %d with %d non-zeros.\n&quot;</span>, <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.n_rows(), <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.n_cols(), <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.nnz() ); 
-<a name="l00081"></a>00081                 }
-<a name="l00082"></a>00082                 
-<a name="l00087"></a><a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7">00087</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder).">save</a>() {
-<a name="l00088"></a>00088                         cout &lt;&lt; <span class="stringliteral">&quot;Saving matrices...&quot;</span> &lt;&lt; endl;
-<a name="l00089"></a>00089                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.save(<span class="stringliteral">&quot;output_matrices/outA.mtx&quot;</span>, <span class="keyword">true</span>);
-<a name="l00090"></a>00090                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.S.save(<span class="stringliteral">&quot;output_matrices/outS.mtx&quot;</span>);
-<a name="l00091"></a>00091                         <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, <span class="stringliteral">&quot;output_matrices/outPerm.mtx&quot;</span>);
-<a name="l00092"></a>00092                         <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.save(<span class="stringliteral">&quot;output_matrices/outL.mtx&quot;</span>);
-<a name="l00093"></a>00093                         <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>.save(<span class="stringliteral">&quot;output_matrices/outD.mtx&quot;</span>);
-<a name="l00094"></a>00094                 }
-<a name="l00095"></a>00095                 
-<a name="l00098"></a><a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352">00098</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout.">display</a>() {
-<a name="l00099"></a>00099                         cout &lt;&lt; <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a> &lt;&lt; endl;
-<a name="l00100"></a>00100                         cout &lt;&lt; <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a> &lt;&lt; endl;
-<a name="l00101"></a>00101                         cout &lt;&lt; <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a> &lt;&lt; endl;
-<a name="l00102"></a>00102                 }
-<a name="l00103"></a>00103 };
+<a name="l00079"></a>00079                         gettimeofday(&amp;tim, NULL);  
+<a name="l00080"></a>00080                         <span class="keywordtype">double</span> t2=tim.tv_sec+(tim.tv_usec/1e6);  
+<a name="l00081"></a>00081                         
+<a name="l00082"></a>00082                         printf(<span class="stringliteral">&quot;The factorization took %.6lf seconds.\n&quot;</span>, t2-t1);
+<a name="l00083"></a>00083                         printf(<span class="stringliteral">&quot;L is %d by %d with %d non-zeros.\n&quot;</span>, <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.n_rows(), <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.n_cols(), <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.nnz() ); 
+<a name="l00084"></a>00084                 }
+<a name="l00085"></a>00085                 
+<a name="l00090"></a><a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7">00090</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder).">save</a>() {
+<a name="l00091"></a>00091                         cout &lt;&lt; <span class="stringliteral">&quot;Saving matrices...&quot;</span> &lt;&lt; endl;
+<a name="l00092"></a>00092                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.save(<span class="stringliteral">&quot;output_matrices/outA.mtx&quot;</span>, <span class="keyword">true</span>);
+<a name="l00093"></a>00093                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.S.save(<span class="stringliteral">&quot;output_matrices/outS.mtx&quot;</span>);
+<a name="l00094"></a>00094                         <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, <span class="stringliteral">&quot;output_matrices/outPerm.mtx&quot;</span>);
+<a name="l00095"></a>00095                         <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.save(<span class="stringliteral">&quot;output_matrices/outL.mtx&quot;</span>);
+<a name="l00096"></a>00096                         <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>.save(<span class="stringliteral">&quot;output_matrices/outD.mtx&quot;</span>);
+<a name="l00097"></a>00097                 }
+<a name="l00098"></a>00098                 
+<a name="l00101"></a><a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352">00101</a>                 <span class="keywordtype">void</span> <a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout.">display</a>() {
+<a name="l00102"></a>00102                         cout &lt;&lt; <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a> &lt;&lt; endl;
+<a name="l00103"></a>00103                         cout &lt;&lt; <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a> &lt;&lt; endl;
+<a name="l00104"></a>00104                         cout &lt;&lt; <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a> &lt;&lt; endl;
+<a name="l00105"></a>00105                 }
+<a name="l00106"></a>00106 };
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -155,7 +160,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon Aug 13 2012 01:14:55 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 14 2012 22:27:20 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

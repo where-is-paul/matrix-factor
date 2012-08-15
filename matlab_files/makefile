@@ -1,4 +1,4 @@
-CXXFLAGS = -Wall -O3 -fopenmp -std=c++0x
+CXXFLAGS = -Wall -O3 -std=c++0x
 
 FILES = utils.cpp ../*.cpp ../*.h
 

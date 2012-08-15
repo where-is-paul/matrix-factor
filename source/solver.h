@@ -1,3 +1,6 @@
+#ifndef _SOLVER_H
+#define _SOLVER_H
+
 #include <iostream>
 #include <sys/time.h>
 #include <string.h>
@@ -39,57 +42,6 @@ class solver
 		mat_type L;	///<The lower triangular factor of A.
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
-		
-		/*! \brief Loads the matrix A into solver (A is stored in CSC form).
-			\param m_x the non-zero values stored in the matrix.
-			\param m_col_idx the column pointers for the CSC matrix.
-			\param m_row_idx the row pointers for the CSC matrix.
-		*/
-		void mex_convert(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
-			int count = 0;
-			for (unsigned long int i = 0; i < N; i++) {
-				for (unsigned long int j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {
-					A.m_idx[i].push_back(m_row_idx[j]);
-					A.m_x[i].push_back(m_x[j]);
-					count++;
-				}
-			}
-			
-			A.nnz_count = count;
-		}
-		
-		void mex_set_L(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
-			int i, count = 0;
-			for (i = 0; i < (int) L.n_rows(); i++) {
-				m_col_idx[i] = count;
-				for (unsigned int j = 0; j < L.m_idx[i].size(); i++) {
-					m_row_idx[count] = L.m_idx[i][j];
-					m_x[count] = L.m_x[i][j];
-					count++;
-				}
-			}
-			m_col_idx[i] = count;
-			
-			N = count;
-		}
-		
-		void mex_set_D(el_type* m_x, unsigned long int* m_col_idx, unsigned long int* m_row_idx, unsigned long int& N) {
-			int i, count = 0;
-			for (i = 0; i < D.n_rows(); i++) {
-				m_col_idx[i] = count;
-				m_row_idx[count] = D[i];
-				if (D.block_size(i) == 2) {
-					count++;
-					m_row_idx[count] = i+1;
-					m_x[count] = D.off_diagonal(i);
-					i++;
-				}
-				count++;
-			}
-			m_col_idx[i] = count;
-			
-			N = count;
-		}
 		
 		/*! \brief Loads the matrix A into solver.
 			\param filename the filename of the matrix.
@@ -152,3 +104,5 @@ class solver
 			cout << perm << endl;
 		}
 };
+
+#endif

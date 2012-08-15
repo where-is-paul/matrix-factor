@@ -7,8 +7,8 @@
 #include <fstream>
 #include <limits>
 
-#ifndef VECTOR_SHIFT
-#define VECTOR_SHIFT
+#ifndef DEBUG
+#define DEBUG
 template<class Container>
 std::ostream& operator<< (std::ostream& os, const Container& vec)
 {
