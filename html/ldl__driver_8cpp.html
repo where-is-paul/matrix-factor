@@ -108,7 +108,7 @@ Functions</h2></td></tr>
 
         <span class="keywordflow">if</span> (argc &lt; 4 || argc &gt; 7) {
                 std::cout &lt;&lt; <span class="stringliteral">&quot;Too many or too few arguments.&quot;</span> &lt;&lt; std::endl
-                &lt;&lt; <span class="stringliteral">&quot;Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [-save] [-yn]&quot;</span> &lt;&lt; std::endl;
+                &lt;&lt; <span class="stringliteral">&quot;Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [-save] [-display]&quot;</span> &lt;&lt; std::endl;
                 <span class="keywordflow">return</span> 0;
         }
 
@@ -125,6 +125,8 @@ Functions</h2></td></tr>
                         solv.<a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout.">display</a>();
                 }
                 cout &lt;&lt; <span class="stringliteral">&quot;Done.&quot;</span> &lt;&lt; endl;
+        } <span class="keywordflow">else</span> {
+                solv.<a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder).">save</a>();
         }
 
         <span class="keywordflow">return</span> 0;
@@ -156,7 +158,7 @@ Here is the call graph for this function:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 14 2012 22:27:21 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 15 2012 01:57:29 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
