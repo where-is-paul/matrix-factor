@@ -9,15 +9,15 @@ using namespace std;
 *
 * \section intro_sec Introduction
 *
-* 	\b matrix-factor is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given a \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{L^{T}DL}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form 
+* 	\b matrix-factor is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
-		\mathbf{P^{T}SASP=L^{T}DL}.
+		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
-	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the lower triangular and diagonal factors respectively. 
+	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and diagonal factors respectively. 
 	
 *	\section quick_start Quick Start
 *
-*	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is gcc, simply type \c make at the command line to compile.
+*	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile.
 
 	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as two optional ones.
 	
@@ -33,7 +33,7 @@ using namespace std;
 	
 	\param in.mtx The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
-	\param save A flag indicating whether the output matrices should be saved. \c -y indicates yes, \c -n indicates no. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>out_A.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above. When this argument is not used, the default flag is \c -y.
+	\param save A flag indicating whether the output matrices should be saved. \c -y indicates yes, \c -n indicates no. When this argument is not used, the default flag is \c -y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
 	
 	\param display A flag indicating whether the output matrices should be displayed to the command line. \c -y indicates yes, \c -n indicates no. When this argument is not used, the default flag is \c -n.
 	

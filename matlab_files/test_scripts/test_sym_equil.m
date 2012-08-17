@@ -11,8 +11,8 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
 
 all_mats = mat_names;%{'tuma2'};%[mat_names; other_mats];%
         
-lfil = 1;
-tol = 0.001;
+lfil = 3;
+tol = 0.00;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -26,16 +26,16 @@ for i = 1:length(all_mats)
     [~, ~] = system(cmd);
 
     A = mmread(file);
-    B = mmread(strcat(base, 'outA.mtx')); 
+    B = mmread(strcat(base, 'outB.mtx')); 
     S = mmread(strcat(base, 'outS.mtx'));
     p = mmread(strcat(base, 'outPerm.mtx'));
     p = diag(p);
     
     P = speye(size(A));
-    P = P(p,:);
+    P = P(:,p);
    
     fprintf('The residual between scaled and original is: %d\n', ...
-        norm(A - S*P'*B*P*S, 1)/norm(A,1));
+        norm(B - P'*S*A*S*P, 1)/norm(B,1));
 
     bool_equil = true;
     for j = 1:size(B,1)

@@ -2,6 +2,15 @@
 
 using namespace std;
 
+typedef pair<mwSize, double> idx_val_pair;
+
+void load_index_value_pairs(vector<idx_val_pair>& v12, vector<int>& v1, vector<double>& v2) {
+	v12.clear();
+	for (int i = 0; i < v1.size(); i++) {
+		v12.push_back(make_pair(v1[i], v2[i]));
+	}
+}
+
 bool mex_utils :: is_double_scalar(const mxArray* a) {
     return mxIsDouble(a)
             && !mxIsComplex(a)
@@ -65,8 +74,9 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 	m = solv.A.n_rows();
 	n = solv.A.n_cols();
 	int i = 0, count = 0;
-	vector<queue<pair<mwSize, double> > > elems(solv.A.n_cols());
-	pair<mwSize, double> elem;
+	vector<idx_val_pair> temp_col;
+	vector<queue<idx_val_pair> > elems(solv.A.n_cols());
+	idx_val_pair elem;
 	
 	switch (matrix_type) {
 		case 'A':
@@ -85,14 +95,17 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 					count++;
 				}
 				
-				for (unsigned int j = 0; j < solv.A.m_idx[i].size(); j++) {
-					m_row_idx[count] = solv.A.m_idx[i][j];
-					m_x[count] = solv.A.m_x[i][j];
+				load_index_value_pairs(temp_col, solv.A.m_idx[i], solv.A.m_x[i]);
+				sort(temp_col.begin(), temp_col.end());
+				
+				for (unsigned int j = 0; j < temp_col.size(); j++) {
+					m_row_idx[count] = temp_col[j].first;
+					m_x[count] = temp_col[j].second;
 					count++;
 					
-					if (i != solv.A.m_idx[i][j])
-					elems[ solv.A.m_idx[i][j] ].push( 
-						make_pair(i, solv.A.m_x[i][j]) 
+					if (i != temp_col[j].first)
+					elems[ temp_col[j].first ].push( 
+						make_pair(i, temp_col[j].second)
 					);
 				}
 			}
@@ -105,9 +118,13 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 			m_col_idx = (mwSize*) mxCalloc(solv.L.n_cols()+1, sizeof(mwSize));
 			for (i = 0; i < (int) solv.L.n_rows(); i++) {
 				m_col_idx[i] = count;
-				for (unsigned int j = 0; j < solv.L.m_idx[i].size(); j++) {
-					m_row_idx[count] = solv.L.m_idx[i][j];
-					m_x[count] = solv.L.m_x[i][j];
+				
+				load_index_value_pairs(temp_col, solv.L.m_idx[i], solv.L.m_x[i]);
+				sort(temp_col.begin(), temp_col.end());
+				
+				for (unsigned int j = 0; j < temp_col.size(); j++) {
+					m_row_idx[count] = temp_col[j].first;
+					m_x[count] = temp_col[j].second;
 					count++;
 				}
 			}

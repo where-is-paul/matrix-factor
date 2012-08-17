@@ -57,14 +57,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="intro_sec"></a>
 Introduction</h2>
-<p><b>matrix-factor</b> is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given a <img class="formulaInl" alt="$n\times n$" src="form_17.png"/> symmetric indefinite matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{L^{T}DL}$" src="form_6.png"/> factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form </p>
+<p><b>matrix-factor</b> is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_17.png"/> symmetric indefinite matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_23.png"/> factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form </p>
 <p class="formulaDsp">
-<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=L^{T}DL}. \]" src="form_1.png"/>
+<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_24.png"/>
 </p>
-<p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_2.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_3.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_4.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_5.png"/> are the lower triangular and diagonal factors respectively.</p>
+<p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_2.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_3.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_4.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_5.png"/> are the unit lower triangular and diagonal factors respectively.</p>
 <h2><a class="anchor" id="quick_start"></a>
 Quick Start</h2>
-<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is gcc, simply type <code>make</code> at the command line to compile.</p>
+<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>gcc</code>, simply type <code>make</code> at the command line to compile.</p>
 <p>The compiled program <code>ldl_driver</code> takes in (through the command line) three parameters as well as two optional ones.</p>
 <p>The format of execution is: </p>
 <div class="fragment"><pre class="fragment">        ./ldl_driver [fill_factor] [tol] [in.mtx] [save] [display]
@@ -74,7 +74,7 @@ Quick Start</h2>
     <tr><td class="paramname">fill_factor</td><td>A parameter to control memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\_factor\cdot nnz(\mathbf{A})/n$" src="form_22.png"/> elements.</td></tr>
     <tr><td class="paramname">tol</td><td>A parameter to control agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_19.png"/> are dropped.</td></tr>
     <tr><td class="paramname">in.mtx</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
-    <tr><td class="paramname">save</td><td>A flag indicating whether the output matrices should be saved. <code>-y</code> indicates yes, <code>-n</code> indicates no. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>out_A.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/>. The rest of the outputs should be clear from the description above. When this argument is not used, the default flag is <code>-y</code>.</td></tr>
+    <tr><td class="paramname">save</td><td>A flag indicating whether the output matrices should be saved. <code>-y</code> indicates yes, <code>-n</code> indicates no. When this argument is not used, the default flag is <code>-y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
     <tr><td class="paramname">display</td><td>A flag indicating whether the output matrices should be displayed to the command line. <code>-y</code> indicates yes, <code>-n</code> indicates no. When this argument is not used, the default flag is <code>-n</code>.</td></tr>
   </table>
   </dd>
@@ -105,7 +105,7 @@ References</h2>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 15 2012 01:57:29 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

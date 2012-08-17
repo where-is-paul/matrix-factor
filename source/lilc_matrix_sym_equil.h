@@ -54,6 +54,10 @@ void lilc_matrix<el_type> :: sym_equil() {
 			}
 		}
 	}
+	
+	for (i = 0; i < ncols; i++) {
+		S[i]  = 1.0/S[i];
+	}
 }
 
 #endif // _LIL_MATRIX_SYM_EQUIL_H_

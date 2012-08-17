@@ -2,9 +2,9 @@
 #define _SOLVER_H
 
 #include <iostream>
-#include <sys/time.h>
 #include <string.h>
 #include "lilc_matrix.h"
+#include <sys/time.h>
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.

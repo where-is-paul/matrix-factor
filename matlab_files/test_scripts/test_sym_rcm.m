@@ -10,7 +10,7 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
         
 all_mats = mat_names;
 
-lfil = 0;
+lfil = 3;
 tol = 0;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
@@ -21,17 +21,19 @@ for i = 1:length(all_mats)
     %Homework\UBC 2011W\NSERC\matrix-factor-recode\';
 
     cmd = horzcat('ldl_driver ', num2str(lfil), ' ', num2str(tol), ... 
-                 ' test_matrices/', file, ' -n -n');
+                 ' test_matrices/', file, ' -y -n');
     [~, ~] = system(cmd);
 
     A = mmread(file);
-    B = mmread(strcat(base, 'outA.mtx'));
+    B = mmread(strcat(base, 'outB.mtx'));
     S = mmread(strcat(base, 'outS.mtx'));
 
     p = mmread(strcat(base, 'outPerm.mtx'));
-    p = diag(p)+1;
+    p = diag(p);
+    P = speye(size(A));
+    P = P(:,p);
    
-    fprintf('The relative residual is %d.\n', norm(S*B*S- A(p,p), 1)/norm(B, 1));
+    fprintf('The relative residual is %d.\n', norm(B- P'*S*A*S*P, 1)/norm(B, 1));
 
 %     close all;
 %     spy(A); figure; spy(B)

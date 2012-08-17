@@ -27,12 +27,12 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	//------------- row-row swap (1) for A -------------//
 	
 	//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r
-	for (auto it = list[k].begin(), end = list[k].begin() + first[k]; it != end; ++it) {
+	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; ++it) {
 		s.row_r.push_back(*it);
 	}
 	
 	//pushes column indices (which contain non-zero elements) of A(r, 1:k) onto row_k
-	for (auto it = list[r].begin(), end = list[r].begin() + first[r]; it != end; ++it) {
+	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; ++it) {
 		s.row_k.push_back(*it);
 	}
 	

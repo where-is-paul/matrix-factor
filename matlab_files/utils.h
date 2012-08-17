@@ -1,5 +1,6 @@
 #ifndef _MEX_UTILS
 #define _MEX_UTILS
+
 #include "../source/lilc_matrix.h"
 #include "../source/solver.h"
 #include <mex.h>

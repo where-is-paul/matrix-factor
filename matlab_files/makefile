@@ -13,9 +13,6 @@ MEXFLAGS += -I../
 LBITS := $(shell getconf LONG_BIT)
 ifeq ($(LBITS),64)
     MEXFLAGS += -largeArrayDims
-    CXXFLAGS += -DPRPACK_MEX_64
-else
-    CFLAGS += -DPRPACK_MEX_32
 endif
 
 MEXEXTRA ?=

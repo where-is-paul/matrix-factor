@@ -12,7 +12,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 	//----------------- initialize temporary variables --------------------//
 	int lfil = 2*fill_factor*nnz()/n_cols(); //roughly a factor of 2 since only lower tri. of A is stored
-	const el_type alpha = (1+sqrt(17))/8;  //for use in pivoting.
+	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
 	el_type w1, wr, d1, dr(-1);
 	el_type det_D, D_inv11, D_inv22, D_inv12;
 	el_type l_11, l_12;

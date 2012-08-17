@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00005"></a>00005 <span class="keyword">using</span> std::abs;
 <a name="l00006"></a>00006 
 <a name="l00007"></a>00007 <span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt;
-<a name="l00008"></a><a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51">00008</a> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51" title="The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S^(-1) * A * S^(-1) is s...">lilc_matrix&lt;el_type&gt; :: sym_equil</a>() {
+<a name="l00008"></a><a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51">00008</a> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51" title="The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A...">lilc_matrix&lt;el_type&gt; :: sym_equil</a>() {
 <a name="l00009"></a>00009 
 <a name="l00010"></a>00010         <span class="comment">//find termination points for loops with binary search later.</span>
 <a name="l00011"></a>00011         <span class="keywordtype">int</span> i, ncols = n_cols();
@@ -116,9 +116,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00054"></a>00054                         }
 <a name="l00055"></a>00055                 }
 <a name="l00056"></a>00056         }
-<a name="l00057"></a>00057 }
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059 <span class="preprocessor">#endif // _LIL_MATRIX_SYM_EQUIL_H_</span>
+<a name="l00057"></a>00057         
+<a name="l00058"></a>00058         <span class="keywordflow">for</span> (i = 0; i &lt; ncols; i++) {
+<a name="l00059"></a>00059                 S[i]  = 1.0/S[i];
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061 }
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="preprocessor">#endif // _LIL_MATRIX_SYM_EQUIL_H_</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -135,7 +139,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 15 2012 01:57:29 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

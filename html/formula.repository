@@ -21,3 +21,5 @@
 \form#20:$\mathrm{fill\_factor}\cdot nnz(\mathbf{A})/n$
 \form#21:$\mathbf{B=P^{T}SASP}$
 \form#22:$fill\_factor\cdot nnz(\mathbf{A})/n$
+\form#23:$\mathbf{LDL^{T}}$
+\form#24:\[ \mathbf{P^{T}SASP=LDL^{T}}. \]

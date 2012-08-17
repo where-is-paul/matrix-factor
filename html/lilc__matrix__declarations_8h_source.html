@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00043"></a>00043         
 <a name="l00044"></a><a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3">00044</a>         std::vector&lt;int&gt; <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>; 
 <a name="l00045"></a>00045 
-<a name="l00046"></a><a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596">00046</a>         <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a> <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>; 
+<a name="l00046"></a><a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596">00046</a>         <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a> <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that SAS will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which SAS will be stored in place of A.">S</a>; 
 <a name="l00047"></a>00047         
 <a name="l00048"></a>00048 <span class="keyword">public</span>:
 <a name="l00049"></a>00049         
@@ -150,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00114"></a>00114                 <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>.resize(n_cols, 1);
 <a name="l00115"></a>00115                 <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>.resize(n_cols);
 <a name="l00116"></a>00116                 
-<a name="l00117"></a>00117                 <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i...">S</a>.resize(n_cols);
+<a name="l00117"></a>00117                 <a class="code" href="classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596" title="A diagonal scaling matrix S such that SAS will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which SAS will be stored in place of A.">S</a>.resize(n_cols);
 <a name="l00118"></a>00118         }
 <a name="l00119"></a>00119         
 <a name="l00120"></a>00120         <span class="comment">//-----Reorderings/Rescalings------//</span>
@@ -162,7 +162,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00140"></a>00140         
 <a name="l00144"></a>00144         <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#af72f55f6880cef04205eb3df7018bce9" title="Given a permutation vector perm, A is permuted to P&#39;AP, where P is the permutation matrix associated ...">sym_perm</a>(vector&lt;int&gt;&amp; perm);
 <a name="l00145"></a>00145         
-<a name="l00150"></a>00150         <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51" title="The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S^(-1) * A * S^(-1) is s...">sym_equil</a>();
+<a name="l00150"></a>00150         <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51" title="The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A...">sym_equil</a>();
 <a name="l00151"></a>00151         
 <a name="l00152"></a>00152         <span class="comment">//----Factorizations----//</span>
 <a name="l00163"></a>00163 <span class="comment"></span>        <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a121e606e3fe15ae0257fd87bef7cf320" title="Performs an LDL&#39; factorization of this matrix.">ildl</a>(<a class="code" href="classlilc__matrix.html" title="A list-of-lists (LIL) matrix in column oriented format.">lilc_matrix&lt;el_type&gt;</a>&amp; L, <a class="code" href="classblock__diag__matrix.html" title="A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.">block_diag_matrix&lt;el_type&gt;</a>&amp; D, <a class="code" href="classlilc__matrix.html#a83c70482c28275881562ee3937b5f591">idx_vector_type</a>&amp; perm, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; fill_factor, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; tol);
@@ -264,7 +264,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 15 2012 01:57:29 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

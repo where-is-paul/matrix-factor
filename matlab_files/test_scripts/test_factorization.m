@@ -40,7 +40,7 @@ for i = 1:length(all_mats)
     [~, ~] = system(cmd);
 
     %A = mmread(file);
-    B = mmread(strcat(base, 'outA.mtx')); 
+    B = mmread(strcat(base, 'outB.mtx')); 
         
     S = mmread(strcat(base, 'outS.mtx'));
     l = mmread(strcat(base, 'outL.mtx'));
@@ -57,7 +57,7 @@ for i = 1:length(all_mats)
     
     e = ones(size(B,1),1);
     %[y, flag, relres, iter, resvec] = ...
-        gmres(B,S*e,min(60,size(B,1)),1e-8,3,l*d, l');
+        gmres(B,S^(-1)*e,min(60,size(B,1)),1e-8,3,l*d, l');
     
     %semilogy(1:length(resvec), resvec, 'r-');
 

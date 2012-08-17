@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cassert>
 #include <iostream>
+#include <iterator>
 #include "swap_struct.h"
 
 /*! \brief A list-of-lists (LIL) matrix in column oriented format.
@@ -43,7 +44,7 @@ public:
 	
 	std::vector<int> first;	///<On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
 
-	block_diag_matrix<el_type> S; ///<A diagonal scaling matrix S such that S^(-1) * A * S^(-1) will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which S^(-1) * A * S^(-1) will be stored in A.
+	block_diag_matrix<el_type> S; ///<A diagonal scaling matrix S such that SAS will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which SAS will be stored in place of A.
 	
 public:
 	
@@ -143,7 +144,7 @@ public:
 	*/
 	void sym_perm(vector<int>& perm);
 	
-	/*!	\brief The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S^(-1) * A * S^(-1) is stored in A, where  S = diag (S[1],..., S[n]). 
+	/*!	\brief The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A, where S is a diagonal scaling matrix. 
 		
 		This algorithm is based on the one outlined in "Equilibration of Symmetric Matrices in the Max-Norm" by Bunch (1971).
 	*/
