@@ -60,7 +60,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	if (argc < 4 || argc > 7) {
+	if (argc < 4 || argc > 6) {
 		std::cout << "Too many or too few arguments." << std::endl
 		<< "Program usage: ./ldl_driver [lfil] [tol] [in.mtx] [-save] [-display]" << std::endl;
 		return 0;

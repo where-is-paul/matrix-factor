@@ -48,8 +48,8 @@ public:
 	};
 	
 	int m_n_size;///<Dimension of the matrix.
-	int nnz_count;///<Number of non-zeros in the matrix.
-	elt_vector_type main_diag;///<Stores off-diagonal elements of 2x2 pivots.
+	int nnz_count;///<Stores off-diagonal elements of 2x2 pivots.
+	elt_vector_type main_diag;///<Number of non-zeros in the matrix.
 	int_elt_map off_diag;///<Stores main diagonal elements.
 	
 	/*!	\brief Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.
