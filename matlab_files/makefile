@@ -29,7 +29,7 @@ clean:
 	$(RM) *.mex*
     
 test: 
-	matlab -nodesktop -nosplash -r test_main
+	matlab -nodesktop -nosplash -r test_mex
 
 debug: 
 	matlab -Dgdb
