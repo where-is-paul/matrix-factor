@@ -18,7 +18,7 @@ using namespace std;
 	
 *	\section quick_start Quick Start
 *
-*	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a Matlab interface with instructions provided \subpage matlab_mex "below".
+*	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
 
 	\subsection ldl_driver Using the package as a standalone program
 	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as two optional ones.
