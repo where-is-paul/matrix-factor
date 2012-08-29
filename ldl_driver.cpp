@@ -10,7 +10,7 @@ using namespace std;
 *	
 *	\section intro_sec Introduction
 *
-* 	\b matrix-factor is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form 
+* 	\b matrix-factor is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee (RCM) algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
 		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
@@ -40,23 +40,37 @@ using namespace std;
 	\param display A flag indicating whether the output matrices should be displayed to the command line. \c -y indicates yes, \c -n indicates no. The default flag is \c -n.
 	
 	\par Examples:
-	Using the parameters described above, the execution of the program may go something like this:	
+	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver test_matrices/testmat1.mtx 1.0 0.001 -y -y
+		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001 -y -y
+		
+		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
+		A is 35543 by 35543 with 77829 non-zeros.
+		The reordering took 0.108006 seconds.
+		The factorization took 0.101006 seconds.
+		L is 35543 by 35543 with 143512 non-zeros.
+		Saving matrices...
+		Save complete.
 	\endcode	
-	The code above factors the \c testmat1.mtx matrix (<c>lfil=1.0, tol=0.001</c>) from the \c test_matrices folder, displays the full factorization (L and D) to terminal, and saves the outputs. 
+	The code above factors the \c aug3dcqp.mtx matrix (<c>lfil=1.0, tol=0.001</c>) from the \c test_matrices folder, displays the full factorization (L and D) to terminal, and saves the outputs. The time it took to pre-order and equilibriate the matrix (0.108s) as well as the actual factorization (0.101s) are also given.
 	
 	\par
 	The program may also run without the last two arguments:	
 	\code
-		./ldl_driver test_matrices/testmat1.mtx 1.0 0.001
+		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001
+		
+		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
+		A is 35543 by ...
 	\endcode
 	This code uses the default flags <c>-y -n</c> for the last two arguments, resulting in the outputs being saved, but not displayed to the terminal.
 	
 	\par
 	Finally, we may use all optional arguments:
 	\code
-		./ldl_driver test_matrices/testmat1.mtx
+		./ldl_driver test_matrices/aug3dcqp.mtx
+		
+		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
+		A is 35543 by ...
 	\endcode
 	The code above would use the default arguments <c>1.0 0.001 -y -n</c>.
 	
@@ -71,26 +85,38 @@ using namespace std;
 	\param tol A parameter to control agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
 	As with the standalone executable, the function has five outputs: <c>L, D, p, S,</c> and \c B:
-	\param L Unit lower triangular factor of \f$\mathbf{P^{T}SASP}\f$.
-	\param D Block diagonal factor (consisting of 1x1 and 2x2 blocks) of \f$\mathbf{P^{T}SASP}\f$.
-	\param p Permutation vector containing permutations done to \f$\mathbf{A}\f$.
-	\param S Diagonal scaling matrix that equilibrations \f$\mathbf{A}\f$ in the max-norm.
-	\param B Permuted and scaled matrix \f$\mathbf{B=P^{T}SASP}\f$ after factorization.
+	\return \b L Unit lower triangular factor of \f$\mathbf{P^{T}SASP}\f$.
+	\return \b D Block diagonal factor (consisting of 1x1 and 2x2 blocks) of \f$\mathbf{P^{T}SASP}\f$.
+	\return \b p Permutation vector containing permutations done to \f$\mathbf{A}\f$.
+	\return \b S Diagonal scaling matrix that equilibrations \f$\mathbf{A}\f$ in the max-norm.
+	\return \b B Permuted and scaled matrix \f$\mathbf{B=P^{T}SASP}\f$ after factorization.
 *
 *	\par Examples:
 	Before we begin, let's first generate some symmetric indefinite matrices:
 	\code
-		>> B = gallery('uniformdata',10,0);
-		>> A = [eye(10) B; B' zeros(10)];
+		>> B = sparse(gallery('uniformdata',10,0));
+		>> A = [speye(10) B; B' sparse(10, 10)];
 	\endcode
-	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arises often in optimzation problems.
+	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arises often in optimzation problems. Note that A must be a Matlab \b sparse matrix.
 	
+	\par
 	To factor the matrix, we supply \c ildl with the parameters described above:
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
-		>> 
+		The reordering took 0.000109 seconds.
+		The factorization took 0.000456 seconds.
+		L is 20 by 20 with 165 non-zeros.
 	\endcode
+	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibriate and preorder the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
 	
+	\par
+	We may also take advantage of the optional parameters and simply feed \c ildl only one parameter:
+	\code
+		>> [L, D, p, S, B] = ildl(A);
+		The reordering took 0.000109 seconds.
+		The factorization took 0.000456 seconds.
+		L is 20 by 20 with 165 non-zeros.
+	\endcode
 
 *
 *

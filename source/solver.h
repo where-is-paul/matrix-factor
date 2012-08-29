@@ -24,7 +24,7 @@ bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
 
 	for(int i = 0; i < (int) vec.size(); i++)
-	out << i+1 << " " << i+1 << " " << vec[i]+1 << "\n";
+	out << i+1 << " " << 1 << " " << vec[i]+1 << "\n";
 	
 	out.close();
 	return true;
@@ -72,14 +72,14 @@ class solver
 			gettimeofday(&tim, NULL);  
 			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The reordering took %.6lf seconds.\n", t1-t0);
+			printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
 			A.ildl(L, D, perm, fill_factor, tol);
 			
 			gettimeofday(&tim, NULL);  
 			double t2=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The factorization took %.6lf seconds.\n", t2-t1);
+			printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		
@@ -94,6 +94,7 @@ class solver
 			save_perm(perm, "output_matrices/outP.mtx");
 			L.save("output_matrices/outL.mtx", false);
 			D.save("output_matrices/outD.mtx");
+			cout << "Save complete." << endl;
 		}
 		
 		/*! \brief Prints the L and D factors to stdout.
