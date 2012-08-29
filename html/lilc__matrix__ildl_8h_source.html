@@ -74,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00012"></a>00012 
 <a name="l00013"></a>00013         <span class="comment">//----------------- initialize temporary variables --------------------//</span>
 <a name="l00014"></a>00014         <span class="keywordtype">int</span> lfil = 2*fill_factor*nnz()/n_cols(); <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span>
-<a name="l00015"></a>00015         <span class="keyword">const</span> el_type alpha = (1+sqrt(17))/8;  <span class="comment">//for use in pivoting.</span>
+<a name="l00015"></a>00015         <span class="keyword">const</span> el_type alpha = (1.0+sqrt(17.0))/8.0;  <span class="comment">//for use in pivoting.</span>
 <a name="l00016"></a>00016         el_type w1, wr, d1, dr(-1);
 <a name="l00017"></a>00017         el_type det_D, D_inv11, D_inv22, D_inv12;
 <a name="l00018"></a>00018         el_type l_11, l_12;
@@ -481,7 +481,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 28 2012 23:54:04 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

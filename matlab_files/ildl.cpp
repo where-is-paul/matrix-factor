@@ -8,7 +8,7 @@ using namespace std;
 void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
     // validate number of inputs and outputs
     // validate number of inputs and outputs
-    if (nrhs < 3)
+    if (nrhs < 1)
         mexErrMsgTxt("Not enough input arguments.");
     if (nrhs > 3)
         mexErrMsgTxt("Too many input arguments.");
@@ -19,11 +19,16 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	
     // set up raw variables
     const mxArray* raw_csc = prhs[0];
-	const mxArray* raw_fill_fact = prhs[1];
-    const mxArray* raw_tol = prhs[2];
 	
-	double fill_factor = m.parse_double(raw_fill_fact);
-	double tol = m.parse_double(raw_tol);
+	double fill_factor = 1.0, tol = 0.001;
+	if (nrhs > 1) {
+		const mxArray* raw_fill_fact = prhs[1];
+		fill_factor = m.parse_double(raw_fill_fact);
+	}
+	if (nrhs > 2) {
+		const mxArray* raw_tol = prhs[2];
+		tol = m.parse_double(raw_tol);
+	}
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))
         mexErrMsgTxt("matrix must be square.");

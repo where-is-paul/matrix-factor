@@ -108,19 +108,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00049"></a>00049         
 <a name="l00050"></a>00050         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>;
 <a name="l00051"></a><a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9">00051</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>;
-<a name="l00052"></a><a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">00052</a>         <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>;
-<a name="l00053"></a><a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">00053</a>         <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>;
+<a name="l00052"></a><a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32">00052</a>         <a class="code" href="classblock__diag__matrix.html#ab9eac6089c211c3332e3e3acc2c5dd89">elt_vector_type</a> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores main diagonal elements.">main_diag</a>;
+<a name="l00053"></a><a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3">00053</a>         <a class="code" href="classblock__diag__matrix.html#a83f8d88c5e6d2bdaee582cad484cc793">int_elt_map</a> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>;
 <a name="l00054"></a>00054         
 <a name="l00057"></a><a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b">00057</a>         <a class="code" href="classblock__diag__matrix.html#a1591d461af4469b500f856745ed2d05b" title="Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.">block_diag_matrix</a> (<span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> = 0, <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a> = 0) : <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a>(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>)
 <a name="l00058"></a>00058         {
 <a name="l00059"></a>00059                 assert(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a> == <a class="code" href="classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7">n_cols</a>);
 <a name="l00060"></a>00060                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = <a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>;
-<a name="l00061"></a>00061                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
+<a name="l00061"></a>00061                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores main diagonal elements.">main_diag</a>.resize(<a class="code" href="classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18">n_rows</a>);
 <a name="l00062"></a>00062         }
 <a name="l00063"></a>00063         
 <a name="l00066"></a><a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905">00066</a>         <span class="keywordtype">void</span> <a class="code" href="classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix.">resize</a>(<span class="keywordtype">int</span> n) {
 <a name="l00067"></a>00067                 <a class="code" href="classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4" title="Dimension of the matrix.">m_n_size</a> = n;
-<a name="l00068"></a>00068                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.resize(n);
+<a name="l00068"></a>00068                 <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores main diagonal elements.">main_diag</a>.resize(n);
 <a name="l00069"></a>00069                 <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a> = n;
 <a name="l00070"></a>00070         }
 <a name="l00071"></a>00071         
@@ -140,22 +140,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00088"></a>00088         };
 <a name="l00089"></a>00089         
 <a name="l00093"></a><a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">00093</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#a82f0f2e27c91802823c80b1c8007df4d">operator[]</a>(<span class="keywordtype">int</span> i) {
-<a name="l00094"></a>00094                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores off-diagonal elements of 2x2 pivots.">main_diag</a>.at(i);
+<a name="l00094"></a>00094                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32" title="Stores main diagonal elements.">main_diag</a>.at(i);
 <a name="l00095"></a>00095         }
 <a name="l00096"></a>00096         
 <a name="l00100"></a><a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">00100</a>         el_type&amp; <a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(<span class="keywordtype">int</span> i) {
-<a name="l00101"></a>00101                 <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
-<a name="l00102"></a>00102                         <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.insert(std::make_pair(i, 0));
+<a name="l00101"></a>00101                 <span class="keywordflow">if</span> (!<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>.count(i)) {
+<a name="l00102"></a>00102                         <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>.insert(std::make_pair(i, 0));
 <a name="l00103"></a>00103                         <a class="code" href="classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9" title="Number of non-zeros in the matrix.">nnz_count</a>++;
 <a name="l00104"></a>00104                 }
 <a name="l00105"></a>00105                 
-<a name="l00106"></a>00106                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.at(i);
+<a name="l00106"></a>00106                 <span class="keywordflow">return</span> <a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>.at(i);
 <a name="l00107"></a>00107         }
 <a name="l00108"></a>00108         
 <a name="l00114"></a><a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">00114</a>         <span class="keywordtype">int</span> <a class="code" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2">block_size</a>(<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{
-<a name="l00115"></a>00115                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i)) {
+<a name="l00115"></a>00115                 <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>.count(i)) {
 <a name="l00116"></a>00116                         <span class="keywordflow">return</span> 2;
-<a name="l00117"></a>00117                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores main diagonal elements.">off_diag</a>.count(i-1)) {
+<a name="l00117"></a>00117                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3" title="Stores off-diagonal elements of 2x2 pivots.">off_diag</a>.count(i-1)) {
 <a name="l00118"></a>00118                         <span class="keywordflow">return</span> -2;
 <a name="l00119"></a>00119                 } <span class="keywordflow">else</span> {
 <a name="l00120"></a>00120                         <span class="keywordflow">return</span> 1;
@@ -164,7 +164,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00123"></a>00123         
 <a name="l00126"></a>00126         std::string <a class="code" href="classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc">to_string</a> () <span class="keyword">const</span>;
 <a name="l00127"></a>00127         
-<a name="l00131"></a>00131         <span class="keywordtype">bool</span> <a class="code" href="classblock__diag__matrix.html#a6c87f8280018f75061fcf0cc3461d62d">save</a>(std::string filename);
+<a name="l00131"></a>00131         <span class="keywordtype">bool</span> <a class="code" href="classblock__diag__matrix.html#aa6b66605d7e4af701ec12effaa1f0637">save</a>(std::string filename) <span class="keyword">const</span>;
 <a name="l00132"></a>00132         
 <a name="l00135"></a><a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818">00135</a>         <a class="code" href="classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818" title="Generic class destructor.">~block_diag_matrix</a>()
 <a name="l00136"></a>00136         {
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 28 2012 23:54:04 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

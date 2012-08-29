@@ -80,12 +80,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00027"></a>00027         <span class="comment">//------------- row-row swap (1) for A -------------//</span>
 <a name="l00028"></a>00028         
 <a name="l00029"></a>00029         <span class="comment">//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r</span>
-<a name="l00030"></a>00030         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = list[k].begin(), end = list[k].begin() + first[k]; it != end; ++it) {
+<a name="l00030"></a>00030         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = list[k].begin(); it != list[k].begin() + first[k]; ++it) {
 <a name="l00031"></a>00031                 s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(*it);
 <a name="l00032"></a>00032         }
 <a name="l00033"></a>00033         
 <a name="l00034"></a>00034         <span class="comment">//pushes column indices (which contain non-zero elements) of A(r, 1:k) onto row_k</span>
-<a name="l00035"></a>00035         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = list[r].begin(), end = list[r].begin() + first[r]; it != end; ++it) {
+<a name="l00035"></a>00035         <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = list[r].begin(); it != list[r].begin() + first[r]; ++it) {
 <a name="l00036"></a>00036                 s.<a class="code" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9" title="Column indices of non-zeros in the new row k.">row_k</a>.push_back(*it);
 <a name="l00037"></a>00037         }
 <a name="l00038"></a>00038         
@@ -310,7 +310,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:07 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 28 2012 23:54:04 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

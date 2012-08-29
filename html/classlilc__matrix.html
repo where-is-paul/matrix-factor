@@ -747,7 +747,7 @@ template&lt;class el_type &gt; </div>
 
         <span class="comment">//----------------- initialize temporary variables --------------------//</span>
         <span class="keywordtype">int</span> lfil = 2*fill_factor*<a class="code" href="classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199">nnz</a>()/<a class="code" href="classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d">n_cols</a>(); <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span>
-        <span class="keyword">const</span> el_type alpha = (1+sqrt(17))/8;  <span class="comment">//for use in pivoting.</span>
+        <span class="keyword">const</span> el_type alpha = (1.0+sqrt(17.0))/8.0;  <span class="comment">//for use in pivoting.</span>
         el_type w1, wr, d1, dr(-1);
         el_type det_D, D_inv11, D_inv22, D_inv12;
         el_type l_11, l_12;
@@ -1327,12 +1327,12 @@ template&lt;class el_type&gt; </div>
         <span class="comment">//------------- row-row swap (1) for A -------------//</span>
         
         <span class="comment">//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r</span>
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(), end = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]; it != end; ++it) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[k].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[k]; ++it) {
                 s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(*it);
         }
         
         <span class="comment">//pushes column indices (which contain non-zero elements) of A(r, 1:k) onto row_k</span>
-        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(), end = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]; it != end; ++it) {
+        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin(); it != <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[r].begin() + <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[r]; ++it) {
                 s.<a class="code" href="classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9" title="Column indices of non-zeros in the new row k.">row_k</a>.push_back(*it);
         }
         
@@ -2003,7 +2003,7 @@ template&lt;class el_type&gt; </div>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Thu Aug 16 2012 01:29:08 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 28 2012 23:54:05 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
