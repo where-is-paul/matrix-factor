@@ -64,7 +64,7 @@ Introduction</h2>
 <p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_2.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_3.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_4.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_5.png"/> are the unit lower triangular and diagonal factors respectively.</p>
 <h2><a class="anchor" id="quick_start"></a>
 Quick Start</h2>
-<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>gcc</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a Matlab interface with instructions provided <a class="el" href="index.html#matlab_mex">below</a>.</p>
+<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>gcc</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a <a class="el" href="index.html#matlab_mex">Matlab interface</a>.</p>
 <h3><a class="anchor" id="ldl_driver"></a>
 Using the package as a standalone program</h3>
 <p>The compiled program <code>ldl_driver</code> takes in (through the command line) three parameters as well as two optional ones.</p>
@@ -125,7 +125,7 @@ Using the package within Matlab</h3>
 <b>B</b> Permuted and scaled matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/> after factorization.</dd></dl>
 <dl class="user"><dt><b>Examples:</b></dt><dd>Before we begin, let's first generate some symmetric indefinite matrices: <div class="fragment"><pre class="fragment">                &gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,10,0));
                 &gt;&gt; A = [speye(10) B; B&#39; sparse(10, 10)];
-</pre></div> The <code>A</code> generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arises often in optimzation problems. Note that A must be a Matlab <b>sparse</b> matrix.</dd></dl>
+</pre></div> The <code>A</code> generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab <b>sparse</b> matrix.</dd></dl>
 <dl class="user"><dt><b></b></dt><dd>To factor the matrix, we supply <code>ildl</code> with the parameters described above: <div class="fragment"><pre class="fragment">                &gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);
                 The reordering took 0.000109 seconds.
                 The factorization took 0.000456 seconds.
@@ -159,7 +159,7 @@ References</h2>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 29 2012 11:59:03 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 29 2012 12:17:01 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

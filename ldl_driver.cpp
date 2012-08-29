@@ -97,7 +97,7 @@ using namespace std;
 		>> B = sparse(gallery('uniformdata',10,0));
 		>> A = [speye(10) B; B' sparse(10, 10)];
 	\endcode
-	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arises often in optimzation problems. Note that A must be a Matlab \b sparse matrix.
+	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab \b sparse matrix.
 	
 	\par
 	To factor the matrix, we supply \c ildl with the parameters described above:
