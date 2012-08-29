@@ -48,9 +48,9 @@ public:
 	};
 	
 	int m_n_size;///<Dimension of the matrix.
-	int nnz_count;///<Stores off-diagonal elements of 2x2 pivots.
-	elt_vector_type main_diag;///<Number of non-zeros in the matrix.
-	int_elt_map off_diag;///<Stores main diagonal elements.
+	int nnz_count;///<Number of non-zeros in the matrix.
+	elt_vector_type main_diag;///<Stores main diagonal elements.
+	int_elt_map off_diag;///<Stores off-diagonal elements of 2x2 pivots.
 	
 	/*!	\brief Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.
 	*/
@@ -128,7 +128,7 @@ public:
 	/*! \param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
 		\return True if the save succeeded, false otherwise.
 	*/
-	bool save(std::string filename);
+	bool save(std::string filename) const;
 	
 	/*! \brief Generic class destructor.
 	*/

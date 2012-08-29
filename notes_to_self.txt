@@ -30,3 +30,11 @@ Iterate through Alist[i], set m_row_idx[each elem of Alist[i]] = j
 Iterate through Alist[j], set m_row_idx[each elem of Alist[j]] = i
 
 Then: swap(Alist[i], Alist[j]);
+
+========================================================
+
+help ildl <------ put mex documentation (order of arguments, order of outputs, emulate matlab help files, setup script).
+include matlab help
+default arguments (lfil = 1.0, tol = 0.001)
+
+full references.
