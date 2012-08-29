@@ -6,7 +6,7 @@ typedef pair<mwSize, double> idx_val_pair;
 
 void load_index_value_pairs(vector<idx_val_pair>& v12, vector<int>& v1, vector<double>& v2) {
 	v12.clear();
-	for (int i = 0; i < v1.size(); i++) {
+	for (int i = 0; i < (int) v1.size(); i++) {
 		v12.push_back(make_pair(v1[i], v2[i]));
 	}
 }
@@ -103,7 +103,7 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 					m_x[count] = temp_col[j].second;
 					count++;
 					
-					if (i != temp_col[j].first)
+					if (i != (int) temp_col[j].first)
 					elems[ temp_col[j].first ].push( 
 						make_pair(i, temp_col[j].second)
 					);
