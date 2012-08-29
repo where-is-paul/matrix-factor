@@ -91,7 +91,7 @@ class solver
 			cout << "Saving matrices..." << endl;
 			A.save("output_matrices/outB.mtx", true);
 			A.S.save("output_matrices/outS.mtx");
-			save_perm(perm, "output_matrices/outPerm.mtx");
+			save_perm(perm, "output_matrices/outP.mtx");
 			L.save("output_matrices/outL.mtx", false);
 			D.save("output_matrices/outD.mtx");
 		}

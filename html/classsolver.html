@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">matrix-factor&#160;<span id="projectnumber">1.0</span></div>
-   <div id="projectbrief">Incomplete LDL' factorizations of symmetric matrices.</div>
+   <div id="projectbrief">Incomplete LDL' factorizations of indefinite symmetric matrices.</div>
   </td>
  </tr>
  </tbody>
@@ -185,7 +185,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
                         cout &lt;&lt; <span class="stringliteral">&quot;Saving matrices...&quot;</span> &lt;&lt; endl;
                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.save(<span class="stringliteral">&quot;output_matrices/outB.mtx&quot;</span>, <span class="keyword">true</span>);
                         <a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf" title="The matrix to be factored.">A</a>.S.save(<span class="stringliteral">&quot;output_matrices/outS.mtx&quot;</span>);
-                        <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, <span class="stringliteral">&quot;output_matrices/outPerm.mtx&quot;</span>);
+                        <a class="code" href="solver_8h.html#a3e21c3a673d27eeb1bf0fdbdf91ad8f1" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.">save_perm</a>(<a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892" title="A permutation vector containing all permutations on A.">perm</a>, <span class="stringliteral">&quot;output_matrices/outP.mtx&quot;</span>);
                         <a class="code" href="classsolver.html#aefb194babf72ece8f73913e863676ead" title="The lower triangular factor of A.">L</a>.save(<span class="stringliteral">&quot;output_matrices/outL.mtx&quot;</span>, <span class="keyword">false</span>);
                         <a class="code" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344" title="The diagonal factor of A.">D</a>.save(<span class="stringliteral">&quot;output_matrices/outD.mtx&quot;</span>);
                 }
@@ -351,7 +351,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Aug 28 2012 23:54:05 for matrix-factor by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Aug 29 2012 02:59:55 for matrix-factor by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
