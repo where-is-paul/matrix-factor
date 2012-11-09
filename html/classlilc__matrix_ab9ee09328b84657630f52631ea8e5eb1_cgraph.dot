@@ -1,9 +1,0 @@
-digraph G
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="lilc_matrix::advance_list",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
-  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="lilc_matrix::ensure_invariant",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa",tooltip="Ensures two the invariants observed by A.first and A.list are held."];
-}

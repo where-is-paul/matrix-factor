@@ -186,7 +186,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00124"></a>00124                 v[curr_nnzs[i]] = 0;
 <a name="l00125"></a>00125         }
 <a name="l00126"></a>00126         
-<a name="l00127"></a>00127         <span class="keyword">auto</span> is_zero = [eps, &amp;v](<span class="keywordtype">int</span> i) -&gt; <span class="keywordtype">bool</span> { <span class="keywordflow">return</span> v[i] &lt; eps; };
+<a name="l00127"></a>00127         <span class="keyword">auto</span> is_zero = [eps, &amp;v](<span class="keywordtype">int</span> i) -&gt; <span class="keywordtype">bool</span> { <span class="keywordflow">return</span> abs(v[i]) &lt; eps; };
 <a name="l00128"></a>00128         curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 <a name="l00129"></a>00129         curr_nnzs.resize( std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()) );
 <a name="l00130"></a>00130         <span class="comment">//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.</span>
@@ -269,7 +269,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 9 2012 14:11:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 9 2012 15:25:47 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

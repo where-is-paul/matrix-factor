@@ -204,7 +204,7 @@ template&lt;class el_type &gt; </div>
                 v[curr_nnzs[i]] = 0;
         }
         
-        <span class="keyword">auto</span> is_zero = [eps, &amp;v](<span class="keywordtype">int</span> i) -&gt; <span class="keywordtype">bool</span> { <span class="keywordflow">return</span> v[i] &lt; eps; };
+        <span class="keyword">auto</span> is_zero = [eps, &amp;v](<span class="keywordtype">int</span> i) -&gt; <span class="keywordtype">bool</span> { <span class="keywordflow">return</span> abs(v[i]) &lt; eps; };
         curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
         curr_nnzs.resize( std::min(lfil, (<span class="keywordtype">int</span>) curr_nnzs.size()) );
         <span class="comment">//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.</span>
@@ -592,7 +592,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_accfed69ecad20bf75eec5608723b301d_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_accfed69ecad20bf75eec5608723b301d_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_accfed69ecad20bf75eec5608723b301d_cgraph" id="lilc__matrix__ildl__helpers_8h_accfed69ecad20bf75eec5608723b301d_cgraph">
-</map>
+<area shape="rect" id="node3" href="classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="169,5,290,32"/><area shape="rect" id="node5" href="lilc__matrix__ildl__helpers_8h.html#a7a50201b361cb22dbd3cebe78ec44660" title="update_single" alt="" coords="173,56,285,83"/><area shape="rect" id="node11" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="124,107,335,133"/><area shape="rect" id="node13" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,157,339,184"/><area shape="rect" id="node7" href="classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="387,31,586,57"/><area shape="rect" id="node9" href="lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="394,81,579,108"/></map>
 </div>
 </p>
 
@@ -679,7 +679,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_a7a50201b361cb22dbd3cebe78ec44660_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_a7a50201b361cb22dbd3cebe78ec44660_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_a7a50201b361cb22dbd3cebe78ec44660_cgraph" id="lilc__matrix__ildl__helpers_8h_a7a50201b361cb22dbd3cebe78ec44660_cgraph">
-</map>
+<area shape="rect" id="node3" href="classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="166,5,365,32"/><area shape="rect" id="node5" href="lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="173,56,358,83"/></map>
 </div>
 </p>
 
@@ -736,7 +736,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="lilc__matrix__ildl__helpers_8h_a8766159117b1c4faeed5210410bc3c8f_cgraph.png" border="0" usemap="#lilc__matrix__ildl__helpers_8h_a8766159117b1c4faeed5210410bc3c8f_cgraph" alt=""/></div>
 <map name="lilc__matrix__ildl__helpers_8h_a8766159117b1c4faeed5210410bc3c8f_cgraph" id="lilc__matrix__ildl__helpers_8h_a8766159117b1c4faeed5210410bc3c8f_cgraph">
-</map>
+<area shape="rect" id="node3" href="lilc__matrix__ildl__helpers_8h.html#afd9e3032b3bc01ce10279a5fb73c2554" title="Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list..." alt="" coords="134,5,245,32"/></map>
 </div>
 </p>
 
@@ -746,7 +746,7 @@ Here is the call graph for this function:</div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 9 2012 14:11:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 9 2012 15:25:48 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

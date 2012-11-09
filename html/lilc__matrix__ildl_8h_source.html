@@ -438,12 +438,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00343"></a>00343                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 <a name="l00344"></a>00344                         work[*it] = 0;
 <a name="l00345"></a>00345                 }
-<a name="l00346"></a>00346                 curr_nnzs.clear();
+<a name="l00346"></a>00346                 curr_nnzs.clear(); <span class="comment">//zero out work vector</span>
 <a name="l00347"></a>00347                 
 <a name="l00348"></a>00348                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 <a name="l00349"></a>00349                         temp[*it] = 0;
 <a name="l00350"></a>00350                 }
-<a name="l00351"></a>00351                 temp_nnzs.clear();
+<a name="l00351"></a>00351                 temp_nnzs.clear(); <span class="comment">//zero out work vector</span>
 <a name="l00352"></a>00352                 
 <a name="l00353"></a>00353                 <span class="comment">//-------------------------------------------------------------------//</span>
 <a name="l00354"></a>00354                 
@@ -498,7 +498,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 9 2012 14:11:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 9 2012 15:25:47 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

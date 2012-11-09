@@ -1095,12 +1095,12 @@ template&lt;class el_type &gt; </div>
                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
                         work[*it] = 0;
                 }
-                curr_nnzs.clear();
+                curr_nnzs.clear(); <span class="comment">//zero out work vector</span>
                 
                 <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
                         temp[*it] = 0;
                 }
-                temp_nnzs.clear();
+                temp_nnzs.clear(); <span class="comment">//zero out work vector</span>
                 
                 <span class="comment">//-------------------------------------------------------------------//</span>
                 
@@ -1417,7 +1417,6 @@ template&lt;class el_type &gt; </div>
                         <span class="keywordflow">for</span> (i = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[*it]; i &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].size(); i++) {
                                 <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it][i] == r) {
                                         s.<a class="code" href="classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9" title="List of indices from row r that will be swapped to row k.">swapk</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[*it].begin() + i);
-                                        s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.push_back(*it);
                                         <span class="keywordflow">break</span>;
                                 }
                         }
@@ -1441,9 +1440,11 @@ template&lt;class el_type &gt; </div>
                                 
                                 <span class="comment">//we also have to ensure that list is updated by popping off old entries</span>
                                 <span class="comment">//that were meant for the A(i, k)&#39;s before they were swapped.</span>
-                                <a class="code" href="classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(idx, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx], <span class="keyword">true</span>);
-                                std::swap(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx]], <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size() - 1]);
-                                <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].pop_back();
+                                <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx] &lt; (<span class="keywordtype">int</span>) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size()) {
+                                        <a class="code" href="classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held.">ensure_invariant</a>(idx, k, <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx], <span class="keyword">true</span>);
+                                        std::swap(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx]], <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size() - 1]);
+                                        <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].pop_back();
+                                }
                                 
                                 <span class="comment">//push back new elements on row_r</span>
                                 s.<a class="code" href="classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427" title="Column indices of non-zeros in the new row r.">row_r</a>.push_back(idx);
@@ -1459,7 +1460,6 @@ template&lt;class el_type &gt; </div>
                                 <span class="keywordflow">for</span> (j = <a class="code" href="classlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3" title="On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i...">first</a>[idx]; j &lt; (int) <a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].size(); j++) {
                                         <span class="keywordflow">if</span> (<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx][j] == k) {
                                                 s.<a class="code" href="classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9" title="List of indices from row k that will be swapped to row r.">swapr</a>.push_back(<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81" title="A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...">list</a>[idx].begin() + j);
-                                                s.<a class="code" href="classswap__struct.html#af5461fcf0c0808ef0ef5ac9c6e212839" title="Column indices of all swaps done in swapk and swapr.">all_swaps</a>.push_back(idx);
                                                 <span class="keywordflow">break</span>;
                                         }
                                 }
@@ -1670,7 +1670,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288_cgraph.png" border="0" usemap="#classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288_cgraph" alt=""/></div>
 <map name="classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288_cgraph" id="classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288_cgraph">
-</map>
+<area shape="rect" id="node3" href="lilc__matrix__save_8h.html#abea199c89e226136ca0039f1dfcd133f" title="put_header" alt="" coords="177,5,271,32"/></map>
 </div>
 </p>
 
@@ -1988,7 +1988,7 @@ template&lt;class el_type&gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 9 2012 14:11:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 9 2012 15:25:48 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>
