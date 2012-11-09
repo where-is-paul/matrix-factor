@@ -11,7 +11,6 @@ OUTPUT := $(shell find ./output_matrices -name out*.mtx)
  
 SRCEXT := cpp
 SOURCES := ./ldl_driver.cpp
-ALL := $(shell find $(SRCDIR) -name "*.h" -or -name "*.cpp")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
 	
@@ -28,7 +27,7 @@ clean:
 	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET) $(TARBALL) $(OUTPUT); 
 
 tar:
-	tar cfv matrix_factor.tar $(ALL)
+	tar cfv matrix_factor.tar ldl_driver.cpp source
 
 test:
 	@cd matlab_files; make --no-print-directory test

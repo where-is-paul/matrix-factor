@@ -11,13 +11,16 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 {
 
 	//----------------- initialize temporary variables --------------------//
-	int lfil = 2*fill_factor*nnz()/n_cols(); //roughly a factor of 2 since only lower tri. of A is stored
-	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
-	el_type w1, wr, d1, dr(-1);
-	el_type det_D, D_inv11, D_inv22, D_inv12;
-	el_type l_11, l_12;
-
 	const int ncols = n_cols(); //number of cols in A.
+	
+	int lfil;
+	if (fill_factor > 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
+	else lfil = 2*fill_factor*nnz()/ncols; //roughly a factor of 2 since only lower tri. of A is stored
+	
+	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
+	el_type w1(-1), wr(-1), d1(-1), dr(-1);		//for use in bk-pivoting
+	el_type det_D, D_inv11, D_inv22, D_inv12;	//for use in 2x2 pivots
+	el_type l_11, l_12;							//for use in 2x2 pivots
 
 	vector<bool> in_set(ncols, false); //bitset used for unsorted merges
 	swap_struct<el_type> s;	//struct containing temp vars used in pivoting.
@@ -34,7 +37,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	L.resize(ncols, ncols); //allocate a vector of size n for Llist as well
 	D.resize(ncols );
 	
-
+	//remember to remove debug before release
 	int debug = -1;
 	
 	//------------------- main loop: factoring begins -------------------------//
