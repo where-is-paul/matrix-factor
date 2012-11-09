@@ -1,0 +1,11 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="lilc_matrix::resize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lil_sparse_matrix::n_rows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lil_sparse_matrix::n_cols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d"];
+}

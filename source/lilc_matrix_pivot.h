@@ -104,7 +104,6 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 			for (i = first[*it]; i < (int) list[*it].size(); i++) {
 				if (list[*it][i] == r) {
 					s.swapk.push_back(list[*it].begin() + i);
-					s.all_swaps.push_back(*it);
 					break;
 				}
 			}
@@ -128,9 +127,11 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 				
 				//we also have to ensure that list is updated by popping off old entries
 				//that were meant for the A(i, k)'s before they were swapped.
-				ensure_invariant(idx, k, list[idx], true);
-				std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
-				list[idx].pop_back();
+				if (first[idx] < (int) list[idx].size()) {
+					ensure_invariant(idx, k, list[idx], true);
+					std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
+					list[idx].pop_back();
+				}
 				
 				//push back new elements on row_r
 				s.row_r.push_back(idx);
@@ -146,7 +147,6 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 				for (j = first[idx]; j < (int) list[idx].size(); j++) {
 					if (list[idx][j] == k) {
 						s.swapr.push_back(list[idx].begin() + j);
-						s.all_swaps.push_back(idx);
 						break;
 					}
 				}

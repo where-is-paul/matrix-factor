@@ -1,0 +1,40 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="lilc_matrix::ildl",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="lilc_matrix::resize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795",tooltip="Resizes the matrix. For use in preallocating space before factorization begins."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="lil_sparse_matrix::n_rows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0"];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="lil_sparse_matrix::n_cols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="block_diag_matrix::resize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905",tooltip="Resizes this matrix to an n*n matrix."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#accfed69ecad20bf75eec5608723b301d",tooltip="Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of..."];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="lilc_matrix::coeff",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753",tooltip="Finds the (i,j)th coefficient of the matrix."];
+  Node6 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="update_single",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#a7a50201b361cb22dbd3cebe78ec44660"];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="lilc_matrix::ensure_invariant",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa",tooltip="Ensures two the invariants observed by A.first and A.list are held."];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="unordered_inplace_union",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567",tooltip="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..."];
+  Node6 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="block_diag_matrix::block_size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2"];
+  Node6 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="block_diag_matrix::off_diagonal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3"];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="max",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#afba5a3503278732c2dedf068c9e33e9c",tooltip="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index."];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="safe_swap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954"];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="lilc_matrix::advance_first",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303",tooltip="Updates A.first for iteration k."];
+  Node15 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="drop_tol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lilc__matrix__ildl__helpers_8h.html#a240623e344d8a61859211a5fdd881873",tooltip="Performs the dual-dropping criteria outlined in Li &amp; Saad (2005)."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

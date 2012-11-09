@@ -343,12 +343,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 			work[*it] = 0;
 		}
-		curr_nnzs.clear();
+		curr_nnzs.clear(); //zero out work vector
 		
 		for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 			temp[*it] = 0;
 		}
-		temp_nnzs.clear();
+		temp_nnzs.clear(); //zero out work vector
 		
 		//-------------------------------------------------------------------//
 		

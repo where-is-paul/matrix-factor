@@ -124,7 +124,7 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 		v[curr_nnzs[i]] = 0;
 	}
 	
-	auto is_zero = [eps, &v](int i) -> bool { return v[i] < eps; };
+	auto is_zero = [eps, &v](int i) -> bool { return abs(v[i]) < eps; };
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.
