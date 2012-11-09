@@ -4,24 +4,12 @@ FILES = utils.cpp ../*.cpp ../*.h
 
 all : ildl.mex*
 
-MEX ?= mex
-MEXFLAGS ?=
-
-MEXFLAGS += 
-MEXFLAGS += -I../ 
-
-LBITS := $(shell getconf LONG_BIT)
-ifeq ($(LBITS),64)
-    MEXFLAGS += -largeArrayDims
-endif
-
-MEXEXTRA ?=
-
-MEXEXTRA += utils.cpp ../*.cpp
-MEXEXTRA += CXXFLAGS="\$$CXXFLAGS $(CXXFLAGS)" LDFLAGS="\$$LDFLAGS $(CXXFLAGS)"
+MEX ?= mex.bat
+MEXFLAGS =-largeArrayDims
+MEXEXTRA =ildl.cpp utils.cpp
 
 %.mex*: %.cpp
-	$(MEX) $(MEXFLAGS) $< $(MEXEXTRA)
+	$(MEX) $(MEXFLAGS) $(MEXEXTRA)
 
 ildl.mex* : ildl.cpp
     

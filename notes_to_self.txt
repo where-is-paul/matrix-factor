@@ -1,0 +1,51 @@
+g++ -O3 -funroll-loops -ftree-vectorize -Wall -std=c++0x -o ldl_driver ldl_driver.cpp;
+
+http://www.stanford.edu/~dgleich/notebook/2006/03/sorting_two_arrays_simultaneou.html
+
+In li, saad, chow, they perhaps meant to use:
+X = (L')^-1 E1  
+Y = E2 (U')^-1   *Apostrophes stand for tildes, not transposes.
+E1 = L - L'
+E2 = U - U'
+
+Possibly trying to replicate the derivation of Jones and Plassmann.
+
+Implementing pivoting:
+======================
+
+Idea 1:
+Keep an Afirst and Alist when reading in matrix.
+
+*Store all of A (just for ease of pivoting columns, but this is totally not needed. However, we may need to keep a third list which might just end up using the same storage as representing all of A anyway, so storing all o)
+
+Swapping columns: 
+since A is CSC, this is easy. Just keep an artificial column index (col_idx).
+col_idx[i] ---> [int, int) ---> gives the range of iteration in m_row_idx for column.
+To pivot a col, swap(col_idx[i], col_idx[j])
+
+Swapping rows:
+Also easy when we have Alist.
+First:
+Iterate through Alist[i], set m_row_idx[each elem of Alist[i]] = j
+Iterate through Alist[j], set m_row_idx[each elem of Alist[j]] = i
+
+Then: swap(Alist[i], Alist[j]);
+
+========================================================
+
+*help ildl <------ put mex documentation (order of arguments, order of outputs, emulate matlab help files, setup script).
+*include matlab help
+*default arguments (lfil = 1.0, tol = 0.001)
+
+*add more complete references
+*add default arguments (to both ldl_driver and solver)
+
+*full references.
+
+*add page for matlab usage
+*setup scripts
+
+*fix outP.mtx to be colvec
+add check for sparse matrix type to mex file.
+add docs to readme.md
+detail in and out parameters

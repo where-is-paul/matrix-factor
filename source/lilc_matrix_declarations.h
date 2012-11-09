@@ -2,7 +2,6 @@
 #ifndef _LILC_MATRIX_DECLARATIONS_H_
 #define _LILC_MATRIX_DECLARATIONS_H_
 
-#include "lil_sparse_matrix.h"
 #include <algorithm>
 #include <cmath>
 #include <cassert>
@@ -135,7 +134,7 @@ public:
 	/*!	\brief Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). 
 		
 		The implementation is based on the general algorithm outlined in A detailed description of this function as well as all its subfunctions can be found in "Computer Solution of Large Sparse Positive Definite Systems" by George and Liu (1981).
-		\param perm The original permutation of A (usually initialized with 0 ... n-1).
+		\param perm An empty permutation vector (filled on function completion).
 	*/
 	void sym_rcm(vector<int>& perm);
 	
@@ -178,7 +177,7 @@ public:
 		
 		\invariant
 		If this matrix is a lower triangular factor of another matrix:
-			-# On iteration k, first[i] will give the number of non-zero elements on col i of A before A(i, k).
+			-# On iteration k, first[i] will give the number of non-zero elements on col i of A before A(k, i).
 			-# On iteration k, list[i][ first[i] ] will contain the first element below or on index k of column i of A.
 		
 		\invariant
@@ -218,17 +217,9 @@ public:
 		\param k current iteration index.	
 	*/
 	inline void advance_first(const int& k) {
-		int offset;
 		for (auto it = list[k].begin(); it != list[k].end(); it++) {	
-			//ensure invariant (perhaps not needed here since the invariant is always ensured during pivoting).
-			offset = first[*it];
-
-			if (offset >= (int) m_idx[*it].size()) continue;
-			
-			ensure_invariant(*it, k, m_idx[*it]);
-			
-			if (m_idx[*it][offset] == k)
-				first[*it]++;
+			ensure_invariant(*it, k, m_idx[*it]); //make sure next element is good before we increment.
+			first[*it]++; //should have ensured invariant now
 		}
 	}
 	
@@ -236,18 +227,11 @@ public:
 		\param k current iteration index.	
 	*/
 	inline void advance_list(const int& k) {
-			int offset;
-			for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
-				offset = first[*it];
-
-				if (offset >= (int) list[*it].size()) continue;
-				
-				ensure_invariant(*it, k, list[*it], true);
-				
-				if (list[*it][offset] == k)
-					first[*it]++;
-			}
-					
+		for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
+			if (*it == k) continue;
+			ensure_invariant(*it, k, list[*it], true); //make sure next element is good.
+			first[*it]++; //invariant ensured.
+		}			
 	}
 	
 	//----IO Functions----//
@@ -255,6 +239,7 @@ public:
 	/*! \brief Returns a string representation of A, with each column and its corresponding indices & non-zero values printed.
 		\return A string representation of this matrix.
 	*/
+
 	std::string to_string () const;
 	
 	/*! \brief Loads a matrix in matrix market format.
@@ -266,7 +251,7 @@ public:
 		\param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
 		\param sym flags whether the matrix is symmetric or not.
 	*/
-	bool save(std::string filename, bool sym);
+	bool save(std::string filename, bool sym = false);
 
 };
 

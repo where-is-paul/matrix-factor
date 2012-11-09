@@ -13,7 +13,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 	for (i = 0; i < ncols; i++) {
 		//assumes diag elem is always in 0th pos. if possible.
 		if (!m_idx[i].empty() && m_idx[i][0] == i)
-		S[i] = sqrt(abs(m_x[i][0]));
+			S[i] = sqrt(abs(m_x[i][0]));
 		
 		//assumes indices are ordered. since this procedure is run
 		//before factorization pivots matrix, this is a fair assumption
@@ -22,7 +22,8 @@ void lilc_matrix<el_type> :: sym_equil() {
 			S[i] = std::max(S[i], abs(coeff(i, *it)));
 		}
 		
-		if (abs(S[i]) > eps) { 
+		//S[i] > 0 since its the square root of a +ve number
+		if (S[i] > eps) { 
 			for (auto it = list[i].begin(); it != list[i].end(); it++) {
 				coeffRef(i, *it, elem_its);
 				
@@ -31,7 +32,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 			}
 
 			if (!m_idx[i].empty() && (m_idx[i][0] == i) ) 
-			m_x[i][0] /= S[i];
+				m_x[i][0] /= S[i];
 			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				*it /= S[i];
 			}
@@ -39,12 +40,12 @@ void lilc_matrix<el_type> :: sym_equil() {
 	}
 	
 	for (i = 0; i < ncols; i++) {
-		if (abs(S[i]) < eps) {
+		if (S[i] < eps) {
 			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				S[i] = std::max(S[i], abs(*it));
 			}
 
-			if (abs(S[i]) < eps) {
+			if (S[i] < eps) {
 				std::cerr << "Error: Matrix has a null column/row." << std::endl;
 				return;
 			}

@@ -12,7 +12,7 @@ inline void put_header(std::string& header, bool sym = false)
 }
 
 template <class el_type>
-bool lilc_matrix<el_type> :: save(std::string filename, bool sym = false)
+bool lilc_matrix<el_type> :: save(std::string filename, bool sym)
 {
 	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
 	if(!out)

@@ -31,8 +31,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	bool size_two_piv = false;	//boolean indicating if the pivot is 2x2 or 1x1
 
 	//--------------- allocate memory for L and D ------------------//
-	L.resize(ncols, ncols);
-	L.list.resize(ncols ); //allocate a vector of size n for Llist.
+	L.resize(ncols, ncols); //allocate a vector of size n for Llist as well
 	D.resize(ncols );
 	
 
@@ -41,14 +40,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	//------------------- main loop: factoring begins -------------------------//
 	for (k = 0; k < ncols; k++) {
 
-		//zero out work vector
-		curr_nnzs.clear();
-
 		if (k == debug) { 
 			cout << "m_idx[k]: " << m_idx[k] << endl;
 			cout << "m_x[k]: " << m_x[k] << endl;
 		}
 		
+		//curr nnz vector starts out empty and is cleared at the end of each loop iteration.
 		//assign nonzeros indices of A(k:n, k) to curr_nnzs
 		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
 
@@ -94,9 +91,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				cout << "case 1" << endl;
 			}
 		} else {
-			//zero out temp vector.
-			temp_nnzs.clear();
-
+			//temp vector starts out empty and is cleared at the end of each loop iteration.
+			
 			offset = first[r];
 			//assign all nonzero indices and values in A(r, k:r) 
 			//( not including A(r,r) ) to temp and temp_nnzs
@@ -273,11 +269,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		
 		if (!size_two_piv) {
 			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
-			i = 0;
+			i = 1;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
 				if ( abs(work[*it]) > eps) {
-					L.m_idx[k][i+1] = *it; //col k nonzero indices of L are stored
-					L.m_x[k][i+1] = work[*it]/D[k]; //col k nonzero values of L are stored
+					L.m_idx[k][i] = *it; //col k nonzero indices of L are stored
+					L.m_x[k][i] = work[*it]/D[k]; //col k nonzero values of L are stored
 
 					L.list[*it].push_back(k); //update Llist
 					count++;
@@ -285,7 +281,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				}
 			}
 			
-			col_size = 1 + i;
+			col_size = i;
 			
 			//advance list and L.first
 			L.advance_first(k);
@@ -300,11 +296,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.m_idx[k+1][0] = k+1;
 			count++;
 
-			i = 0;
+			i = 1;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 				if ( abs(work[*it]) > eps) {
-					L.m_x[k][i+1] = work[*it]; //col k nonzero indices of L are stored
-					L.m_idx[k][i+1] = *it; //col k nonzero values of L are stored
+					L.m_x[k][i] = work[*it]; //col k nonzero indices of L are stored
+					L.m_idx[k][i] = *it; //col k nonzero values of L are stored
 					
 					L.list[*it].push_back(k); //update L.list
 					count++;
@@ -313,11 +309,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				
 			}
 			
-			j = 0;
+			j = 1;
 			for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 				if ( abs(temp[*it]) > eps) {
-					L.m_x[k+1][j+1] = temp[*it]; //col k+1 nonzero indices of L are stored
-					L.m_idx[k+1][j+1] = *it; //col k+1 nonzero values of L are stored
+					L.m_x[k+1][j] = temp[*it]; //col k+1 nonzero indices of L are stored
+					L.m_idx[k+1][j] = *it; //col k+1 nonzero values of L are stored
 					
 					L.list[*it].push_back(k+1); //update L.list
 					count++;
@@ -326,8 +322,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				
 			}
 
-			col_size = 1 + i;
-			col_size2 = 1 + j;
+			col_size = i;
+			col_size2 = j;
 
 			//update list and L.first
 			L.advance_first(k+1);

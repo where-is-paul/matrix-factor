@@ -68,7 +68,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 	
 	
-	//first[r] should have A(r, k:r)
+	//first[r] should have # of nnz of A(r, 0:k-1)
 	for (i = first[r]; i < (int) list[r].size(); i++) {
 		j = list[r][i];
 		if (coeffRef(r, j, its_k)) {
@@ -76,11 +76,11 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 				s.col_k_nnzs.push_back(r); //A(r, k) is fixed upon permutation so its index stays r
 				s.row_r.push_back(k);
 			} else {
-				s.col_k_nnzs.push_back(j); //place A(r, i) (where k < i < r) into A(i, k)
+				s.col_k_nnzs.push_back(j); //place A(r, j) (where k < j < r) into A(j, k)
 			}
 			s.col_k.push_back(*its_k.second);
 			
-			//delete A(r,i) from A.
+			//delete A(r,j) from A.
 			*its_k.first = m_idx[j].back();
 			*its_k.second = m_x[j].back();
 			
@@ -101,7 +101,6 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 		
 			//for each non-zero row index in the rth column, find a pointer to it in list
 			//these pointers will be used to perform column swaps on list
-			if (first[*it] < (int) list[*it].size())
 			for (i = first[*it]; i < (int) list[*it].size(); i++) {
 				if (list[*it][i] == r) {
 					s.swapk.push_back(list[*it].begin() + i);
@@ -115,7 +114,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	//swap A(k:r, k) with A(r, k:r)
 	if (m_idx[k].size() > 0) {
 		
-		//since we already too care of A(k,k), we need an offset of 1 if necessary
+		//since we already took care of A(k,k), we need an offset of 1 if necessary
 		offset = (m_idx[k][0] == k ? 1 : 0);
 		for (i = offset; i < (int) m_idx[k].size(); i++) {
 			idx = m_idx[k][i];
@@ -129,11 +128,9 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 				
 				//we also have to ensure that list is updated by popping off old entries
 				//that were meant for the A(i, k)'s before they were swapped.
-				if (first[idx] < (int) list[idx].size()) {
-					ensure_invariant(idx, k, list[idx], true);
-					std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
-					list[idx].pop_back();
-				}
+				ensure_invariant(idx, k, list[idx], true);
+				std::swap(list[idx][first[idx]], list[idx][list[idx].size() - 1]);
+				list[idx].pop_back();
 				
 				//push back new elements on row_r
 				s.row_r.push_back(idx);
@@ -165,16 +162,10 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 		**it = r;
 	}
 
-	//make sure invariant holds after all swaps.
-	for (auto it = s.all_swaps.begin(); it != s.all_swaps.end(); it++) {
-		ensure_invariant(*it, k, list[*it], true);
-	}
-
 	//add new entries for new col k into list
 	for (auto it = s.col_k_nnzs.begin(); it != s.col_k_nnzs.end(); it++) {
 		if ((*it != k) && (*it <= r)) {
 			list[*it].push_back(k);
-			ensure_invariant(*it, k, list[*it], true);
 		}
 	}
 	
@@ -225,15 +216,6 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 	for (auto it = s.swapr.begin(); it != s.swapr.end(); it++) {
 		**it = r;
-	}
-	
-	//merge nonzero indices of row r and row k
-	s.all_swaps.assign(L.list[r].begin(), L.list[r].end());
-	unordered_inplace_union(s.all_swaps, L.list[k].begin(), L.list[k].end(), in_set);
-	
-	//ensure invariant is held on the columns we just swapped.
-	for (auto it = s.all_swaps.begin(); it != s.all_swaps.end(); it++) {
-		L.ensure_invariant(*it, k, L.m_idx[*it]);		
 	}
 
 	//row swap on row non-zero indices stored in L.list

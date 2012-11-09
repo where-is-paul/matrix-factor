@@ -134,6 +134,7 @@ int main(int argc, char* argv[]) {
 	if (argc < 2 || argc > 6) {
 		std::cout << "Too many or too few arguments." << std::endl
 		<< "Program usage: ./ldl_driver [in.mtx] [lfil] [tol] [-save] [-display]" << std::endl;
+		std::cout << "Sample usage: ./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001 -y -y" << endl;
 		return 0;
 	}
 

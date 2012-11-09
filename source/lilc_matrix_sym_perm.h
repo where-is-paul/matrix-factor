@@ -15,12 +15,12 @@ void lilc_matrix<el_type> :: sym_perm(std::vector<int>& perm) {
 		list[i].clear();
 	}
 	
-	for (i = 0; i < m_n_cols; i++) { //no need to use function call n_cols() every iter
-		pj = pinv[i];
+	for (j = 0; j < m_n_cols; j++) { //no need to use function call n_cols() every iter
+		pj = pinv[j];
 		
-		for (j = 0; j < (int) m_idx[i].size(); j++) {
-			pi = pinv[m_idx[i][j]];
-			px = m_x[i][j];
+		for (i = 0; i < (int) m_idx[j].size(); i++) {
+			pi = pinv[m_idx[j][i]];
+			px = m_x[j][i];
 			
 			if (pi < pj) {
 				m_idx_new[ pi ].push_back(pj);
