@@ -7,7 +7,7 @@ CFLAGS := -O3 -funroll-loops -std=c++0x
 DEBUG := -Wextra -Wall
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
-OUTPUT := $(shell find ./output_matrices -name out*.mtx)
+OUTPUT := output_matrices/out*
  
 SRCEXT := cpp
 SOURCES := ./ldl_driver.cpp

@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
 	if (argc < 2 || argc > 6) {
 		std::cout << "Too many or too few arguments." << std::endl
 		<< "Program usage: ./ldl_driver [in.mtx] [lfil] [tol] [-save] [-display]" << std::endl;
-		std::cout << "Sample usage: ./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001 -y -y" << endl;
+		std::cout << "Sample usage: ./ldl_driver test_matrices/testmat1.mtx 1.0 0.001 -y -y" << endl;
 		return 0;
 	}
 
@@ -154,8 +154,9 @@ int main(int argc, char* argv[]) {
 		
 		if (argc > 5 && strcmp(argv[5], "-y") == 0) {
 			solv.display();
+			cout << endl;
 		}
-		cout << "Done." << endl;
+		cout << "Factorization Complete. All output written to /output_matrices directory." << endl;
 	} else {
 		solv.save();
 	}
