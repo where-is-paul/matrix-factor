@@ -161,6 +161,18 @@ public:
 		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
 	*/
 	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
+
+	/*! \brief Performs an LDL' factorization of this matrix with rook pivoting. 
+		
+		The pivoted matrix P'AP will be stored in place of A. In addition, the L and D factors of P'AP will be stored in L and D (so that P'AP = LDL'). The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005).
+	
+		\param L the L factor of this matrix.
+		\param D the D factor of this matrix.
+		\param perm the current permutation of A.
+		\param fill_factor a parameter to control memory usage. Each column is guaranteed to have fewer than fill_factor*(nnz(A)/n_col(A)) elements.
+		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
+	*/
+	void ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
 	
 	//------Helpers------//
 	/*! \brief Performs a symmetric permutation between row/col k & r of A.
@@ -268,5 +280,6 @@ public:
 #include "lilc_matrix_load.h"
 #include "lilc_matrix_save.h"
 #include "lilc_matrix_to_string.h"
+#include "lilc_matrix_ildlrp.h"
 
 #endif

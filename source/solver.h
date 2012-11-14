@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include "lilc_matrix.h"
-#include <sys/time.h>
+//#include <sys/time.h>
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
@@ -60,26 +60,26 @@ class solver
 		*/
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
-			struct timeval tim;
+			// struct timeval tim;
 			
-			gettimeofday(&tim, NULL);  
-			double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			// gettimeofday(&tim, NULL);  
+			// double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			A.sym_equil();
 			A.sym_rcm(perm);
 			A.sym_perm(perm);
 			
-			gettimeofday(&tim, NULL);  
-			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			// gettimeofday(&tim, NULL);  
+			// double t1=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
+			// printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
-			A.ildl(L, D, perm, fill_factor, tol);
+			A.ildlrp(L, D, perm, fill_factor, tol);
 			
-			gettimeofday(&tim, NULL);  
-			double t2=tim.tv_sec+(tim.tv_usec/1e6);  
+			// gettimeofday(&tim, NULL);  
+			// double t2=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
+			// printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		

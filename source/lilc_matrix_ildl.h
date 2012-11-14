@@ -12,6 +12,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); //number of cols in A.
+	const double stat_piv = 1e-6; 
 	
 	int lfil;
 	if (fill_factor > 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
@@ -224,7 +225,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			
 			//compute inverse of the 2x2 block diagonal pivot.
 			det_D = d1*dr - work[k+1]*work[k+1];
-			if ( abs(det_D) < eps) det_D = 1e-6;  //statically pivot;
+			if ( abs(det_D) < eps) det_D = stat_piv;  //statically pivot;
 			D_inv11 = dr/det_D;
 			D_inv22 = d1/det_D;
 			D_inv12 = -work[k+1]/det_D;
@@ -271,7 +272,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		count++;
 		
 		if (!size_two_piv) {
-			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
+			if ( abs(D[k]) < eps) D[k] = stat_piv; //statically pivot
 			i = 1;
 			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
 				if ( abs(work[*it]) > eps) {
