@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="124,5,335,32"/>
+<area shape="rect" id="node5" href="$classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="169,56,290,83"/>
+<area shape="rect" id="node7" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="120,107,339,133"/>
+<area shape="rect" id="node9" href="$lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="173,157,285,184"/>
+<area shape="rect" id="node11" href="$classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="387,132,586,159"/>
+<area shape="rect" id="node13" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="394,183,579,209"/>
+</map>
