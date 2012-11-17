@@ -29,6 +29,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	elt_vector_type work(ncols, 0), temp(ncols, 0); ////work vector for the current column
 	idx_vector_type curr_nnzs, temp_nnzs;  //non-zeros on current col.
 	curr_nnzs.reserve(ncols); //reserves space for worse case (entire col is non-zero)
+	temp_nnzs.reserve(ncols); //reserves space for worse case (entire col is non-zero)
 
 	int count = 0; //the total number of nonzeros stored in L.
 	int i, j, k, r, offset, col_size, col_size2(-1);
