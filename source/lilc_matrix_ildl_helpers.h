@@ -115,7 +115,10 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 		for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
 		if (abs(v[*it]) < tolerance) v[*it] = 0;
 		
-		//sort the remaining elements by value in decreasing order.
+	}
+	
+	//sort the remaining elements by value in decreasing order.
+	if (lfil < (int) curr_nnzs.size()) { //only sort if we cant keep all of them
 		by_value<el_type> sorter(v);
 		std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
 	}
