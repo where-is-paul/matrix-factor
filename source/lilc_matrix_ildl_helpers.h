@@ -121,16 +121,20 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 	if (lfil < (int) curr_nnzs.size()) { //only sort if we cant keep all of them
 		by_value<el_type> sorter(v);
 		std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
+	
+		for (int i = lfil, end = curr_nnzs.size(); i < end ; ++i) {
+			v[curr_nnzs[i]] = 0;
+		}
 	}
 	
-	for (int i = lfil, end = curr_nnzs.size(); i < end ; ++i) {
-		v[curr_nnzs[i]] = 0;
-	}
-	
+	//erase all zero elements from curr_nnzs
 	auto is_zero = [eps, &v](int i) -> bool { return abs(v[i]) < eps; };
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
+	
+	//resize to appropriate size.
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
-	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.
+	
+	//sort the first lfil elements by index, only these will be assigned into L. this part is currently removed.
 	//std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (int) curr_nnzs.size()));
 }
 

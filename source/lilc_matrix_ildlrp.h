@@ -6,11 +6,17 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); // number of cols in A.
-	int lfil = (int)(2 * fill_factor * nnz() / n_cols()); //roughly a factor of 2 since only lower tri. of A is stored
+	const double stat_piv = 1e-6;
+
+	int lfil;
+	if (fill_factor > 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
+	else lfil = (int) (2*fill_factor*nnz()/ncols); //roughly a factor of 2 since only lower tri. of A is stored
+	
 	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
-	el_type wi, wr, di, dr(-1);
-	el_type det_D, D_inv11, D_inv22, D_inv12;
-	el_type l_11, l_12;
+	el_type wi(-1), wr(-1), di(-1), dr(-1);
+	el_type det_D, D_inv11, D_inv22, D_inv12;	//for use in 2x2 pivots
+	el_type l_11, l_12;							//for use in 2x2 pivots
+
 	vector<bool> in_set(ncols, false); //bitset used for unsorted merges
 	swap_struct<el_type> s;	//struct containing col_r vars used in pivoting.
 	elt_vector_type col_i(ncols, 0), col_r(ncols, 0); ////work vector for the current column
@@ -19,8 +25,8 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	col_r_nnzs.reserve(ncols);
 
 	int count = 0; //the total number of nonzeros stored in L.
-	int i, j, k, r, newr(-1);
-	bool size_two_piv;	//boolean indicating if the pivot is 2x2 or 1x1
+	int i, j, k, r, newr;
+	bool size_two_piv = false;	//boolean indicating if the pivot is 2x2 or 1x1
 
 	//--------------- allocate memory for L and D ------------------//
 	L.resize(ncols, ncols);
@@ -69,7 +75,6 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					size_two_piv = false;
 					// swap rows and columns k and r
 					pivot(s, in_set, L, k, r);
-					col_r[r] = dr;
 					std::swap(perm[k], perm[r]);
 					std::swap(col_r[k], col_r[r]);
 					safe_swap(col_r_nnzs, k, r);
@@ -85,7 +90,6 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					if (k != i)
 					{
 						pivot(s, in_set, L, k, i);
-						col_i[i] = di;
 						std::swap(perm[k], perm[i]);
 						std::swap(col_i[k], col_i[i]);
 						std::swap(col_r[k], col_r[i]);
@@ -99,7 +103,6 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					if (k+1 != r)
 					{
 						pivot(s, in_set, L, k+1, r);
-						col_r[r] = dr;
 						std::swap(perm[k+1], perm[r]);
 						std::swap(col_i[k+1], col_i[r]);
 						std::swap(col_r[k+1], col_r[r]);
@@ -140,7 +143,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			//compute inverse of the 2x2 block diagonal pivot.
 			det_D = di * dr - D.off_diagonal(k) * D.off_diagonal(k);
-			if (abs(det_D) < eps) det_D = 1e-6;  //statically pivot;
+			if (abs(det_D) < eps) det_D = stat_piv;  //statically pivot;
 			D_inv11 = dr / det_D;
 			D_inv22 = di / det_D;
 			D_inv12 = -D.off_diagonal(k) / det_D;
@@ -173,13 +176,13 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		L.m_x[k].resize(col_i_nnzs.size()+1);
 		
 		// assign 1s to diagonal of L.
-		L.m_x[k][0] = 1;
 		L.m_idx[k][0] = k;
+		L.m_x[k][0] = 1;
 		count++;
 		
 		if (!size_two_piv)
 		{
-			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
+			if ( abs(D[k]) < eps) D[k] = stat_piv; //statically pivot
 			i = 1;
 			for (auto it = col_i_nnzs.begin(); it != col_i_nnzs.end(); it++)
 			{ 
@@ -204,8 +207,8 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			L.m_x[k+1].resize(col_r_nnzs.size() + 1);
 
 			//assign 1s to diagonal of L.
-			L.m_x[k+1][0] = 1;
 			L.m_idx[k+1][0] = k+1;
+			L.m_x[k+1][0] = 1;
 			count++;
 
 			i = 1;
@@ -213,8 +216,8 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			{
 				if (abs(col_i[*it]) > eps)
 				{
-					L.m_x[k][i] = col_i[*it]; //col k nonzero indices of L are stored
 					L.m_idx[k][i] = *it; //col k nonzero values of L are stored
+					L.m_x[k][i] = col_i[*it]; //col k nonzero indices of L are stored
 					L.list[*it].push_back(k); //update L.list
 					count++;
 					i++;
@@ -226,13 +229,12 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			{
 				if (abs(col_r[*it]) > eps)
 				{
-					L.m_x[k+1][j] = col_r[*it]; //col k+1 nonzero indices of L are stored
 					L.m_idx[k+1][j] = *it; //col k+1 nonzero values of L are stored
+					L.m_x[k+1][j] = col_r[*it]; //col k+1 nonzero indices of L are stored
 					L.list[*it].push_back(k+1); //update L.list
 					count++;
 					j++;
 				}
-				
 			}
 
 			//update list and L.first
@@ -241,13 +243,13 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		}
 		
 		//resize columns of L to correct size
-		L.m_x[k].resize(i);
 		L.m_idx[k].resize(i);
+		L.m_x[k].resize(i);
 
 		if (size_two_piv)
 		{
-			L.m_x[k+1].resize(j);
 			L.m_idx[k+1].resize(j);
+			L.m_x[k+1].resize(j);
 			k++;
 		}
 

@@ -33,13 +33,16 @@ warning off;
 % end
 % homogenous_mats = cellstr(homogenous_mats);
 
-other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
-            'tuma1'; 'tuma2'; '1138_bus'; 'Lshape_matrices4'; 'lund_b'};
+%other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
+%            'tuma1'; 'tuma2'; '1138_bus'; 'Lshape_matrices4'; 'lund_b';
+%			'm3d20-001'};
+
+other_mats = {'m3d10-001'};
 
 %aug3dcqp has a terrible condition number
 all_mats = other_mats;%[testmats; Lshape_mats; homogenous_mats; other_mats];
         
-lfil = 1.1;
+lfil = 1.2;
 tol = 0.001;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
