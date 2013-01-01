@@ -1,9 +1,12 @@
-#ifndef _SOLVER_H
-#define _SOLVER_H
+#ifndef SYMMETRY_SOLVER_H
+#define SYMMETRY_SOLVER_H
 
 #include <iostream>
+#include <iomanip>
 #include <string.h>
-#include "lilc_matrix.h"
+#include "symmetry_matrix.h"
+#include "ultriangular.h"
+#include <ctime>
 // #include <sys/time.h>
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
@@ -24,7 +27,7 @@ bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
 
 	for(int i = 0; i < (int) vec.size(); i++)
-	out << i+1 << " " << 1 << " " << vec[i]+1 << "\n";
+	out << i+1 << " " << vec[i]+1 << " " << 1 << "\n";
 	
 	out.close();
 	return true;
@@ -34,12 +37,12 @@ bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 
 	Currently, the only matrix type accepted is the lilc_matrix (as no other matrix type has been created yet).
 */
-template<class el_type, class mat_type = lilc_matrix<el_type> >
+template<class el_type>
 class solver
 {
 	public:
-		mat_type A;	///<The matrix to be factored.
-		mat_type L;	///<The lower triangular factor of A.
+		symmetry_matrix<el_type> A;	///<The matrix to be factored.
+		ultriangular_matrix<el_type> L;	///<The lower triangular factor of A.
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		
@@ -60,26 +63,43 @@ class solver
 		*/
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
-			// struct timeval tim;
-			
-			// gettimeofday(&tim, NULL);  
-			// double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			cout << std::fixed << std::setprecision(3);
+			//gettimeofday(&tim, NULL);  
+			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			clock_t start = clock(); double dif, total = 0;
 			
 			A.sym_equil();
-			A.sym_rcm(perm);
+			
+			dif = clock() - start; total += dif; 
+			cout << "Equilibriation:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			start = clock();
+			
+			A.rcm(perm);
+			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
+			
+			dif = clock() - start; total += dif; 
+			cout << "RCM:\t\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			
+			start = clock();
 			A.sym_perm(perm);
+			dif = clock() - start; total += dif; 
+			cout << "Permutation:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
 			
-			// gettimeofday(&tim, NULL);  
-			// double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			//gettimeofday(&tim, NULL);
+			//double t1=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			// printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
+			//printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
-			A.ildlrp(L, D, perm, fill_factor, tol);
+			start = clock();
+			A.ildl(L, D, perm, fill_factor, tol);
+			dif = clock() - start; total += dif; 
+			cout << "Factorization:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
 			
-			// gettimeofday(&tim, NULL);  
-			// double t2=tim.tv_sec+(tim.tv_usec/1e6);  
+			cout << "Total time:\t" << total/CLOCKS_PER_SEC << " seconds." << endl;
+			//gettimeofday(&tim, NULL);  
+			//double t2=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			// printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
+			//printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		
@@ -89,20 +109,22 @@ class solver
 		*/
 		void save() {
 			cout << "Saving matrices..." << endl;
-			A.save("output_matrices/outB.mtx", true);
+			A.save("output_matrices/outB.mtx");
 			A.S.save("output_matrices/outS.mtx");
 			save_perm(perm, "output_matrices/outP.mtx");
-			L.save("output_matrices/outL.mtx", false);
+			L.save("output_matrices/outL.mtx");
 			D.save("output_matrices/outD.mtx");
 			cout << "Save complete." << endl;
 		}
 		
 		/*! \brief Prints the L and D factors to stdout.
 		*/
-		void display() {
+		void display()
+		{
+			cout << A << endl;
 			cout << L << endl;
 			cout << D << endl;
-			cout << perm << endl;
+			cout << "Permutation vector is: [" << perm << "]" << endl;
 		}
 };
 

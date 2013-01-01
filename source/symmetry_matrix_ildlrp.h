@@ -1,8 +1,8 @@
-#ifndef _LILC_MATRIX_ILDLRP_H_
-#define _LILC_MATRIX_ILDLRP_H_
+#ifndef SYMMETRY_MATRIX_ILDLRP_H
+#define SYMMETRY_MATRIX_ILDLRP_H
 
 template <class el_type>
-void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
+void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); // number of cols in A.
@@ -10,7 +10,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 	int lfil;
 	if (fill_factor > 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
-	else lfil = (int) (2*fill_factor*nnz()/ncols); //roughly a factor of 2 since only lower tri. of A is stored
+	else lfil = (int) (fill_factor*nnz()/ncols); //roughly a factor of 2 since only lower tri. of A is stored
 	
 	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
 	el_type wi(-1), wr(-1), di(-1), dr(-1);
@@ -18,7 +18,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	el_type l_11, l_12;							//for use in 2x2 pivots
 
 	vector<bool> in_set(ncols, false); //bitset used for unsorted merges
-	swap_struct<el_type> s;	//struct containing col_r vars used in pivoting.
+	symmetry_swap_struct<el_type> s;	//struct containing col_r vars used in pivoting.
 	elt_vector_type col_i(ncols, 0), col_r(ncols, 0); ////work vector for the current column
 	idx_vector_type col_i_nnzs, col_r_nnzs;  //non-zeros on current col.
 	col_i_nnzs.reserve(ncols); //reserves space for worse case (entire col is non-zero)
@@ -56,7 +56,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				for (auto it = col_r_nnzs.begin(); it != col_r_nnzs.end(); it++)
 					col_r[*it] = 0;
 				col_r_nnzs.clear();
-				for (j = first[r]; j < (int) list[r].size(); j++)
+				for (j = list_first[r]; j < (int) list[r].size(); j++)
 				{
 					col_r_nnzs.push_back(list[r][j]);
 					col_r[list[r][j]] = coeff(r, list[r][j]);
@@ -74,7 +74,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				{
 					size_two_piv = false;
 					// swap rows and columns k and r
-					pivot(s, in_set, L, k, r);
+					pivot(s, L, k, r);
 					std::swap(perm[k], perm[r]);
 					std::swap(col_r[k], col_r[r]);
 					safe_swap(col_r_nnzs, k, r);
@@ -89,7 +89,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					// swap rows and columns k and i, k+1 and r
 					if (k != i)
 					{
-						pivot(s, in_set, L, k, i);
+						pivot(s, L, k, i);
 						std::swap(perm[k], perm[i]);
 						std::swap(col_i[k], col_i[i]);
 						std::swap(col_r[k], col_r[i]);
@@ -98,11 +98,11 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 					}
 
 					advance_list(k);
-					L.advance_first(k);
+					L.advance_column(k);
 
 					if (k+1 != r)
 					{
-						pivot(s, in_set, L, k+1, r);
+						pivot(s, L, k+1, r);
 						std::swap(perm[k+1], perm[r]);
 						std::swap(col_i[k+1], col_i[r]);
 						std::swap(col_r[k+1], col_r[r]);
@@ -172,18 +172,14 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		}
 
 		//resize kth column of L to proper size.
-		L.m_idx[k].resize(col_i_nnzs.size()+1);
-		L.m_x[k].resize(col_i_nnzs.size()+1);
-		
-		// assign 1s to diagonal of L.
-		L.m_idx[k][0] = k;
-		L.m_x[k][0] = 1;
-		count++;
-		
+		L.m_idx[k].resize(col_i_nnzs.size());
+		L.m_x[k].resize(col_i_nnzs.size());
+
+
 		if (!size_two_piv)
 		{
 			if ( abs(D[k]) < eps) D[k] = stat_piv; //statically pivot
-			i = 1;
+			i = 0;
 			for (auto it = col_i_nnzs.begin(); it != col_i_nnzs.end(); it++)
 			{ 
 				if (abs(col_i[*it]) > eps)
@@ -197,21 +193,16 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 			
 			//advance list and L.first
-			L.advance_first(k);
+			L.advance_column(k);
 			advance_list(k);
 		}
 		else
 		{
 			// resize k+1th column of L to proper size.
-			L.m_idx[k+1].resize(col_r_nnzs.size() + 1);
-			L.m_x[k+1].resize(col_r_nnzs.size() + 1);
+			L.m_idx[k+1].resize(col_r_nnzs.size());
+			L.m_x[k+1].resize(col_r_nnzs.size());
 
-			//assign 1s to diagonal of L.
-			L.m_idx[k+1][0] = k+1;
-			L.m_x[k+1][0] = 1;
-			count++;
-
-			i = 1;
+			i = 0;
 			for (auto it = col_i_nnzs.begin(); it != col_i_nnzs.end(); it++)
 			{
 				if (abs(col_i[*it]) > eps)
@@ -224,7 +215,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 				}
 			}
 			
-			j = 1;
+			j = 0;
 			for (auto it = col_r_nnzs.begin(); it != col_r_nnzs.end(); it++)
 			{
 				if (abs(col_r[*it]) > eps)
@@ -238,7 +229,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 
 			//update list and L.first
-			L.advance_first(k+1);
+			L.advance_column(k+1);
 			advance_list(k+1);
 		}
 		
@@ -263,7 +254,7 @@ void lilc_matrix<el_type>::ildlrp(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	}
 
 	//assign number of non-zeros in L to L.nnz_count
-	L.nnz_count = count;
+	L.nnz_count = count + ncols;
 }
 
 #endif

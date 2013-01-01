@@ -1,34 +1,11 @@
 // -*- mode: c++ -*-
-#ifndef _LIL_SPARSE_MATRIX_H_
-#define _LIL_SPARSE_MATRIX_H_
+#ifndef LIL_SPARSE_MATRIX_H
+#define LIL_SPARSE_MATRIX_H
 
 #include <vector>
-#include <string>
-#include <fstream>
-#include <limits>
+#include <algorithm>
 
-#ifndef DEBUG
-#define DEBUG
-template<class Container>
-std::ostream& operator<< (std::ostream& os, const Container& vec)
-{
-	os << "[";
-	if (!vec.empty())
-	{
-		for (auto it = vec.begin(); it+1 != vec.end(); it++)
-		{
-			os << *it << ", ";
-		}
-		
-		it++;
-		os << *it;
-	}
-	os << "]";
-	return os;
-}
-#endif
-
-using std::vector;
+#include "lil_sparse_matrix_helpers.h"
 
 /*! \brief The abstract parent of all sparse matrices */
 template<class el_type>
@@ -38,8 +15,10 @@ class lil_sparse_matrix
 public:
 
 	typedef vector<int> idx_vector_type;
-	typedef vector<el_type>  elt_vector_type;
-	
+	typedef vector<el_type> elt_vector_type;
+	typedef idx_vector_type::iterator idx_it;
+	typedef typename elt_vector_type::iterator elt_it;
+
 	/*! \brief Allows outputting the contents of the matrix via << operators. */
 	friend std::ostream & operator<<(std::ostream& os, const lil_sparse_matrix& A) 
 	{
@@ -50,7 +29,6 @@ public:
 	int m_n_rows;///<Number of rows in the matrix.
 	int	m_n_cols;///<Number of cols in the matrix.
 	int nnz_count;///<Number of nonzeros in the matrix.
-	el_type eps;///<Machine epsilon for el_type.
 
 	vector<idx_vector_type> m_idx;///<The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R.
 	vector<elt_vector_type> m_x;///<The values of the nonzeros in the matrix.
@@ -59,7 +37,6 @@ public:
 	lil_sparse_matrix (int n_rows, int n_cols) : m_n_rows(n_rows), m_n_cols (n_cols)
 	{
 		nnz_count = 0;
-		eps = 1e-13;
 	}
 	
 	/*! \return Number of rows in the matrix. */
@@ -79,7 +56,7 @@ public:
 	{
 		return nnz_count;
 	};
-	
+
 	/*! \brief Returns A_ij (zero-indexed). This function should be extended by subclasses as it is dependent on the matrix storage type.
 		\param i the row of the (i,j)th element (zero-indexed).
 		\param j the col of the (i,j)th element (zero-indexed).
@@ -97,4 +74,4 @@ public:
 	}
 };
 
-#endif // _LIL_SPARSE_MATRIX_H_
+#endif // LIL_SPARSE_MATRIX_H

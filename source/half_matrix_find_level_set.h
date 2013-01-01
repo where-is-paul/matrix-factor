@@ -1,9 +1,9 @@
 // -*- mode: c++ -*-
-#ifndef _SKEW_LILC_MATRIX_FIND_LEVEL_SET_H_
-#define _SKEW_LILC_MATRIX_FIND_LEVEL_SET_H_
+#ifndef HALF_MATRIX_FIND_LEVEL_SET_H
+#define HALF_MATRIX_FIND_LEVEL_SET_H
 
-template<class el_type>
-inline bool skew_lilc_matrix<el_type>::find_level_set(vector<int>& lvl_set, vector<bool>& visited)
+template <class el_type>
+inline bool half_matrix<el_type>::find_level_set(vector<int>& lvl_set, vector<bool>& visited)
 {
 	vector<int> new_set;
 	for (auto node_it = lvl_set.begin(); node_it != lvl_set.end(); node_it++)

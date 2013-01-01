@@ -1,9 +1,9 @@
 //-*- mode: c++ -*-
-#ifndef _SKEW_LIL_MATRIX_SYM_PERM_H_
-#define _SKEW_LIL_MATRIX_SYM_PERM_H_
+#ifndef SYMMETRY_MATRIX_PERM_H
+#define SYMMETRY_MATRIX_PERM_H
 
 template<class el_type>
-void skew_lilc_matrix<el_type>::sym_perm(std::vector<int>& perm)
+void symmetry_matrix<el_type>::sym_perm(std::vector<int>& perm)
 {
 	vector<idx_vector_type> m_idx_new(m_n_cols);
 	vector<elt_vector_type> m_x_new(m_n_cols);
@@ -29,23 +29,21 @@ void skew_lilc_matrix<el_type>::sym_perm(std::vector<int>& perm)
 			if (pi < pj)
 			{
 				m_idx_new[pi].push_back(pj);
-				m_x_new[pi].push_back(-px);
+				m_x_new[pi].push_back(px);
 				list[pj].push_back(pi);
 			}
 			else
 			{
 				m_idx_new[pj].push_back(pi);
 				m_x_new[pj].push_back(px);
-				list[pi].push_back(pj);
+				if (pi != pj) list[pi].push_back(pj);
 			}
 		}
 	}
 	
 	m_idx.swap(m_idx_new);
 	m_x.swap(m_x_new);
-	
-	for (i = 0; i < m_n_cols; i++)
-		ensure_invariant(i, i, m_idx[i]);
+
 }
 
-#endif // _SKEW_LIL_MATRIX_SYM_PERM_H_
+#endif

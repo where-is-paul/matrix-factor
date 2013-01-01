@@ -1,8 +1,8 @@
 #ifndef _MEX_UTILS
 #define _MEX_UTILS
 
-#include "../source/lilc_matrix.h"
-#include "../source/solver.h"
+#include "../source/lil_sparse_matrix.h"
+#include "../source/symmetry_solver.h"
 #include <mex.h>
 #include <algorithm>
 #include <queue>

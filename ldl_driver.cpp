@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <string.h>
-#include "source/solver.h"
+#include "source/symmetry_solver.h"
 
 using namespace std;
 

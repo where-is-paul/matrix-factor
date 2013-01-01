@@ -50,7 +50,7 @@ void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx,
 	int count = 0;
 
 	solv.A.resize(nnzs, nnzs);
-	fill(solv.A.first.begin(), solv.A.first.end(), 0);
+	fill(solv.A.list_first.begin(), solv.A.list_first.end(), 0);
 		
 	for (mwSize i = 0; i < nnzs; i++) {
 
@@ -122,6 +122,10 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 				load_index_value_pairs(temp_col, solv.L.m_idx[i], solv.L.m_x[i]);
 				sort(temp_col.begin(), temp_col.end());
 				
+				//add the 1 explicitly.
+				m_row_idx[count] = i;
+				m_x[count] = 1;
+				count++;
 				for (unsigned int j = 0; j < temp_col.size(); j++) {
 					m_row_idx[count] = temp_col[j].first;
 					m_x[count] = temp_col[j].second;

@@ -1,9 +1,9 @@
 // -*- mode: c++ -*-
-#ifndef _SKEW_LILC_MATRIX_FIND_ROOT_H_
-#define _SKEW_LILC_MATRIX_FIND_ROOT_H_
+#ifndef HALF_MATRIX_FIND_ROOT_H
+#define HALF_MATRIX_FIND_ROOT_H
 
-template<class el_type> 
-inline void skew_lilc_matrix<el_type>::find_root(int& s)
+template <class el_type> 
+inline void half_matrix<el_type>::find_root(int& s)
 {
 	vector<bool> visited(m_n_cols, false);
 	vector<int> lvl_set;
@@ -26,7 +26,7 @@ inline void skew_lilc_matrix<el_type>::find_root(int& s)
 			int deg, min_deg = m_n_cols;
 			for (auto it = lvl_set.begin(); it != lvl_set.end(); it++)
 			{
-				deg = list[*it].size() + m_idx[*it].size();
+				deg = degree(*it);
 				if (deg < min_deg)
 				{ //should consider tie breaking by index later if needed.
 					min_deg = deg;

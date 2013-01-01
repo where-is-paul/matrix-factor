@@ -9,27 +9,6 @@
 #include <cassert>
 #include <iostream>
 
-#ifndef DEBUG
-#define DEBUG
-template<class el_type>
-std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
-{
-	os << "[";
-	if (!vec.empty())
-	{
-		for (typename std::vector<el_type>::size_type index = 0; index < vec.size() - 1; index ++)
-		{
-			os << vec[index] << ", ";
-		}
-
-		os << vec[vec.size()-1];
-	}
-	os << "]";
-	return os;
-}
-#endif
-
-
 /*! \brief A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. 
 */
 template<class el_type>

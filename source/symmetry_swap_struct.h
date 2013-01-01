@@ -1,9 +1,13 @@
+// -*- mode: c++ -*-
+#ifndef SYMMETRY_SWAP_STRUCT_H
+#define SYMMETRY_SWAP_STRUCT_H
+
 /*!	\brief A structure containing variables used in pivoting a LIL-C matrix.
 	
 	Storing these variables in a combined structure reduces memory requirements and bundles together all temporary structures needed during pivoting.
 */
 template<class el_type> 
-class swap_struct
+class symmetry_swap_struct
 {
 	//---------- useful typedefs (to keep consistent with lilc_matrix) -----------//
 	typedef vector<int> idx_vector_type;
@@ -49,3 +53,5 @@ class swap_struct
 			row_r.clear();
 		}
 };
+
+#endif

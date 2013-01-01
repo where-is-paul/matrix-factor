@@ -92,8 +92,16 @@ build/ldl_driver.o: ldl_driver.cpp \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/istream.tcc \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/cassert \
  /usr/include/assert.h /usr/include/string.h /usr/include/sys/cdefs.h \
- /usr/include/sys/string.h source/solver.h source/lilc_matrix.h \
- source/block_diag_matrix.h \
+ /usr/include/sys/string.h source/symmetry_solver.h \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/iomanip \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/locale \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/locale_facets_nonio.h \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/ctime \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/i686-pc-cygwin/bits/time_members.h \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/i686-pc-cygwin/bits/messages_members.h \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/codecvt.h \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/locale_facets_nonio.tcc \
+ source/symmetry_matrix.h source/block_diag_matrix.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/unordered_map \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/utility \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_relops.h \
@@ -108,7 +116,6 @@ build/ldl_driver.o: ldl_driver.cpp \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_bvector.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/vector.tcc \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/fstream \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/codecvt.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/cstdio \
  /usr/include/stdio.h /usr/include/sys/stdio.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/tr1_impl/cstdio \
@@ -118,9 +125,8 @@ build/ldl_driver.o: ldl_driver.cpp \
  source/block_diag_matrix_to_string.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/sstream \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/sstream.tcc \
- source/block_diag_matrix_save.h source/lil_sparse_matrix.h \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/limits \
- source/lilc_matrix_declarations.h \
+ source/block_diag_matrix_save.h source/half_matrix.h \
+ source/lil_sparse_matrix.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/algorithm \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_algo.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/cstdlib \
@@ -134,16 +140,20 @@ build/ldl_driver.o: ldl_driver.cpp \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/cmath /usr/include/math.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/cmath.tcc \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/tr1_impl/cmath \
+ /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/limits \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/random.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/random.tcc \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/numeric \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_numeric.h \
+ source/lil_sparse_matrix_helpers.h source/half_matrix_declarations.h \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/iterator \
  /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stream_iterator.h \
- source/swap_struct.h source/lilc_matrix_find_level_set.h \
- source/lilc_matrix_find_root.h source/lilc_matrix_sym_rcm.h \
- source/lilc_matrix_sym_perm.h source/lilc_matrix_sym_equil.h \
- source/lilc_matrix_ildl.h source/lilc_matrix_ildl_helpers.h \
- source/lilc_matrix_pivot.h source/lilc_matrix_load.h \
- source/lilc_matrix_save.h source/lilc_matrix_to_string.h \
- source/lilc_matrix_ildlrp.h
+ source/symmetry_swap_struct.h source/half_matrix_find_level_set.h \
+ source/half_matrix_find_root.h source/half_matrix_matrix_rcm.h \
+ source/half_matrix_load.h source/half_matrix_save.h \
+ source/half_matrix_to_string.h source/symmetry_matrix_declarations.h \
+ source/ultriangular.h source/ultriangular_matrix_declarations.h \
+ source/ultriangular_matrix_save.h source/ultriangular_matrix_to_string.h \
+ source/symmetry_matrix_perm.h source/symmetry_matrix_equil.h \
+ source/symmetry_matrix_ildl.h source/symmetry_matrix_ildlrp.h \
+ source/symmetry_matrix_update.h source/symmetry_matrix_pivot.h

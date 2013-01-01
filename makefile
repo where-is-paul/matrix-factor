@@ -3,14 +3,14 @@
 CC := g++
 SRCDIR := .
 BUILDDIR := build
-CFLAGS := -O3 -funroll-loops -std=c++0x
+CFLAGS := -O3 -std=c++0x
 DEBUG := -Wextra -Wall -pg
-TARGET := skew_ldl_driver
+TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
  
 SRCEXT := cpp
-SOURCES := ./skew_ldl_driver.cpp
+SOURCES := ./ldl_driver.cpp
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
 	
