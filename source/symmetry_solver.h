@@ -71,19 +71,19 @@ class solver
 			A.sym_equil();
 			
 			dif = clock() - start; total += dif; 
-			cout << "Equilibriation:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			printf("Equilibriation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			start = clock();
 			
 			A.rcm(perm);
 			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
 			
 			dif = clock() - start; total += dif; 
-			cout << "RCM:\t\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			printf("RCM:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
 			A.sym_perm(perm);
 			dif = clock() - start; total += dif; 
-			cout << "Permutation:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			//gettimeofday(&tim, NULL);
 			//double t1=tim.tv_sec+(tim.tv_usec/1e6);  
@@ -92,10 +92,10 @@ class solver
 			
 			start = clock();
 			A.ildl(L, D, perm, fill_factor, tol);
-			dif = clock() - start; total += dif; 
-			cout << "Factorization:\t" << dif/CLOCKS_PER_SEC << " seconds." << endl;
+			dif = clock() - start; total += dif;
+			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
-			cout << "Total time:\t" << total/CLOCKS_PER_SEC << " seconds." << endl;
+			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
 			//gettimeofday(&tim, NULL);  
 			//double t2=tim.tv_sec+(tim.tv_usec/1e6);  
 			
