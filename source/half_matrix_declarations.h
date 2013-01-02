@@ -86,6 +86,7 @@ public:
 	{
 		m_n_rows = n_rows;
 		m_n_cols = n_cols;
+		
 		m_x.resize(n_cols);
 		m_idx.resize(n_cols);
 		

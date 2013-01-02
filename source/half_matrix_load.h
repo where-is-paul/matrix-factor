@@ -4,9 +4,10 @@
 
 template <class el_type>
 bool half_matrix<el_type>::load(std::string filename)
-{
+{	
 	std::ifstream input(filename.c_str(), std::ios::in);
-	
+	std::stringstream line;
+		
 	if(!input)
 		return false;
 	
@@ -26,7 +27,7 @@ bool half_matrix<el_type>::load(std::string filename)
 		if (buffer[0]=='%')
 			continue;
 		
-		std::stringstream line(buffer);
+		line << buffer;
 		
 		if (!readsizes)
 		{
@@ -58,6 +59,8 @@ bool half_matrix<el_type>::load(std::string filename)
 			else 
 				std::cerr << "Invalid read: " << i << "," << j << "\n";		
 		}
+		
+		line.clear();
 	}
 	
 	if (readcount != n_nzs)
