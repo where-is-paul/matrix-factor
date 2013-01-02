@@ -1,0 +1,558 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 10.91      0.06     0.06        1    60.00    68.04  symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&)
+  9.09      0.11     0.05  1232995     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  9.09      0.16     0.05   640194     0.00     0.00  symmetry_matrix<double>::coeff(int const&, int const&, int) const
+  9.09      0.21     0.05        1    50.00    50.21  half_matrix<double>::find_root(int&)
+  7.27      0.25     0.04        1    40.00    61.16  symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&)
+  7.27      0.29     0.04                             _fu58___ZTVSt9basic_iosIcSt11char_traitsIcEE
+  5.45      0.32     0.03        1    30.00    80.32  half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)
+  5.45      0.35     0.03                             _fu82___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE
+  3.64      0.37     0.02   533789     0.00     0.00  void std::vector<double, std::allocator<double> >::_M_insert_aux<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&)
+  3.64      0.39     0.02                             _fu134___ZSt4cout
+  1.82      0.40     0.01   679283     0.00     0.00  symmetry_matrix<double>::readline(std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >&, int&, int&, int&, int&, double&)
+  1.82      0.41     0.01   261126     0.00     0.00  std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&)
+  1.82      0.42     0.01   166331     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag)
+  1.82      0.43     0.01   130561     0.00     0.00  void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)
+  1.82      0.44     0.01    17886     0.00     0.00  symmetry_swap_struct<double>::~symmetry_swap_struct()
+  1.82      0.45     0.01    17885     0.00     0.00  symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&)
+  1.82      0.46     0.01        6     1.67     1.67  void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&)
+  1.82      0.47     0.01        1    10.00    55.40  symmetry_matrix<double>::sym_equil()
+  1.82      0.48     0.01        1    10.00    10.00  solver<double>::~solver()
+  1.82      0.49     0.01                             std::basic_ios<char, std::char_traits<char> >::init(std::basic_streambuf<char, std::char_traits<char> >*)
+  1.82      0.50     0.01                             _fu26___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+  1.82      0.51     0.01                             _fu56___ZTVSt9basic_iosIcSt11char_traitsIcEE
+  1.82      0.52     0.01                             _fu65___ZSt4cerr
+  1.82      0.53     0.01                             _fu83___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE
+  1.82      0.54     0.01                             _fu94___ZTVSt15basic_streambufIcSt11char_traitsIcEE
+  0.91      0.55     0.01                             _fu24___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+  0.91      0.55     0.01                             _fu25___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+  0.00      0.55     0.00   391685     0.00     0.00  std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&)
+  0.00      0.55     0.00   148321     0.00     0.00  symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&)
+  0.00      0.55     0.00   130811     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, std::random_access_iterator_tag)
+  0.00      0.55     0.00   130563     0.00     0.00  symmetry_matrix<double>::degree(int const&) const
+  0.00      0.55     0.00   130561     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find_if<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}, std::random_access_iterator_tag)
+  0.00      0.55     0.00    99459     0.00     0.00  void std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > >::_M_insert_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >*, std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&&)
+  0.00      0.55     0.00    42721     0.00     0.00  ultriangular_matrix<double>::coeff(int const&, int const&, int) const
+  0.00      0.55     0.00    35770     0.00     0.00  void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.55     0.00    35770     0.00     0.00  void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.55     0.00    18141     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_range_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag)
+  0.00      0.55     0.00    17885     0.00     0.00  symmetry_swap_struct<double>::symmetry_swap_struct(symmetry_swap_struct<double> const&)
+  0.00      0.55     0.00    14737     0.00     0.00  void std::__move_median_first<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1})
+  0.00      0.55     0.00     9934     0.00     0.00  void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int)
+  0.00      0.55     0.00     9934     0.00     0.00  std::pair<int*, int> std::get_temporary_buffer<int>(int)
+  0.00      0.55     0.00     6336     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__merge_backward<std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.55     0.00     3598     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::merge<std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<int*>, std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.55     0.00      256     0.00     0.00  void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1})
+  0.00      0.55     0.00      187     0.00     0.00  void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1})
+  0.00      0.55     0.00      187     0.00     0.00  void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1})
+  0.00      0.55     0.00      125     0.00     0.00  ultriangular_matrix<double>::advance_column(int const&)
+  0.00      0.55     0.00      125     0.00     0.00  std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<int const, double> const&, unsigned int, unsigned int)
+  0.00      0.55     0.00       20     0.00     0.00  void unordered_inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, std::vector<bool, std::allocator<bool> >&)
+  0.00      0.55     0.00       20     0.00     0.00  block_diag_matrix<double>::off_diagonal(int)
+  0.00      0.55     0.00       14     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_insert_aux<int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int&&)
+  0.00      0.55     0.00        5     0.00     0.00  std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector()
+  0.00      0.55     0.00        4     0.00     0.00  std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_rehash(unsigned int)
+  0.00      0.55     0.00        4     0.00     1.67  std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&)
+  0.00      0.55     0.00        4     0.00     0.00  __gcc_deregister_frame
+  0.00      0.55     0.00        3     0.00     0.00  void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > >(std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > const&)
+  0.00      0.55     0.00        2     0.00     0.00  std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&)
+  0.00      0.55     0.00        2     0.00     0.00  std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int)
+  0.00      0.55     0.00        2     0.00     0.00  std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int)
+  0.00      0.55     0.00        1     0.00     0.00  half_matrix<double>::load(std::string)
+  0.00      0.55     0.00        1     0.00     3.33  half_matrix<double>::resize(int, int)
+  0.00      0.55     0.00        1     0.00     3.33  ultriangular_matrix<double>::resize(int, int)
+  0.00      0.55     0.00        1     0.00     0.00  solver<double>::solve(double, double)
+  0.00      0.55     0.00        1     0.00     0.00  solver<double>::solver()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 1.82% of 0.55 seconds
+
+index % time    self  children    called     name
+                0.03    0.05       1/1           _fu152___ZSt4cout [2]
+[1]     14.6    0.03    0.05       1         half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+                0.05    0.00       1/1           half_matrix<double>::find_root(int&) [10]
+                0.00    0.00    2595/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00  130561/130563      symmetry_matrix<double>::degree(int const&) const [46]
+                0.00    0.00     256/256         void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [58]
+                0.00    0.00     256/18141       void std::vector<int, std::allocator<int> >::_M_range_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [51]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     14.6    0.00    0.08                 _fu152___ZSt4cout [2]
+                0.03    0.05       1/1           half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+-----------------------------------------------
+                0.06    0.01       1/1           _fu153___ZSt4cout [4]
+[3]     12.4    0.06    0.01       1         symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+                0.01    0.00  157138/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00       1/6           void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&) [31]
+                0.00    0.00       1/3           void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > >(std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > const&) [69]
+                0.00    0.00       1/5           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [66]
+-----------------------------------------------
+                                                 <spontaneous>
+[4]     12.4    0.00    0.07                 _fu153___ZSt4cout [4]
+                0.06    0.01       1/1           symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+-----------------------------------------------
+                0.04    0.02       1/1           _fu154___ZSt4cout [6]
+[5]     11.1    0.04    0.02       1         symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+                0.01    0.00  130311/130561      void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+                0.01    0.00  130436/166331      void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [21]
+                0.00    0.00       1/1           ultriangular_matrix<double>::resize(int, int) [37]
+                0.00    0.00  130436/148321      symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+                0.00    0.00  130436/130811      __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, std::random_access_iterator_tag) [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[6]     11.1    0.00    0.06                 _fu154___ZSt4cout [6]
+                0.04    0.02       1/1           symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[7]     10.1    0.01    0.05                 _fu65___ZSt4cerr [7]
+                0.03    0.00  747687/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.02    0.00  405056/533789      void std::vector<double, std::allocator<double> >::_M_insert_aux<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&) [18]
+-----------------------------------------------
+                0.01    0.05       1/1           _fu151___ZSt4cout [9]
+[8]     10.1    0.01    0.05       1         symmetry_matrix<double>::sym_equil() [8]
+                0.05    0.00  581235/640194      symmetry_matrix<double>::coeff(int const&, int const&, int) const [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]     10.1    0.00    0.06                 _fu151___ZSt4cout [9]
+                0.01    0.05       1/1           symmetry_matrix<double>::sym_equil() [8]
+-----------------------------------------------
+                0.05    0.00       1/1           half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+[10]     9.1    0.05    0.00       1         half_matrix<double>::find_root(int&) [10]
+                0.00    0.00    5189/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00       2/130563      symmetry_matrix<double>::degree(int const&) const [46]
+-----------------------------------------------
+                0.00    0.00    2595/1232995     half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+                0.00    0.00    5189/1232995     half_matrix<double>::find_root(int&) [10]
+                0.00    0.00    7143/1232995     void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [38]
+                0.00    0.00   41746/1232995     _fu134___ZSt4cout [16]
+                0.01    0.00  157138/1232995     symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+                0.01    0.00  271497/1232995     symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.03    0.00  747687/1232995     _fu65___ZSt4cerr [7]
+[11]     9.1    0.05    0.00 1232995         void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+-----------------------------------------------
+                0.00    0.00   58959/640194      _fu134___ZSt4cout [16]
+                0.05    0.00  581235/640194      symmetry_matrix<double>::sym_equil() [8]
+[12]     9.1    0.05    0.00  640194         symmetry_matrix<double>::coeff(int const&, int const&, int) const [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[13]     9.1    0.04    0.01                 _fu58___ZTVSt9basic_iosIcSt11char_traitsIcEE [13]
+                0.01    0.00  679283/679283      symmetry_matrix<double>::readline(std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >&, int&, int&, int&, int&, double&) [19]
+-----------------------------------------------
+                                                 <spontaneous>
+[14]     7.2    0.00    0.04                 _fu138___ZSt4cout [14]
+                0.01    0.02   17760/17885       symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.01    0.00   17760/17886       symmetry_swap_struct<double>::~symmetry_swap_struct() [23]
+                0.00    0.00     125/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+                0.00    0.00   17760/17885       symmetry_swap_struct<double>::symmetry_swap_struct(symmetry_swap_struct<double> const&) [52]
+                0.00    0.00     125/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+                0.00    0.00     125/125         std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<int const, double> const&, unsigned int, unsigned int) [62]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     6.1    0.03    0.00                 _fu82___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE [15]
+                0.00    0.00       1/1           half_matrix<double>::resize(int, int) [36]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     5.7    0.02    0.01                 _fu134___ZSt4cout [16]
+                0.00    0.00  130561/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+                0.00    0.00   58959/640194      symmetry_matrix<double>::coeff(int const&, int const&, int) const [12]
+                0.00    0.00   41746/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00       1/17886       symmetry_swap_struct<double>::~symmetry_swap_struct() [23]
+                0.00    0.00  130561/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+                0.00    0.00   17885/18141       void std::vector<int, std::allocator<int> >::_M_range_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [51]
+                0.00    0.00   17885/148321      symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+                0.00    0.00      14/14          void std::vector<int, std::allocator<int> >::_M_insert_aux<int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int&&) [65]
+-----------------------------------------------
+                0.00    0.00     125/17885       _fu139___ZSt4cout [39]
+                0.01    0.02   17760/17885       _fu138___ZSt4cout [14]
+[17]     5.4    0.01    0.02   17885         symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.01    0.00  271497/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00  128733/533789      void std::vector<double, std::allocator<double> >::_M_insert_aux<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&) [18]
+                0.00    0.00   35770/166331      void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [21]
+                0.00    0.00       1/6           void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&) [31]
+                0.00    0.00   35770/35770       void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [38]
+                0.00    0.00   99459/99459       void std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > >::_M_insert_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >*, std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&&) [48]
+-----------------------------------------------
+                0.00    0.00  128733/533789      symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.02    0.00  405056/533789      _fu65___ZSt4cerr [7]
+[18]     3.6    0.02    0.00  533789         void std::vector<double, std::allocator<double> >::_M_insert_aux<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&) [18]
+-----------------------------------------------
+                0.01    0.00  679283/679283      _fu58___ZTVSt9basic_iosIcSt11char_traitsIcEE [13]
+[19]     1.8    0.01    0.00  679283         symmetry_matrix<double>::readline(std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >&, int&, int&, int&, int&, double&) [19]
+-----------------------------------------------
+                0.00    0.00       1/261126      half_matrix<double>::resize(int, int) [36]
+                0.00    0.00       1/261126      _fu146___ZSt4cout [41]
+                0.00    0.00       2/261126      _fu187___ZNSt8__detail12__prime_listE [40]
+                0.00    0.00     125/261126      _fu138___ZSt4cout [14]
+                0.00    0.00  130436/261126      _fu126___ZSt4cout [33]
+                0.00    0.00  130561/261126      _fu134___ZSt4cout [16]
+[20]     1.8    0.01    0.00  261126         std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+-----------------------------------------------
+                0.00    0.00     125/166331      _fu126___ZSt4cout [33]
+                0.00    0.00   35770/166331      symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.01    0.00  130436/166331      symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+[21]     1.8    0.01    0.00  166331         void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [21]
+-----------------------------------------------
+                0.00    0.00     250/130561      _fu126___ZSt4cout [33]
+                0.01    0.00  130311/130561      symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+[22]     1.8    0.01    0.00  130561         void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+                0.00    0.00  130561/130561      __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find_if<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}, std::random_access_iterator_tag) [47]
+                0.00    0.00  130561/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+                0.00    0.00     187/187         void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}) [60]
+                0.00    0.00     187/187         void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}) [59]
+-----------------------------------------------
+                0.00    0.00       1/17886       _fu134___ZSt4cout [16]
+                0.00    0.00     125/17886       _fu139___ZSt4cout [39]
+                0.01    0.00   17760/17886       _fu138___ZSt4cout [14]
+[23]     1.8    0.01    0.00   17886         symmetry_swap_struct<double>::~symmetry_swap_struct() [23]
+-----------------------------------------------
+                0.01    0.00       1/1           _fu110___ZSt4cout [26]
+[24]     1.8    0.01    0.00       1         solver<double>::~solver() [24]
+                0.00    0.00       3/5           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [66]
+                0.00    0.00       2/4           __gcc_deregister_frame [68]
+-----------------------------------------------
+                                                 <spontaneous>
+[25]     1.8    0.01    0.00                 std::basic_ios<char, std::char_traits<char> >::init(std::basic_streambuf<char, std::char_traits<char> >*) [25]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     1.8    0.00    0.01                 _fu110___ZSt4cout [26]
+                0.01    0.00       1/1           solver<double>::~solver() [24]
+                0.00    0.00       1/5           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [66]
+-----------------------------------------------
+                                                 <spontaneous>
+[27]     1.8    0.01    0.00                 _fu26___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE [27]
+-----------------------------------------------
+                                                 <spontaneous>
+[28]     1.8    0.01    0.00                 _fu56___ZTVSt9basic_iosIcSt11char_traitsIcEE [28]
+-----------------------------------------------
+                                                 <spontaneous>
+[29]     1.8    0.01    0.00                 _fu83___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE [29]
+-----------------------------------------------
+                                                 <spontaneous>
+[30]     1.8    0.01    0.00                 _fu94___ZTVSt15basic_streambufIcSt11char_traitsIcEE [30]
+-----------------------------------------------
+                0.00    0.00       1/6           symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.00    0.00       1/6           symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+                0.01    0.00       4/6           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [32]
+[31]     1.8    0.01    0.00       6         void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&) [31]
+-----------------------------------------------
+                0.00    0.00       2/4           half_matrix<double>::resize(int, int) [36]
+                0.00    0.00       2/4           ultriangular_matrix<double>::resize(int, int) [37]
+[32]     1.2    0.00    0.01       4         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [32]
+                0.01    0.00       4/6           void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&) [31]
+-----------------------------------------------
+                                                 <spontaneous>
+[33]     0.9    0.00    0.01                 _fu126___ZSt4cout [33]
+                0.00    0.00  130436/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+                0.00    0.00     250/130561      void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+                0.00    0.00     125/166331      void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [21]
+                0.00    0.00  130436/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+                0.00    0.00     375/130811      __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, std::random_access_iterator_tag) [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[34]     0.9    0.01    0.00                 _fu24___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE [34]
+-----------------------------------------------
+                                                 <spontaneous>
+[35]     0.9    0.01    0.00                 _fu25___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE [35]
+-----------------------------------------------
+                0.00    0.00       1/1           _fu82___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE [15]
+[36]     0.6    0.00    0.00       1         half_matrix<double>::resize(int, int) [36]
+                0.00    0.00       2/4           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [32]
+                0.00    0.00       1/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+                0.00    0.00       1/2           std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [70]
+                0.00    0.00       1/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+[37]     0.6    0.00    0.00       1         ultriangular_matrix<double>::resize(int, int) [37]
+                0.00    0.00       2/4           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [32]
+                0.00    0.00       1/2           std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [70]
+                0.00    0.00       1/391685      std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+-----------------------------------------------
+                0.00    0.00   35770/35770       symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+[38]     0.1    0.00    0.00   35770         void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [38]
+                0.00    0.00    7143/1232995     void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00   35770/35770       void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [50]
+-----------------------------------------------
+                                                 <spontaneous>
+[39]     0.1    0.00    0.00                 _fu139___ZSt4cout [39]
+                0.00    0.00     125/17885       symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+                0.00    0.00     125/17886       symmetry_swap_struct<double>::~symmetry_swap_struct() [23]
+                0.00    0.00     125/125         ultriangular_matrix<double>::advance_column(int const&) [61]
+                0.00    0.00     125/17885       symmetry_swap_struct<double>::symmetry_swap_struct(symmetry_swap_struct<double> const&) [52]
+-----------------------------------------------
+                                                 <spontaneous>
+[40]     0.0    0.00    0.00                 _fu187___ZNSt8__detail12__prime_listE [40]
+                0.00    0.00       2/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+-----------------------------------------------
+                                                 <spontaneous>
+[41]     0.0    0.00    0.00                 _fu146___ZSt4cout [41]
+                0.00    0.00       1/261126      std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [20]
+-----------------------------------------------
+                0.00    0.00       1/391685      half_matrix<double>::resize(int, int) [36]
+                0.00    0.00       1/391685      ultriangular_matrix<double>::resize(int, int) [37]
+                0.00    0.00     125/391685      _fu138___ZSt4cout [14]
+                0.00    0.00  130436/391685      _fu126___ZSt4cout [33]
+                0.00    0.00  130561/391685      void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+                0.00    0.00  130561/391685      _fu134___ZSt4cout [16]
+[43]     0.0    0.00    0.00  391685         std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [43]
+-----------------------------------------------
+                0.00    0.00   17885/148321      _fu134___ZSt4cout [16]
+                0.00    0.00  130436/148321      symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+[44]     0.0    0.00    0.00  148321         symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+                0.00    0.00   42721/42721       ultriangular_matrix<double>::coeff(int const&, int const&, int) const [49]
+                0.00    0.00      20/20          block_diag_matrix<double>::off_diagonal(int) [64]
+                0.00    0.00      20/20          void unordered_inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, std::vector<bool, std::allocator<bool> >&) [63]
+-----------------------------------------------
+                0.00    0.00     375/130811      _fu126___ZSt4cout [33]
+                0.00    0.00  130436/130811      symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [5]
+[45]     0.0    0.00    0.00  130811         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, std::random_access_iterator_tag) [45]
+-----------------------------------------------
+                0.00    0.00       2/130563      half_matrix<double>::find_root(int&) [10]
+                0.00    0.00  130561/130563      half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+[46]     0.0    0.00    0.00  130563         symmetry_matrix<double>::degree(int const&) const [46]
+-----------------------------------------------
+                0.00    0.00  130561/130561      void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+[47]     0.0    0.00    0.00  130561         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find_if<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}, std::random_access_iterator_tag) [47]
+-----------------------------------------------
+                0.00    0.00   99459/99459       symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [17]
+[48]     0.0    0.00    0.00   99459         void std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > >::_M_insert_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >*, std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&&) [48]
+-----------------------------------------------
+                0.00    0.00   42721/42721       symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+[49]     0.0    0.00    0.00   42721         ultriangular_matrix<double>::coeff(int const&, int const&, int) const [49]
+-----------------------------------------------
+                0.00    0.00   35770/35770       void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [38]
+[50]     0.0    0.00    0.00   35770         void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [50]
+                0.00    0.00    9934/9934        std::pair<int*, int> std::get_temporary_buffer<int>(int) [55]
+                0.00    0.00    9934/9934        void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int) [54]
+-----------------------------------------------
+                0.00    0.00     256/18141       half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+                0.00    0.00   17885/18141       _fu134___ZSt4cout [16]
+[51]     0.0    0.00    0.00   18141         void std::vector<int, std::allocator<int> >::_M_range_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [51]
+-----------------------------------------------
+                0.00    0.00     125/17885       _fu139___ZSt4cout [39]
+                0.00    0.00   17760/17885       _fu138___ZSt4cout [14]
+[52]     0.0    0.00    0.00   17885         symmetry_swap_struct<double>::symmetry_swap_struct(symmetry_swap_struct<double> const&) [52]
+-----------------------------------------------
+                0.00    0.00   14737/14737       void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [58]
+[53]     0.0    0.00    0.00   14737         void std::__move_median_first<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [53]
+-----------------------------------------------
+                0.00    0.00    9934/9934        void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [50]
+[54]     0.0    0.00    0.00    9934         void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int) [54]
+                0.00    0.00    6336/6336        __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__merge_backward<std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [56]
+                0.00    0.00    3598/3598        __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::merge<std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<int*>, std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [57]
+-----------------------------------------------
+                0.00    0.00    9934/9934        void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [50]
+[55]     0.0    0.00    0.00    9934         std::pair<int*, int> std::get_temporary_buffer<int>(int) [55]
+-----------------------------------------------
+                0.00    0.00    6336/6336        void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int) [54]
+[56]     0.0    0.00    0.00    6336         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__merge_backward<std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [56]
+-----------------------------------------------
+                0.00    0.00    3598/3598        void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int) [54]
+[57]     0.0    0.00    0.00    3598         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::merge<std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<int*>, std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [57]
+-----------------------------------------------
+                               14737             void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [58]
+                0.00    0.00     256/256         half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [1]
+[58]     0.0    0.00    0.00     256+14737   void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [58]
+                0.00    0.00   14737/14737       void std::__move_median_first<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [53]
+                               14737             void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}) [58]
+-----------------------------------------------
+                0.00    0.00     187/187         void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+[59]     0.0    0.00    0.00     187         void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}) [59]
+-----------------------------------------------
+                0.00    0.00     187/187         void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [22]
+[60]     0.0    0.00    0.00     187         void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}) [60]
+-----------------------------------------------
+                0.00    0.00     125/125         _fu139___ZSt4cout [39]
+[61]     0.0    0.00    0.00     125         ultriangular_matrix<double>::advance_column(int const&) [61]
+-----------------------------------------------
+                0.00    0.00     125/125         _fu138___ZSt4cout [14]
+[62]     0.0    0.00    0.00     125         std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<int const, double> const&, unsigned int, unsigned int) [62]
+-----------------------------------------------
+                0.00    0.00      20/20          symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+[63]     0.0    0.00    0.00      20         void unordered_inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, std::vector<bool, std::allocator<bool> >&) [63]
+-----------------------------------------------
+                0.00    0.00      20/20          symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [44]
+[64]     0.0    0.00    0.00      20         block_diag_matrix<double>::off_diagonal(int) [64]
+-----------------------------------------------
+                0.00    0.00      14/14          _fu134___ZSt4cout [16]
+[65]     0.0    0.00    0.00      14         void std::vector<int, std::allocator<int> >::_M_insert_aux<int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int&&) [65]
+-----------------------------------------------
+                0.00    0.00       1/5           _fu110___ZSt4cout [26]
+                0.00    0.00       1/5           symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+                0.00    0.00       3/5           solver<double>::~solver() [24]
+[66]     0.0    0.00    0.00       5         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [66]
+-----------------------------------------------
+                0.00    0.00       4/4           _fu188___ZNSt8__detail12__prime_listE [310]
+[67]     0.0    0.00    0.00       4         std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_rehash(unsigned int) [67]
+-----------------------------------------------
+                0.00    0.00       2/4           solver<double>::solver() [75]
+                0.00    0.00       2/4           solver<double>::~solver() [24]
+[68]     0.0    0.00    0.00       4         __gcc_deregister_frame [68]
+-----------------------------------------------
+                0.00    0.00       1/3           symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [3]
+                0.00    0.00       2/3           std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [70]
+[69]     0.0    0.00    0.00       3         void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > >(std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > const&) [69]
+-----------------------------------------------
+                0.00    0.00       1/2           half_matrix<double>::resize(int, int) [36]
+                0.00    0.00       1/2           ultriangular_matrix<double>::resize(int, int) [37]
+[70]     0.0    0.00    0.00       2         std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [70]
+                0.00    0.00       2/3           void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > >(std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > const&) [69]
+-----------------------------------------------
+                0.00    0.00       2/2           solver<double>::solver() [75]
+[71]     0.0    0.00    0.00       2         std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int) [71]
+-----------------------------------------------
+                0.00    0.00       2/2           solver<double>::solver() [75]
+[72]     0.0    0.00    0.00       2         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int) [72]
+-----------------------------------------------
+                0.00    0.00       1/1           main [430]
+[73]     0.0    0.00    0.00       1         half_matrix<double>::load(std::string) [73]
+-----------------------------------------------
+                0.00    0.00       1/1           main [430]
+[74]     0.0    0.00    0.00       1         solver<double>::solve(double, double) [74]
+-----------------------------------------------
+                0.00    0.00       1/1           main [430]
+[75]     0.0    0.00    0.00       1         solver<double>::solver() [75]
+                0.00    0.00       2/4           __gcc_deregister_frame [68]
+                0.00    0.00       2/2           std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int) [71]
+                0.00    0.00       2/2           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int) [72]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+  [38] void inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [46] symmetry_matrix<double>::degree(int const&) const [60] void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1})
+  [63] void unordered_inplace_union<std::vector<int, std::allocator<int> >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::vector<int, std::allocator<int> >&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, std::vector<bool, std::allocator<bool> >&) [49] ultriangular_matrix<double>::coeff(int const&, int const&, int) const [58] void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, int, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1})
+  [22] void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&) [62] std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<int const, double> const&, unsigned int, unsigned int) [54] void std::__merge_adaptive<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, int, int*, int)
+   [1] half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&) [67] std::_Hashtable<int, std::pair<int const, double>, std::allocator<std::pair<int const, double> >, std::_Select1st<std::pair<int const, double> >, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, false, false, true>::_M_rehash(unsigned int) [56] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__merge_backward<std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<int*>, std::move_iterator<int*>, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [73] half_matrix<double>::load(std::string) [69] void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > >(std::vector<double, std::allocator<double> >*, unsigned int, std::vector<double, std::allocator<double> > const&) [53] void std::__move_median_first<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1}, half_matrix<double>::rcm(std::vector<int, std::allocator<int> >&)::{lambda(int const&, int const&)#1})
+  [36] half_matrix<double>::resize(int, int) [31] void std::__uninitialized_fill_n<false>::uninitialized_fill_n<std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned int, std::vector<int, std::allocator<int> > const&) [55] std::pair<int*, int> std::get_temporary_buffer<int>(int)
+  [10] half_matrix<double>::find_root(int&) [48] void std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > >::_M_insert_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >*, std::vector<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::allocator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&&) [57] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::merge<std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(std::move_iterator<int*>, std::move_iterator<int*>, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, std::move_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+   [5] symmetry_matrix<double>::ildl(ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<int, std::allocator<int> >&, double const&, double const&) [70] std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [45] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, std::random_access_iterator_tag)
+  [17] symmetry_matrix<double>::pivot(symmetry_swap_struct<double>, ultriangular_matrix<double>&, int const&, int const&) [71] std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int) [47] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__find_if<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int)#2}, std::random_access_iterator_tag)
+  [44] symmetry_matrix<double>::update(int const&, std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, ultriangular_matrix<double>&, block_diag_matrix<double>&, std::vector<bool, std::allocator<bool> >&) [32] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [68] __gcc_deregister_frame
+  [19] symmetry_matrix<double>::readline(std::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >&, int&, int&, int&, int&, double&) [72] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int) [16] _fu134___ZSt4cout
+   [3] symmetry_matrix<double>::sym_perm(std::vector<int, std::allocator<int> >&) [66] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [34] _fu24___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+   [8] symmetry_matrix<double>::sym_equil() [18] void std::vector<double, std::allocator<double> >::_M_insert_aux<double const&>(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&) [35] _fu25___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+  [64] block_diag_matrix<double>::off_diagonal(int) [20] std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [27] _fu26___ZTTSt18basic_stringstreamIcSt11char_traitsIcESaIcEE
+  [61] ultriangular_matrix<double>::advance_column(int const&) [21] void std::vector<int, std::allocator<int> >::_M_assign_aux<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [28] _fu56___ZTVSt9basic_iosIcSt11char_traitsIcEE
+  [37] ultriangular_matrix<double>::resize(int, int) [11] void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [13] _fu58___ZTVSt9basic_iosIcSt11char_traitsIcEE
+  [52] symmetry_swap_struct<double>::symmetry_swap_struct(symmetry_swap_struct<double> const&) [65] void std::vector<int, std::allocator<int> >::_M_insert_aux<int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int&&) [7] _fu65___ZSt4cerr
+  [23] symmetry_swap_struct<double>::~symmetry_swap_struct() [43] std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [15] _fu82___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE
+  [74] solver<double>::solve(double, double) [51] void std::vector<int, std::allocator<int> >::_M_range_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::forward_iterator_tag) [29] _fu83___ZTVSt15basic_stringbufIcSt11char_traitsIcESaIcEE
+  [75] solver<double>::solver() [25] std::basic_ios<char, std::char_traits<char> >::init(std::basic_streambuf<char, std::char_traits<char> >*) [30] _fu94___ZTVSt15basic_streambufIcSt11char_traitsIcEE
+  [24] solver<double>::~solver() [50] void std::inplace_merge<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [12] symmetry_matrix<double>::coeff(int const&, int const&, int) const [59] void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1}>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, void drop_tol<double>(std::vector<double, std::allocator<double> >&, std::vector<int, std::allocator<int> >&, int const&, double const&)::{lambda(int const&, int const&)#1})

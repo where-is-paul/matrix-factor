@@ -1,0 +1,42 @@
+Jan. 1:
+=======
+Paul@deep-thought:matrix-factor$ ./ldl_driver test_matrices/extra_matrices/matrices_homogeneous7.mtx 1 0.001
+ -n -n
+Load succeeded. File test_matrices/extra_matrices/matrices_homogeneous7.mtx was loaded.
+A is 523265 by 523265 with 5062950 non-zeros.
+Equilibriation: 0.265 seconds.
+RCM:            0.608 seconds.
+Permutation:    1.763 seconds.
+Factorization:  1.342 seconds.
+Total time:     3.978 seconds.
+L is 523265 by 523265 with 698170 non-zeros.
+Factorization Complete. All output written to /output_matrices directory.
+
+
+After degree function optimization:
+===================================
+Paul@deep-thought:matrix-factor$ ./ldl_driver test_matrices/extra_matrices/matrices_homogeneous7.mtx 1 0.001
+ -n -n
+Load succeeded. File test_matrices/extra_matrices/matrices_homogeneous7.mtx was loaded.
+A is 523265 by 523265 with 5062950 non-zeros.
+Equilibriation: 0.281 seconds.
+RCM:            0.390 seconds.
+Permutation:    1.717 seconds.
+Factorization:  1.326 seconds.
+Total time:     3.714 seconds.
+L is 523265 by 523265 with 698170 non-zeros.
+Factorization Complete. All output written to /output_matrices directory.
+
+After perm. optimization:
+=========================
+Paul@deep-thought:matrix-factor$ ./ldl_driver test_matrices/extra_matrices/matrices_homogeneous7.mtx 1 0.001
+ -n -n
+Load succeeded. File test_matrices/extra_matrices/matrices_homogeneous7.mtx was loaded.
+A is 523265 by 523265 with 5062950 non-zeros.
+Equilibriation: 0.265 seconds.
+RCM:            0.390 seconds.
+Permutation:    0.827 seconds.
+Factorization:  1.311 seconds.
+Total time:     2.793 seconds.
+L is 523265 by 523265 with 698170 non-zeros.
+Factorization Complete. All output written to /output_matrices directory.

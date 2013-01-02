@@ -15,6 +15,9 @@ void symmetry_matrix<el_type>::sym_perm(std::vector<int>& perm)
 	{
 		pinv[perm[j]] = j;
 		list[j].clear();
+		
+		m_idx_new[j].reserve(20);
+		m_x_new[j].reserve(20);
 	}
 	
 	for (j = 0; j < m_n_cols; j++)

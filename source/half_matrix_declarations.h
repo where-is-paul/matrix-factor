@@ -141,11 +141,11 @@ public:
 		\param index the index of the node.
 		\return the degree of the nodex indexed by index.
 	*/
-	virtual inline int degree(const int& index) const = 0;
+	virtual int degree(const int& index) const = 0;
 
 	virtual void put_header(std::string& header) = 0;
 
-	virtual inline bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value) = 0;
+	virtual bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value) = 0;
 
 };
 
