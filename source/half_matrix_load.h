@@ -6,13 +6,12 @@ template <class el_type>
 bool half_matrix<el_type>::load(std::string filename)
 {	
 	std::ifstream input(filename.c_str(), std::ios::in);
-	std::stringstream line;
 		
 	if(!input)
 		return false;
 	
-	const int maxBuffersize = 2048;
-	char buffer[maxBuffersize];
+	const int maxBuffersize = 512;
+	char* buffer = new char[maxBuffersize];
 
 	bool readsizes = false;
 
@@ -26,12 +25,10 @@ bool half_matrix<el_type>::load(std::string filename)
 		//NOTE An appropriate test should be done on the header to get the symmetry
 		if (buffer[0]=='%')
 			continue;
-		
-		line << buffer;
-		
+				
 		if (!readsizes)
 		{
-			line >> n_rows >> n_cols >> n_nzs;
+			sscanf(buffer, "%d %d %d", &n_rows, &n_cols, &n_nzs);
 			if (n_rows > 0 && n_cols > 0 && n_nzs > 0) 
 			{
 				readsizes = true;
@@ -42,7 +39,7 @@ bool half_matrix<el_type>::load(std::string filename)
 		{ 
 			i = -1;
 			j = -1;
-			if (readline(line, n_rows, n_cols, i, j, value)) 
+			if (readline(buffer, n_rows, n_cols, i, j, value)) 
 			{
 				m_idx[j].push_back(i);
 				m_x[j].push_back(value);
@@ -60,7 +57,6 @@ bool half_matrix<el_type>::load(std::string filename)
 				std::cerr << "Invalid read: " << i << "," << j << "\n";		
 		}
 		
-		line.clear();
 	}
 	
 	if (readcount != n_nzs)
@@ -68,6 +64,8 @@ bool half_matrix<el_type>::load(std::string filename)
 	
 	nnz_count = nnzcount;
 	std::cout << "Load succeeded. " << "File " << filename << " was loaded." << std::endl;
+	
+	delete[] buffer;
 	input.close();
 	return true;
 }

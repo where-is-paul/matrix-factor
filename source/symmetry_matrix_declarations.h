@@ -189,9 +189,9 @@ public:
 		header = "%%MatrixMarket matrix coordinate real symmetric";
 	}
 
-	inline bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value)
+	inline bool readline (char*& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value)
 	{
-		line >> i >> j >> value;
+		sscanf(line, "%d %d %lf", &i, &j, &value);
 		i--;
 		j--;
 		return (i>=0 && j>=0 && i<n_rows&& j<n_cols);

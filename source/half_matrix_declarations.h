@@ -146,7 +146,7 @@ public:
 
 	virtual void put_header(std::string& header) = 0;
 
-	virtual bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value) = 0;
+	virtual bool readline (char*& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value) = 0;
 
 };
 
