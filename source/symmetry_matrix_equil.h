@@ -13,8 +13,9 @@ void symmetry_matrix<el_type>::sym_equil()
 	for (i = 0; i < ncols; i++)
 	{
 		//assumes diag elem is always in 0th pos. if possible.
-		if (!m_idx[i].empty() && m_idx[i][0] == i)
+		if (!m_idx[i].empty() && m_idx[i][0] == i) {
 			S[i] = sqrt(abs(m_x[i][0]));
+		}
 		
 		//assumes indices are ordered. since this procedure is run
 		//before factorization pivots matrix, this is a fair assumption

@@ -207,7 +207,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 			}
 		}
 		//--------------end pivoting--------------//
-
+		
 		//erase diagonal element from non-zero indices (to exclude it from being dropped)
 		curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());
 

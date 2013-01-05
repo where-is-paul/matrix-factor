@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <algorithm>
+using std::abs;
 
 #include "lil_sparse_matrix_helpers.h"
 

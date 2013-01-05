@@ -2,6 +2,7 @@
 #ifndef LIL_SPARSE_MATRIX_HELPERS_H
 #define LIL_SPARSE_MATRIX_HELPERS_H
 
+using std::abs;
 using std::vector;
 const long double eps = 1e-13; //<Machine epsilon
 
@@ -88,12 +89,15 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 						};
 
 		std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
-		for (int i = lfil, end = curr_nnzs.size(); i < end ; ++i)
+		for (int i = lfil, end = curr_nnzs.size(); i < end ; i++) {
 			v[curr_nnzs[i]] = 0;
+		}
 	}
-	
+
 	auto is_zero = [&v](int i) -> bool { return abs(v[i]) < eps; };
+
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
+	
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 }
 

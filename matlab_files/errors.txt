@@ -1,0 +1,130 @@
+mex.bat -largeArrayDims ildl.cpp utils.cpp
+utils.cpp
+c:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h(91) : warning C4820: 'vc_attributes::Pre' : '4' bytes padding added after data member 'vc_attributes::Pre::Access'
+c:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h(106) : warning C4820: 'vc_attributes::Pre' : '4' bytes padding added after data member 'vc_attributes::Pre::NullTerminated'
+c:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h(122) : warning C4820: 'vc_attributes::Post' : '4' bytes padding added after data member 'vc_attributes::Post::Access'
+c:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h(201) : warning C4820: 'vc_attributes::PreRange' : '4' bytes padding added after data member 'vc_attributes::PreRange::Deref'
+c:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h(213) : warning C4820: 'vc_attributes::PostRange' : '4' bytes padding added after data member 'vc_attributes::PostRange::Deref'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\yvals.h(164) : warning C4574: '_SECURE_SCL' is defined to be '0': did you mean to use '#if _SECURE_SCL'?
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\stdio.h(59) : warning C4820: '_iobuf' : '4' bytes padding added after data member '_iobuf::_cnt'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(109) : warning C4820: '_wfinddata64i32_t' : '4' bytes padding added after data member '_wfinddata64i32_t::attrib'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(114) : warning C4820: '_wfinddata64i32_t' : '4' bytes padding added after data member '_wfinddata64i32_t::name'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(118) : warning C4820: '_wfinddata64_t' : '4' bytes padding added after data member '_wfinddata64_t::attrib'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(488) : warning C4820: '_stat32' : '2' bytes padding added after data member '_stat32::st_gid'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(504) : warning C4820: 'stat' : '2' bytes padding added after data member 'stat::st_gid'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(520) : warning C4820: '_stat32i64' : '2' bytes padding added after data member '_stat32i64::st_gid'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(521) : warning C4820: '_stat32i64' : '4' bytes padding added after data member '_stat32i64::st_rdev'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(525) : warning C4820: '_stat32i64' : '4' bytes padding added after data member '_stat32i64::st_ctime'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(534) : warning C4820: '_stat64i32' : '2' bytes padding added after data member '_stat64i32::st_gid'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(548) : warning C4820: '_stat64' : '2' bytes padding added after data member '_stat64::st_gid'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\wchar.h(549) : warning C4820: '_stat64' : '4' bytes padding added after data member '_stat64::st_rdev'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\crtdbg.h(1042) : warning C4986: 'operator new[]': exception specification does not match previous declaration
+        C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\new(79) : see declaration of 'operator new[]'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\crtdbg.h(1060) : warning C4986: 'operator delete[]': exception specification does not match previous declaration
+        C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\new(77) : see declaration of 'operator delete[]'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\math.h(39) : warning C4820: '_exception' : '4' bytes padding added after data member '_exception::type'
+C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE\xlocinfo.h(63) : warning C4820: '_Ctypevec' : '4' bytes padding added after data member '_Ctypevec::_Delfl'
+C:\PROGRA~1\MATLAB\R2012a\extern\include\mex.h(107) : warning C4820: '<unnamed-tag>' : '4' bytes padding added after data member '<unnamed-tag>::global_variable_table_length'
+C:\PROGRA~1\MATLAB\R2012a\extern\include\mex.h(109) : warning C4820: '<unnamed-tag>' : '4' bytes padding added after data member '<unnamed-tag>::npaths'
+C:\PROGRA~1\MATLAB\R2012a\extern\include\mex.h(111) : warning C4820: '<unnamed-tag>' : '4' bytes padding added after data member '<unnamed-tag>::init_term_table_length'
+c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\source\unit_lower_triangular_matrix\../lil_sparse_matrix.h(33) : warning C4820: 'lil_sparse_matrix<el_type>' : '4' bytes padding added after data member 'lil_sparse_matrix<el_type>::nnz_count'
+        with
+        [
+            el_type=double
+        ]
+        c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\source\square_matrix\square_matrix_declarations.h(15) : see reference to class template instantiation 'lil_sparse_matrix<el_type>' being compiled
+        with
+        [
+            el_type=double
+        ]
+        c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\source\symmetric_matrix\symmetry_matrix_declarations.h(16) : see reference to class template instantiation 'square_matrix<el_type>' being compiled
+        with
+        [
+            el_type=double
+        ]
+        c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\matlab_files\../source/symmetric_matrix/symmetry_solver.h(43) : see reference to class template instantiation 'symmetry_matrix<el_type>' being compiled
+        with
+        [
+            el_type=double
+        ]
+        c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\matlab_files\utils.h(13) : see reference to class template instantiation 'solver<el_type>' being compiled
+        with
+        [
+            el_type=double
+        ]
+c:\users\paul\dropbox\online resources\my homework\ubc 2011w\nserc\matrix-factor\source\square_matrix\square_matrix_declarations.h(145) : warning C4820: 'square_matrix<el_type>' : '4' bytes padding added after data member 'square_matrix<el_type>::ratio'
+        with
+        [
+            el_type=double
+        ]
+utils.cpp(10) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(10) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(52) : warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+utils.cpp(52) : warning C4365: 'argument' : conversion from 'mwSize' to 'int', signed/unsigned mismatch
+utils.cpp(52) : warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
+utils.cpp(52) : warning C4365: 'argument' : conversion from 'mwSize' to 'int', signed/unsigned mismatch
+utils.cpp(60) : warning C4267: 'argument' : conversion from 'size_t' to 'const int', possible loss of data
+utils.cpp(60) : warning C4365: 'argument' : conversion from 'mwSize' to 'const int', signed/unsigned mismatch
+utils.cpp(63) : warning C4267: 'argument' : conversion from 'size_t' to 'const int', possible loss of data
+utils.cpp(63) : warning C4365: 'argument' : conversion from 'mwSize' to 'const int', signed/unsigned mismatch
+utils.cpp(74) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(75) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(78) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(83) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(84) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(85) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(88) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(89) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(90) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(91) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(98) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(98) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(116) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(117) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(118) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(120) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(122) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(122) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(126) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(139) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(140) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(141) : warning C4365: 'argument' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+utils.cpp(144) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(145) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(146) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(147) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(154) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(158) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(161) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(172) : error C2039: 'nnz' : is not a member of 'std::vector<_Ty>'
+        with
+        [
+            _Ty=double
+        ]
+utils.cpp(173) : error C2039: 'nnz' : is not a member of 'std::vector<_Ty>'
+        with
+        [
+            _Ty=double
+        ]
+utils.cpp(174) : error C2039: 'n_cols' : is not a member of 'std::vector<_Ty>'
+        with
+        [
+            _Ty=double
+        ]
+utils.cpp(175) : error C2039: 'n_rows' : is not a member of 'std::vector<_Ty>'
+        with
+        [
+            _Ty=double
+        ]
+utils.cpp(176) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(177) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(178) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(189) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(191) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(192) : warning C4365: 'argument' : conversion from 'int' to 'unsigned __int64', signed/unsigned mismatch
+utils.cpp(203) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+utils.cpp(204) : warning C4365: '=' : conversion from 'int' to 'mwSize', signed/unsigned mismatch
+
+  C:\PROGRA~1\MATLAB\R2012A\BIN\MEX.PL: Error: Compile of 'utils.cpp' failed.
+
+makefile:12: recipe for target `ildl.mex*' failed
