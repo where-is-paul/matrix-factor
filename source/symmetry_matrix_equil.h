@@ -31,7 +31,7 @@ void symmetry_matrix<el_type>::sym_equil()
 		{ 
 			for (auto it = list[i].begin(); it != list[i].end(); it++)
 			{
-				coeffRef(i, *it, elem_its);
+				this->coeffRef(i, *it, elem_its);
 				
 				//can use bin. search on coeff since no reordering is done yet.
 				*(elem_its.second) /= S[i]; 

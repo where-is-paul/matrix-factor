@@ -59,7 +59,7 @@ inline void symmetry_matrix<el_type>::pivot(symmetry_swap_struct<el_type> s, ult
 	//list_first[r] should have # of nnz of A(r, 0:k-1)
 	for (i = list_first[r]; i < (int) list[r].size(); i++) {
 		j = list[r][i];
-		if (coeffRef(r, j, its_k)) {
+		if (this->coeffRef(r, j, its_k)) {
 			if (j == k) {
 				s.col_k_nnzs.push_back(r); //A(r, k) is fixed upon permutation so its index stays r
 				s.row_r.push_back(k);
