@@ -169,10 +169,10 @@ void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, 
 			break;
 		
 		case 'S':
-			m_x = (double*) mxCalloc(solv.A.S.nnz(), sizeof(double));
-			m_row_idx = (mwSize*) mxCalloc(solv.A.S.nnz(), sizeof(mwSize));
-			m_col_idx = (mwSize*) mxCalloc(solv.A.S.n_cols()+1, sizeof(mwSize));
-			for (i = 0; i < solv.A.S.n_rows(); i++) {
+			m_x = (double*) mxCalloc(solv.A.S.size(), sizeof(double));
+			m_row_idx = (mwSize*) mxCalloc(solv.A.S.size(), sizeof(mwSize));
+			m_col_idx = (mwSize*) mxCalloc(solv.A.S.size()+1, sizeof(mwSize));
+			for (i = 0; i < solv.A.S.size(); i++) {
 				m_col_idx[i] = count;
 				m_row_idx[count] = i;
 				m_x[count] = solv.A.S[i];

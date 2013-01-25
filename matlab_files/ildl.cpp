@@ -1,6 +1,6 @@
 #include <mex.h>
 #include <string>
-#include "../source/symmetry_solver.h"
+#include "../source/symmetric_matrix/symmetry_solver.h"
 #include "utils.h"
 
 using namespace std;

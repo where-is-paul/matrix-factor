@@ -1,9 +1,9 @@
 //-*- mode: c++ -*-
-#ifndef SYMMETRY_MATRIX_PERM_H
-#define SYMMETRY_MATRIX_PERM_H
+#ifndef SYMMETRY_MATRIX_PERMUTE_H
+#define SYMMETRY_MATRIX_PERMUTE_H
 
 template<class el_type>
-void symmetry_matrix<el_type>::sym_perm(std::vector<int>& perm)
+inline void square_matrix<el_type>::permute(std::vector<int>& perm)
 {
 	vector<idx_vector_type> m_idx_new(m_n_cols);
 	vector<elt_vector_type> m_x_new(m_n_cols);
@@ -32,7 +32,7 @@ void symmetry_matrix<el_type>::sym_perm(std::vector<int>& perm)
 			if (pi < pj)
 			{
 				m_idx_new[pi].push_back(pj);
-				m_x_new[pi].push_back(px);
+				m_x_new[pi].push_back(px * sign);
 				list[pj].push_back(pi);
 			}
 			else

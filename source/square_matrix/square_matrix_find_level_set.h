@@ -1,9 +1,9 @@
 // -*- mode: c++ -*-
-#ifndef HALF_MATRIX_FIND_LEVEL_SET_H
-#define HALF_MATRIX_FIND_LEVEL_SET_H
+#ifndef SQUARE_MATRIX_FIND_LEVEL_SET_H
+#define SQUARE_MATRIX_FIND_LEVEL_SET_H
 
 template <class el_type>
-inline bool half_matrix<el_type>::find_level_set(vector<int>& lvl_set, vector<bool>& visited)
+inline bool square_matrix<el_type>::find_level_set(vector<int>& lvl_set, vector<bool>& visited)
 {
 	vector<int> new_set;
 	for (auto node_it = lvl_set.begin(); node_it != lvl_set.end(); node_it++)

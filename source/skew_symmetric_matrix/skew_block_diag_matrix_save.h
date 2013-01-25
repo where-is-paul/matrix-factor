@@ -3,17 +3,17 @@
 #define _BLOCK_DIAG_MATRIX_SAVE_H_
 
 template <class el_type>
-bool block_diag_matrix<el_type> :: save(std::string filename) const
+bool block_diag_matrix<el_type>::save(std::string filename) const
 {
 	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
-	if(!out)
-	return false;
+	if (!out)
+		return false;
 
-	out.flags(std::ios_base::scientific);
+	//out.flags(std::ios_base::scientific);
 	out.precision(16);
 	std::string header;
 	
-	header= "%%MatrixMarket matrix coordinate ";
+	header = "%%MatrixMarket matrix coordinate ";
 	header += "real symmetric"; //maybe change later to have general/complex/blah as options
 
 	out << header << std::endl; 

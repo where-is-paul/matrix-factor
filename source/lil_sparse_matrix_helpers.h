@@ -2,8 +2,9 @@
 #ifndef LIL_SPARSE_MATRIX_HELPERS_H
 #define LIL_SPARSE_MATRIX_HELPERS_H
 
-using std::abs;
 using std::vector;
+using std::abs;
+
 const long double eps = 1e-13; //<Machine epsilon
 
 #ifndef DEBUG
@@ -13,10 +14,8 @@ std::ostream& operator<< (std::ostream& os, const vector<el_type>& vec)
 {
 	if (!vec.empty())
 	{
-		for (typename vector<el_type>::size_type index = 0; index < vec.size() - 1; index ++)
-		{
+		for (typename vector<el_type>::size_type index = 0; index < vec.size() - 1; index++)
 			os << vec[index] << ", ";
-		}
 
 		os << vec[vec.size()-1];
 	}
@@ -34,7 +33,7 @@ template <class el_type>
 inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r)
 {
 	double res = 0;
-	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it)
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; it++)
 	{
 		if (abs(v[*it]) > res)
 		{
@@ -56,7 +55,7 @@ template <class el_type>
 inline double norm(vector<el_type>& v, vector<int>& curr_nnzs, el_type p = 1)
 {
 	el_type res = 0;
-	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it)
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; it++)
 		res += pow(abs(v[*it]), p);
 
 	return pow(res, 1/p);
@@ -75,7 +74,7 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 	el_type tolerance = tol*norm(v, curr_nnzs);
 	if (tolerance > eps)
 	{
-		for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
+		for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; it++) 
 		if (abs(v[*it]) < tolerance) v[*it] = 0;
 	}
 	
@@ -89,15 +88,12 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 						};
 
 		std::sort(curr_nnzs.begin(), curr_nnzs.end(), sorter);
-		for (int i = lfil, end = curr_nnzs.size(); i < end ; i++) {
+		for (int i = lfil, end = curr_nnzs.size(); i < end ; i++)
 			v[curr_nnzs[i]] = 0;
-		}
 	}
-
-	auto is_zero = [&v](int i) -> bool { return abs(v[i]) < eps; };
-
-	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	
+	auto is_zero = [&v](int i) -> bool { return abs(v[i]) < eps; };
+	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 }
 
@@ -130,33 +126,26 @@ inline void inplace_union(InputContainer& a, InputIterator const& b_start, Input
 template <class InputContainer, class InputIterator>
 inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_start, InputIterator const& b_end, vector<bool>& in_set)
 {
-	for (auto it = a.begin(), end = a.end(); it != end; ++it)
+	for (auto it = a.begin(), end = a.end(); it != end; it++)
 		in_set[*it] = true;
 	
-	for (auto it = b_start; it != b_end; ++it)
-	{
+	for (auto it = b_start; it != b_end; it++)
 		if (!in_set[*it])
-		{
-			in_set[*it] = true;
 			a.push_back(*it);
-		}
-	}
 	
-	for (auto it = a.begin(), end = a.end(); it != end; ++it)
+	for (auto it = a.begin(), end = a.end(); it != end; it++)
 		in_set[*it] = false;
 }
 
 inline void safe_swap(vector<int>& curr_nnzs, const int& k, const int& r)
 {
-	vector<int>::iterator k_idx, r_idx;
-	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it)
+	for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; it++)
 	{
-		if (*it == k) {
+		if (*it == k)
 			*it = r;
-		} else if (*it == r) {
+		else if (*it == r)
 			*it = k;
-		}
 	}
 }
 
-#endif // LIL_SPARSE_MATRIX_HELPERS_H
+#endif

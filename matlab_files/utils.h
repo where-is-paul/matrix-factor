@@ -2,7 +2,7 @@
 #define _MEX_UTILS
 
 #include "../source/lil_sparse_matrix.h"
-#include "../source/symmetry_solver.h"
+#include "../source/symmetric_matrix/symmetry_solver.h"
 #include <mex.h>
 #include <algorithm>
 #include <queue>

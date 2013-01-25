@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <string.h>
-#include "source/symmetry_solver.h"
+#include "source/symmetric_matrix/symmetry_solver.h"
 
 using namespace std;
 
@@ -130,8 +130,8 @@ using namespace std;
 *	
 */
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+{
 	if (argc < 2 || argc > 6) {
 		std::cout << "Too many or too few arguments." << std::endl
 		<< "Program usage: ./ldl_driver [in.mtx] [lfil] [tol] [-save] [-display]" << std::endl;

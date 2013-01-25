@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <string.h>
 #include "symmetry_matrix.h"
-#include "ultriangular.h"
+#include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
 #include <ctime>
 // #include <sys/time.h>
 
@@ -14,20 +14,19 @@
 	\param filename the filename the matrix will be saved under.
 */
 template<class el_type>
-bool save_perm(const std::vector<el_type>& vec, std::string filename) {
+bool save_perm(const std::vector<el_type>& vec, std::string filename)
+{
 	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
 	if(!out)
-	return false;
+		return false;
 
-	out.flags(std::ios_base::scientific);
-	out.precision(12);
-	std::string header = "%%MatrixMarket matrix coordinate real general";; 
+	std::string header = "%%MatrixMarket matrix coordinate real general";;
 
-	out << header << std::endl; 
+	out << header << std::endl;
 	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
 
 	for(int i = 0; i < (int) vec.size(); i++)
-	out << i+1 << " " << vec[i]+1 << " " << 1 << "\n";
+		out << i+1 << " " << vec[i]+1 << " " << 1 << "\n";
 	
 	out.close();
 	return true;
@@ -64,29 +63,29 @@ class solver
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
-			//gettimeofday(&tim, NULL);  
+			//gettimeofday(&tim, NULL);
 			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			clock_t start = clock(); double dif, total = 0;
 			
-			A.sym_equil();
+			A.equilibrate();
 			
-			dif = clock() - start; total += dif; 
-			printf("Equilibriation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			dif = clock() - start; total += dif;
+			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			start = clock();
 			
 			A.rcm(perm);
-			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
+			//for (int i = 0; i < A.n_cols(); i++) perm.push_back(i);
 			
-			dif = clock() - start; total += dif; 
+			dif = clock() - start; total += dif;
 			printf("RCM:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
-			A.sym_perm(perm);
-			dif = clock() - start; total += dif; 
+			A.permute(perm);
+			dif = clock() - start; total += dif;
 			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			//gettimeofday(&tim, NULL);
-			//double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			//double t1=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			//printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
@@ -96,21 +95,21 @@ class solver
 			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
-			//gettimeofday(&tim, NULL);  
-			//double t2=tim.tv_sec+(tim.tv_usec/1e6);  
+			//gettimeofday(&tim, NULL);
+			//double t2=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			//printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
-			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
+			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
 		}
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
 			
 			The names of the output matrices follow the format out{}.mtx, where {} describes what the file contains (i.e. A, L, or D).
 		*/
-		void save() {
+		void save()
+		{
 			cout << "Saving matrices..." << endl;
-			A.save("output_matrices/outB.mtx");
-			A.S.save("output_matrices/outS.mtx");
+			A.save("output_matrices/outB.mtx", "output_matrices/outS.mtx");
 			save_perm(perm, "output_matrices/outP.mtx");
 			L.save("output_matrices/outL.mtx");
 			D.save("output_matrices/outD.mtx");

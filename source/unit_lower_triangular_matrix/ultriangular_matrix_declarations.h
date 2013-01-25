@@ -9,13 +9,13 @@
 	
 */
 
-template<class el_type> 
+template <class el_type> 
 class ultriangular_matrix : public lil_sparse_matrix<el_type>
 {
 public:
 	
 	//-------------- typedefs and inherited variables --------------//
-	using lil_sparse_matrix<el_type>::m_idx;
+	using lil_sparse_matrix<el_type>::m_idx; // linux compiler gcc need these
 	using lil_sparse_matrix<el_type>::m_x;
 	using lil_sparse_matrix<el_type>::m_n_rows;
 	using lil_sparse_matrix<el_type>::m_n_cols;
@@ -23,21 +23,16 @@ public:
 	using lil_sparse_matrix<el_type>::n_cols;
 	using lil_sparse_matrix<el_type>::nnz;
 	using lil_sparse_matrix<el_type>::nnz_count;
-
-	// using lil_sparse_matrix<el_type>::idx_vector_type;
-	// using lil_sparse_matrix<el_type>::elt_vector_type;
-	// using lil_sparse_matrix<el_type>::idx_it;
-	// using lil_sparse_matrix<el_type>::elt_it;
+	using lil_sparse_matrix<el_type>::list;
 
 	typedef typename lil_sparse_matrix<el_type>::idx_vector_type idx_vector_type; // linux compiler gcc need these
 	typedef typename lil_sparse_matrix<el_type>::elt_vector_type elt_vector_type;
-	typedef typename lil_sparse_matrix<el_type>::idx_it idx_it;
-	typedef typename lil_sparse_matrix<el_type>::elt_it elt_it;
+	typedef typename lil_sparse_matrix<el_type>::idx_it          idx_it;
+	typedef typename lil_sparse_matrix<el_type>::elt_it          elt_it;
 	
-	vector<idx_vector_type> list;	///<A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A.
+
 	idx_vector_type column_first;	///<On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
 	
-public:
 	
 	/*! \brief Constructor for a column oriented list-of-lists (LIL) matrix. Space for both the values list and the indices list of the matrix is allocated here.
 	*/
@@ -50,43 +45,20 @@ public:
 	
 	//----Matrix referencing/filling----//
 	
-	/*! \brief Finds the (i,j)th coefficient of the matrix.
-		\param i the row of the (i,j)th element (zero-indexed).
-		\param j the col of the (i,j)th element (zero-indexed).
-		\param offset an optional search offset for use in linear search (start at offset instead of 0).
-		\return The (i,j)th element of the matrix. 
-	*/
-	inline virtual el_type coeff(const int& i, const int& j, int offset = 0) const
-	{
-		if (i == j)
-			return 1;
-
-		for (unsigned int k = offset, end = m_idx[j].size(); k < end; k++)
-			if (m_idx[j][k] == i)
-				return m_x[j][k];
-		
-		return 0;
-	}
-	
 	/*! \brief Resizes the matrix. For use in preallocating space before factorization begins.
 		\param n_rows the number of rows in the resized matrix.
 		\param n_cols the number of cols in the resized matrix.
 	*/
 	void resize(int n_rows, int n_cols)
 	{
-		m_n_rows = n_rows;
-		m_n_cols = n_cols;
-		
-		m_x.resize(n_cols);
-		m_idx.resize(n_cols);
-		
+		lil_sparse_matrix<el_type>::resize(n_rows, n_cols); // call the function resize in base class
+
 		column_first.resize(n_cols, 0);
-		list.resize(n_cols);
 	}
 
 
 	//------Helpers------//
-	/*! \brief Ensures the invariant observed by L.column_first is held.
+	/*! \brief Ensures the two invariants observed by L.column_first and L.m_idx held.
 		
 		\invariant
 		If this matrix is a lower triangular factor of another matrix:
@@ -112,8 +84,9 @@ public:
 		int i, min = offset;
 		for (i = offset; i < (int) con.size(); i++)
 		{
-			if (con[i] == k) {
-				min = i; 
+			if (con[i] == k)
+			{
+				min = i;
 				break;
 			}
 		}

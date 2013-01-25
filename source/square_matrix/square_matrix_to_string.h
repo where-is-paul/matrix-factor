@@ -1,9 +1,9 @@
 //-*- mode: c++ -*-
-#ifndef HALF_MATRIX_TO_STRING_H
-#define HALF_MATRIX_TO_STRING_H
+#ifndef SQUARE_MATRIX_TO_STRING_H
+#define SQUARE_MATRIX_TO_STRING_H
 
 template <class el_type>
-std::string half_matrix<el_type>::to_string() const
+std::string square_matrix<el_type>::to_string() const
 {
 	std::ostringstream os;
 	os << "List of Lists Matrix (" << m_n_rows << ", " << m_n_cols << ", " << nnz() << ")" << std::endl;
