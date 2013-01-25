@@ -6,6 +6,8 @@
 #include "lilc_matrix.h"
 #include <sys/time.h>
 
+#include "quotient_graph.h"
+
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
 	\param filename the filename the matrix will be saved under.
@@ -59,28 +61,30 @@ class solver
 			\param tol a factor controling accuracy of factorization.
 		*/
 		void solve(double fill_factor, double tol) {
-			perm.reserve(A.n_cols());
-			struct timeval tim;
+			quotient_graph q(A.m_idx);
+			for (int i = 0; i < A.n_cols(); i++) q.eliminate(i);
+			// perm.reserve(A.n_cols());
+			// struct timeval tim;
 			
-			gettimeofday(&tim, NULL);  
-			double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			// gettimeofday(&tim, NULL);  
+			// double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
-			A.sym_equil();
-			A.sym_rcm(perm);
-			A.sym_perm(perm);
+			// A.sym_equil();
+			// A.sym_rcm(perm);
+			// A.sym_perm(perm);
 			
-			gettimeofday(&tim, NULL);  
-			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			// gettimeofday(&tim, NULL);  
+			// double t1=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
+			// printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
-			A.ildl(L, D, perm, fill_factor, tol);
+			// A.ildl(L, D, perm, fill_factor, tol);
 			
-			gettimeofday(&tim, NULL);  
-			double t2=tim.tv_sec+(tim.tv_usec/1e6);  
+			// gettimeofday(&tim, NULL);  
+			// double t2=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
-			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
+			// printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
+			// printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).

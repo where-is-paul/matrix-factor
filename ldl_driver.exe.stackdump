@@ -1,0 +1,10 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=00408797
+eax=8004F8C4 ebx=00000000 ecx=80050000 edx=80038890 esi=80050000 edi=80050000
+ebp=0028A9D8 esp=0028A8E0 program=C:\Users\Paul\Dropbox\Online Resources\My Homework\UBC 2011W\NSERC\matrix-factor\ldl_driver.exe, pid 5796, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0028A9D8  00408797  (0028AB78, 0028AC08, 0028AC08, 0028ABBC)
+0028AC48  00401C4C  (61230049, 611A1EB6, 00000000, 6100763A)
+0028ACF8  6100763A  (00000000, 0028CD78, 61006C50, 00000000)
+End of stack trace
