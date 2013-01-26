@@ -11,7 +11,8 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 {
 	int i, s;
 	vector<bool> visited(m_n_cols, false);
-	queue<int> q;
+	vector<int> q(m_n_cols+1);
+	int head = 0, tail = 0;
 	
 	// precalculate deg and adjacency_list because they are used a large number of times
 	vector<int> deg(m_n_cols);
@@ -24,41 +25,52 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 							return deg[a] < deg[b];
 						};
 						
-	vector<idx_vector_type> adjacency_list(m_n_cols);
-	for (i = 0; i < m_n_cols; i++)
-	{
-		adjacency_list[i].reserve(deg[i]);
-		adjacency_list[i].assign(list[i].begin(), list[i].end());
-		if (!m_idx[i].empty())
-		{
-			s = (m_idx[i][0] == i ? 1 : 0);
-			std::copy(m_idx[i].begin() + s, m_idx[i].end(), std::back_inserter(adjacency_list[i]));
-		}
-		sort(adjacency_list[i].begin(), adjacency_list[i].end(), sorter);
-	}
-
+	vector<int> nbrs;
+	nbrs.reserve(m_n_cols);
+	
+	vector<int> index(m_n_cols);
+	for (i = 0; i < m_n_cols; i++) index[i] = i;
+	
+	//sort(index.begin(), index.end(), sorter);
+	//std::random_shuffle(index.begin(), index.end());
+	//swap(index[22965], index[0]);
 	for (i = 0; i < m_n_cols; i++)
 	{
 		if (visited[i])
 			continue;
 		
-		s = i;
-		find_root(s, adjacency_list, deg);
+		s = index[i];
+		find_root(s, deg);
 		visited[s] = true;
-		q.push(s);
+		q[tail] = s;
+		tail++;
 		
-		while (!q.empty())
+		while (head != tail)
 		{
-			s = q.front();
-			q.pop();
+			s = q[head];
+			head++;
 			perm.push_back(s);
-			for (auto it = adjacency_list[s].begin(); it != adjacency_list[s].end(); it++)
+			
+			nbrs.clear();
+			for (auto it = list[s].begin(); it != list[s].end(); it++)
 			{
-				if (!visited[*it])
-				{
+				if (!visited[*it]) {
 					visited[*it] = true;
-					q.push(*it);
+					nbrs.push_back(*it);
 				}
+			}
+			
+			for (auto it = m_idx[s].begin(); it != m_idx[s].end(); it++) {
+				if (!visited[*it]) {
+					visited[*it] = true;
+					nbrs.push_back(*it);
+				}
+			}
+			
+			sort(nbrs.begin(), nbrs.end(), sorter);
+			
+			for (auto it = nbrs.begin(); it != nbrs.end(); it++) {
+				q[tail++] = *it;
 			}
 		}
 	}

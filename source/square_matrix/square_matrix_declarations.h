@@ -91,7 +91,7 @@ public:
 
 		\param s contains the initial node to seed the algorithm. A pseudo-peripheral root of A is stored in s at the end of the algorithm.
 	*/
-	inline void find_root(int& s, vector<idx_vector_type>& adjacency_list, vector<int>& deg);
+	inline void find_root(int& s, vector<int>& deg);
 
 	/*!	\brief Returns the next level set given the current level set of A. This is essentially all neighbours of the currently enqueued nodes in breath-first search.
 		
