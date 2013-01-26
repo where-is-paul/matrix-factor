@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include "lilc_matrix.h"
-#include <sys/time.h>
+#include <ctime>
+#include <iomanip>
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
@@ -60,26 +61,43 @@ class solver
 		*/
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
-			struct timeval tim;
-			
-			gettimeofday(&tim, NULL);  
-			double t0=tim.tv_sec+(tim.tv_usec/1e6);
-			
+			cout << std::fixed << std::setprecision(3);
+			//gettimeofday(&tim, NULL);  
+			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			clock_t start = clock(); double dif, total = 0;
+
 			A.sym_equil();
+
+			dif = clock() - start; total += dif; 
+			printf("Equilibriation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			start = clock();
+
 			A.sym_rcm(perm);
+			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
+
+			dif = clock() - start; total += dif; 
+			printf("RCM:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+
+			start = clock();
 			A.sym_perm(perm);
-			
-			gettimeofday(&tim, NULL);  
-			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
-			
-			printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
-			
+			dif = clock() - start; total += dif; 
+			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+
+			//gettimeofday(&tim, NULL);
+			//double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+
+			//printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
+
+			start = clock();
 			A.ildl(L, D, perm, fill_factor, tol);
-			
-			gettimeofday(&tim, NULL);  
-			double t2=tim.tv_sec+(tim.tv_usec/1e6);  
-			
-			printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
+			dif = clock() - start; total += dif;
+			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+
+			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
+			//gettimeofday(&tim, NULL);  
+			//double t2=tim.tv_sec+(tim.tv_usec/1e6);  
+
+			//printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() ); 
 		}
 		
