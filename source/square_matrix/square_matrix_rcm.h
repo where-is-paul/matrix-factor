@@ -33,7 +33,6 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 	
 	//sort(index.begin(), index.end(), sorter);
 	//std::random_shuffle(index.begin(), index.end());
-	//swap(index[22965], index[0]);
 	for (i = 0; i < m_n_cols; i++)
 	{
 		if (visited[i])
