@@ -27,18 +27,20 @@ std::ostream& operator<< (std::ostream& os, const Container& vec)
 }
 #endif
 
-const int MERGE_CAP = 3;
+const int MERGE_CAP = 30;
 class quotient_graph {
 	typedef vector<vector<int> > adj_list;
 	
 	adj_list graph;
-	vector<bool> in_set;
+	vector<bool> in_set, found, eliminated;
 	vector<int> reach, quo_nodes, temp;
 	
 	public:
 		quotient_graph(adj_list& g) {
 			int n = g.size();
 			in_set.resize(n, false);
+			found.resize(n, false);
+			eliminated.resize(n, false);
 			temp.reserve(n); 
 			reach.reserve(n);
 			quo_nodes.reserve(n);
@@ -77,50 +79,73 @@ class quotient_graph {
 			
 			int w, k; queue<int> q;
 			for (int j = 0; j < (int) graph[i].size(); j++) {
-				if (graph[i][j] < i) {
-					q.push(graph[i][j]);
-				}
-				in_set[graph[i][j]] = true;
+				w = graph[i][j];
+				if (eliminated[w]) {
+					q.push(w);
+				} 
+				in_set[w] = true;
 			}
 		
+			in_set[i] = true;
+			found[i] = true;
 			while (!q.empty()) {
 				k = q.front(); q.pop();
 
+				found[k] = true;
 				for (int j = 0; j < (int) graph[k].size(); j++) {
 					w = graph[k][j];
 					if (w == i) {
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
-						reach.push_back(graph[k][j]);
-						continue;
+						if (j < (int) graph[k].size())
+							w = graph[k][j];
 					}
 					
-					while (j < (int) graph[k].size() && in_set[graph[k][j]]) {
+					//the _found_ bitset serves dual purposes here:
+					//it prevents the bfs from traversing repeated nodes
+					//while also prevents the loop below from adding
+					//repeated notes to reach.
+					while (j < (int) graph[k].size() && in_set[w] && !found[w]) {
+						found[w] = true;
+						reach.push_back(w);
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
+						if (j < (int) graph[k].size())
+							w = graph[k][j];
+					}
+
+					if (j >= (int) graph[k].size()) break;
+					
+					if (eliminated[w]) {
+						if (!found[w])
+							q.push(w);
+					} else if (!in_set[w]) {
+						reach.push_back(w);
+						found[w] = true;
 					}
 					
-					if (w < k) {
-						q.push(w);
-					} else {
-						reach.push_back(w);
-						in_set[w] = true;
-					}
+					//the in_set bitset is a marker for removing repeated
+					//nodes from the adj. list of the supernodes.
+					in_set[w] = true;
 				}
-			}			
+			}		
 			
 			//cleaning up...
-			for (int j = 0; j < (int) quo_nodes.size(); j++) {
-				in_set[quo_nodes[j]] = false;
-			}
+			//the two lines below can be optimized by keeping track of exactly what was put in.
+			//i.e. uncomment the lines below and do similar for found.
+			fill(in_set.begin(), in_set.end(), false);
+			fill(found.begin(), found.end(), false);
+			// for (int j = 0; j < (int) quo_nodes.size(); j++) {
+				// in_set[quo_nodes[j]] = false;
+			// }
 			
-			for (int j = 0; j < (int) reach.size(); j++) {
-				in_set[reach[j]] = false;
-			}
+			// for (int j = 0; j < (int) reach.size(); j++) {
+				// in_set[reach[j]] = false;
+			// }
 			
-			for (int j = 0; j < (int) graph[i].size(); j++) {
-				in_set[graph[i][j]] = false;
-			}
+			// for (int j = 0; j < (int) graph[i].size(); j++) {
+				// in_set[graph[i][j]] = false;
+			// }
 			
 		}
 		
@@ -142,8 +167,7 @@ class quotient_graph {
 		}
 		
 		void eliminate(const int& i) {
-			print();
-			cout << " ============================================= " << endl;
+			// cout << " ============================================= " << endl;
 			
 			//1. temp <- common elements in Adj(i) and quo_nodes
 			//2. reach <- reachable set of (v_i and quo_nodes)
@@ -152,38 +176,49 @@ class quotient_graph {
 			//5. Adj(v) <- reach
 			//6. for every vertex w in reach:
 			//	    Adj(w) <- {v} and Adj(w)-(temp and v_i)
-			update_temp(i);      //1
-			cout << "done update" << endl;
-			reachable(i);        //2
-			cout << "done reachable" << endl;
-			update_quo_nodes(i);  //3 && 4
-			cout << "done quo" << endl;
 			
+			// cout << "on iter: " << i << endl;
+			update_temp(i);      //1
+			// cout << "done update" << endl;
+			reachable(i);        //2
+			// cout << "done reachable" << endl;
+			update_quo_nodes(i);  //3 && 4
+			// cout << "done quo" << endl;
+			eliminated[i] = true;
+
 			//5.
+			//merges everything one level down. after merging, will try to
+			//merge another level further if there is a successful merge
 			int w, n = graph[i].size();
 			for (int j = 0; j < n; j++) {
 				w = graph[i][j];
 				int m = graph[w].size();
-				while (w < i) {
+				while (eliminated[w]) {
 					if (m <= MERGE_CAP) {
 						swap(graph[i][j], graph[i][n-1]);
 						graph[i].pop_back();
 						n--;
-						
+
+						// cout << graph[w] << endl;
 						for (int k = 0; k < m; k++) {
 							if (graph[w][k] != i) {
 								graph[i].push_back(graph[w][k]);
 								n++;
 							}
 						}
+						// cout << "clearing " << w << endl;
 						graph[w].clear();
 						
+						if (j >= n) break;
 						w = graph[i][j];
+						m = graph[w].size();
 					} else {
 						break;
 					}
 				}
 			}
+			
+			// cout << "curr adj after change: " << graph[i] << endl;
 			
 			//keep only uniques
 			sort (graph[i].begin(), graph[i].end());
@@ -208,16 +243,18 @@ class quotient_graph {
 			
 			for (int k = 0; k < (int) reach.size(); k++) {
 				w = reach[k];
+				if (eliminated[w]) {
+					graph[w].clear();
+					continue;
+				}
 				int m = graph[w].size();
 				for (int j = 0; j < m; j++) {
-					cout << graph[w][j] << " ";
 					while (j < m && in_set[graph[w][j]]) {
 						swap(graph[w][j], graph[w][m-1]);
 						graph[w].pop_back();
 						m--;
 					}
 				}
-				cout << endl;
 				graph[w].push_back(i);
 			}
 			
@@ -228,10 +265,11 @@ class quotient_graph {
 			
 			//end 6
 			
-			cout << "temp: " << temp << endl;
-			cout << "reach: " << reach << endl;
-			cout << "quo: " << quo_nodes << endl;
-			cout << "in_set: " << in_set << endl;
+			// cout << "temp: " << temp << endl;
+			// cout << "reach: " << reach << endl;
+			// cout << "quo: " << quo_nodes << endl;
+			// cout << "in_set: " << in_set << endl;
+			print();
 		}
 		
 		void print() {
