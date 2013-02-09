@@ -33,7 +33,7 @@ class quotient_graph {
 	
 	adj_list graph;
 	vector<bool> in_set, found, eliminated;
-	vector<int> reach, quo_nodes, temp;
+	vector<int> reach, quo_nodes, temp, degree;
 	
 	public:
 		quotient_graph(adj_list& g) {
@@ -41,6 +41,8 @@ class quotient_graph {
 			in_set.resize(n, false);
 			found.resize(n, false);
 			eliminated.resize(n, false);
+			degree.resize(n);
+			
 			temp.reserve(n); 
 			reach.reserve(n);
 			quo_nodes.reserve(n);
@@ -54,6 +56,23 @@ class quotient_graph {
 					graph[v].push_back(i);
 				}
 			}
+			
+			for (int i = 0; i < n; i++) {
+				degree[i] = graph[i].size();
+			}
+		}
+		
+		inline int min_deg() {
+			int best = 0, deg_best = degree.size();
+			for (int i = 0; i < (int) degree.size(); i++) {
+				if (eliminated[i]) continue;
+				if (degree[i] < deg_best) {
+					best = i;
+					deg_best = degree[i];
+				}
+			}
+			
+			return best;
 		}
 		
 		inline void update_temp(const int& i) {
@@ -97,6 +116,7 @@ class quotient_graph {
 					if (w == i) {
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
+						degree[k]--;
 						if (j < (int) graph[k].size())
 							w = graph[k][j];
 					}
@@ -110,6 +130,7 @@ class quotient_graph {
 						reach.push_back(w);
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
+						degree[k]--;
 						if (j < (int) graph[k].size())
 							w = graph[k][j];
 					}
@@ -197,17 +218,20 @@ class quotient_graph {
 					if (m <= MERGE_CAP) {
 						swap(graph[i][j], graph[i][n-1]);
 						graph[i].pop_back();
+						degree[i]--;
 						n--;
 
 						// cout << graph[w] << endl;
 						for (int k = 0; k < m; k++) {
 							if (graph[w][k] != i) {
 								graph[i].push_back(graph[w][k]);
+								degree[i]++;
 								n++;
 							}
 						}
 						// cout << "clearing " << w << endl;
 						graph[w].clear();
+						degree[w] = 0;
 						
 						if (j >= n) break;
 						w = graph[i][j];
@@ -235,6 +259,7 @@ class quotient_graph {
 					if (graph[temp[j]][k] == i) {
 						swap(graph[temp[j]][k], graph[temp[j]][m-1]);
 						graph[temp[j]].pop_back();
+						degree[j]--;
 						break;
 					}
 				}
@@ -252,10 +277,12 @@ class quotient_graph {
 					while (j < m && in_set[graph[w][j]]) {
 						swap(graph[w][j], graph[w][m-1]);
 						graph[w].pop_back();
+						degree[w]--;
 						m--;
 					}
 				}
 				graph[w].push_back(i);
+				degree[w]++;
 			}
 			
 			for (int j = 0; j < (int) temp.size(); j++) {
@@ -269,13 +296,15 @@ class quotient_graph {
 			// cout << "reach: " << reach << endl;
 			// cout << "quo: " << quo_nodes << endl;
 			// cout << "in_set: " << in_set << endl;
-			print();
+			// degree[i] += reach.size();
+			// print();
 		}
 		
 		void print() {
 			for (int i = 0; i < (int) graph.size(); i++) {
-				cout << i << ": " << graph[i] << endl;
+				cout << i << ": " << graph[i] << '\n';
 			}
+			cout << "degree: " << degree << endl;
 		}
 		
 		
