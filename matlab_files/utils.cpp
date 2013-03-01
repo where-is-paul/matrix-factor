@@ -48,8 +48,8 @@ double mex_utils :: parse_double(const mxArray* raw_double) {
 */
 void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx, mwSize& nnzs) {
 	int count = 0;
-
-	solv.A.resize(nnzs, nnzs);
+	
+	solv.A.resize(nnzs, nnzs, 20*nnzs);
 	fill(solv.A.list_first.begin(), solv.A.list_first.end(), 0);
 		
 	for (mwSize i = 0; i < nnzs; i++) {
