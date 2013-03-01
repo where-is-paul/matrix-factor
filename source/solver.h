@@ -60,10 +60,10 @@ class solver
 		*/
 		void solve(double fill_factor, double tol) {
 			perm.reserve(A.n_cols());
-			// struct timeval tim;
+			struct timeval tim;
 			
-			// gettimeofday(&tim, NULL);  
-			// double t0=tim.tv_sec+(tim.tv_usec/1e6);
+			gettimeofday(&tim, NULL);  
+			double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			// A.sym_equil();
 			A.sym_md(perm);
@@ -71,10 +71,10 @@ class solver
 			// cout << perm << endl;
 			A.sym_perm(perm);
 			
-			// gettimeofday(&tim, NULL);  
-			// double t1=tim.tv_sec+(tim.tv_usec/1e6);  
+			gettimeofday(&tim, NULL);  
+			double t1=tim.tv_sec+(tim.tv_usec/1e6);  
 			
-			// printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
+			printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
 			// A.ildl(L, D, perm, fill_factor, tol);
 			

@@ -63,7 +63,7 @@ class quotient_graph {
 		}
 		
 		inline int min_deg() {
-			int best = 0, deg_best = degree.size();
+			int best = 0, deg_best = 10*degree.size();
 			for (int i = 0; i < (int) degree.size(); i++) {
 				if (eliminated[i]) continue;
 				if (degree[i] < deg_best) {
@@ -153,21 +153,8 @@ class quotient_graph {
 			
 			//cleaning up...
 			//the two lines below can be optimized by keeping track of exactly what was put in.
-			//i.e. uncomment the lines below and do similar for found.
 			fill(in_set.begin(), in_set.end(), false);
-			fill(found.begin(), found.end(), false);
-			// for (int j = 0; j < (int) quo_nodes.size(); j++) {
-				// in_set[quo_nodes[j]] = false;
-			// }
-			
-			// for (int j = 0; j < (int) reach.size(); j++) {
-				// in_set[reach[j]] = false;
-			// }
-			
-			// for (int j = 0; j < (int) graph[i].size(); j++) {
-				// in_set[graph[i][j]] = false;
-			// }
-			
+			fill(found.begin(), found.end(), false);			
 		}
 		
 		inline void update_quo_nodes(const int& i) {
@@ -188,7 +175,7 @@ class quotient_graph {
 		}
 		
 		void eliminate(const int& i) {
-			// cout << " ============================================= " << endl;
+			cout << " ============================================= " << endl;
 			
 			//1. temp <- common elements in Adj(i) and quo_nodes
 			//2. reach <- reachable set of (v_i and quo_nodes)
@@ -245,12 +232,17 @@ class quotient_graph {
 			// cout << "curr adj after change: " << graph[i] << endl;
 			
 			//keep only uniques
+			int old_size = graph[i].size();
+			
 			sort (graph[i].begin(), graph[i].end());
 			vector<int>::iterator it = unique (graph[i].begin(), graph[i].end());
 			graph[i].resize(distance(graph[i].begin(), it));
+			
+			degree[i] -= (old_size - graph[i].size());
 			//end 5
 			
 			//6.
+			//removing back references to current node in all previous quonodes.
 			for (int j = 0; j < (int) temp.size(); j++) {
 				in_set[temp[j]] = true;
 				
@@ -266,6 +258,8 @@ class quotient_graph {
 			}
 			in_set[i] = true;
 			
+			
+			//updating neighbours of i with new degrees
 			for (int k = 0; k < (int) reach.size(); k++) {
 				w = reach[k];
 				if (eliminated[w]) {
@@ -292,12 +286,12 @@ class quotient_graph {
 			
 			//end 6
 			
-			// cout << "temp: " << temp << endl;
-			// cout << "reach: " << reach << endl;
-			// cout << "quo: " << quo_nodes << endl;
-			// cout << "in_set: " << in_set << endl;
+			cout << "temp: " << temp << endl;
+			cout << "reach: " << reach << endl;
+			cout << "quo: " << quo_nodes << endl;
+			cout << "in_set: " << in_set << endl;
 			// degree[i] += reach.size();
-			// print();
+			print();
 		}
 		
 		void print() {

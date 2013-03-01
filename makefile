@@ -4,7 +4,7 @@ CC := g++
 SRCDIR := .
 BUILDDIR := build
 CFLAGS := -O3 -funroll-loops -std=c++0x
-DEBUG := -Wextra -Wall
+DEBUG := -Wextra -Wall -pg
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
