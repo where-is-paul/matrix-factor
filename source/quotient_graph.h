@@ -33,7 +33,7 @@ class quotient_graph {
 	
 	adj_list graph;
 	vector<bool> in_set, found, eliminated;
-	vector<int> reach, quo_nodes, temp, degree;
+	vector<int> reach, quo_nodes, temp, degree, curr_nbrs, temp_nbrs;
 	
 	public:
 		quotient_graph(adj_list& g) {
@@ -47,6 +47,8 @@ class quotient_graph {
 			reach.reserve(n);
 			quo_nodes.reserve(n);
 			graph.resize(n);
+			curr_nbrs.reserve(n);
+			temp_nbrs.reserve(n);
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < (int) g[i].size(); j++) {
@@ -116,7 +118,6 @@ class quotient_graph {
 					if (w == i) {
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
-						degree[k]--;
 						if (j < (int) graph[k].size())
 							w = graph[k][j];
 					}
@@ -130,7 +131,6 @@ class quotient_graph {
 						reach.push_back(w);
 						swap(graph[k][j], graph[k][graph[k].size()-1]);
 						graph[k].pop_back();
-						degree[k]--;
 						if (j < (int) graph[k].size())
 							w = graph[k][j];
 					}
@@ -174,8 +174,72 @@ class quotient_graph {
 			quo_nodes.push_back(i);
 		}
 		
+		inline void all_neighbours(vector<int>& res, const int& i) {
+			//a function similar to reach, should merge the two in the future
+			res.clear();
+			
+			int w, k; queue<int> q;
+			for (int j = 0; j < (int) graph[i].size(); j++) {
+				w = graph[i][j];
+				if (eliminated[w]) {
+					q.push(w);
+					found[w] = true;
+				} else {
+					res.push_back(w);
+					found[w] = true;
+				}
+			}
+			
+			found[i] = true;
+			while (!q.empty()) {
+				k = q.front(); q.pop();
+
+				for (int j = 0; j < (int) graph[k].size(); j++) {
+					int w = graph[k][j];
+					if (found[w]) continue;
+					
+					if (eliminated[w]) {
+						q.push(w);
+					} else {
+						res.push_back(w);
+						found[w] = true;
+					}
+				}
+			}
+			
+			//cleaning up...
+			//the line below can be optimized by keeping track of exactly what was put in.
+			fill(found.begin(), found.end(), false);	
+		}
+		
+		int union_size(int w, vector<int>& nbrs, int i) {
+			all_neighbours(temp_nbrs, w);
+			//cout << nbrs_w << endl;
+						
+			int res = 0;
+			found[w] = found[i] = true;
+			for (int j = 0; j < (int) temp_nbrs.size(); j++) {
+				int v = temp_nbrs[j];
+				if (!found[v] && !eliminated[v]) {
+					res++;
+					found[v] = true;
+				}
+			}
+			
+			for (int j = 0; j < (int) nbrs.size(); j++) {
+				int v = nbrs[j];
+				if (!found[v] && !eliminated[v]) {
+					res++;
+					found[v] = true;
+				}
+			}
+			
+			fill(found.begin(), found.end(), false);
+			return res;
+		}
+		
 		void eliminate(const int& i) {
-			cout << " ============================================= " << endl;
+			// cout << " ============================================= " << endl;
 			
 			//1. temp <- common elements in Adj(i) and quo_nodes
 			//2. reach <- reachable set of (v_i and quo_nodes)
@@ -205,20 +269,17 @@ class quotient_graph {
 					if (m <= MERGE_CAP) {
 						swap(graph[i][j], graph[i][n-1]);
 						graph[i].pop_back();
-						degree[i]--;
 						n--;
 
 						// cout << graph[w] << endl;
 						for (int k = 0; k < m; k++) {
 							if (graph[w][k] != i) {
 								graph[i].push_back(graph[w][k]);
-								degree[i]++;
 								n++;
 							}
 						}
 						// cout << "clearing " << w << endl;
 						graph[w].clear();
-						degree[w] = 0;
 						
 						if (j >= n) break;
 						w = graph[i][j];
@@ -229,16 +290,14 @@ class quotient_graph {
 				}
 			}
 			
-			// cout << "curr adj after change: " << graph[i] << endl;
-			
+						
 			//keep only uniques
-			int old_size = graph[i].size();
-			
 			sort (graph[i].begin(), graph[i].end());
 			vector<int>::iterator it = unique (graph[i].begin(), graph[i].end());
 			graph[i].resize(distance(graph[i].begin(), it));
 			
-			degree[i] -= (old_size - graph[i].size());
+			all_neighbours(curr_nbrs, i);
+			degree[i] = -1; //eliminated nodes are set to -1 for degree
 			//end 5
 			
 			//6.
@@ -251,7 +310,6 @@ class quotient_graph {
 					if (graph[temp[j]][k] == i) {
 						swap(graph[temp[j]][k], graph[temp[j]][m-1]);
 						graph[temp[j]].pop_back();
-						degree[j]--;
 						break;
 					}
 				}
@@ -260,6 +318,7 @@ class quotient_graph {
 			
 			
 			//updating neighbours of i with new degrees
+			//the three loops below must be done in order!
 			for (int k = 0; k < (int) reach.size(); k++) {
 				w = reach[k];
 				if (eliminated[w]) {
@@ -271,12 +330,23 @@ class quotient_graph {
 					while (j < m && in_set[graph[w][j]]) {
 						swap(graph[w][j], graph[w][m-1]);
 						graph[w].pop_back();
-						degree[w]--;
 						m--;
 					}
 				}
+			}
+			
+			for (int k = 0; k < (int) curr_nbrs.size(); k++) {
+				w = curr_nbrs[k];
+				degree[w] = union_size(w, curr_nbrs, i);
+			}
+			
+			for (int k = 0; k < (int) reach.size(); k++) {
+				w = reach[k];
+				if (eliminated[w]) {
+					graph[w].clear();
+					continue;
+				}
 				graph[w].push_back(i);
-				degree[w]++;
 			}
 			
 			for (int j = 0; j < (int) temp.size(); j++) {
@@ -286,12 +356,12 @@ class quotient_graph {
 			
 			//end 6
 			
-			cout << "temp: " << temp << endl;
-			cout << "reach: " << reach << endl;
-			cout << "quo: " << quo_nodes << endl;
-			cout << "in_set: " << in_set << endl;
-			// degree[i] += reach.size();
-			print();
+			// cout << "neighbours: " << neighbour_set << endl;
+			// cout << "temp: " << temp << endl;
+			// cout << "reach: " << reach << endl;
+			// cout << "quo: " << quo_nodes << endl;
+			// cout << "in_set: " << in_set << endl;
+			// print();
 		}
 		
 		void print() {
