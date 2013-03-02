@@ -1,4 +1,4 @@
-function [ A ] = gen_homom( k )
+function [A,M,f,L,W,B,u_b,p_b] = gen_homom( k )
   
 	disp('adjust the data and exact solution in data.m and exact.m')
 	  
@@ -45,6 +45,8 @@ function [ A ] = gen_homom( k )
 	  B=B';
 	  [m,n]=size(B);
 	  sys_size=m+n, nel=size(t,2)
+	  
+	  save(['matrices_homogeneous',num2str(i),'.mat']);   
 
 	end   
 
