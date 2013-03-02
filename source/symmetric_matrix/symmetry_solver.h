@@ -9,9 +9,6 @@
 #include <ctime>
 // #include <sys/time.h>
 
-using std::cout;
-using std::endl;
-
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
 	\param filename the filename the matrix will be saved under.
@@ -54,7 +51,10 @@ class solver
 		void load(std::string filename)
 		{
 			//assert( A.load(filename) );
+			clock_t start = clock(); double dif;
 			A.load(filename);
+			dif = clock() - start;
+			printf("Load:\t%.3f seconds. \n", dif/CLOCKS_PER_SEC);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 		
@@ -65,7 +65,8 @@ class solver
 			\param fill_factor a factor controling memory usage of factorization.
 			\param tol a factor controling accuracy of factorization.
 		*/
-		void solve(double fill_factor, double tol) {
+		void solve(double fill_factor, double tol)
+		{
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);
@@ -105,6 +106,17 @@ class solver
 			
 			//printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+			
+			//vector<int> count(50, 0);
+			//for (int i = 0; i < L.n_rows(); i++)
+			//	count[L.list[i].size()]++;
+			//for (int i = 0; i < (int)count.size(); i++)
+			//	printf("Size %d: %d.\n", i, count[i]);
+			//int sum = 0;
+			//for (int i = 0; i < (int)count.size(); i++)
+			//	sum += count[i] * i;
+			//sum += L.n_rows();
+			//printf("sum: %d.\n", sum);
 		}
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).

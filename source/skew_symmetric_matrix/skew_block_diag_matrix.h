@@ -1,8 +1,7 @@
 // -*- mode: c++ -*-
-#ifndef _BLOCK_DIAG_MATRIX_H_
-#define _BLOCK_DIAG_MATRIX_H_
+#ifndef _SKEW_BLOCK_DIAG_MATRIX_H_
+#define _SKEW_BLOCK_DIAG_MATRIX_H_
 
-#include <unordered_map>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -12,15 +11,14 @@
 /*! \brief A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. 
 */
 template<class el_type>
-class block_diag_matrix
+class skew_block_diag_matrix
 {
 public:
 
-	typedef std::unordered_map<int, el_type> int_elt_map;
 	typedef std::vector<el_type>  elt_vector_type;
 	
 	/*! Allows outputting the contents of the matrix via << operators. */
-	friend std::ostream & operator<<(std::ostream& os, const block_diag_matrix& D) 
+	friend std::ostream& operator<<(std::ostream& os, const block_diag_matrix& D) 
 	{
 		os << D.to_string();
 		return os;
@@ -28,16 +26,15 @@ public:
 	
 	int m_n_size;///<Dimension of the matrix.
 	int nnz_count;///<Number of non-zeros in the matrix.
-	elt_vector_type main_diag;///<Stores main diagonal elements.
-	int_elt_map off_diag;///<Stores off-diagonal elements of 2x2 pivots.
+	elt_vector_type subdiag;///<Stores subdiagonal elements.
 	
 	/*!	\brief Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments.
 	*/
-	block_diag_matrix (int n_rows = 0, int n_cols = 0) : m_n_size(n_rows)
+	skew_block_diag_matrix (int n_rows = 0, int n_cols = 0) : m_n_size(n_rows)
 	{
 		assert(n_rows == n_cols);
-		nnz_count = n_rows;
-		main_diag.resize(n_rows);
+		nnz_count = n_rows / 2;
+		subdiag.resize(n_rows/2);
 	}
 	
 	/*!	\brief Resizes this matrix to an n*n matrix.

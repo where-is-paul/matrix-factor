@@ -27,9 +27,9 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 
 	int i, k, r;
 	bool size_two_piv = false;	//boolean indicating if the pivot is 2x2 or 1x1
-	
+
 	//--------------- allocate memory for L and D ------------------//
-	L.resize(ncols, ncols, 2*lfil); //allocate a vector of size n for Llist as well
+	L.resize(ncols, ncols); //allocate a vector of size n for Llist as well
 	D.resize(ncols );
 	
 

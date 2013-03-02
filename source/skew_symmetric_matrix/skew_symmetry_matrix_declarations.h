@@ -55,9 +55,9 @@ public:
 	
 	//----Factorizations----//
 	
-	void ildlpp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
-	void ildlmpp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
-	void ildlrp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
+	void ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
+	void ildlmpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
+	void ildlrp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
 	
 	//------Helpers------//
 	
@@ -106,7 +106,8 @@ public:
 //------------------ include files for class functions -------------------//
 
 #include "skew_symmetry_matrix_update.h"
-#include "skew_symmetry_matrix_ildl.h"
+#include "skew_symmetry_matrix_ildlpp.h"
+#include "skew_symmetry_matrix_ildlmpp.h"
 #include "skew_symmetry_matrix_ildlrp.h"
 #include "skew_symmetry_matrix_calculate.h"
 

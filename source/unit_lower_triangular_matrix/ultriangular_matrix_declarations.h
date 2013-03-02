@@ -36,8 +36,7 @@ public:
 	
 	/*! \brief Constructor for a column oriented list-of-lists (LIL) matrix. Space for both the values list and the indices list of the matrix is allocated here.
 	*/
-	ultriangular_matrix (int n_rows = 0, int n_cols = 0): 
-	lil_sparse_matrix<el_type> (n_rows, n_cols) 
+	ultriangular_matrix (int n_rows = 0, int n_cols = 0) : lil_sparse_matrix<el_type> (n_rows, n_cols) 
 	{
 		m_x.reserve(n_cols);
 		m_idx.reserve(n_cols);
@@ -48,12 +47,15 @@ public:
 	/*! \brief Resizes the matrix. For use in preallocating space before factorization begins.
 		\param n_rows the number of rows in the resized matrix.
 		\param n_cols the number of cols in the resized matrix.
+		\param list_size the size to reserve for every row.
 	*/
-	void resize(int n_rows, int n_cols)
+	void resize(int n_rows, int n_cols, int list_size)
 	{
 		lil_sparse_matrix<el_type>::resize(n_rows, n_cols); // call the function resize in base class
 
 		column_first.resize(n_cols, 0);
+		for (int i = 0; i < (int)list.size(); i++)
+			list[i].reserve(list_size);
 	}
 
 

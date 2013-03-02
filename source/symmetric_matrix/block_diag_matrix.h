@@ -20,7 +20,7 @@ public:
 	typedef std::vector<el_type>  elt_vector_type;
 	
 	/*! Allows outputting the contents of the matrix via << operators. */
-	friend std::ostream & operator<<(std::ostream& os, const block_diag_matrix& D) 
+	friend std::ostream& operator<<(std::ostream& os, const block_diag_matrix& D)
 	{
 		os << D.to_string();
 		return os;

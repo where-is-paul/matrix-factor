@@ -11,13 +11,13 @@ inline void square_matrix<el_type>::permute(std::vector<int>& perm)
 	int i, j, pi, pj;
 	el_type px;
 	vector<int> pinv(m_n_cols);
-	for (j = 0; j < m_n_cols; j++)
+	for (j = 0, i = nnz() / m_n_cols; j < m_n_cols; j++)
 	{
 		pinv[perm[j]] = j;
 		list[j].clear();
 		
-		m_idx_new[j].reserve(20);
-		m_x_new[j].reserve(20);
+		m_idx_new[j].reserve(i);
+		m_x_new[j].reserve(i);
 	}
 	
 	for (j = 0; j < m_n_cols; j++)
@@ -43,10 +43,14 @@ inline void square_matrix<el_type>::permute(std::vector<int>& perm)
 			}
 		}
 	}
+	//vector<int> count(50, 0);
+	//for (int i = 0; i < m_n_cols; i++)
+	//	count[m_idx_new[i].size()]++;
+	//for (int i = 0; i < (int)count.size(); i++)
+	//	printf("Size %d: %d.\n", i, count[i]);
 	
 	m_idx.swap(m_idx_new);
 	m_x.swap(m_x_new);
-
 }
 
 #endif

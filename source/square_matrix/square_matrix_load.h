@@ -14,7 +14,7 @@ bool square_matrix<el_type>::load(std::string filename)
 
 	bool readsizes = false;
 
-	int n_rows(-1), n_cols(-1), n_nzs(-1), i(-1), j(-1);
+	int n_rows(-1), n_cols(-1), nnzs(-1), i(-1), j(-1);
 	int readcount = 0, nnzcount = 0;
 	el_type value;
 
@@ -27,11 +27,11 @@ bool square_matrix<el_type>::load(std::string filename)
 
 		if (!readsizes)
 		{
-			sscanf(buffer, "%d %d %d", &n_rows, &n_cols, &n_nzs);
-			if (n_rows > 0 && n_cols > 0 && n_nzs > 0)
+			sscanf(buffer, "%d %d %d", &n_rows, &n_cols, &nnzs);
+			if (n_rows > 0 && n_cols > 0 && nnzs > 0)
 			{
 				readsizes = true;
-				resize(n_rows, n_cols);
+				resize(n_rows, n_cols, nnzs);
 			}
 		}
 		else
@@ -58,8 +58,8 @@ bool square_matrix<el_type>::load(std::string filename)
 
 	}
 
-	if (readcount != n_nzs)
-		std::cout << "Expected " << n_nzs << " elems but read " << readcount << "." << std::endl;
+	if (readcount != nnzs)
+		std::cout << "Expected " << nnzs << " elems but read " << readcount << "." << std::endl;
 
 	nnz_count = nnzcount;
 	std::cout << "Load succeeded. " << "File " << filename << " was loaded." << std::endl;

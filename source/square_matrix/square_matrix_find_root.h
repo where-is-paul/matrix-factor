@@ -31,7 +31,6 @@ inline void square_matrix<el_type>::find_root(int& s, vector<int>& deg)
 						next_level.push_back(*it);
 					}
 				}
-				
 				for (auto it = m_idx[*node_it].begin(); it != m_idx[*node_it].end(); it++)
 				{
 					if (!visited[*it])

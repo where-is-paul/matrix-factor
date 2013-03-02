@@ -170,7 +170,6 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 
 	//row swap on row non-zero indices stored in L.list
 	L.list[k].swap(L.list[r]);
-
 	//--------end pivot L---------//
 }
 

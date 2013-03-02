@@ -71,13 +71,21 @@ public:
 	/*! \brief Resizes the matrix. For use in preallocating space before factorization begins.
 		\param n_rows the number of rows in the resized matrix.
 		\param n_cols the number of cols in the resized matrix.
+		\param nnzs the nnzs of the lower triangular part of matrix.
 	*/
-	void resize(int n_rows, int n_cols)
+	void resize(int n_rows, int n_cols, int nnzs)
 	{
 		lil_sparse_matrix<el_type>::resize(n_rows, n_cols); // call the function resize in base class
 
 		list_first.resize(n_cols, 0);
 		S.resize(n_cols, 0);
+		int nnz_per_col =  2 * nnzs / n_cols;
+		for (int i = 0; i < n_cols; i++)
+		{
+			m_idx[i].reserve(nnz_per_col);
+			m_x[i].reserve(nnz_per_col);
+			list[i].reserve(nnz_per_col);
+		}
 	}
 	
 	//-----Reorderings/Rescalings------//
@@ -98,7 +106,7 @@ public:
 		\param lvl_set the current level set (a list of nodes).
 		\param visited all previously visited nodes.
 	*/
-	//inline bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
+	inline bool find_level_set(vector<int>& lvl_set, vector<bool>& visited);
 
 	/*!	\brief Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). 
 		
@@ -190,7 +198,6 @@ public:
 //------------------ include files for class functions -------------------//
 
 #include "square_matrix_equilibrate.h"
-//#include "square_matrix_find_level_set.h"
 #include "square_matrix_find_root.h"
 #include "square_matrix_rcm.h"
 #include "square_matrix_load.h"
