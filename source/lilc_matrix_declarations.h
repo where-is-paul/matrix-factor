@@ -145,6 +145,13 @@ public:
 	*/
 	void sym_md(vector<int>& perm);
 	
+	/*!	\brief Returns a Approximate Minimum Degree ordering of the matrix A (stored in perm). 
+		
+		The implementation is based on the general algorithm outlined in A detailed description of this function as well as all its subfunctions can be found in "Computer Solution of Large Sparse Positive Definite Systems" by George and Liu (1981).
+		\param perm An empty permutation vector (filled on function completion).
+	*/
+	void sym_amd(vector<int>& perm);
+	
 	/*! \brief Given a permutation vector perm, A is permuted to P'AP, where P is the permutation matrix associated with perm. 
 		\param perm the permutation vector.
 	*/
@@ -264,15 +271,23 @@ public:
 
 //------------------ include files for class functions -------------------//
 
+//reordering schemes
 #include "lilc_matrix_find_level_set.h"
 #include "lilc_matrix_find_root.h"
 #include "lilc_matrix_sym_rcm.h"
 #include "lilc_matrix_sym_md.h"
+#include "lilc_matrix_sym_amd.h"
 #include "lilc_matrix_sym_perm.h"
+
+//equilibriation
 #include "lilc_matrix_sym_equil.h"
+
+//facotorization
 #include "lilc_matrix_ildl.h"
 #include "lilc_matrix_ildl_helpers.h"
 #include "lilc_matrix_pivot.h"
+
+//io
 #include "lilc_matrix_load.h"
 #include "lilc_matrix_save.h"
 #include "lilc_matrix_to_string.h"

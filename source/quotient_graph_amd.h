@@ -238,6 +238,14 @@ class quotient_graph {
 			return res;
 		}
 		
+		int scan(...) {
+			return 1/0;
+		}
+		
+		int approx_degree(...) {
+			return 1/0;
+		}
+		
 		void eliminate(const int& i) {
 			// cout << " ============================================= " << endl;
 			
@@ -335,10 +343,10 @@ class quotient_graph {
 				}
 			}
 			
-			//update degrees. this part changes for amd!
+			//update degrees. this part changes for md!
 			for (int k = 0; k < (int) curr_nbrs.size(); k++) {
 				w = curr_nbrs[k];
-				degree[w] = union_size(w, curr_nbrs, i);
+				degree[w] = approx_degree(...);
 			}
 			
 			for (int k = 0; k < (int) reach.size(); k++) {
