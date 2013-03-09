@@ -7,6 +7,10 @@
 #include "symmetry_matrix.h"
 #include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
 #include <ctime>
+
+using std::cout;
+using std::endl;
+
 // #include <sys/time.h>
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
@@ -68,9 +72,11 @@ class solver
 		void solve(double fill_factor, double tol)
 		{
 			perm.reserve(A.n_cols());
+			// for (int i = 0; i < A.n_cols(); i++) {
+				// perm.push_back(i);
+			// }
 			cout << std::fixed << std::setprecision(3);
-			//gettimeofday(&tim, NULL);
-			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
+
 			clock_t start = clock(); double dif, total = 0;
 			
 			A.equilibrate();
@@ -80,7 +86,6 @@ class solver
 			start = clock();
 			
 			A.rcm(perm);
-			//for (int i = 0; i < A.n_cols(); i++) perm.push_back(i);
 			
 			dif = clock() - start; total += dif;
 			printf("RCM:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
@@ -90,33 +95,14 @@ class solver
 			dif = clock() - start; total += dif;
 			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
-			//gettimeofday(&tim, NULL);
-			//double t1=tim.tv_sec+(tim.tv_usec/1e6);
-			
-			//printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
-			
 			start = clock();
 			A.ildl(L, D, perm, fill_factor, tol);
 			dif = clock() - start; total += dif;
-			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
+			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);	
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
-			//gettimeofday(&tim, NULL);
-			//double t2=tim.tv_sec+(tim.tv_usec/1e6);
-			
-			//printf("The factorization took %.6lf seconds.\n", std::abs(t2-t1));
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
-			
-			//vector<int> count(50, 0);
-			//for (int i = 0; i < L.n_rows(); i++)
-			//	count[L.list[i].size()]++;
-			//for (int i = 0; i < (int)count.size(); i++)
-			//	printf("Size %d: %d.\n", i, count[i]);
-			//int sum = 0;
-			//for (int i = 0; i < (int)count.size(); i++)
-			//	sum += count[i] * i;
-			//sum += L.n_rows();
-			//printf("sum: %d.\n", sum);
+
 		}
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).

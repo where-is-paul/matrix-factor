@@ -160,11 +160,6 @@ build/ldl_driver.o: ldl_driver.cpp \
  source/symmetric_matrix/../square_matrix/square_matrix_equilibrate.h \
  source/symmetric_matrix/../square_matrix/square_matrix_find_root.h \
  source/symmetric_matrix/../square_matrix/square_matrix_rcm.h \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/queue \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/deque \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_deque.h \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/deque.tcc \
- /usr/lib/gcc/i686-pc-cygwin/4.5.3/include/c++/bits/stl_queue.h \
  source/symmetric_matrix/../square_matrix/square_matrix_load.h \
  source/symmetric_matrix/../square_matrix/square_matrix_save.h \
  source/symmetric_matrix/../square_matrix/square_matrix_to_string.h \
