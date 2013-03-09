@@ -27,21 +27,22 @@ std::ostream& operator<< (std::ostream& os, const Container& vec)
 }
 #endif
 
-const int MERGE_CAP = 30;
-class quotient_graph {
+class quotient_graph_amd {
 	typedef vector<vector<int> > adj_list;
 	
 	adj_list graph;
 	vector<bool> in_set, found, eliminated;
-	vector<int> reach, quo_nodes, temp, degree, curr_nbrs, temp_nbrs;
+	vector<int> reach, quo_nodes, temp, degree, curr_nbrs, temp_nbrs, L_approx;
+	int num_elim;
 	
 	public:
-		quotient_graph(adj_list& g) {
+		quotient_graph_amd(adj_list& g) {
 			int n = g.size();
 			in_set.resize(n, false);
 			found.resize(n, false);
 			eliminated.resize(n, false);
 			degree.resize(n);
+			L_approx.resize(n, -1);
 			
 			temp.reserve(n); 
 			reach.reserve(n);
@@ -49,6 +50,8 @@ class quotient_graph {
 			graph.resize(n);
 			curr_nbrs.reserve(n);
 			temp_nbrs.reserve(n);
+			
+			num_elim = 0;
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < (int) g[i].size(); j++) {
@@ -238,12 +241,43 @@ class quotient_graph {
 			return res;
 		}
 		
-		int scan(...) {
-			return 1/0;
+		void scan() {
+			for (int i = 0; i < (int) curr_nbrs.size(); i++) {
+				int v = curr_nbrs[i];
+				for (int j = 0; j < (int) graph[v].size(); j++) {
+					int e = graph[v][j];
+					if (degree[e] != -1) continue;
+					if (L_approx[e] < 0) {
+						all_neighbours(temp_nbrs, e);
+						L_approx[e] = temp_nbrs.size();
+					}
+					L_approx[e] -= 1;
+				}
+			}
 		}
 		
-		int approx_degree(...) {
-			return 1/0;
+		int approx_degree(int w) {
+			//choice 1, number of nodes left
+			int c1 = graph.size()-num_elim;
+			
+			//choice 2, degree of node previously + size of the clique formed on this step
+			int Lw = curr_nbrs.size();
+			int c2 = degree[w] + Lw;
+			
+			//choice 3, size of adjacency of ith node + size of clique formed + degrees of neighbouring quotient nodes.
+			int Ai = 0;
+			int Le = 0;
+			for (int i = 0; i < (int) graph[w].size(); i++) {
+				int v = graph[w][i];
+				if (degree[v] != -1) {
+					Ai++;
+				} else {
+					Le += L_approx[v];
+				}
+			}
+			
+			int c3 = Ai + Lw + Le;
+			return min(c1, min(c2, c3));
 		}
 		
 		void eliminate(const int& i) {
@@ -265,6 +299,7 @@ class quotient_graph {
 			update_quo_nodes(i);  //3 && 4
 			// cout << "done quo" << endl;
 			eliminated[i] = true;
+			num_elim++;
 
 			//5.
 			//merges everything one level down. after merging, will try to
@@ -343,10 +378,13 @@ class quotient_graph {
 				}
 			}
 			
+			// cout << "updating degrees..." << endl;
 			//update degrees. this part changes for md!
+			scan();
+			// cout << "done scan" << endl;
 			for (int k = 0; k < (int) curr_nbrs.size(); k++) {
 				w = curr_nbrs[k];
-				degree[w] = approx_degree(...);
+				degree[w] = approx_degree(w);
 			}
 			
 			for (int k = 0; k < (int) reach.size(); k++) {
@@ -365,7 +403,6 @@ class quotient_graph {
 			
 			//end 6
 			
-			// cout << "neighbours: " << neighbour_set << endl;
 			// cout << "temp: " << temp << endl;
 			// cout << "reach: " << reach << endl;
 			// cout << "quo: " << quo_nodes << endl;
