@@ -1,4 +1,4 @@
-CC := x86_64-w64-mingw32-g++
+CC := g++
 SRCDIR := .
 BUILDDIR := build
 CFLAGS := -O3 -std=c++0x

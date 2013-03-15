@@ -102,6 +102,7 @@ class solver
 			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);	
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+			fflush(stdout);
 
 		}
 		
