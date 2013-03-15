@@ -42,6 +42,8 @@ def main():
     text = ufile.read()
     
     dlist = find_files(text, 'tar.gz')
+    preprocess = lambda x: return "MM" in x
+    dlist = [link for link in dlist if preprocess(link)]
     print 'Files being downloaded:', '\n' + '\n'.join(dlist) + '\n'
 
     for download_url in dlist:
