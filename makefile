@@ -1,6 +1,4 @@
-# Generic Makefile for compiling a simple executable.
- 
-CC := g++
+CC := x86_64-w64-mingw32-g++
 SRCDIR := .
 BUILDDIR := build
 CFLAGS := -O3 -std=c++0x
@@ -9,22 +7,18 @@ TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
  
-SRCEXT := cpp
 SOURCES := ./ldl_driver.cpp
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-DEPS := $(OBJECTS:.o=.deps)
 	
-$(TARGET): $(OBJECTS)
-	@echo " Linking..."; $(CC) $^ $(DEBUG) -o $(TARGET)
-	@cd matlab_files; make --no-print-directory
- 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+$(TARGET): 
 	@mkdir -p output_matrices
-	@mkdir -p $(BUILDDIR)
-	@echo " CC $<"; $(CC) $(DEBUG) $(CFLAGS) -MD -MF $(@:.o=.deps) -c -o $@ $<
+	@echo " Compiling executable..."; $(CC) $^ $(DEBUG) $(CFLAGS) $(SOURCES) -o $(TARGET)
+	@echo " Done.";
+	@echo " Compiling mex files...";
+	@cd matlab_files; make > /dev/null
+	@echo " Done.";
 	
 clean:
-	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET) $(TARBALL) $(OUTPUT); 
+	@echo " Cleaning..."; $(RM) -r $(TARGET) $(TARBALL) $(OUTPUT); 
 
 tar:
 	tar cfv matrix_factor.tar ldl_driver.cpp source
