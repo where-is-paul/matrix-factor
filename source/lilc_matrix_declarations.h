@@ -151,6 +151,7 @@ public:
 		\param perm An empty permutation vector (filled on function completion).
 	*/
 	void sym_amd(vector<int>& perm);
+	void amd(vector<int>& perm);
 	
 	/*! \brief Given a permutation vector perm, A is permuted to P'AP, where P is the permutation matrix associated with perm. 
 		\param perm the permutation vector.
@@ -277,14 +278,15 @@ public:
 #include "lilc_matrix_sym_rcm.h"
 #include "lilc_matrix_sym_md.h"
 #include "lilc_matrix_sym_amd.h"
+#include "amd.h"
 #include "lilc_matrix_sym_perm.h"
 
 //equilibriation
 #include "lilc_matrix_sym_equil.h"
 
-//facotorization
-#include "lilc_matrix_ildl.h"
+//factorization
 #include "lilc_matrix_ildl_helpers.h"
+#include "lilc_matrix_ildl.h"
 #include "lilc_matrix_pivot.h"
 
 //io

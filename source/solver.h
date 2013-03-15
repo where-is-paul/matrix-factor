@@ -66,9 +66,9 @@ class solver
 			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			// A.sym_equil();
-			//A.sym_amd(perm);
+			A.amd(perm);
 			
-			// cout << perm << endl;
+			cout << perm << endl;
 			//A.sym_perm(perm);
 			
 			//gettimeofday(&tim, NULL);  
@@ -76,7 +76,7 @@ class solver
 			
 			//printf("The reordering took %.6lf seconds.\n", std::abs(t1-t0));
 			
-			A.ildl(L, D, perm, fill_factor, tol);
+			//A.ildl(L, D, perm, fill_factor, tol);
 			
 			// gettimeofday(&tim, NULL);  
 			// double t2=tim.tv_sec+(tim.tv_usec/1e6);  
