@@ -69,7 +69,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 			//( not including A(r,r) ) to col_r and col_r_nnzs
 			for (i = list_first[r]; i < (int) list[r].size(); i++) {
 				col_r_nnzs.push_back(list[r][i]);
-				col_r[list[r][i]] = coeff(r, list[r][i]);
+				col_r[list[r][i]] = this->coeff(r, list[r][i]);
 			}
 
 			//assign nonzero indices of A(r:n, r) to col_r_nnzs 
@@ -94,7 +94,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 			{
 				//case 3: pivot is k with r: 1x1 pivot case.
 				//--------pivot A and L ---------//
-				pivot(s, L, k, r);
+				this->pivot(s, L, k, r);
 
 				//----------pivot rest ----------//
 
@@ -120,7 +120,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 				if (k+1 != r)
 				{
 					//symmetrically permute row/col k+1 and r.
-					pivot(s, L, k+1, r);
+					this->pivot(s, L, k+1, r);
 
 					//----------pivot rest ----------//
 
