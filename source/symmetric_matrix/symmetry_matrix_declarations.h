@@ -88,7 +88,7 @@ public:
 		for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++)
 		{
 			if (*it == k) continue;
-			ensure_invariant(*it, k, list[*it]); //make sure next element is good.
+			this->ensure_invariant(*it, k, list[*it]); //make sure next element is good.
 			list_first[*it]++; //invariant ensured.
 		}
 	}

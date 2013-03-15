@@ -111,7 +111,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 			{
 				//case 4: pivot is k+1 with r: 2x2 pivot case.
 				//must advance list for 2x2 pivot since we are pivoting on col k+1
-				advance_list(k);
+				this->advance_list(k);
 				//for the same reason as above, we must advance L.first as well
 				L.advance_column(k);
 
