@@ -61,6 +61,8 @@ def main():
             print 'Removing files... '
             shutil.rmtree('{}'.format(file_no_ext))
             os.remove(file_name)
+
+        print "================================================\n"
     
 if __name__ == '__main__':
     main()
