@@ -53,8 +53,7 @@ def main():
 
             file_no_ext = file_name.split('.')[0]
             mtx_path = '{}/{}.mtx'.format(file_no_ext, file_no_ext)
-            output = subprocess.check_output(["../ldl_driver", mtx_path, "1.0 0.001 -n -n".format(mtx_path), \
-                                    shell=True)
+            output = subprocess.check_output(["../ldl_driver", mtx_path, "1.0 0.001 -n -n".format(mtx_path), shell=True)
             print output
 
             print 'Removing files... '
