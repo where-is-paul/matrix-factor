@@ -53,7 +53,7 @@ void square_matrix<el_type>::equilibrate()
 
 			if (S[i] < eps)
 			{
-				std::cerr << "Error: Matrix has a null column/row." << std::endl;
+				std::cout << "Error: Matrix has a null column/row." << std::endl;
 				return;
 			}
 			
