@@ -1,10 +1,10 @@
-Exception: STATUS_ACCESS_VIOLATION at eip=0040533E
-eax=0000003E ebx=8004C378 ecx=80CC80CC edx=000000B7 esi=20332033 edi=00D145E8
-ebp=0028AA78 esp=0028A930 program=C:\Users\Paul\Dropbox\Online Resources\My Homework\UBC 2011W\NSERC\matrix-factor\ldl_driver.exe, pid 5272, thread main
+Exception: STATUS_ACCESS_VIOLATION at eip=004053AE
+eax=0000003E ebx=8004C3F0 ecx=80CC80CC edx=000000B7 esi=20332033 edi=00D14660
+ebp=0028AA78 esp=0028A930 program=C:\Users\Paul\Dropbox\Online Resources\My Homework\UBC 2011W\NSERC\matrix-factor\ldl_driver.exe, pid 4520, thread main
 cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
 Stack trace:
 Frame     Function  Args
-0028AA78  0040533E  (0028AAA0, 0028ABA0, 0000000A, 00000033)
+0028AA78  004053AE  (0028AAA0, 0028ABA0, 0000000A, 00000033)
 0028AC58  00401822  (0000002F, 00000000, 61273678, 6100763A)
 0028ACF8  6100763A  (00000000, 0028CD78, 61006C50, 00000000)
 End of stack trace

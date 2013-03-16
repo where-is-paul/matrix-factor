@@ -66,7 +66,7 @@ class solver
 			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			
 			// A.sym_equil();
-			A.amd(perm);
+			A.sym_amd(perm);
 			
 			cout << perm << endl;
 			//A.sym_perm(perm);
