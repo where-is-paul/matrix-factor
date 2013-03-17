@@ -8,7 +8,7 @@ TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
  
 SOURCES := ./ldl_driver.cpp
-	
+
 $(TARGET): 
 	@mkdir -p output_matrices
 	@echo " Compiling executable..."; $(CC) $^ $(DEBUG) $(CFLAGS) $(SOURCES) -o $(TARGET)
@@ -17,6 +17,7 @@ $(TARGET):
 	@cd matlab_files; make > /dev/null
 	@echo " Done.";
 	
+.PHONY : clean
 clean:
 	@echo " Cleaning..."; $(RM) -r $(TARGET) $(TARBALL) $(OUTPUT); 
 
