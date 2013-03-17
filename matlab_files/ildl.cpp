@@ -37,14 +37,14 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	double* m_x;
 	mwSize* m_row_idx;
 	mwSize* m_col_idx;
-	mwSize nnzs;
+	mwSize n;
 	
 	m_x = mxGetPr(raw_csc);
     m_col_idx = mxGetJc(raw_csc);
     m_row_idx = mxGetIr(raw_csc);
-	nnzs = mxGetN(raw_csc);
-	
-	m.mex_convert(m_x, m_col_idx, m_row_idx, nnzs);
+	n = mxGetN(raw_csc);
+
+	m.mex_convert(m_x, m_col_idx, m_row_idx, n);
 	//--------------------------------------//
 	
 	//factor A.

@@ -114,6 +114,13 @@ public:
 		\param perm An empty permutation vector (filled on function completion).
 	*/
 	inline void rcm(vector<int>& perm);
+	
+	/*!	\brief Returns a Approximate Minimum Degree ordering of the matrix A (stored in perm). 
+		
+		The implementation is based on the general algorithm outlined in A detailed description of this function as well as all its subfunctions can be found in "An Approximate Minimum Dgree Algorithm" by Davis, Amestoy, and Duff (1981).
+		\param perm An empty permutation vector (filled on function completion).
+	*/
+	inline void amd(vector<int>& perm);
 
 	/*! \brief Given a permutation vector perm, A is permuted to P'AP, where P is the permutation matrix associated with perm. 
 		\param perm the permutation vector.
@@ -200,6 +207,7 @@ public:
 #include "square_matrix_equilibrate.h"
 #include "square_matrix_find_root.h"
 #include "square_matrix_rcm.h"
+#include "square_matrix_amd.h"
 #include "square_matrix_load.h"
 #include "square_matrix_save.h"
 #include "square_matrix_to_string.h"

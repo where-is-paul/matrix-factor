@@ -46,28 +46,25 @@ double mex_utils :: parse_double(const mxArray* raw_double) {
 	\param m_col_idx the column pointers for the CSC matrix.
 	\param m_row_idx the row pointers for the CSC matrix.
 */
-void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx, mwSize& nnzs) {
+void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx, mwSize& n) {
 	int count = 0;
 	
-	solv.A.resize(nnzs, nnzs, 20*nnzs);
+	solv.A.resize(n, n, 20*n);
 	fill(solv.A.list_first.begin(), solv.A.list_first.end(), 0);
 		
-	for (mwSize i = 0; i < nnzs; i++) {
+	for (mwSize i = 0; i < n; i++) {
 
 		for (mwSize j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {
-
+			count++;
 			if (m_row_idx[j] < i) continue;
 			solv.A.m_idx[i].push_back(m_row_idx[j]);
 			solv.A.m_x[i].push_back(m_x[j]);
 			if (i != m_row_idx[j]) 
 				solv.A.list[ m_row_idx[j] ].push_back(i);
-			count++;
 		}
 	}
 	
 	solv.A.nnz_count = count;
-	
-
 }
 
 void mex_utils :: mex_set(double*& m_x, mwSize*& m_col_idx, mwSize*& m_row_idx, mwSize& nnzs, mwSize& m, mwSize& n, char matrix_type) {

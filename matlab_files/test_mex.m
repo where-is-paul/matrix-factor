@@ -42,7 +42,7 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
 %aug3dcqp has a terrible condition number
 all_mats = other_mats;%[testmats; Lshape_mats; homogenous_mats; other_mats];
         
-lfil = 2;
+lfil = 2.2;
 tol = 0.001;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};

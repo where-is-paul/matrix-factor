@@ -85,10 +85,10 @@ class solver
 			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			start = clock();
 			
-			A.rcm(perm);
+			A.amd(perm);
 			
 			dif = clock() - start; total += dif;
-			printf("RCM:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			printf("AMD:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
 			A.permute(perm);
