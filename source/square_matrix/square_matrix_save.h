@@ -7,6 +7,7 @@ bool square_matrix<el_type>::save(std::string filename1, std::string filename2)
 {
 	int ncols = n_cols();
 
+	const int maxBuffersize = 1024;
 	//------------------------start save A------------------------------
 	std::ofstream out(filename1.c_str(), std::ios::out | std::ios::binary);
 	if (!out)
@@ -14,13 +15,18 @@ bool square_matrix<el_type>::save(std::string filename1, std::string filename2)
 	std::stringstream fout;
 	std::string header;
 
+	char buffer1[maxBuffersize];
+	char buffer2[maxBuffersize];
+	fout.rdbuf()->pubsetbuf(buffer1, maxBuffersize);
+	out.rdbuf()->pubsetbuf(buffer2, maxBuffersize);
+
 	//out.flags(std::ios_base::scientific);
 	out.precision(16);
 	//fout.flags(std::ios_base::scientific);
 	fout.precision(16);
 	
 	put_header(header);
-	out << header << std::endl;
+	out << header << "\n";
 
 	int non_zeros = 0;
 	for (int i = 0; i < ncols; i++)
@@ -46,7 +52,7 @@ bool square_matrix<el_type>::save(std::string filename1, std::string filename2)
 	out.precision(16);
 	
 	header = "%%MatrixMarket matrix coordinate real general";
-	out << header << std::endl;
+	out << header << "\n";
 	out << ncols << " " << ncols << " " << ncols << "\n";
 
 	for (int i = 0; i < ncols; i++)

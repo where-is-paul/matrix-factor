@@ -41,6 +41,13 @@ double mex_utils :: parse_double(const mxArray* raw_double) {
     return res;
 }
 
+char* mex_utils :: parse_str(const mxArray* raw_str) {
+	if (!is_string(raw_str))
+		mexErrMsgTxt("Argument must be a string.");
+	char* res = (char*) mxArrayToString(raw_str);
+	return res;
+}
+
 /*! \brief Loads the matrix A into solver (A is stored in CSC form).
 	\param m_x the non-zero values stored in the matrix.
 	\param m_col_idx the column pointers for the CSC matrix.

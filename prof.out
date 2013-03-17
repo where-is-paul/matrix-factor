@@ -1,0 +1,195 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 48.48      0.16     0.16                             _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE
+ 18.18      0.22     0.06  2727827     0.00     0.00  symmetry_matrix<double>::readline(char*&, int&, int&, int&, int&, double&)
+ 15.15      0.27     0.05                             _fu6___ZNSs4_Rep20_S_empty_rep_storageE
+  3.03      0.28     0.01  1046530     0.00     0.00  std::vector<int, std::allocator<int> >::reserve(unsigned int)
+  3.03      0.29     0.01        2     5.00     5.00  std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&)
+  3.03      0.30     0.01        2     5.00     5.00  std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&)
+  3.03      0.31     0.01        1    10.00    10.00  std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&)
+  3.03      0.32     0.01                             _fu73___ZTVSt14basic_ifstreamIcSt11char_traitsIcEE
+  3.03      0.33     0.01                             _fu91___ZSt4cerr
+  0.00      0.33     0.00   123931     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  0.00      0.33     0.00        2     0.00     0.00  std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int)
+  0.00      0.33     0.00        2     0.00     0.00  std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int)
+  0.00      0.33     0.00        1     0.00     0.00  square_matrix<double>::load(std::string)
+  0.00      0.33     0.00        1     0.00     0.00  std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 3.03% of 0.33 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     75.8    0.16    0.09                 _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE [1]
+                0.06    0.00 2727827/2727827     symmetry_matrix<double>::readline(char*&, int&, int&, int&, int&, double&) [2]
+                0.01    0.00 1046530/1046530     std::vector<int, std::allocator<int> >::reserve(unsigned int) [5]
+                0.01    0.00       2/2           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [6]
+                0.01    0.00       1/1           std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [8]
+-----------------------------------------------
+                0.06    0.00 2727827/2727827     _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE [1]
+[2]     18.2    0.06    0.00 2727827         symmetry_matrix<double>::readline(char*&, int&, int&, int&, int&, double&) [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     16.7    0.05    0.01                 _fu6___ZNSs4_Rep20_S_empty_rep_storageE [3]
+                0.01    0.00       1/2           std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [7]
+-----------------------------------------------
+                                                 <spontaneous>
+[4]      4.5    0.01    0.01                 _fu91___ZSt4cerr [4]
+                0.01    0.00       1/2           std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [7]
+                0.00    0.00  123931/123931      void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [15]
+-----------------------------------------------
+                0.01    0.00 1046530/1046530     _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE [1]
+[5]      3.0    0.01    0.00 1046530         std::vector<int, std::allocator<int> >::reserve(unsigned int) [5]
+-----------------------------------------------
+                0.01    0.00       2/2           _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE [1]
+[6]      3.0    0.01    0.00       2         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [6]
+-----------------------------------------------
+                0.01    0.00       1/2           _fu6___ZNSs4_Rep20_S_empty_rep_storageE [3]
+                0.01    0.00       1/2           _fu91___ZSt4cerr [4]
+[7]      3.0    0.01    0.00       2         std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [7]
+-----------------------------------------------
+                0.01    0.00       1/1           _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE [1]
+[8]      3.0    0.01    0.00       1         std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [8]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]      3.0    0.01    0.00                 _fu73___ZTVSt14basic_ifstreamIcSt11char_traitsIcEE [9]
+-----------------------------------------------
+                0.00    0.00  123931/123931      _fu91___ZSt4cerr [4]
+[11]     0.0    0.00    0.00  123931         void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [11]
+-----------------------------------------------
+                0.00    0.00       2/2           main [243]
+[12]     0.0    0.00    0.00       2         std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int) [12]
+-----------------------------------------------
+                0.00    0.00       2/2           main [243]
+[13]     0.0    0.00    0.00       2         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int) [13]
+-----------------------------------------------
+                0.00    0.00       1/1           _fu92___ZNSt8__detail12__prime_listE [221]
+[14]     0.0    0.00    0.00       1         square_matrix<double>::load(std::string) [14]
+-----------------------------------------------
+                0.00    0.00       1/1           _fu91___ZSt4cerr [4]
+[15]     0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [15]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+  [14] square_matrix<double>::load(std::string) [13] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::reserve(unsigned int) [1] _fu53___ZTVSt9basic_iosIcSt11char_traitsIcEE
+   [2] symmetry_matrix<double>::readline(char*&, int&, int&, int&, int&, double&) [7] std::vector<double, std::allocator<double> >::_M_fill_insert(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, unsigned int, double const&) [3] _fu6___ZNSs4_Rep20_S_empty_rep_storageE
+   [8] std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<double, std::allocator<double> >*, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > > >, unsigned int, std::vector<double, std::allocator<double> > const&) [11] void std::vector<int, std::allocator<int> >::_M_insert_aux<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [9] _fu73___ZTVSt14basic_ifstreamIcSt11char_traitsIcEE
+  [12] std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::reserve(unsigned int) [15] std::vector<int, std::allocator<int> >::_M_fill_insert(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, unsigned int, int const&) [4] _fu91___ZSt4cerr
+   [6] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_fill_insert(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, unsigned int, std::vector<int, std::allocator<int> > const&) [5] std::vector<int, std::allocator<int> >::reserve(unsigned int)

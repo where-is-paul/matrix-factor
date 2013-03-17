@@ -10,7 +10,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
     // validate number of inputs and outputs
     if (nrhs < 1)
         mexErrMsgTxt("Not enough input arguments.");
-    if (nrhs > 3)
+    if (nrhs > 4)
         mexErrMsgTxt("Too many input arguments.");
     if (nlhs > 5)
         mexErrMsgTxt("Too many output arguments.");
@@ -28,6 +28,13 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	if (nrhs > 2) {
 		const mxArray* raw_tol = prhs[2];
 		tol = m.parse_double(raw_tol);
+	}
+	if (nrhs > 3) {
+		const mxArray* raw_ordering = prhs[3];
+		char* ordering = m.parse_str(prhs[3]);
+
+		if (strcmp(ordering, "rcm") == 0) m.solv.set_reorder_scheme("-rcm");
+		else if (strcmp(ordering, "amd") == 0) m.solv.set_reorder_scheme("-amd");	
 	}
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))

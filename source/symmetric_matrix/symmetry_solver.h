@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <iomanip>
-#include <string.h>
+#include <string>
+#include <cstring>
 #include "symmetry_matrix.h"
 #include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
 #include <ctime>
@@ -48,6 +49,23 @@ class solver
 		ultriangular_matrix<el_type> L;	///<The lower triangular factor of A.
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
+		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM.
+		
+		/*! \brief Solver constructor, initializes default reordering scheme.
+		*/
+		solver() {
+			reorder_scheme = 0;
+		}
+		
+		/*! \brief Sets the reordering scheme for the solver.
+		*/
+		void set_reorder_scheme(char* ordering) {
+			if (strcmp(ordering, "-rcm") == 0) {
+				reorder_scheme = 1;
+			} else if (strcmp(ordering, "-amd") == 0) {
+				reorder_scheme = 0;
+			}
+		}
 		
 		/*! \brief Loads the matrix A into solver.
 			\param filename the filename of the matrix.
@@ -58,7 +76,7 @@ class solver
 			clock_t start = clock(); double dif;
 			A.load(filename);
 			dif = clock() - start;
-			printf("Load:\t%.3f seconds. \n", dif/CLOCKS_PER_SEC);
+			printf("Load:\t\t%.3f seconds. \n", dif/CLOCKS_PER_SEC);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 		
@@ -85,10 +103,20 @@ class solver
 			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			start = clock();
 			
-			A.amd(perm);
+			std::string perm_name;
+			switch (reorder_scheme) {
+				case 0:
+					A.amd(perm);
+					perm_name = "AMD";
+					break;
+				case 1:
+					A.rcm(perm);
+					perm_name = "RCM";
+					break;
+			}
 			
 			dif = clock() - start; total += dif;
-			printf("AMD:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
 			
 			start = clock();
 			A.permute(perm);
@@ -112,12 +140,17 @@ class solver
 		*/
 		void save()
 		{
+			clock_t start = clock(); double dif;
+			
 			cout << "Saving matrices..." << endl;
 			A.save("output_matrices/outB.mtx", "output_matrices/outS.mtx");
 			save_perm(perm, "output_matrices/outP.mtx");
 			L.save("output_matrices/outL.mtx");
 			D.save("output_matrices/outD.mtx");
 			cout << "Save complete." << endl;
+			
+			dif = clock() - start;
+			printf("Save:\t\t%.3f seconds. \n", dif/CLOCKS_PER_SEC);
 		}
 		
 		/*! \brief Prints the L and D factors to stdout.

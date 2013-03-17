@@ -2,6 +2,8 @@
 #ifndef SYMMETRY_MATRIX_DECLARATIONS_H
 #define SYMMETRY_MATRIX_DECLARATIONS_H
 
+#include <cstdlib>
+
 /*! \brief A list-of-lists (LIL) matrix in column oriented format.
 
 	For convience, the matrix this class represents will be refered to as matrix A.
@@ -118,9 +120,15 @@ public:
 
 	inline bool readline(char*& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value)
 	{
-		sscanf(line, "%d %d %lf", &i, &j, &value);
-		i--;
-		j--;
+		char * end1, * end2;
+		i = strtol(line, &end1, 10);
+		j = strtol(end1, &end2, 10);
+		
+		double val;
+		val = strtod(end2, NULL); //change right here if you want to read in complex or somethin
+		value = val;
+		
+		i--; j--;
 		return (i>=0 && j>=0 && i<n_rows&& j<n_cols);
 	}
 };
