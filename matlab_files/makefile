@@ -4,7 +4,15 @@ FILES = utils.cpp ../*.cpp ../*.h
 
 all : ildl.mex*
 
-MEX ?= mex.bat
+UNAME := $(shell uname)
+MEX = mex
+
+ifeq ($(UNAME), Linux)
+MEX = mex
+else
+MEX = mex.bat
+endif
+
 MEXFLAGS =-largeArrayDims
 MEXEXTRA =ildl.cpp utils.cpp
 
