@@ -1,4 +1,4 @@
-function [L, D, p, S, B] = ildl(A, fill, tol)
+function [L, D, p, S, B] = ildl(A, fill, tol, ordering)
 %ILDL   Incomplete LDL factorization of indefinite Hermitian matrices.
 %Before factoring, the matrix is equilibriated (resulting in a matrix S)
 %and then permuted by the Reverse Cuthill-McKee algorithm.
@@ -16,6 +16,10 @@ function [L, D, p, S, B] = ildl(A, fill, tol)
 %
 %       tol - a parameter to control accuracy. For the each column of L, 
 %       elements less than norm(column(L), 1) will be dropped.
+%
+%		ordering - determines what reordering scheme is used to preorder the matrix. 
+%		AMD is the default scheme. RCM is also available. This parameter must be one
+%		of 'amd' or 'rcm'.
 %
 %   Outputs:
 %       L - unit lower triangular factor of P'SASP.
