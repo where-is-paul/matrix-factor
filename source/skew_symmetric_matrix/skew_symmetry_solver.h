@@ -49,7 +49,8 @@ class solver
 			\param filename the filename of the matrix.
 		*/
 		void load(std::string filename) {
-			assert( A.load(filename) );
+			bool result = A.load(filename);
+			assert(result);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 		

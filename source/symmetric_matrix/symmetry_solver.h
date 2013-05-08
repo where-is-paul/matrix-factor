@@ -72,9 +72,9 @@ class solver
 		*/
 		void load(std::string filename)
 		{
-			//assert( A.load(filename) );
 			clock_t start = clock(); double dif;
-			A.load(filename);
+			bool result = A.load(filename);
+			assert(result);
 			dif = clock() - start;
 			printf("Load:\t\t%.3f seconds. \n", dif/CLOCKS_PER_SEC);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
