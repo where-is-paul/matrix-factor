@@ -2,7 +2,7 @@ CC := g++
 SRCDIR := .
 BUILDDIR := build
 CFLAGS := -O3 -std=c++0x
-DEBUG := -Wextra -Wall -pg
+DEBUG := -Wextra -Wall
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*

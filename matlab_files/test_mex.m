@@ -34,8 +34,7 @@ warning off;
 % homogenous_mats = cellstr(homogenous_mats);
 
 other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
-            'tuma1'; 'tuma2'; '1138_bus'; 'Lshape_matrices4'; 'lund_b';
-			'm3d20-001'};
+            'tuma1'; 'tuma2'; '1138_bus'; 'Lshape_matrices4'; 'lund_b'};
 
 %other_mats = {'m3d10-001'};
 
@@ -56,6 +55,7 @@ for i = 1:length(all_mats)
     fprintf('The relative residual is %d.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));
     fprintf('The largest elem. of L is %.3f.\n', full(max(max(abs(l)))));
+	fprintf('A has %i nnz.\n', nnz(A));
     %fprintf('The condition number is %d.\n', condest(B));
 
     %spy(A(p,p)); figure; spy(abs(l*d*l') > 1e-8);

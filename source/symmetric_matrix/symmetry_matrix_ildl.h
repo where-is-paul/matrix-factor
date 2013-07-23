@@ -4,11 +4,11 @@
 using std::abs;
 
 template <class el_type>
-void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
+void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); //number of cols in A.
-	const double stat_piv = 1e-6;
+	const el_type stat_piv = 1e-6;
 
 	int lfil;
 	if (fill_factor >= 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
@@ -53,6 +53,19 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 		d = col_i[k]; col_i[k] = 0;
 		//find maximum element in col_i and store its index in r.
 		wi = max(col_i, col_i_nnzs, r);
+    
+    //we do partial pivoting here, where we take the first element u in the column that satisfies
+    //|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
+    //Symmetric Matrix Decomposition" by J.H. Liu (1987).
+    int t = r; //stores location of u 
+    el_type u = wi; //stores value of u
+    for (i = 0; i < (int) col_i_nnzs.size(); i++) {
+      if (abs(col_i[col_i_nnzs[i]])-pp_tol*wi > eps ) {
+        t = col_i_nnzs[i];
+        u = col_i[t];
+        break;
+      }
+    }
 		col_i[k] = d;
 
 		//bunch-kaufman partial pivoting is used below. for a more detailed reference,
@@ -65,6 +78,12 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 		}
 		else
 		{
+      //since we are doing partial pivoting, we should treat u and t like wi and r, so
+      //we'll just reassign wi and r. note: this has to go in the else clause since
+      //we still use the old wi for case 0 and case 1.
+      wi = u;
+      r = t;
+      
 			//assign all nonzero indices and values in A(r, k:r)
 			//( not including A(r,r) ) to col_r and col_r_nnzs
 			for (i = list_first[r]; i < (int) list[r].size(); i++) {

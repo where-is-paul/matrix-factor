@@ -1,4 +1,4 @@
-function [L, D, p, S, B] = ildl(A, fill, tol, ordering)
+function [L, D, p, S, B] = ildl(A, fill, tol, pp_tol, ordering)
 %ILDL   Incomplete LDL factorization of indefinite Hermitian matrices.
 %Before factoring, the matrix is equilibriated (resulting in a matrix S)
 %and then permuted by the Reverse Cuthill-McKee algorithm.
@@ -12,14 +12,22 @@ function [L, D, p, S, B] = ildl(A, fill, tol, ordering)
 %       A - an n x n indefinite Hermitian matrix.
 %
 %       fill_factor - a parameter to control memory usage. Each column of L will
-%       have at most fill_factor*nnz(A)/n non-zero elements.
+%       have at most fill_factor*nnz(A)/n non-zero elements. Default: 1.0
 %
 %       tol - a parameter to control accuracy. For the each column of L, 
-%       elements less than norm(column(L), 1) will be dropped.
+%       elements less than norm(column(L), 1) will be dropped. Default: 0.001
 %
-%		ordering - determines what reordering scheme is used to preorder the matrix. 
-%		AMD is the default scheme. RCM is also available. This parameter must be one
-%		of 'amd' or 'rcm'.
+%       pp_tol - a parameter to control aggresiveness of pivoting. 
+%       Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting 
+%       will be done in full. If the parameter is 0, partial pivoting will be turned off 
+%       and the first non-zero pivot under the diagonal will be used. Choices close to 0
+%       increase locality in pivoting (pivots closer to the diagonal are used) while
+%       choices closer to 1 increase the stability of pivoting. Useful for situations
+%       where you care more about preserving the structure of the matrix rather than
+%       bounding the size of its elements. Default: 2.0
+%
+%		    ordering - determines what reordering scheme is used to preorder the matrix. 
+%		    AMD and RCM are available. This parameter must be one of 'amd' or 'rcm'. Default: 'amd'
 %
 %   Outputs:
 %       L - unit lower triangular factor of P'SASP.

@@ -27,7 +27,7 @@ std::ostream& operator<< (std::ostream& os, const vector<el_type>& vec)
 	\param v the vector whose max element is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
 	\param r the index of the maximum element of v
-	\return the max element of v.
+	\return the absolute value of the max element of v.
 */
 template <class el_type>
 inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r)

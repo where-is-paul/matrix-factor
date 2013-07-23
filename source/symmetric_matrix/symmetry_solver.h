@@ -87,7 +87,7 @@ class solver
 			\param fill_factor a factor controling memory usage of factorization.
 			\param tol a factor controling accuracy of factorization.
 		*/
-		void solve(double fill_factor, double tol)
+		void solve(double fill_factor, double tol, double pp_tol)
 		{
 			perm.reserve(A.n_cols());
 			// for (int i = 0; i < A.n_cols(); i++) {
@@ -124,7 +124,7 @@ class solver
 			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
-			A.ildl(L, D, perm, fill_factor, tol);
+			A.ildl(L, D, perm, fill_factor, tol, pp_tol);
 			dif = clock() - start; total += dif;
 			
 			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);	
