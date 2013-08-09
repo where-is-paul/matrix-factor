@@ -8,7 +8,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); //number of cols in A.
-	const el_type stat_piv = 1e-6;
+	const double stat_piv = 1e-6;
 
 	int lfil;
 	if (fill_factor >= 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
