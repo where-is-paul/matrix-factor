@@ -2,8 +2,6 @@
 #ifndef LIL_SPARSE_MATRIX_HELPERS_H
 #define LIL_SPARSE_MATRIX_HELPERS_H
 
-#include <math.h>
-
 using std::vector;
 using std::abs;
 

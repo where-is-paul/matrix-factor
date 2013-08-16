@@ -1,12 +1,13 @@
 #ifndef SYMMETRY_SOLVER_H
 #define SYMMETRY_SOLVER_H
 
+#include "symmetry_matrix.h"
+#include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
+
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <cstring>
-#include "symmetry_matrix.h"
-#include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
 #include <ctime>
 
 using std::cout;
