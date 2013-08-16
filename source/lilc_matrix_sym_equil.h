@@ -18,13 +18,13 @@ void lilc_matrix<el_type> :: sym_equil() {
 		//assumes indices are ordered. since this procedure is run
 		//before factorization pivots matrix, this is a fair assumption
 		//for most matrix market matrices.
-		for (auto it = list[i].begin(); it != list[i].end(); it++) {
+		for (idx_it it = list[i].begin(); it != list[i].end(); it++) {
 			S[i] = std::max(S[i], abs(coeff(i, *it)));
 		}
 		
 		//S[i] > 0 since its the square root of a +ve number
 		if (S[i] > eps) { 
-			for (auto it = list[i].begin(); it != list[i].end(); it++) {
+			for (idx_it it = list[i].begin(); it != list[i].end(); it++) {
 				coeffRef(i, *it, elem_its);
 				
 				//can use bin. search on coeff since no reordering is done yet.
@@ -33,7 +33,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 
 			if (!m_idx[i].empty() && (m_idx[i][0] == i) ) 
 				m_x[i][0] /= S[i];
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				*it /= S[i];
 			}
 		} 
@@ -41,7 +41,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 	
 	for (i = 0; i < ncols; i++) {
 		if (S[i] < eps) {
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				S[i] = std::max(S[i], abs(*it));
 			}
 
@@ -50,7 +50,7 @@ void lilc_matrix<el_type> :: sym_equil() {
 				return;
 			}
 			
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++) {
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++) {
 				*it /= S[i];
 			}
 		}

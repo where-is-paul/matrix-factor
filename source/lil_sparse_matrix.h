@@ -15,7 +15,7 @@ std::ostream& operator<< (std::ostream& os, const Container& vec)
 	os << "[";
 	if (!vec.empty())
 	{
-		for (auto it = vec.begin(); it+1 != vec.end(); it++)
+		for (Container::iterator it = vec.begin(); it+1 != vec.end(); it++)
 		{
 			os << *it << ", ";
 		}

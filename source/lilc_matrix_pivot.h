@@ -27,12 +27,12 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	//------------- row-row swap (1) for A -------------//
 	
 	//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r
-	for (auto it = list[k].begin(); it != list[k].begin() + first[k]; ++it) {
+	for (idx_it it = list[k].begin(); it != list[k].begin() + first[k]; ++it) {
 		s.row_r.push_back(*it);
 	}
 	
 	//pushes column indices (which contain non-zero elements) of A(r, 1:k) onto row_k
-	for (auto it = list[r].begin(); it != list[r].begin() + first[r]; ++it) {
+	for (idx_it it = list[r].begin(); it != list[r].begin() + first[r]; ++it) {
 		s.row_k.push_back(*it);
 	}
 	
@@ -41,7 +41,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	unordered_inplace_union(s.all_swaps, list[r].begin(), list[r].begin() + first[r], in_set);
 	
 	//do row swaps in A (i.e. swap A(k, 1:k) with A(r, 1:k))
-	for (auto it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; ++it) {
+	for (idx_it it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; ++it) {
 		safe_swap(m_idx[*it], k, r);
 	}
 	s.all_swaps.clear();
@@ -97,7 +97,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 		std::copy(m_x[r].begin()+offset, m_x[r].end(), std::back_inserter(s.col_k));
 		std::copy(m_idx[r].begin()+offset, m_idx[r].end(), std::back_inserter(s.col_k_nnzs));
 
-		for (auto it = m_idx[r].begin() + offset; it != m_idx[r].end(); it++) {
+		for (idx_it it = m_idx[r].begin() + offset; it != m_idx[r].end(); it++) {
 		
 			//for each non-zero row index in the rth column, find a pointer to it in list
 			//these pointers will be used to perform column swaps on list
@@ -153,15 +153,15 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 
 	//swap all A(i, k) with A(i, r) in list.
-	for (auto it = s.swapk.begin(); it != s.swapk.end(); it++) {
+	for (typename vector<idx_it>::iterator it = s.swapk.begin(); it != s.swapk.end(); it++) {
 		**it = k;
 	}
-	for (auto it = s.swapr.begin(); it != s.swapr.end(); it++) {
+	for (typename vector<idx_it>::iterator it = s.swapr.begin(); it != s.swapr.end(); it++) {
 		**it = r;
 	}
 
 	//add new entries for new col k into list
-	for (auto it = s.col_k_nnzs.begin(); it != s.col_k_nnzs.end(); it++) {
+	for (idx_it it = s.col_k_nnzs.begin(); it != s.col_k_nnzs.end(); it++) {
 		if ((*it != k) && (*it <= r)) {
 			list[*it].push_back(k);
 		}
@@ -188,7 +188,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 
 	// -------------------- (1) for L ------------------------//
 	//push back pointers to L(k, i)
-	for (auto it = L.list[k].begin(); it != L.list[k].end(); it++)
+	for (idx_it it = L.list[k].begin(); it != L.list[k].end(); it++)
 	{
 		for (i = L.first[*it]; i < (int) L.m_idx[*it].size(); i++) {
 			if (L.m_idx[*it][i] == k) {
@@ -199,7 +199,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 	
 	//push back pointers to L(r, i)
-	for (auto it = L.list[r].begin(); it != L.list[r].end(); it++) {
+	for (idx_it it = L.list[r].begin(); it != L.list[r].end(); it++) {
 		for (i = L.first[*it]; i < (int) L.m_idx[*it].size(); i++) {
 			if (L.m_idx[*it][i] == r) {				
 				s.swapk.push_back(L.m_idx[*it].begin() + i);
@@ -209,10 +209,10 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	}
 	
 	//swap rows k and r
-	for (auto it = s.swapk.begin(); it != s.swapk.end(); it++) {
+	for (typename vector<idx_it>::iterator it = s.swapk.begin(); it != s.swapk.end(); it++) {
 		**it = k;
 	}
-	for (auto it = s.swapr.begin(); it != s.swapr.end(); it++) {
+	for (typename vector<idx_it>::iterator it = s.swapr.begin(); it != s.swapr.end(); it++) {
 		**it = r;
 	}
 

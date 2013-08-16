@@ -238,7 +238,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			
 			//multiply inverse of pivot to work and temp (gives us two columns of l)
-			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+			for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 				l_11 = work[*it]*D_inv11 + temp[*it]*D_inv12;
 				l_12 = work[*it]*D_inv12 + temp[*it]*D_inv22;
 				
@@ -273,7 +273,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		if (!size_two_piv) {
 			if ( abs(D[k]) < eps) D[k] = 1e-6; //statically pivot
 			i = 1;
-			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
+			for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { 
 				if ( abs(work[*it]) > eps) {
 					L.m_idx[k][i] = *it; //col k nonzero indices of L are stored
 					L.m_x[k][i] = work[*it]/D[k]; //col k nonzero values of L are stored
@@ -300,7 +300,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			count++;
 
 			i = 1;
-			for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+			for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 				if ( abs(work[*it]) > eps) {
 					L.m_x[k][i] = work[*it]; //col k nonzero indices of L are stored
 					L.m_idx[k][i] = *it; //col k nonzero values of L are stored
@@ -313,7 +313,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			}
 			
 			j = 1;
-			for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
+			for (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 				if ( abs(temp[*it]) > eps) {
 					L.m_x[k+1][j] = temp[*it]; //col k+1 nonzero indices of L are stored
 					L.m_idx[k+1][j] = *it; //col k+1 nonzero values of L are stored
@@ -343,12 +343,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			work[k+1] = 0;
 		}
 		
-		for (auto it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
+		for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 			work[*it] = 0;
 		}
 		curr_nnzs.clear(); //zero out work vector
 		
-		for (auto it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
+		for (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 			temp[*it] = 0;
 		}
 		temp_nnzs.clear(); //zero out work vector

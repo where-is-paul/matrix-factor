@@ -217,7 +217,7 @@ public:
 		\param k current iteration index.	
 	*/
 	inline void advance_first(const int& k) {
-		for (auto it = list[k].begin(); it != list[k].end(); it++) {	
+		for (idx_it it = list[k].begin(); it != list[k].end(); it++) {	
 			ensure_invariant(*it, k, m_idx[*it]); //make sure next element is good before we increment.
 			first[*it]++; //should have ensured invariant now
 		}
@@ -227,7 +227,7 @@ public:
 		\param k current iteration index.	
 	*/
 	inline void advance_list(const int& k) {
-		for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
+		for (idx_it it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
 			if (*it == k) continue;
 			ensure_invariant(*it, k, list[*it], true); //make sure next element is good.
 			first[*it]++; //invariant ensured.
