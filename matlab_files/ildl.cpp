@@ -37,8 +37,9 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
         const mxArray* raw_ordering = prhs[4];
         char* ordering = m.parse_str(prhs[4]);
 
-        if (strcmp(ordering, "rcm") == 0) m.solv.set_reorder_scheme("-rcm");
-        else if (strcmp(ordering, "amd") == 0) m.solv.set_reorder_scheme("-amd");	
+        const char* rcm = "rcm", *amd = "amd";
+        if (strcmp(ordering, rcm) == 0) m.solv.set_reorder_scheme("-rcm");
+        else if (strcmp(ordering, amd) == 0) m.solv.set_reorder_scheme("-amd");	
     }
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))
