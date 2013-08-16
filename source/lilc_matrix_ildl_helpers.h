@@ -44,11 +44,25 @@ inline double norm(typename std::vector<el_type>& v, typename std::vector<int>& 
 */
 template <class el_type>
 struct by_value {
-	std::vector<el_type>& v; 
-	by_value(std::vector<el_type>& vec) : v(vec) {}
+	const std::vector<el_type>& v; 
+	by_value(const std::vector<el_type>& vec) : v(vec) {}
 	bool operator()(int const &a, int const &b) const { 
 		if (abs(v[a]) == abs(v[b])) return a < b;
 		return abs(v[a]) > abs(v[b]);
+	}
+};
+
+/*! \brief Functor for determining if a variable is below the tolerance given.
+    \param v the vector that contains the values being checked.
+    \param eps the tolerance given.
+*/
+template <class el_type>
+struct by_tolerance {
+  const std::vector<el_type>& v; 
+  double eps;
+	by_tolerance(const std::vector<el_type>& vec, const double& eps) : v(vec), eps(eps) {}
+	bool operator()(int const &i) const { 
+		return abs(v[i]) < eps;
 	}
 };
 
@@ -107,10 +121,9 @@ inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_st
 */
 template <class el_type>
 inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const int& lfil, const double& tol) { 
-	
 	//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.
 	el_type tolerance = tol*norm<el_type>(v, curr_nnzs);
-	const long double eps = 1e-13; //fix later. need to make this a global thing
+	const long double eps = 1e-13; //TODO: fix later. need to make this a global thing
 	if (tolerance > eps) {
 		for (auto it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
 		if (abs(v[*it]) < tolerance) v[*it] = 0;
@@ -124,7 +137,7 @@ inline void drop_tol(std::vector<el_type>& v, std::vector<int>& curr_nnzs, const
 		v[curr_nnzs[i]] = 0;
 	}
 	
-	auto is_zero = [eps, &v](int i) -> bool { return abs(v[i]) < eps; };
+  by_tolerance<el_type> is_zero(v, eps);
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.

@@ -1,15 +1,14 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$lil__sparse__matrix_8h.html" title="lil_sparse_matrix.h" alt="" coords="343,80,481,107"/>
-<area shape="rect" id="node23" href="$swap__struct_8h.html" title="swap_struct.h" alt="" coords="929,80,1036,107"/>
-<area shape="rect" id="node25" href="$lilc__matrix__find__level__set_8h.html" title="lilc_matrix_find_level_set.h" alt="" coords="1061,80,1251,107"/>
-<area shape="rect" id="node27" href="$lilc__matrix__find__root_8h.html" title="lilc_matrix_find_root.h" alt="" coords="1275,80,1433,107"/>
-<area shape="rect" id="node29" href="$lilc__matrix__sym__rcm_8h.html" title="lilc_matrix_sym_rcm.h" alt="" coords="1458,80,1616,107"/>
-<area shape="rect" id="node31" href="$lilc__matrix__sym__perm_8h.html" title="lilc_matrix_sym_perm.h" alt="" coords="1641,80,1809,107"/>
-<area shape="rect" id="node33" href="$lilc__matrix__sym__equil_8h.html" title="lilc_matrix_sym_equil.h" alt="" coords="1833,80,1997,107"/>
-<area shape="rect" id="node35" href="$lilc__matrix__ildl_8h.html" title="lilc_matrix_ildl.h" alt="" coords="2023,80,2143,107"/>
-<area shape="rect" id="node37" href="$lilc__matrix__ildl__helpers_8h.html" title="lilc_matrix_ildl_helpers.h" alt="" coords="2167,80,2341,107"/>
-<area shape="rect" id="node39" href="$lilc__matrix__pivot_8h.html" title="lilc_matrix_pivot.h" alt="" coords="2367,80,2500,107"/>
-<area shape="rect" id="node41" href="$lilc__matrix__load_8h.html" title="lilc_matrix_load.h" alt="" coords="188,80,317,107"/>
-<area shape="rect" id="node49" href="$lilc__matrix__save_8h.html" title="lilc_matrix_save.h" alt="" coords="2524,80,2657,107"/>
-<area shape="rect" id="node51" href="$lilc__matrix__to__string_8h.html" title="lilc_matrix_to_string.h" alt="" coords="5,80,163,107"/>
+<map id="source/lilc_matrix_declarations.h" name="source/lilc_matrix_declarations.h">
+<area shape="rect" id="node13" href="$swap__struct_8h.html" title="swap_struct.h" alt="" coords="431,104,541,131"/>
+<area shape="rect" id="node15" href="$lilc__matrix__find__level__set_8h.html" title="lilc_matrix_find_level\l_set.h" alt="" coords="566,97,719,138"/>
+<area shape="rect" id="node17" href="$lilc__matrix__find__root_8h.html" title="lilc_matrix_find_root.h" alt="" coords="743,104,901,131"/>
+<area shape="rect" id="node19" href="$lilc__matrix__sym__rcm_8h.html" title="lilc_matrix_sym_rcm.h" alt="" coords="927,104,1089,131"/>
+<area shape="rect" id="node21" href="$lilc__matrix__sym__perm_8h.html" title="lilc_matrix_sym_perm.h" alt="" coords="1113,104,1284,131"/>
+<area shape="rect" id="node23" href="$lilc__matrix__sym__equil_8h.html" title="lilc_matrix_sym_equil.h" alt="" coords="1308,104,1476,131"/>
+<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html" title="lilc_matrix_ildl_helpers.h" alt="" coords="1501,104,1677,131"/>
+<area shape="rect" id="node27" href="$lilc__matrix__ildl_8h.html" title="lilc_matrix_ildl.h" alt="" coords="1702,104,1823,131"/>
+<area shape="rect" id="node29" href="$lilc__matrix__pivot_8h.html" title="lilc_matrix_pivot.h" alt="" coords="1847,104,1981,131"/>
+<area shape="rect" id="node31" href="$lilc__matrix__load_8h.html" title="lilc_matrix_load.h" alt="" coords="2007,104,2136,131"/>
+<area shape="rect" id="node42" href="$lilc__matrix__save_8h.html" title="lilc_matrix_save.h" alt="" coords="2161,104,2296,131"/>
+<area shape="rect" id="node44" href="$lilc__matrix__to__string_8h.html" title="lilc_matrix_to_string.h" alt="" coords="2321,104,2480,131"/>
 </map>

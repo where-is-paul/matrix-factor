@@ -1,17 +1,17 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k." alt="" coords="415,36,593,63"/>
-<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#a67cef3500c6f2df4556228bcb05e24ad" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005)." alt="" coords="217,48,292,75"/>
-<area shape="rect" id="node9" href="$lilc__matrix__ildl__helpers_8h.html#a1c1c106c91e87594d7cfbcdb55224d5a" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index." alt="" coords="231,99,279,125"/>
-<area shape="rect" id="node11" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::off_diagonal" alt="" coords="395,251,613,277"/>
-<area shape="rect" id="node13" href="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix." alt="" coords="163,200,346,227"/>
-<area shape="rect" id="node15" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="Resizes the matrix. For use in preallocating space before factorization begins." alt="" coords="189,149,320,176"/>
-<area shape="rect" id="node21" href="$lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="209,301,300,328"/>
-<area shape="rect" id="node23" href="$lilc__matrix__ildl__helpers_8h.html#ae20b651091f6b6f887a8c4a41ac32e65" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="669,352,854,379"/>
-<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html#a97f5d38adbdbce3c30b3f33144ef6364" title="Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of..." alt="" coords="221,352,288,379"/>
-<area shape="rect" id="node5" href="$classlilc__matrix.html#aea44b3b7358782ffe30f703b3f738aa2" title="Ensures two the invariants observed by A.first and A.list are held." alt="" coords="662,251,861,277"/>
-<area shape="rect" id="node17" href="$classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d" title="lil_sparse_matrix::n_cols" alt="" coords="415,124,593,151"/>
-<area shape="rect" id="node19" href="$classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0" title="lil_sparse_matrix::n_rows" alt="" coords="413,175,595,201"/>
-<area shape="rect" id="node27" href="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::block_size" alt="" coords="399,403,609,429"/>
-<area shape="rect" id="node29" href="$classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix." alt="" coords="443,352,565,379"/>
-<area shape="rect" id="node32" href="$lilc__matrix__ildl__helpers_8h.html#a237f9b0b8069cb75d0fd3cd4a55c9978" title="update_single" alt="" coords="448,301,560,328"/>
+<map id="lilc_matrix::ildl" name="lilc_matrix::ildl">
+<area shape="rect" id="node3" href="$classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795" title="Resizes the matrix. For use in preallocating space before factorization begins. " alt="" coords="169,48,300,75"/>
+<area shape="rect" id="node9" href="$classblock__diag__matrix.html#a12249531555506377724ff14abec6905" title="Resizes this matrix to an n*n matrix. " alt="" coords="163,99,306,141"/>
+<area shape="rect" id="node11" href="$lilc__matrix__ildl__helpers_8h.html#accfed69ecad20bf75eec5608723b301d" title="Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of..." alt="" coords="201,255,268,281"/>
+<area shape="rect" id="node19" href="$lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="550,288,735,315"/>
+<area shape="rect" id="node23" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::\loff_diagonal" alt="" coords="357,385,499,426"/>
+<area shape="rect" id="node25" href="$lilc__matrix__ildl__helpers_8h.html#afba5a3503278732c2dedf068c9e33e9c" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="211,356,259,383"/>
+<area shape="rect" id="node27" href="$lilc__matrix__ildl__helpers_8h.html#ac6f821ca233295dd508731797ed4d954" title="safe_swap" alt="" coords="189,407,280,433"/>
+<area shape="rect" id="node29" href="$classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303" title="Updates A.first for iteration k. " alt="" coords="355,450,501,491"/>
+<area shape="rect" id="node32" href="$lilc__matrix__ildl__helpers_8h.html#a240623e344d8a61859211a5fdd881873" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005). " alt="" coords="197,508,272,535"/>
+<area shape="rect" id="node5" href="$classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0" title="lil_sparse_matrix::\ln_rows" alt="" coords="360,5,496,46"/>
+<area shape="rect" id="node7" href="$classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d" title="lil_sparse_matrix::\ln_cols" alt="" coords="360,70,496,111"/>
+<area shape="rect" id="node13" href="$classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix. " alt="" coords="367,283,489,309"/>
+<area shape="rect" id="node15" href="$lilc__matrix__ildl__helpers_8h.html#a7a50201b361cb22dbd3cebe78ec44660" title="update_single" alt="" coords="372,333,484,360"/>
+<area shape="rect" id="node21" href="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::\lblock_size" alt="" coords="357,217,499,258"/>
+<area shape="rect" id="node17" href="$classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held. " alt="" coords="575,371,711,413"/>
 </map>

@@ -1,5 +1,5 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$lilc__matrix_8h.html" title="source/lilc_matrix.h" alt="" coords="49,80,193,107"/>
-<area shape="rect" id="node5" href="$solver_8h.html" title="source/solver.h" alt="" coords="60,155,183,181"/>
-<area shape="rect" id="node7" href="$ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="67,229,175,256"/>
+<map id="source/lilc_matrix_declarations.h" name="source/lilc_matrix_declarations.h">
+<area shape="rect" id="node3" href="$lilc__matrix_8h.html" title="source/lilc_matrix.h" alt="" coords="5,96,149,123"/>
+<area shape="rect" id="node5" href="$solver_8h.html" title="source/solver.h" alt="" coords="16,171,139,197"/>
+<area shape="rect" id="node7" href="$ldl__driver_8cpp.html" title="ldl_driver.cpp" alt="" coords="23,245,131,272"/>
 </map>
