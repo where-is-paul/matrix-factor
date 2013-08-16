@@ -2,8 +2,6 @@
 #ifndef SYMMETRY_MATRIX_DECLARATIONS_H
 #define SYMMETRY_MATRIX_DECLARATIONS_H
 
-#include <cstdlib>
-
 /*! \brief A list-of-lists (LIL) matrix in column oriented format.
 
 	For convience, the matrix this class represents will be refered to as matrix A.
