@@ -3,6 +3,7 @@
 #define SQUARE_MATRIX_DECLARATIONS_H
 
 #include <iterator>
+#include <cmath>
 #include "square_matrix_swap_struct.h"
 #include "../unit_lower_triangular_matrix/ultriangular_matrix.h"
 
