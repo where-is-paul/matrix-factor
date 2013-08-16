@@ -9,6 +9,8 @@
 	
 */
 
+#include <fstream>
+
 template <class el_type> 
 class ultriangular_matrix : public lil_sparse_matrix<el_type>
 {
