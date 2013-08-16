@@ -5,6 +5,10 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <string>
+#include <fstream>
+#include <cassert>
+#include <iostream>
 
 #include "lil_sparse_matrix_helpers.h"
 
