@@ -60,7 +60,7 @@ class solver
 		
 		/*! \brief Sets the reordering scheme for the solver.
 		*/
-		void set_reorder_scheme(char* ordering) {
+		void set_reorder_scheme(const char* ordering) {
 			if (strcmp(ordering, "-rcm") == 0) {
 				reorder_scheme = 1;
 			} else if (strcmp(ordering, "-amd") == 0) {
