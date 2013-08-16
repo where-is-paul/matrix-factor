@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include <string.h>
+#include <cstring>
 #include "source/symmetric_matrix/symmetry_solver.h"
 
 using namespace std;
