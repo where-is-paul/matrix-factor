@@ -2,8 +2,8 @@
 #ifndef SYMMETRY_MATRIX_H
 #define SYMMETRY_MATRIX_H
 
-#include "block_diag_matrix.h"
 #include "../square_matrix/square_matrix.h"
+#include "block_diag_matrix.h"
 
 template<class el_type = double>
 class symmetry_matrix;

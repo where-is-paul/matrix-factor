@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 #include "lil_sparse_matrix_helpers.h"
 
