@@ -4,7 +4,7 @@ FILES = utils.cpp ../*.cpp ../*.h
 
 all : ildl.mex*
 
-MEX ?= mex.bat
+MEX ?= mex
 MEXFLAGS =-largeArrayDims
 MEXEXTRA =ildl.cpp utils.cpp
 
