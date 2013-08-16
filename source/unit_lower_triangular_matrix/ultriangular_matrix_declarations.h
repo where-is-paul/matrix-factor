@@ -102,7 +102,7 @@ public:
 	*/
 	inline void advance_column(const int& k)
 	{
-		for (auto it = list[k].begin(); it != list[k].end(); it++)
+		for (idx_it it = list[k].begin(); it != list[k].end(); it++)
 		{	
 			ensure_invariant(*it, k, m_idx[*it]); //make sure next element is good before we increment.
 			column_first[*it]++; //should have ensured invariant now

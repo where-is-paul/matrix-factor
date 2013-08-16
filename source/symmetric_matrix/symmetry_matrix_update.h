@@ -37,7 +37,7 @@ inline void symmetry_matrix<el_type>::update(const int& r, std::vector<el_type>&
 	int blk_sz;
 	el_type d_12, l_rj;
 
-	for (auto it = work_nnzs.begin(), end = work_nnzs.end(); it != end; it++)
+	for (idx_it it = work_nnzs.begin(), end = work_nnzs.end(); it != end; it++)
 		in_set[*it] = true;
 
 	//iterate across non-zeros of row r using Llist
@@ -57,7 +57,7 @@ inline void symmetry_matrix<el_type>::update(const int& r, std::vector<el_type>&
 		}
 	}
 
-	for (auto it = work_nnzs.begin(), end = work_nnzs.end(); it != end; it++)
+	for (idx_it it = work_nnzs.begin(), end = work_nnzs.end(); it != end; it++)
 		in_set[*it] = false;
 }
 

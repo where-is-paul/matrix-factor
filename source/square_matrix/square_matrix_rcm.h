@@ -5,6 +5,15 @@
 //#include <queue>
 //using std::queue;
 
+struct by_degree {
+  const vector<int>& deg;
+	by_degree(const vector<int>& deg) : deg(deg) {}
+	bool operator()(int const &a, int const &b) const { 
+		if (deg[a] == deg[b]) return a > b;
+		return deg[a] < deg[b];
+	}
+};
+
 template<class el_type>
 inline void square_matrix<el_type>::rcm(vector<int>& perm)
 {
@@ -20,11 +29,7 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 	for (i = 0; i < m_n_cols; i++)
 		deg[i] = degree(i);
 	
-	auto sorter = [&deg](const int &a, const int &b) -> bool
-						{
-							if (deg[a] == deg[b]) return a > b;
-							return deg[a] < deg[b];
-						};
+  by_degree sorter(deg);
 
 	for (i = 0; i < m_n_cols; i++)
 	{
@@ -42,7 +47,7 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 			perm.push_back(s);
 			neighbors.clear();
 
-			for (auto it = list[s].begin(); it != list[s].end(); it++)
+			for (idx_it it = list[s].begin(); it != list[s].end(); it++)
 			{
 				if (!visited[*it])
 				{
@@ -50,7 +55,7 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 					neighbors.push_back(*it);
 				}
 			}
-			for (auto it = m_idx[s].begin(); it != m_idx[s].end(); it++)
+			for (idx_it it = m_idx[s].begin(); it != m_idx[s].end(); it++)
 			{
 				if (!visited[*it])
 				{
@@ -60,7 +65,7 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 			}
 			sort(neighbors.begin(), neighbors.end(), sorter);
 
-			for (auto it = neighbors.begin(); it != neighbors.end(); it++)
+			for (idx_it it = neighbors.begin(); it != neighbors.end(); it++)
 			{
 				q[tail] = *it; tail++; // equivalent to q.push(*it);
 			}

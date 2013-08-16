@@ -58,7 +58,7 @@ void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_dia
 			while (true)
 			{
 				// assign nonzeros indices and values of A(k:n, r) to col_r_nnzs
-				for (auto it = col_r_nnzs.begin(); it != col_r_nnzs.end(); it++)
+				for (idx_it it = col_r_nnzs.begin(); it != col_r_nnzs.end(); it++)
 					col_r[*it] = 0;
 				col_r_nnzs.clear();
 				for (j = list_first[r]; j < (int) list[r].size(); j++)

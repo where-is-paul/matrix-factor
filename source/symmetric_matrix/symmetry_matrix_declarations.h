@@ -88,7 +88,7 @@ public:
 	*/
 	inline void advance_list(const int& k)
 	{
-		for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++)
+		for (idx_it it = m_idx[k].begin(); it != m_idx[k].end(); it++)
 		{
 			if (*it == k) continue;
 			this->ensure_invariant(*it, k, list[*it]); //make sure next element is good.

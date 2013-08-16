@@ -22,7 +22,7 @@ void square_matrix<el_type>::equilibrate()
 		//assumes indices are ordered. since this procedure is run
 		//before factorization pivots matrix, this is a fair assumption
 		//for most matrix market matrices.
-		for (auto it = list[i].begin(); it != list[i].end(); it++)
+		for (idx_it it = list[i].begin(); it != list[i].end(); it++)
 		{
 			//if (S[*it] < eps) continue;
 			coeffRef(i, *it, idx_iterator, elt_iterator);
@@ -33,13 +33,13 @@ void square_matrix<el_type>::equilibrate()
 		//S[i] > 0 since its the square root of a +ve number
 		if (S[i] > eps)
 		{ 
-			for (auto it = list[i].begin(); it != list[i].end(); it++)
+			for (idx_it it = list[i].begin(); it != list[i].end(); it++)
 				//can use bin. search on coeff since no reordering is done yet.
 				*temp[*it] /= S[i];
 
 			if (!m_idx[i].empty() && (m_idx[i][0] == i))
 				m_x[i][0] /= S[i];
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++)
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++)
 				*it /= S[i];
 		} 
 	}
@@ -48,7 +48,7 @@ void square_matrix<el_type>::equilibrate()
 	{
 		if (S[i] < eps)
 		{
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++)
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++)
 				S[i] = std::max(S[i], abs(*it));
 
 			if (S[i] < eps)
@@ -57,7 +57,7 @@ void square_matrix<el_type>::equilibrate()
 				return;
 			}
 			
-			for (auto it = m_x[i].begin(); it != m_x[i].end(); it++)
+			for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++)
 				*it /= S[i];
 		}
 	}

@@ -21,9 +21,9 @@ inline void square_matrix<el_type>::find_root(int& s, vector<int>& deg)
 		
 		while (true)
 		{
-			for (auto node_it = current_level.begin(); node_it != current_level.end(); node_it++)
+			for (idx_it node_it = current_level.begin(); node_it != current_level.end(); node_it++)
 			{
-				for (auto it = list[*node_it].begin(); it != list[*node_it].end(); it++)
+				for (idx_it it = list[*node_it].begin(); it != list[*node_it].end(); it++)
 				{
 					if (!visited[*it])
 					{
@@ -31,7 +31,7 @@ inline void square_matrix<el_type>::find_root(int& s, vector<int>& deg)
 						next_level.push_back(*it);
 					}
 				}
-				for (auto it = m_idx[*node_it].begin(); it != m_idx[*node_it].end(); it++)
+				for (idx_it it = m_idx[*node_it].begin(); it != m_idx[*node_it].end(); it++)
 				{
 					if (!visited[*it])
 					{
@@ -51,7 +51,7 @@ inline void square_matrix<el_type>::find_root(int& s, vector<int>& deg)
 		{
 			ls_max = ls;
 			min_deg = m_n_cols;
-			for (auto it = current_level.begin(); it != current_level.end(); it++)
+			for (idx_it it = current_level.begin(); it != current_level.end(); it++)
 			{
 				d = deg[*it];
 				if (d < min_deg)

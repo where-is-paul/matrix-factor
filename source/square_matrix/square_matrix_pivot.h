@@ -23,7 +23,7 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 	//------------- row-row swap (1) for A -------------//
 	
 	//pushes column indices (which contain non-zero elements) of A(k, 1:k) onto row_r
-	for (auto it = list[k].begin(); it != list[k].begin() + list_first[k]; it++) {
+	for (idx_it it = list[k].begin(); it != list[k].begin() + list_first[k]; it++) {
 		s.row_r.push_back(*it);
 		s.all_swaps.push_back(*it);
 	}
@@ -34,7 +34,7 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 	//merge these two sets of indices together
 	inplace_union(s.all_swaps, list[r].begin(), list[r].begin() + list_first[r]);
 	//do row swaps in A (i.e. swap A(k, 1:k) with A(r, 1:k))
-	for (auto it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; it++)
+	for (idx_it it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; it++)
 		safe_swap(m_idx[*it], k, r);
 	s.all_swaps.clear();
 	
@@ -130,9 +130,9 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 	}
 
 	//swap all A(i, k) with A(i, r) in list.
-	for (auto it = s.swapk.begin(); it != s.swapk.end(); it++)
+	for (typename vector<idx_it>::iterator it = s.swapk.begin(); it != s.swapk.end(); it++)
 		**it = k;
-	for (auto it = s.swapr.begin(); it != s.swapr.end(); it++)
+	for (typename vector<idx_it>::iterator it = s.swapr.begin(); it != s.swapr.end(); it++)
 		**it = r;
 
 	//set the kth col
@@ -164,7 +164,7 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 	s.all_swaps.assign(L.list[k].begin(), L.list[k].end());
 	inplace_union(s.all_swaps, L.list[r].begin(), L.list[r].end());
 	//do row swaps in L (i.e. swap L(k, 1:k) with L(r, 1:k))
-	for (auto it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; ++it)
+	for (idx_it it = s.all_swaps.begin(), end = s.all_swaps.end(); it != end; ++it)
 		safe_swap(L.m_idx[*it], k, r);
 	s.all_swaps.clear();
 
