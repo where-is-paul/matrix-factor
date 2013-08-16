@@ -133,8 +133,8 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	if (argc < 2 || argc > 8) {
-		std::cout << "Too many or too few arguments." << std::endl
-		<< "Program usage: ./ldl_driver [in.mtx] [lfil] [tol] [pp_tol] [-rcm/amd] [-save] [-display]" << std::endl;
+		std::cout << "Too many or too few arguments." << std::endl;
+		std::cout << "Program usage: ./ldl_driver [in.mtx] [lfil] [tol] [pp_tol] [-rcm/amd] [-save] [-display]" << std::endl;
 		std::cout << "Sample usage: ./ldl_driver test_matrices/testmat1.mtx 1.0 0.001 0.75 -rcm -y -y" << endl;
 		return 0;
 	}
