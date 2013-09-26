@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['eps',['eps',['../classlil__sparse__matrix.html#af764d0312eb9f7939ab144b12972bf56',1,'lil_sparse_matrix']]]
+  ['eps',['eps',['../structby__tolerance.html#ab9cc397819bd45e5721b39a29662ebb5',1,'by_tolerance::eps()'],['../lil__sparse__matrix__helpers_8h.html#aaf5d2b8179a01d8d09a72aecf067ebcb',1,'eps():&#160;lil_sparse_matrix_helpers.h']]]
 ];

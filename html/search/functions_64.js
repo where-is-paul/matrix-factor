@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['display',['display',['../classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352',1,'solver']]],
-  ['drop_5ftol',['drop_tol',['../lilc__matrix__ildl__helpers_8h.html#a240623e344d8a61859211a5fdd881873',1,'lilc_matrix_ildl_helpers.h']]]
+  ['drop_5ftol',['drop_tol',['../lil__sparse__matrix__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2',1,'lil_sparse_matrix_helpers.h']]]
 ];
