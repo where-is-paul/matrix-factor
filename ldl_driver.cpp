@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
 	std::string usage("Performs an incomplete LDL factorization of a given matrix.\n"
 				      "Sample usage:\n"
 					  "\t./ldl_driver -filename=test_matrices/testmat1.mtx "
-									 "-fill=2.0 -display=true -save=false"
+									 "-fill=2.0 -display=true -save=false\n"
 					  "Additionally, these flags can be loaded from a single file "
 					  "with the option -flagfile=[filename].");
 				 
