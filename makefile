@@ -1,13 +1,13 @@
 CC := g++
 SRCDIR := .
 BUILDDIR := build
-CFLAGS := -O3 -std=c++0x
-DEBUG := -Wextra -Wall
+CFLAGS := -O3 -std=gnu++0x
+DEBUG := -w
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
  
-SOURCES := ./ldl_driver.cpp
+SOURCES := ./ldl_driver.cpp ./include/gflags/*
 
 $(TARGET): 
 	@mkdir -p output_matrices
