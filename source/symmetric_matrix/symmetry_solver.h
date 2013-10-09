@@ -50,33 +50,30 @@ class solver
 		ultriangular_matrix<el_type> L;	///<The lower triangular factor of A.
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
-		int reorder_scheme, equil; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
+		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
+		bool equil; ///<Set to true for max-norm equilibriation.
 		
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
 			reorder_scheme = 0;
-			equil = 1;
+			equil = true;
 		}
 		
 		/*! \brief Sets the reordering scheme for the solver.
 		*/
 		void set_reorder_scheme(const char* ordering) {
-			if (strcmp(ordering, "-rcm") == 0) {
+			if (strcmp(ordering, "rcm") == 0) {
 				reorder_scheme = 1;
-			} else if (strcmp(ordering, "-amd") == 0) {
+			} else if (strcmp(ordering, "amd") == 0) {
 				reorder_scheme = 0;
-			} else if (strcmp(ordering, "-none") == 0) {
+			} else if (strcmp(ordering, "none") == 0) {
 				reorder_scheme = 2;
 			}
 		}
 		
-		void set_equil(const char* equil_opt) {
-			if (strcmp(equil_opt, "-n") == 0) {
-				equil = 0;
-			} else {
-				equil = 1;
-			}
+		void set_equil(bool equil_opt) {
+			equil = equil_opt;
 		}
 		
 		/*! \brief Loads the matrix A into solver.

@@ -37,16 +37,14 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
         const mxArray* raw_ordering = prhs[4];
         char* ordering = m.parse_str(raw_ordering);
 
-        if (strcmp(ordering, "rcm") == 0) m.solv.set_reorder_scheme("-rcm");
-        else if (strcmp(ordering, "amd") == 0) m.solv.set_reorder_scheme("-amd");
-		else if (strcmp(ordering, "none") == 0) m.solv.set_reorder_scheme("-none");	
+        m.solv.set_reorder_scheme(ordering);
     }
 	if (nrhs > 5) {
         const mxArray* raw_equil = prhs[5];
         char* equil = m.parse_str(raw_equil);
 
-        if (strcmp(equil, "y") == 0) m.solv.set_equil("-y");
-        else if (strcmp(equil, "n") == 0) m.solv.set_equil("-n");
+        if (strcmp(equil, "y") == 0) m.solv.set_equil(true);
+        else m.solv.set_equil(false);
     }
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))
