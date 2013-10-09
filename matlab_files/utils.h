@@ -10,6 +10,12 @@
 class mex_utils
 {	
 	public:
+		double tol;
+		mex_utils() {
+			// any element below this tolerance will not be included.
+			tol = 1e-16;
+		}
+		
 		solver<double> solv;
 		
 		// validation methods

@@ -83,7 +83,7 @@ public:
 		lil_sparse_matrix<el_type>::resize(n_rows, n_cols); // call the function resize in base class
 
 		list_first.resize(n_cols, 0);
-		S.resize(n_cols, 0);
+		S.resize(n_cols, 1);
 		int nnz_per_col =  2 * nnzs / n_cols;
 		for (int i = 0; i < n_cols; i++)
 		{

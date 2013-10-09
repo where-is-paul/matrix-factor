@@ -12,6 +12,7 @@ void square_matrix<el_type>::equilibrate()
 	idx_it idx_iterator;
 	elt_it elt_iterator;
 	vector<elt_it> temp(ncols);
+	S.clear(); S.resize(ncols, 0);
 
 	for (i = 0; i < ncols; i++)
 	{

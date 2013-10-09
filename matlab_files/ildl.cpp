@@ -10,7 +10,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
     // validate number of inputs and outputs
     if (nrhs < 1)
         mexErrMsgTxt("Not enough input arguments.");
-    if (nrhs > 5)
+    if (nrhs > 6)
         mexErrMsgTxt("Too many input arguments.");
     if (nlhs > 5)
         mexErrMsgTxt("Too many output arguments.");
@@ -35,10 +35,18 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
     }
     if (nrhs > 4) {
         const mxArray* raw_ordering = prhs[4];
-        char* ordering = m.parse_str(prhs[4]);
+        char* ordering = m.parse_str(raw_ordering);
 
         if (strcmp(ordering, "rcm") == 0) m.solv.set_reorder_scheme("-rcm");
-        else if (strcmp(ordering, "amd") == 0) m.solv.set_reorder_scheme("-amd");	
+        else if (strcmp(ordering, "amd") == 0) m.solv.set_reorder_scheme("-amd");
+		else if (strcmp(ordering, "none") == 0) m.solv.set_reorder_scheme("-none");	
+    }
+	if (nrhs > 5) {
+        const mxArray* raw_equil = prhs[5];
+        char* equil = m.parse_str(raw_equil);
+
+        if (strcmp(equil, "y") == 0) m.solv.set_equil("-y");
+        else if (strcmp(equil, "n") == 0) m.solv.set_equil("-n");
     }
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))

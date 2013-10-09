@@ -17,6 +17,7 @@ struct by_degree {
 template<class el_type>
 inline void square_matrix<el_type>::rcm(vector<int>& perm)
 {
+	perm.clear();
 	int i, s, head = 0, tail = 0;
 	vector<bool> visited(m_n_cols, false);
 	//queue<int> q;
@@ -29,7 +30,7 @@ inline void square_matrix<el_type>::rcm(vector<int>& perm)
 	for (i = 0; i < m_n_cols; i++)
 		deg[i] = degree(i);
 	
-  by_degree sorter(deg);
+	by_degree sorter(deg);
 
 	for (i = 0; i < m_n_cols; i++)
 	{

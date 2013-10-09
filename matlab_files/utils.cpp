@@ -64,6 +64,7 @@ void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx,
 		for (mwSize j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {
 			count++;
 			if (m_row_idx[j] < i) continue;
+			if (m_x[j] < tol) continue;
 			solv.A.m_idx[i].push_back(m_row_idx[j]);
 			solv.A.m_x[i].push_back(m_x[j]);
 			if (i != m_row_idx[j]) 

@@ -50,12 +50,13 @@ class solver
 		ultriangular_matrix<el_type> L;	///<The lower triangular factor of A.
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
-		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM.
+		int reorder_scheme, equil; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
 		
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
 			reorder_scheme = 0;
+			equil = 1;
 		}
 		
 		/*! \brief Sets the reordering scheme for the solver.
@@ -65,6 +66,16 @@ class solver
 				reorder_scheme = 1;
 			} else if (strcmp(ordering, "-amd") == 0) {
 				reorder_scheme = 0;
+			} else if (strcmp(ordering, "-none") == 0) {
+				reorder_scheme = 2;
+			}
+		}
+		
+		void set_equil(const char* equil_opt) {
+			if (strcmp(equil_opt, "-n") == 0) {
+				equil = 0;
+			} else {
+				equil = 1;
 			}
 		}
 		
@@ -98,31 +109,40 @@ class solver
 
 			clock_t start = clock(); double dif, total = 0;
 			
-			A.equilibrate();
-			
-			dif = clock() - start; total += dif;
-			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-			start = clock();
-			
-			std::string perm_name;
-			switch (reorder_scheme) {
-				case 0:
-					A.amd(perm);
-					perm_name = "AMD";
-					break;
-				case 1:
-					A.rcm(perm);
-					perm_name = "RCM";
-					break;
+			if (equil == 1) {
+				A.equilibrate();
+				
+				dif = clock() - start; total += dif;
+				printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
 			
-			dif = clock() - start; total += dif;
-			printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
-			
-			start = clock();
-			A.permute(perm);
-			dif = clock() - start; total += dif;
-			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			if (reorder_scheme != 2) {
+				start = clock();
+				std::string perm_name;
+				switch (reorder_scheme) {
+					case 0:
+						A.amd(perm);
+						perm_name = "AMD";
+						break;
+					case 1:
+						A.rcm(perm);
+						perm_name = "RCM";
+						break;
+				}
+				
+				dif = clock() - start; total += dif;
+				printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+				
+				start = clock();
+				A.permute(perm);
+				dif = clock() - start; total += dif;
+				printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			} else {
+				// no permutation specified, store identity permutation instead.
+				for (int i = 0; i < A.n_cols(); i++) {
+					perm.push_back(i);
+				}
+			}
 			
 			start = clock();
 			A.ildl(L, D, perm, fill_factor, tol, pp_tol);
