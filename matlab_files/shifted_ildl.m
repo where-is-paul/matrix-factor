@@ -27,6 +27,7 @@ function [L, D, p, S, B] = ildl(A, opts)
         opts.equil = 'y';
     end
     
+    % uncomment to display given options.
     display(opts);
     
     if (~issparse(A))
@@ -36,24 +37,37 @@ function [L, D, p, S, B] = ildl(A, opts)
         error('Input matrix must be symmetric');
     end
     % sort of wasteful, but we'll perform a first factorization
-    % to get A equilibriated and reorded
+    % to get A equilibriated and reordered (also with BKP off)
     % and then a second factorization on the B, with equilibriation
-    % and permutation turned off
-    [~, ~, p, S, C] = ildl(A, opts.fill_factor, opts.tol, ...
-                           opts.pp_tol, opts.ordering, opts.equil);  
-
+    % and permutation turned off 
+    [~, ~, p1, S, C] = ildl(A, opts.fill_factor, opts.tol, ...
+                            0.00, opts.ordering, opts.equil);  
+    
     % turn off equilibriation and ordering
     opts.equil = 'n';
     opts.ordering = 'none';
     
+    display('Condition number before shifting');
+    display(condest(C));
+    % keyboard;
     % perform a shift on our matrix
+    C = C + block_shift(size(A,1), opts.shift_factor);
+    
+    display('Condition number after shifting');
+    display(condest(C));
+    %{
     n = size(A,1);
     d = mod(1:n,2);
     shift = spdiags(d', -1, n, n) + spdiags(d', -1, n, n)';
+    if (mod(n,2) == 1)
+        shift(n,n) = 1;
+    end
     C = C+opts.shift_factor*shift;
+    %}
 
-    [L, D, ~, ~, B] = ildl(C, opts.fill_factor, opts.tol, ...
-                       opts.pp_tol, opts.ordering, opts.equil);  
-    
+    [L, D, p2, ~, B] = ildl(C, opts.fill_factor, opts.tol, ...
+                       opts.pp_tol, opts.ordering, opts.equil);
+    p = p1(p2, :);
+        
 end
 

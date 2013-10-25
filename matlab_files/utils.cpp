@@ -63,7 +63,11 @@ void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx,
 
 		for (mwSize j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {
 			count++;
+			//matlab doesnt offer sparse sparse matrices
+			//here we do not store half of the matrix since it is symmetric
+			//so skip over entries in the upper half.
 			if (m_row_idx[j] < i) continue;
+			//remove all entries less than the tolerance.
 			if (abs(m_x[j]) < tol) continue;
 			solv.A.m_idx[i].push_back(m_row_idx[j]);
 			solv.A.m_x[i].push_back(m_x[j]);

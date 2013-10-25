@@ -43,6 +43,7 @@ all_mats = other_mats;%[testmats; Lshape_mats; homogenous_mats; other_mats];
         
 lfil = 2.2;
 tol = 0.001;
+pp_tol = 0.65;
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -50,13 +51,13 @@ for i = 1:length(all_mats)
     file = strcat(base, mat_name, '.mtx');
     A = mmread(file);
     
-    [l d p S B] = ildl(A, lfil, tol);
+    [l d p S B] = ildl(A, lfil, tol, pp_tol);
    
     fprintf('The relative residual is %d.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));
     fprintf('The largest elem. of L is %.3f.\n', full(max(max(abs(l)))));
 	fprintf('A has %i nnz.\n', nnz(A));
-    %fprintf('The condition number is %d.\n', condest(B));
+    fprintf('The condition number is %d.\n', condest(B));
 
     %spy(A(p,p)); figure; spy(abs(l*d*l') > 1e-8);
     %spy(B); figure; spy(A(p,p));
