@@ -2,7 +2,7 @@
 #ifndef _BLOCK_DIAG_MATRIX_H_
 #define _BLOCK_DIAG_MATRIX_H_
 
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -37,7 +37,7 @@ class block_diag_matrix
 {
 public:
 
-	typedef std::tr1::unordered_map<int, el_type> int_elt_map;
+	typedef std::unordered_map<int, el_type> int_elt_map;
 	typedef std::vector<el_type>  elt_vector_type;
 	
 	/*! Allows outputting the contents of the matrix via << operators. */
@@ -61,12 +61,18 @@ public:
 		main_diag.resize(n_rows);
 	}
 	
+	/*!	\brief Resizes this matrix to an n*n matrix with default_value on the main diagonal.
+	*/
+	void resize(int n, el_type default_value) {
+		m_n_size = n;
+		main_diag.resize(n, default_value);
+		nnz_count = n;
+	}
+	
 	/*!	\brief Resizes this matrix to an n*n matrix.
 	*/
 	void resize(int n) {
-		m_n_size = n;
-		main_diag.resize(n);
-		nnz_count = n;
+		resize(n, 0);
 	}
 	
 	/*! \return Number of rows in the matrix. */

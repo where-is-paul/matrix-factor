@@ -1,9 +1,9 @@
-#include <iostream>
-#include <cassert>
-#include <string.h>
 #include "source/solver.h"
 
-using namespace std;
+#include <iostream>
+#include <cassert>
+#include <cstring>
+#include "include/gflags/gflags.h"
 
 /*!	\mainpage Main Page
 *
@@ -19,7 +19,7 @@ using namespace std;
 	
 *	\section quick_start Quick Start
 *
-	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. Currently this package has only been tested for \c gcc-4.6.1 and above. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
+	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
 
 	\subsection ldl_driver Using the package as a standalone program
 	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as two optional ones.
@@ -130,37 +130,64 @@ using namespace std;
 *	
 */
 
-int main(int argc, char* argv[]) {
+DEFINE_string(filename, "", "The filename of the matrix to be factored"
+							"(in matrix-market format).");
+							
+DEFINE_double(fill, 1.0, "A parameter to control memory usage. Each column is guaranteed"
+						 "to have fewer than fill*nnz(A) elements.");
+						 
+DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In each column k,"
+						  "elements less than tol*||L(k+1:n,k)|| (1-norm) are dropped.");
+						   
+DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
+								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
+								 
+DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated (in the max-norm) "
+						 "before factoring is done.");
+						 
+DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder" 						 "called output_matrices/ in the same directory as ldl_driver.");
 
-	if (argc < 2 || argc > 6) {
-		std::cout << "Too many or too few arguments." << std::endl
-		<< "Program usage: ./ldl_driver [in.mtx] [fill_factor] [tol] [-save] [-display]" << std::endl;
-		std::cout << "Sample usage: ./ldl_driver test_matrices/testmat1.mtx 1.0 0.001 -y -y" << endl;
+DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
+							" standard out. Generates a large amount of output if the "
+							"matrix is big.");
+						 
+int main(int argc, char* argv[])
+{
+	std::string usage("Performs an incomplete LDL factorization of a given matrix.\n"
+				      "Sample usage:\n"
+					  "./ldl_driver -filename=test_matrices/testmat1.mtx "
+									 "-fill=2.0 -display=true -save=false\n"
+					  "Additionally, these flags can be loaded from a single file "
+					  "with the option -flagfile=[filename].");
+				 
+	google::SetUsageMessage(usage);
+	google::ParseCommandLineFlags(&argc, &argv, true);
+	
+	if (FLAGS_filename.empty()) {
+		std::cerr << "No file specified!" << std::endl;
 		return 0;
 	}
-
+	
 	solver<double> solv;
-	solv.load(argv[1]);
+	solv.load(FLAGS_filename);
 	
-	double fill = 1.0, tol = 0.001;
-	if (argc > 2) fill = atof(argv[2]);
-	if (argc > 3) tol = atof(argv[3]);
+	//default reordering scheme is AMD
+	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
-	solv.solve(fill, tol);
+	//default is equil on
+	solv.set_equil(FLAGS_equil); 
 	
-	if (argc > 4) {
-		if (strcmp(argv[4], "-y") == 0) {
-			solv.save();
-		}
-		
-		if (argc > 5 && strcmp(argv[5], "-y") == 0) {
-			solv.display();
-			cout << endl;
-		}
-		cout << "Factorization Complete. All output written to /output_matrices directory." << endl;
-	} else {
+	solv.solve(FLAGS_fill, FLAGS_tol);
+	
+	if (FLAGS_save) {
 		solv.save();
 	}
+	
+	if (FLAGS_display) {
+		solv.display();
+		std::cout << endl;
+	}
+	std::cout << "Factorization Complete. All output written to /output_matrices directory." << std::endl;
 
 	return 0;
 }

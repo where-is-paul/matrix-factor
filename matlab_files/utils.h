@@ -20,6 +20,7 @@ class mex_utils
 
 		// parsing methods
 		double parse_double(const mxArray* raw_alpha);
+		char* parse_str(const mxArray* raw_str);
 		
 		void mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx, mwSize& nnzs);
 		

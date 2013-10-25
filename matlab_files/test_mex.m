@@ -48,7 +48,7 @@ for i = 1:length(all_mats)
     file = strcat(base, mat_name, '.mtx');
     A = mmread(file);
     
-    [l d p S B] = ildl(A, lfil, tol);
+    [l d p S B] = ildl(A, lfil, tol, 'rcm');
    
     %fprintf('The relative residual is %d.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));
