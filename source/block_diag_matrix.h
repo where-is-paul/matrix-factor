@@ -2,7 +2,7 @@
 #ifndef _BLOCK_DIAG_MATRIX_H_
 #define _BLOCK_DIAG_MATRIX_H_
 
-#include <unordered_map>
+#include <tr1/unordered_map>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -37,7 +37,7 @@ class block_diag_matrix
 {
 public:
 
-	typedef std::unordered_map<int, el_type> int_elt_map;
+	typedef std::tr1::unordered_map<int, el_type> int_elt_map;
 	typedef std::vector<el_type>  elt_vector_type;
 	
 	/*! Allows outputting the contents of the matrix via << operators. */

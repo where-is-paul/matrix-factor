@@ -138,14 +138,20 @@ DEFINE_double(fill, 1.0, "A parameter to control memory usage. Each column is gu
 						 
 DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In each column k,"
 						  "elements less than tol*||L(k+1:n,k)|| (1-norm) are dropped.");
-						   
+
+DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). "
+						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP"
+						   "is used. Values between 0 and 1 varies the aggressivness of"
+						   "BKP in a continuous manner.");
+												   
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
 DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated (in the max-norm) "
 						 "before factoring is done.");
 						 
-DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder" 						 "called output_matrices/ in the same directory as ldl_driver.");
+DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder"
+						 "called output_matrices/ in the same directory as ldl_driver.");
 
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
 							" standard out. Generates a large amount of output if the "
@@ -177,7 +183,7 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil); 
 	
-	solv.solve(FLAGS_fill, FLAGS_tol);
+	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol);
 	
 	if (FLAGS_save) {
 		solv.save();

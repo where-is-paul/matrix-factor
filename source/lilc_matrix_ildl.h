@@ -7,7 +7,7 @@ using std::cout;
 using std::abs;
 
 template <class el_type>
-void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
+void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
 {
 
 	//----------------- initialize temporary variables --------------------//
@@ -37,16 +37,8 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 	L.resize(ncols, ncols); //allocate a vector of size n for Llist as well
 	D.resize(ncols );
 	
-	//remember to remove debug before release
-	int debug = -1;
-	
 	//------------------- main loop: factoring begins -------------------------//
 	for (k = 0; k < ncols; k++) {
-
-		if (k == debug) { 
-			cout << "m_idx[k]: " << m_idx[k] << endl;
-			cout << "m_x[k]: " << m_x[k] << endl;
-		}
 		
 		//curr nnz vector starts out empty and is cleared at the end of each loop iteration.
 		//assign nonzeros indices of A(k:n, k) to curr_nnzs
@@ -71,13 +63,17 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		//find maximum element in work and store its index in r.
 		w1 = max(work, curr_nnzs, r);
 
-		if (k == debug) { 
-			cout << "curr_nnzs: " << curr_nnzs << endl;
-			for (i = 0; i < (int) curr_nnzs.size(); i++) {
-				cout << work[curr_nnzs[i]] << " ";
+		//we do partial pivoting here, where we take the first element u in the column that satisfies
+		//|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
+		//Symmetric Matrix Decomposition" by J.H. Liu (1987).
+		int t = r; //stores location of u 
+		el_type u = w1; //stores value of u
+		for (i = 0; i < (int) curr_nnzs.size(); i++) {
+			if (abs(work[curr_nnzs[i]])-pp_tol*w1 > eps ) {
+				t = curr_nnzs[i];
+				u = work[t];
+				break;
 			}
-			cout << endl;
-			cout << "w1: " << w1 << endl;
 		}
 		
 		//bunch-kaufman partial pivoting is used below. for a more detailed reference,
@@ -85,16 +81,14 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		//------------------- begin bunch-kaufman pivoting ------------------//
 		if (w1 < eps) {
 			//case 0: do nothing. pivot is k.
-			if (k == debug) {
-				cout << "case 0" << endl;
-			}
 		} else if ( (alpha * w1 - abs(d1)) < eps  ) {
 			//case 1: do nothing. pivot is k.
-			if (k == debug) {
-				cout << "case 1" << endl;
-			}
 		} else {
-			//temp vector starts out empty and is cleared at the end of each loop iteration.
+			//since we are doing partial pivoting, we should treat u and t like wi and r, so
+			//we'll just reassign wi and r. note: this has to go in the else clause since
+			//we still use the old wi for case 0 and case 1.
+			w1 = u;
+			r = t;
 			
 			offset = first[r];
 			//assign all nonzero indices and values in A(r, k:r) 
@@ -124,22 +118,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			if ((alpha*w1*w1 - abs(d1)*wr) < eps) {
 				//case 2: do nothing. pivot is k.
-				if (k == debug) {
-					cout << "case 2" << endl;
-					cout << "d1: " << d1 << " wr: " << wr << " w1: " << w1 << endl;
-				}
-				
 				
 			} else if ( (alpha * wr - abs(dr)) < eps) {
 				//case 3: pivot is k with r: 1x1 pivot case.
 				temp[r] = dr;
 				work[k] = d1;
-
-				if (k > r) {
-					cout << "case 3 " << k << " " << r << endl;
-					cout << "fault! " << k << " " << r << endl;
-					return;
-				}
 
 				//--------pivot A and L ---------//
 				pivot(s, in_set, L, k, r);
@@ -161,18 +144,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
 			} else {
 				//case 4: pivot is k+1 with r: 2x2 pivot case.
-				if (k == debug) {
-					cout << "case 4" << " " << k+1 << " " << r << endl;
-					cout << "temp_nnzs: " << temp_nnzs << " " << r << endl;
-					for (i = 0; i < (int) temp_nnzs.size(); i++) {
-						cout << temp[temp_nnzs[i]] << " ";
-					}
-					cout << endl;
-				}
-				if (k >= r) {
-					cout << "fault! " << k+1 << " " << r << endl;
-					return;
-				}
 
 				//must advance list for 2x2 pivot since we are pivoting on col k+1
 				advance_list(k);
@@ -366,34 +337,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 			
 			size_two_piv = false;
 		}
-		
-		if (k == debug) {
-			cout << "part of two piv? " << size_two_piv << endl;
-			cout << "lfil: " << lfil << endl;
-			cout << "D[k]: " << D[k] << endl;
-			cout << "D(k,k+1): " << D.off_diagonal(k) << endl;
-			cout << "D[k+1]: " << D[k+1] << endl;
-			
-			cout << "curr_nnzs: " << curr_nnzs << " " << r << endl;
-			for (i = 0; i < col_size; i++) {
-				cout << work[curr_nnzs[i]]/D[k] << " ";
-			}
-			cout << endl;
-		}
-		
-		// std::cout << k << std::endl;
-		// std::string s;
-		// std::cin >> s;
-		// if (s == "l") {
-		// std::cout << L << std::endl;
-		// } else if (s == "a") {
-		// std::cout << to_string() << std::endl;
-		// } else if (s == "w") {
-			// cout << work << endl;
-		// } else if (s == "t") {
-			// cout << temp << endl;
-		// }
-		
 	}
 
 	//assign number of non-zeros in L to L.nnz_count
