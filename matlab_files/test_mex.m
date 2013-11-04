@@ -41,10 +41,11 @@ other_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
 %aug3dcqp has a terrible condition number
 all_mats = other_mats;%[testmats; Lshape_mats; homogenous_mats; other_mats];
         
-lfil = 3.0;
+lfil = 2.0;
 tol = 0.001;
-pp_tol = 2.0;
+pp_tol = 1.0;
 reordering = 'amd';
+equil = 'y';
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
@@ -52,7 +53,7 @@ for i = 1:length(all_mats)
     file = strcat(base, mat_name, '.mtx');
     A = mmread(file);
     
-    [l d p S B] = ildl(A, lfil, tol, pp_tol, reordering);
+    [l d p S B] = ildl(A, lfil, tol, pp_tol, reordering, equil);
    
     fprintf('The relative residual is %d.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));
