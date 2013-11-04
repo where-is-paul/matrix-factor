@@ -39,7 +39,9 @@ inline void symmetry_matrix<el_type>::calculate(int& k, ultriangular_matrix<el_t
 
 		//compute inverse of the 2x2 block diagonal pivot.
 		det_D = col_i[k] * col_r[k+1] - col_i[k+1] * col_i[k+1];
-		if (abs(det_D) < eps) det_D = stat_piv;  //statically pivot;
+		if (abs(det_D) < eps) {
+			det_D = stat_piv;  //statically pivot;
+		}
 		D_inv11 = col_r[k+1] / det_D;
 		D_inv22 = col_i[k] / det_D;
 		D_inv12 = -col_i[k+1] / det_D;
@@ -73,7 +75,9 @@ inline void symmetry_matrix<el_type>::calculate(int& k, ultriangular_matrix<el_t
 
 	if (!size_two_piv)
 	{
-		if (abs(D[k]) < eps) D[k] = stat_piv; //statically pivot
+		if (abs(D[k]) < eps) {
+			D[k] = stat_piv; //statically pivot
+		}
 		int i = 0;
 		for (idx_it it = col_i_nnzs.begin(); it != col_i_nnzs.end(); it++, i++)
 		{ 
