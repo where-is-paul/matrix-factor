@@ -33,18 +33,19 @@ warning off;
 % end
 % homogenous_mats = cellstr(homogenous_mats);
 
+%{
 other_mats = { 'extra_matrices/turon_m'; 'tuma1'; 'tuma2';  ...
                'extra_matrices/mario001'; 'extra_matrices/stokes64'; ...
                'extra_matrices/stokes128'; 'extra_matrices/sit100'; ...
                'extra_matrices/qpband'; 'extra_matrices/ncvxqp9'; ...
                'extra_matrices/brainpc2'};
-
-%other_mats = {'m3d10-001'};
+%}
+other_mats = {'c-55'; 'c-59'; 'c-63'; 'c-68'; 'c-69'; 'c-70'; 'c-71'; 'c-72'};
 
 %aug3dcqp has a terrible condition number
 all_mats = other_mats;%[testmats; Lshape_mats; homogenous_mats; other_mats];
         
-lfil = [7.2, 1.0, 1.0, 1.0, 2.0, 2.0, 3.0, 0.5, 3.0, 1.0];
+lfil = [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 3.0, 1.0];
 opts.tol = 0.001;
 opts.pp_tol = 1.0;
 opts.ordering = 'amd';
@@ -66,16 +67,18 @@ for i = 1:length(all_mats)
 	fprintf('A has %i nnz.\n', nnz(A));
     fprintf('The condition number is %f.\n', condest(B));
 
-    C = S*A*S;
-    B = C(p,p);
-    e = ones(size(B,1),1);
-    %b = mmread(strcat(base, mat_name, '_b.mtx'));
-    %b = S^(-1)*b;
-    %b = b(p);
-    b = S^(-1)*e;
-    %[y, flag, relres, iter, resvec] = ...
-        gmres(B,b,min(100,size(B,1)),1e-8,10,l*d, l');
+    %C = S*A*S;
+    %B = C(p,p);
     
+    b = mmread(strcat(base, mat_name, '_b.mtx'));
+    b = S^(-1)*b;
+    b = b(p);
+    
+    %e = ones(size(B,1),1);
+    %b = S^(-1)*e;
+    %[y, flag, relres, iter, resvec] = ...
+        gmres(B,b,min(30,size(B,1)),1e-8,10,l*d, l');
+
     %{
     keyboard;
     opts.shift_factor = 0.0001;

@@ -12,7 +12,7 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 
 	int lfil;
 	if (fill_factor >= 1e4) lfil = ncols; //just incase users decide to enter a giant fill factor for fun...
-	else lfil = (int) (fill_factor*nnz()/ncols); //roughly a factor of 2 since only lower tri. of A is stored
+	else lfil = (int) (fill_factor*nnz()/ncols); 
 	
 	const el_type alpha = (1.0+sqrt(17.0))/8.0;  //for use in pivoting.
 	el_type wi(-1), wr(-1), d(-1);
@@ -54,35 +54,35 @@ void symmetry_matrix<el_type>::ildl(ultriangular_matrix<el_type>& L, block_diag_
 		//find maximum element in col_i and store its index in r.
 		wi = max(col_i, col_i_nnzs, r);
     
-    //we do partial pivoting here, where we take the first element u in the column that satisfies
-    //|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
-    //Symmetric Matrix Decomposition" by J.H. Liu (1987).
-    int t = r; //stores location of u 
-    el_type u = wi; //stores value of u
-    for (i = 0; i < (int) col_i_nnzs.size(); i++) {
-      if (abs(col_i[col_i_nnzs[i]])-pp_tol*wi > eps ) {
-        t = col_i_nnzs[i];
-        u = col_i[t];
-        break;
-      }
-    }
+		//we do partial pivoting here, where we take the first element u in the column that satisfies
+		//|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
+		//Symmetric Matrix Decomposition" by J.H. Liu (1987).
+		int t = r; //stores location of u 
+		el_type u = wi; //stores value of u
+		for (i = 0; i < (int) col_i_nnzs.size(); i++) {
+		  if (abs(col_i[col_i_nnzs[i]])-pp_tol*wi > eps ) {
+			t = col_i_nnzs[i];
+			u = col_i[t];
+			break;
+		  }
+		}
 		col_i[k] = d;
 
 		//bunch-kaufman partial pivoting is used below. for a more detailed reference,
 		//refer to "Accuracy and Stability of Numerical Algorithms." by Higham (2002).
 		//------------------- begin bunch-kaufman pivoting ------------------//
-		if (wi < eps) {
+		if (wi < eps && d >= eps) {
 			//case 0: do nothing. pivot is k.
-		} else if ( (alpha * wi - abs(d)) < eps  ) {
+		} else if ( (alpha * wi - abs(d)) < eps && d >= eps) {
 			//case 1: do nothing. pivot is k.
 		}
 		else
 		{
-      //since we are doing partial pivoting, we should treat u and t like wi and r, so
-      //we'll just reassign wi and r. note: this has to go in the else clause since
-      //we still use the old wi for case 0 and case 1.
-      wi = u;
-      r = t;
+			//since we are doing partial pivoting, we should treat u and t like wi and r, so
+			//we'll just reassign wi and r. note: this has to go in the else clause since
+			//we still use the old wi for case 0 and case 1.
+			wi = u;
+			r = t;
       
 			//assign all nonzero indices and values in A(r, k:r)
 			//( not including A(r,r) ) to col_r and col_r_nnzs
