@@ -23,11 +23,6 @@ public:
 	using square_matrix<el_type>::nnz;
 	using square_matrix<el_type>::nnz_count;
 
-	// using square_matrix<el_type>::idx_vector_type;
-	// using square_matrix<el_type>::elt_vector_type;
-	// using square_matrix<el_type>::idx_it;
-	// using square_matrix<el_type>::elt_it;
-
 	using square_matrix<el_type>::list;
 	using square_matrix<el_type>::list_first;
 
@@ -39,9 +34,6 @@ public:
 	typedef typename square_matrix<el_type>::idx_it idx_it;
 	typedef typename square_matrix<el_type>::elt_it elt_it;
 
-	// typedef typename idx_vector_type::iterator idx_it;
-	// typedef typename elt_vector_type::iterator elt_it;
-	
 public:
 	
 	/*! \brief Constructor for a column oriented list-of-lists (LIL) matrix. Space for both the values list and the indices list of the matrix is allocated here.
@@ -66,16 +58,16 @@ public:
 	*/
 	inline void advance_list(const int& k)
 	{
-		for (auto it = m_idx[k].begin(); it != m_idx[k].end(); it++)
+		for (idx_it it = m_idx[k].begin(); it != m_idx[k].end(); it++)
 		{
-			ensure_invariant(*it, k, list[*it]); //make sure next element is good.
+			this->ensure_invariant(*it, k, list[*it]); //make sure next element is good.
 			list_first[*it]++; //invariant ensured.
 		}
 	}
 	
 	inline void update_single(const int& j, const el_type& l_ki, const el_type& d, std::vector<el_type>& work, std::vector<int>& curr_nnzs, ultriangular_matrix<el_type>& L, vector<bool>& in_set);
-	inline void update(const int& r, std::vector<el_type>& work, std::vector<int>& curr_nnzs, ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, vector<bool>& in_set);
-	inline void calculate(int& k, ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, elt_vector_type& col_i, elt_vector_type& col_r, idx_vector_type& col_i_nnzs, idx_vector_type& col_r_nnzs, bool& size_two_piv, const double& tol, int& lfil, vector<bool>& in_set, const double& stat_piv);
+	inline void update(const int& r, std::vector<el_type>& work, std::vector<int>& curr_nnzs, ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, vector<bool>& in_set);
+	inline void calculate(int& k, ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, elt_vector_type& work1, elt_vector_type& work2, idx_vector_type& work1_nnzs, idx_vector_type& work2_nnzs, const double& tol, int& lfil, const double& stat_piv);
 
 	/*!	\brief Finds the degree of a node.
 		\param index the index of the node.
@@ -96,9 +88,15 @@ public:
 
 	inline bool readline(char*& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value)
 	{
-		sscanf(line, "%d %d %lf", &i, &j, &value);
-		i--;
-		j--;
+		char * end1, * end2;
+		i = strtol(line, &end1, 10);
+		j = strtol(end1, &end2, 10);
+		
+		double val;
+		val = strtod(end2, NULL); //change right here if you want to read in complex or somethin
+		value = val;
+
+		i--; j--;
 		return (i>=0 && j>=0 && i<n_rows&& j<n_cols && i!=j);
 	}
 };

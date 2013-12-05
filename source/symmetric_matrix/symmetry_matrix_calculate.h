@@ -29,7 +29,7 @@ inline void symmetry_matrix<el_type>::calculate(int& k, ultriangular_matrix<el_t
 	}
 	else
 	{
-    diagonal_filter filter(k);
+		diagonal_filter filter(k);
 		//erase diagonal 2x2 block from non-zero indices (to exclude it from being dropped)
 		col_i_nnzs.erase(std::remove_if(col_i_nnzs.begin(), col_i_nnzs.end(), filter), col_i_nnzs.end());
 		col_r_nnzs.erase(std::remove_if(col_r_nnzs.begin(), col_r_nnzs.end(), filter), col_r_nnzs.end());

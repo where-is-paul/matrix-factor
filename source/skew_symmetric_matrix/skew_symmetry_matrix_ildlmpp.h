@@ -1,5 +1,5 @@
-#ifndef SKEW_SYMMETRY_MATRIX_ILDLPP_H
-#define SKEW_SYMMETRY_MATRIX_ILDLPP_H
+#ifndef SKEW_SYMMETRY_MATRIX_ILDLMPP_H
+#define SKEW_SYMMETRY_MATRIX_ILDLMPP_H
 
 using std::abs;
 using std::cout;
@@ -7,7 +7,7 @@ using std::min;
 using std::endl;
 
 template <class el_type>
-void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
+void skew_symmetry_matrix<el_type>::ildlmpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); // number of cols in A.
@@ -16,7 +16,7 @@ void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew
 	int lfil;
 	if (fill_factor >= 1e4) lfil = ncols; // just incase users decide to enter a giant fill factor for fun...
 	else lfil = (int) (fill_factor*nnz()/ncols); // roughly a factor of 2 since only lower tri. of A is stored
-	
+
 	el_type w1, w2;
 	bool firstcol = true;
 	int j, k, r, r1, r2;
@@ -74,21 +74,8 @@ void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew
 		//--------------begin pivoting--------------//
 		if (w1 < eps && w2 < eps)
 			cout << "singular" << endl;
-		else
+		else if (firstcol) // maximum element in col k
 		{
-			if (!firstcol) // maximum element in col k+1
-			{
-				// swap rows and columns of k and k+1
-				this->pivot(s, L, k, k+1);
-				std::swap(perm[k], perm[k+1]);
-				std::swap(work1[k], work1[k+1]);
-				std::swap(work2[k], work2[k+1]);
-				safe_swap(work1_nnzs, k, k+1);
-				safe_swap(work2_nnzs, k, k+1);
-				work1.swap(work2);
-				work1_nnzs.swap(work2_nnzs);
-			}
-
 			advance_list(k);
 			L.advance_column(k);
 			// swap rows and columns of k+1 and r
@@ -107,7 +94,7 @@ void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew
 					work2[m_idx[r][j]] = m_x[r][j];
 
 				update(r, work2, work2_nnzs, L, D, in_set);
-				this->pivot(s, L, k+1, r);
+				pivot(s, L, k+1, r);
 				std::swap(perm[k+1], perm[r]);
 				std::swap(work1[k+1], work1[r]);
 				std::swap(work2[k+1], work2[r]);
@@ -115,7 +102,31 @@ void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew
 				safe_swap(work2_nnzs, k+1, r);
 			}
 		}
-		
+		else // maximum element in col k+1
+		{
+			// swap rows and columns of k and r
+			for (idx_it it = work1_nnzs.begin(); it != work1_nnzs.end(); it++)
+				work1[*it] = 0;
+			work1_nnzs.clear();
+			for (j = list_first[r]; j < (int) list[r].size(); j++)
+			{
+				work1_nnzs.push_back(list[r][j]);
+				work1[list[r][j]] = -this->coeff(r, list[r][j]);
+			}
+			work1_nnzs.insert(work1_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
+			for (j = 0; j < (int) m_idx[r].size(); j++)
+				work1[m_idx[r][j]] = m_x[r][j];
+
+			update(r, work1, work1_nnzs, L, D, in_set);
+			pivot(s, L, k, r);
+			std::swap(perm[k], perm[r]);
+			std::swap(work1[k], work1[r]);
+			std::swap(work2[k], work2[r]);
+			safe_swap(work1_nnzs, k, r);
+			safe_swap(work2_nnzs, k, r);
+			advance_list(k);
+			L.advance_column(k);
+		}
 		//--------------end pivoting--------------//
 
 		calculate(k, L, D, work1, work2, work1_nnzs, work2_nnzs, tol, lfil, stat_piv);
