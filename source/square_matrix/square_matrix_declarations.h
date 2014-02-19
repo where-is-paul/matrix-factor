@@ -100,6 +100,12 @@ public:
 	*/
 	void equilibrate();
 
+	/*!	\brief The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A, where S is a diagonal scaling matrix. 
+		This algorithm is novel, but is very similar to the one published by Daniel Ruiz as MC77
+		the HSL Mathematical Software Library.
+	*/
+	void iterative_equilibrate();
+
 	/*!	\brief Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across the graph of A (where A is viewed as an adjacency matrix).
 
 		\param s contains the initial node to seed the algorithm. A pseudo-peripheral root of A is stored in s at the end of the algorithm.
@@ -210,6 +216,7 @@ public:
 //------------------ include files for class functions -------------------//
 
 #include "square_matrix_equilibrate.h"
+#include "square_matrix_iterative_equilibrate.h"
 #include "square_matrix_find_root.h"
 #include "square_matrix_rcm.h"
 #include "square_matrix_amd.h"

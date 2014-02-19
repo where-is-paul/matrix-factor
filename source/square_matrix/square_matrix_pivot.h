@@ -81,8 +81,10 @@ inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, 
 				}
 			}
 		}
-		else if (idx == r) // place A(r, r) into A(k, k)
+		else if (idx == r) { 
+			// place A(r, r) into A(k, k)
 			s.col_k_nnzs.push_back(k);
+		}
 		s.col_k.push_back(m_x[r][i]);
 	}
 
