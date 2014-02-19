@@ -104,7 +104,7 @@ public:
 		This algorithm is novel, but is very similar to the one published by Daniel Ruiz as MC77
 		the HSL Mathematical Software Library.
 	*/
-	void iterative_equilibrate();
+	void iterative_equilibrate(double norm = -1, double tol = 1e-4);
 
 	/*!	\brief Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across the graph of A (where A is viewed as an adjacency matrix).
 

@@ -42,9 +42,8 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	if (nrhs > 5) {
         const mxArray* raw_equil = prhs[5];
         char* equil = m.parse_str(raw_equil);
-
-        if (strcmp(equil, "y") == 0) m.solv.set_equil(true);
-        else m.solv.set_equil(false);
+		
+		m.solv.set_equil(equil);
     }
 
     if (mxGetN(raw_csc) != mxGetM(raw_csc))

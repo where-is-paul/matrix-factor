@@ -51,13 +51,13 @@ class solver
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
-		bool equil; ///<Set to true for max-norm equilibriation.
+		int equil; ///<Set to true for max-norm equilibriation.
 		
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
 			reorder_scheme = 0;
-			equil = true;
+			equil = 1;
 		}
 		
 		/*! \brief Sets the reordering scheme for the solver.
@@ -72,8 +72,14 @@ class solver
 			}
 		}
 		
-		void set_equil(bool equil_opt) {
-			equil = equil_opt;
+		void set_equil(const char* equil_opt) {
+			if (strcmp(equil_opt, "none") == 0) {
+				equil = 0;
+			} else if (strcmp(equil_opt, "bunch") == 0) {
+				equil = 1;
+			} else if (strcmp(equil_opt, "iter") == 0) {
+				equil = 2;
+			}
 		}
 		
 		/*! \brief Loads the matrix A into solver.
@@ -106,8 +112,12 @@ class solver
 
 			clock_t start = clock(); double dif, total = 0;
 			
-			if (equil == 1) {
-				A.equilibrate();
+			if (equil) {
+				if (equil == 1) {
+					A.equilibrate();
+				} else if (equil == 2) {
+					A.iterative_equilibrate();
+				}
 				
 				dif = clock() - start; total += dif;
 				printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);

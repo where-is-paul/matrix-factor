@@ -1,42 +1,51 @@
 //-*- mode: c++ -*-
-#ifndef SQUARE_MATRIX_EQUILIBRATE_H
-#define SQUARE_MATRIX_EQUILIBRATE_H
+#ifndef SQUARE_MATRIX_ITERATIVE_EQUILIBRATE_H
+#define SQUARE_MATRIX_ITERATIVE_EQUILIBRATE_H
 
 using std::abs;
+using std::min;
+using std::max;
 
-namespace iter_equi_helper {
+namespace iter_equil_helper {
+	/*! \brief Computes the p-norm of column i of A. 
+		\param A the input matrix.
+		\param p the p-norm that we are using.
+		\param i the column of the norm we wish to compute.
+		\param temp storage space for extra information (the memory locations of elements with index < i) that this function computes.
+		\return the p-norm of the i-th column of A.
+	*/
 	template<class el_type, class elt_it>
-	double norm(square_matrix<el_type>& A, int i, vector<elt_it>& temp) {
-		square_matrix<el_type>::idx_it idx_iterator;
-		square_matrix<el_type>::elt_it elt_iterator;
+	double norm(square_matrix<el_type>* A, double p, int i, vector<elt_it>& temp) {
+		typename square_matrix<el_type>::idx_it idx_iterator;
+		typename square_matrix<el_type>::elt_it elt_iterator;
 		double norm_val = 0;
-		for (square_matrix<el_type>::idx_it it = list[i].begin(); it != list[i].end(); it++) {
-			coeffRef(i, *it, idx_iterator, elt_iterator);
+		for (typename square_matrix<el_type>::idx_it it = A->list[i].begin(); it != A->list[i].end(); it++) {
+			A->coeffRef(i, *it, idx_iterator, elt_iterator);
 			temp[*it] = elt_iterator;
-			if (norm < 0) {	//norm < 0 means INFINITY norm.
-				norm_val = max(abs(*elt_iterator));
+			if (p < 0) {	//norm < 0 means INFINITY norm.
+				norm_val = max(norm_val, abs(*elt_iterator));
 			} else { //otherwise use the p norm.
-				norm_val += pow(abs(*elt_iterator), norm);
+				norm_val += pow(abs(*elt_iterator), p);
 			}
 		}
 
-		for (square_matrx<el_type>::elt_it it = m_x[i].begin(); it != m_x[i].end(); it++) {
-			if (norm < 0) {	//norm < 0 means INFINITY norm.
-				norm_val = max(abs(*it));
+		for (typename square_matrix<el_type>::elt_it it = A->m_x[i].begin(); it != A->m_x[i].end(); it++) {
+			if (p < 0) {	//norm < 0 means INFINITY norm.
+				norm_val = max(norm_val, abs(*it));
 			} else { //otherwise use the p norm.
-				norm_val += pow(abs(*it), norm);
+				norm_val += pow(abs(*it), p);
 			}
 		}
 		
-		if (norm > 0) norm_val = pow(norm_val, 1.0/norm);
+		if (p > 0) norm_val = pow(norm_val, 1.0/p);
 		
-		return norm;
+		return norm_val;
 	}
 }
 
 template<class el_type>
-void square_matrix<el_type>::iterative_equilibrate(double norm = -1, double tol = 1e-4)
-{
+void square_matrix<el_type>::iterative_equilibrate(double norm, double tol) {
+	// default norm is -1 (INF), tol is 1e-4
 	//find termination points for loops with binary search later.
 	int i, ncols = n_cols();
 	idx_it idx_iterator;
@@ -69,7 +78,7 @@ void square_matrix<el_type>::iterative_equilibrate(double norm = -1, double tol 
 			//be able to speed up the equilibration by a factor of 2)
 			
 			//determine the row norm of column i:
-			norm_val = iter_equil_helper::norm(this, i, temp);
+			norm_val = iter_equil_helper::norm(this, norm, i, temp);
 			
 			scale = 1.0/sqrt(norm_val);
 			if (scale > eps) {
@@ -87,7 +96,7 @@ void square_matrix<el_type>::iterative_equilibrate(double norm = -1, double tol 
 		
 		// find minimum norm of over all columns
 		for (int i = 0; i < ncols; i++) {
-			norm_val = iter_equil_helper::norm(this, i, temp);
+			norm_val = iter_equil_helper::norm(this, norm, i, temp);
 			min_norm = min(min_norm, norm_val);
 		}
 	}

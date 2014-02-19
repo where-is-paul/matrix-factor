@@ -1,4 +1,3 @@
-
 function [atype,afun,afcnstr] = iterchk(A)
 %ITERCHK  Checks arguments to iterative methods.
 %   [ATYPE,AFUN,AFCNSTR] = ITERCHK(A) returns the following:
@@ -9,11 +8,10 @@ function [atype,afun,afcnstr] = iterchk(A)
 %   AFCNSTR is the formula of the function if ATYPE is 'expression' or
 %   'inline object'.  AFCNSTR is '' if ATYPE is 'matrix'.
 %
-%   See also BICG, BICGSTAB, CGS, GMRES, PCG, QMR.
+%   See also BICG, BICGSTAB, CGS, GMRES, LSQR, MINRES, PCG, QMR, SYMMLQ.
 
-%   Penny Anderson, 1998.
-%   Copyright 1984-2003 The MathWorks, Inc. 
-%   $Revision: 1.8.4.1 $ $Date: 2003/05/19 11:16:35 $
+%   Copyright 1984-2004 The MathWorks, Inc. 
+%   $Revision: 1.8.4.3 $ $Date: 2010/08/23 23:12:57 $
 
 
 [afun,afunmsg] = fcnchk(A);
@@ -33,11 +31,10 @@ if isempty(afunmsg)
           afcnstr = A;
       end
    end
-elseif isa(A,'double')
+elseif isa(A,'float')
+   afun = A;
    atype = 'matrix';
    afcnstr = '';
 else
-   error('MATLAB:iterchk:InvalidInput',...
-         'Argument must be a matrix, a function, or an inline object.');
+   error(message('MATLAB:iterchk:InvalidInput'));
 end
-

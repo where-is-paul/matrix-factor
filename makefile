@@ -1,7 +1,7 @@
 CC := g++
 SRCDIR := .
 BUILDDIR := build
-CFLAGS := -O3 -std=gnu++0x
+CFLAGS := -O3 -flto -std=gnu++0x
 DEBUG := -w
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar

@@ -19,14 +19,14 @@
 	
 *	\section quick_start Quick Start
 *
-	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
+	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c g++, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
 
 	\subsection ldl_driver Using the package as a standalone program
-	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as two optional ones.
+	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as four optional ones.
 	
 	The format of execution is: 
 	\code 
-		./ldl_driver [in.mtx] [fill_factor] [tol] [save] [display]
+		./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm] -save=[true/false] -display=[true/display]
 	\endcode
 	
 	The parameters are listed below:
@@ -43,7 +43,7 @@
 	\par Examples:
 	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001 -y -y
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=true -display=true
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by 35543 with 77829 non-zeros.
@@ -58,17 +58,17 @@
 	\par
 	The program may also run without the last two arguments:	
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 -tol=0.001
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	This code uses the default flags <c>-y -n</c> for the last two arguments, resulting in the outputs being saved, but not displayed to the terminal.
+	This code uses the defaults save to true, and display to false, resulting in the outputs being saved, but not displayed to the terminal.
 	
 	\par
 	Finally, we may use all optional arguments:
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
@@ -147,8 +147,8 @@ DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivot
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
-DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated (in the max-norm) "
-						 "before factoring is done.");
+DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated (in the max-norm) "
+						 "before factoring is done. Choices are 'none', 'bunch', and 'iter'");
 						 
 DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder" 						 "called output_matrices/ in the same directory as ldl_driver.");
 
@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
 	//default is equil on
-	solv.set_equil(FLAGS_equil); 
+	solv.set_equil(FLAGS_equil.c_str()); 
 	
 	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol);
 	
