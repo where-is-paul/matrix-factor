@@ -26,7 +26,7 @@
 	
 	The format of execution is: 
 	\code 
-		./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[true/false] -display=[true/display]
+		./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[y/n] -display=[y/n]
 	\endcode
 	
 	The parameters above can be given in any order, and will use a default value when not specified.
@@ -47,16 +47,16 @@
 
 	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
-	\param save Indicates whether the output matrices should be saved. \c true indicates yes, \c false indicates no. The default flag is \c true. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
+	\param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
 	
-	\param display Indicates whether the output matrices should be displayed to the command line. \c true indicates yes, \c false indicates no. The default flag is \c false.	
+	\param display Indicates whether the output matrices should be displayed to the command line. \c y indicates yes, \c n indicates no. The default flag is \c y.	
 	
 	Typically, the \c pp_tol and \c reordering parameters are best left to the default options.
 	
 	\par Examples:
 	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=true -display=false
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=y -display=n
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by 35543 with 128115 non-zeros.
@@ -80,7 +80,7 @@
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that \c save defaults to \c true and \c display to \c false.
+	This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that \c save defaults to \c y and \c display to \c n.
 	
 	\par
 	Finally, we may use all optional arguments:
@@ -90,7 +90,7 @@
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=true -display=false</c>.
+	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</c>.
 	
 	\subsection matlab_mex Using sym-ildl within Matlab
 	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl.
