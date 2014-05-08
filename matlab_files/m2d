@@ -1,0 +1,484 @@
+open m2d
+A = m2d(0,0,n); A = A - 0.7*speye(size(A,1));
+{Undefined function or variable 'n'.
+} 
+A = m2d(0,0,120); A = A - 0.7*speye(size(A,1));
+spy(A)
+help ildl
+ <strong>ildl</strong>   Incomplete LDL factorization of indefinite Hermitian matrices.
+ Before factoring, the matrix is equilibriated (resulting in a matrix S)
+ and then permuted by the Reverse Cuthill-McKee algorithm.
+ 
+    [L, D, p, S, B] = <strong>ildl</strong>(A, fill_factor, tol, pp_tol, ordering, equil) attempts to 
+    factor A into the form B = P'SASP = LDL', where P is the permutation matrix generated 
+    by the permutation vector p. During factorization, Bunch-Kaufman partial
+    pivoting is used to maintain stability.
+ 
+    Parameters:
+        A - an n x n indefinite Hermitian matrix.
+ 
+        fill_factor - a parameter to control memory usage. Each column of L will
+        have at most fill_factor*nnz(A)/n non-zero elements. Default: 1.0
+ 
+        tol - a parameter to control accuracy. For the each column of L, 
+        elements less than norm(column(L), 1) will be dropped. Default: 0.001
+ 
+        pp_tol - a parameter to control aggresiveness of pivoting. 
+        Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting 
+        will be done in full. If the parameter is 0, partial pivoting will be turned off 
+        and the first non-zero pivot under the diagonal will be used. Choices close to 0
+        increase locality in pivoting (pivots closer to the diagonal are used) while
+        choices closer to 1 increase the stability of pivoting. Useful for situations
+        where you care more about preserving the structure of the matrix rather than
+        bounding the size of its elements. Default: 2.0
+ 
+ 		ordering - determines what reordering scheme is used to preorder the matrix. 
+ 		AMD and RCM are available. This parameter must be one of 'amd' or 'rcm'. Default: 'amd'
+ 
+        equil - determine if matrix is to be equilibriated (in the max
+        norm) before anything. This parameter must be one of 'none', 'bunch', or 'iter'.
+        Default: 'bunch'
+ 
+    Outputs:
+        L - unit lower triangular factor of P'SASP.
+ 
+        D - block diagonal factor (with 1x1 and 2x2 blocks) of P'SASP.
+ 
+        p - permutation vector of permutations done to A.
+ 
+        S - diagonal scaling matrix used to equilibriate A in the max-norm.
+ 
+        B - the scaled and permutated matrix B = P'SASP after
+        factorization.
+ 
+    Further documentation can be found <a href="http://www.cs.ubc.ca/~inutard/html/">here</a>.
+[L, D, p, S, B] = ildl(A, 25, 0.01);
+Equilibration (bunch):	0.004 seconds.
+AMD:		0.011 seconds.
+Permutation:	0.021 seconds.
+Factorization:	0.222 seconds.
+Total time:	0.258 seconds.
+L is 14400 by 14400 with 209735 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+    5.6637
+
+[L, D, p, S, B] = ildl(A, 50, 0.01);
+Equilibration (bunch):	0.004 seconds.
+AMD:		0.011 seconds.
+Permutation:	0.019 seconds.
+Factorization:	0.246 seconds.
+Total time:	0.280 seconds.
+L is 14400 by 14400 with 209735 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+    5.6637
+
+[L, D, p, S, B] = ildl(A, 25, 0.001);
+Equilibration (bunch):	0.004 seconds.
+AMD:		0.010 seconds.
+Permutation:	0.020 seconds.
+Factorization:	0.723 seconds.
+Total time:	0.757 seconds.
+L is 14400 by 14400 with 428570 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   11.7833
+
+[L, D, p, S, B] = ildl(A, 25, 0.001,1,'rcm');
+Equilibration (bunch):	0.004 seconds.
+RCM:		0.008 seconds.
+Permutation:	0.020 seconds.
+Factorization:	1.192 seconds.
+Total time:	1.224 seconds.
+L is 14400 by 14400 with 1141105 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   31.7088
+
+[L, D, p, S, B] = ildl(A, 25, 0.01,1,'rcm');
+Equilibration (bunch):	0.004 seconds.
+RCM:		0.008 seconds.
+Permutation:	0.017 seconds.
+Factorization:	0.503 seconds.
+Total time:	0.532 seconds.
+L is 14400 by 14400 with 480394 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   13.2325
+
+[L, D, p, S, B] = ildl(A, 25, 0.001,1,'rcm');
+Equilibration (bunch):	0.003 seconds.
+RCM:		0.007 seconds.
+Permutation:	0.016 seconds.
+Factorization:	1.280 seconds.
+Total time:	1.306 seconds.
+L is 14400 by 14400 with 1141105 non-zeros.
+[L, D, p, S, B] = ildl(A, 30, 0.001,1,'rcm');
+Equilibration (bunch):	0.003 seconds.
+RCM:		0.011 seconds.
+Permutation:	0.017 seconds.
+Factorization:	1.198 seconds.
+Total time:	1.229 seconds.
+L is 14400 by 14400 with 1143344 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   31.7714
+
+[L, D, p, S, B] = ildl(A, 22, 0.001,1,'rcm');
+Equilibration (bunch):	0.003 seconds.
+RCM:		0.008 seconds.
+Permutation:	0.019 seconds.
+Factorization:	1.251 seconds.
+Total time:	1.281 seconds.
+L is 14400 by 14400 with 1136403 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   31.5773
+
+[L, D, p, S, B] = ildl(A, 12, 0.001,1,'rcm');
+Equilibration (bunch):	0.003 seconds.
+RCM:		0.008 seconds.
+Permutation:	0.015 seconds.
+Factorization:	0.910 seconds.
+Total time:	0.936 seconds.
+L is 14400 by 14400 with 788674 non-zeros.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   21.8533
+
+e = ones(size(B,1),1);
+b = S^(-1)*e;
+ld = @(x) D\(L\x);
+        gmres(B,b,min(100,size(B,1)),1e-6,10,ld,l');
+{Undefined function or variable 'l'.
+} 
+        gmres(B,b,min(100,size(B,1)),1e-6,10,ld,L');
+gmres(100) converged at outer iteration 1 (inner iteration 9) to a solution with relative residual 6.4e-07.
+help ilu
+ <strong>ilu</strong>  Sparse Incomplete LU factorization
+ 
+     The factors given by this factorization may be useful as
+     preconditioners for a system of linear equations being solved by
+     iterative methods such as BICG (BiConjugate Gradients) and  GMRES
+     (Generalized Minimum Residual Method).
+ 
+     <strong>ilu</strong>(A) computes the incomplete LU factorization of A with zero level of
+     fill in.
+ 
+     <strong>ilu</strong>(A,SETUP) performs the incomplete LU factorization of A.  SETUP is
+     a structure with up to five fields:
+         type    --- type of factorization
+         droptol --- the drop tolerance of incomplete LU
+         milu    --- modified incomplete LU
+         udiag   --- replace zeros on the diagonal of U
+         thresh  --- the pivot threshold
+ 
+     type may be 'nofill' which is the <strong>ilu</strong> factorization with zero level of
+     fill in, known as <strong>ilu</strong>(0), 'crout' which is the Crout Version of <strong>ilu</strong>,
+     known as ILUC, or 'ilutp' which is the <strong>ilu</strong> factorization with
+     threshold and pivoting.  If type is not specified the <strong>ilu</strong> factorization
+     with 0 level of fill in will be performed.  Pivoting is never 
+     performed with type 'nofill' and with type 'crout'.
+ 
+     droptol is a non-negative scalar used as the drop tolerance which
+     means that all entries which are smaller in magnitude than the local
+     drop tolerance, which is droptol * NORM of the column of A for the
+     column and droptol * NORM of the row of A for the row, are "dropped"
+     from L or U.  The only exception to this dropping rule is the diagonal
+     of the upper triangular factor U which is never dropped.  Note that
+     entries of the lower triangular factor L are tested before being
+     scaled by the pivot.  Setting droptol = 0 produces the complete LU
+     factorization, which is the default.
+ 
+     milu stands for modified incomplete LU factorization.  Its value can
+     be 'row' (row-sum), 'col' (column-sum), or 'off'.  When milu is equal
+     to 'row', the diagonal element of the upper triangular factor U is
+     compensated in such a way as to preserve row sums.  That is, the
+     product A*e is equal to L*U*e, where e is the vector of ones.  When
+     milu is equal to 'col', the diagonal of the upper triangular factor U
+     is compensated so that column sums are preserved.  That is, the
+     product e'*A is equal to the product e'*L*U.  The default is 'off'.
+ 
+     udiag is either 0 or 1.  If it is 1, any zero diagonal entries of the
+     upper triangular factor U are replaced by the local drop tolerance in
+     an attempt to avoid a singular factor.  The default is 0.
+ 
+     thresh is a pivot threshold in [0,1].  Pivoting occurs when the
+     diagonal entry in a column has magnitude less than thresh times the
+     magnitude of any sub-diagonal entry in that column.  thresh = 0 forces
+     diagonal pivoting.  thresh = 1 is the default.
+ 
+     For SETUP.type == 'nofill', only SETUP.milu is used; all other fields
+     are ignored.  For SETUP.type == 'crout', only SETUP.droptol and
+     SETUP.milu are used; all other fields are ignored.
+ 
+     W = <strong>ilu</strong>(A,SETUP) returns "L+U-speye(size(A))" where L is unit lower
+     triangular and U is upper triangular.  If SETUP.type == 'ilutp', the
+     permutation information is lost.
+ 
+     [L,U] = <strong>ilu</strong>(A,SETUP) returns unit lower triangular L and upper
+     triangular U when SETUP.type == 'nofill' or when SETUP.type ==
+     'crout'.  For SETUP.type == 'ilutp', one of the factors is permuted
+     based on the value of SETUP.milu.  When SETUP.milu == 'row', U is a
+     column permuted upper triangular factor.  Otherwise, L is a
+     row-permuted unit lower triangular factor.
+ 
+     [L,U,P] = <strong>ilu</strong>(A,SETUP) returns unit lower triangular L, upper
+     triangular U and a permutation matrix P.  When SETUP.type == 'nofill'
+     or when SETUP.type == 'crout', P is always an identity matrix as
+     neither of these methods performs pivoting.  When SETUP.type =
+     'ilutp', the role of P is determined by the value of SETUP.milu.  When
+     SETUP.milu ~= 'row', P is returned such that L and U are incomplete
+     factors of P*A.  When SETUP.milu == 'row', P is returned such that L
+     and U are incomplete factors of A*P.
+ 
+     Example:
+ 
+        A = gallery('neumann', 1600) + speye(1600);
+        setup.type = 'nofill';
+        nnz(A)
+        nnz(lu(A))
+        nnz(ilu(A,setup))
+ 
+     This shows that A has 7840 nonzeros, its complete LU factorization has
+     126478 nonzeros, and its incomplete LU factorization with 0 level of
+     fill-in has 7840 nonzeros, the same amount as A.
+ 
+     Example:
+ 
+        A = gallery('neumann', 1600) + speye(1600);
+        setup.type = 'crout';
+        setup.milu = 'row';
+        setup.droptol = 0.1;
+        [L,U] = ilu(A,setup);
+        e = ones(size(A,2),1);
+        norm(A*e-L*U*e)
+ 
+     This shows that A and L*U, where L and U are given by the modified
+     Crout <strong>ilu</strong>, have the same row-sum.
+ 
+     <strong>ilu</strong> works only for sparse matrices.
+ 
+     See also <a href="matlab:help ichol">ichol</a>, <a href="matlab:help lu">lu</a>, <a href="matlab:help gmres">gmres</a>, <a href="matlab:help bicg">bicg</a>.
+
+    Reference page in Help browser
+       <a href="matlab:doc ilu">doc ilu</a>
+
+[L, U] = ilu(B);
+gmres(B,b,min(100,size(B,1)),1e-6,10,L,U);
+gmres(100) stopped at outer iteration 10 (inner iteration 100) without converging to the desired tolerance 1e-06
+because the maximum number of iterations was reached.
+The iterate returned (number 10(100)) has relative residual 0.0017.
+nnz(L+U)/nnz(B)
+
+ans =
+
+     1
+
+help ilu
+ <strong>ilu</strong>  Sparse Incomplete LU factorization
+ 
+     The factors given by this factorization may be useful as
+     preconditioners for a system of linear equations being solved by
+     iterative methods such as BICG (BiConjugate Gradients) and  GMRES
+     (Generalized Minimum Residual Method).
+ 
+     <strong>ilu</strong>(A) computes the incomplete LU factorization of A with zero level of
+     fill in.
+ 
+     <strong>ilu</strong>(A,SETUP) performs the incomplete LU factorization of A.  SETUP is
+     a structure with up to five fields:
+         type    --- type of factorization
+         droptol --- the drop tolerance of incomplete LU
+         milu    --- modified incomplete LU
+         udiag   --- replace zeros on the diagonal of U
+         thresh  --- the pivot threshold
+ 
+     type may be 'nofill' which is the <strong>ilu</strong> factorization with zero level of
+     fill in, known as <strong>ilu</strong>(0), 'crout' which is the Crout Version of <strong>ilu</strong>,
+     known as ILUC, or 'ilutp' which is the <strong>ilu</strong> factorization with
+     threshold and pivoting.  If type is not specified the <strong>ilu</strong> factorization
+     with 0 level of fill in will be performed.  Pivoting is never 
+     performed with type 'nofill' and with type 'crout'.
+ 
+     droptol is a non-negative scalar used as the drop tolerance which
+     means that all entries which are smaller in magnitude than the local
+     drop tolerance, which is droptol * NORM of the column of A for the
+     column and droptol * NORM of the row of A for the row, are "dropped"
+     from L or U.  The only exception to this dropping rule is the diagonal
+     of the upper triangular factor U which is never dropped.  Note that
+     entries of the lower triangular factor L are tested before being
+     scaled by the pivot.  Setting droptol = 0 produces the complete LU
+     factorization, which is the default.
+ 
+     milu stands for modified incomplete LU factorization.  Its value can
+     be 'row' (row-sum), 'col' (column-sum), or 'off'.  When milu is equal
+     to 'row', the diagonal element of the upper triangular factor U is
+     compensated in such a way as to preserve row sums.  That is, the
+     product A*e is equal to L*U*e, where e is the vector of ones.  When
+     milu is equal to 'col', the diagonal of the upper triangular factor U
+     is compensated so that column sums are preserved.  That is, the
+     product e'*A is equal to the product e'*L*U.  The default is 'off'.
+ 
+     udiag is either 0 or 1.  If it is 1, any zero diagonal entries of the
+     upper triangular factor U are replaced by the local drop tolerance in
+     an attempt to avoid a singular factor.  The default is 0.
+ 
+     thresh is a pivot threshold in [0,1].  Pivoting occurs when the
+     diagonal entry in a column has magnitude less than thresh times the
+     magnitude of any sub-diagonal entry in that column.  thresh = 0 forces
+     diagonal pivoting.  thresh = 1 is the default.
+ 
+     For SETUP.type == 'nofill', only SETUP.milu is used; all other fields
+     are ignored.  For SETUP.type == 'crout', only SETUP.droptol and
+     SETUP.milu are used; all other fields are ignored.
+ 
+     W = <strong>ilu</strong>(A,SETUP) returns "L+U-speye(size(A))" where L is unit lower
+     triangular and U is upper triangular.  If SETUP.type == 'ilutp', the
+     permutation information is lost.
+ 
+     [L,U] = <strong>ilu</strong>(A,SETUP) returns unit lower triangular L and upper
+     triangular U when SETUP.type == 'nofill' or when SETUP.type ==
+     'crout'.  For SETUP.type == 'ilutp', one of the factors is permuted
+     based on the value of SETUP.milu.  When SETUP.milu == 'row', U is a
+     column permuted upper triangular factor.  Otherwise, L is a
+     row-permuted unit lower triangular factor.
+ 
+     [L,U,P] = <strong>ilu</strong>(A,SETUP) returns unit lower triangular L, upper
+     triangular U and a permutation matrix P.  When SETUP.type == 'nofill'
+     or when SETUP.type == 'crout', P is always an identity matrix as
+     neither of these methods performs pivoting.  When SETUP.type =
+     'ilutp', the role of P is determined by the value of SETUP.milu.  When
+     SETUP.milu ~= 'row', P is returned such that L and U are incomplete
+     factors of P*A.  When SETUP.milu == 'row', P is returned such that L
+     and U are incomplete factors of A*P.
+ 
+     Example:
+ 
+        A = gallery('neumann', 1600) + speye(1600);
+        setup.type = 'nofill';
+        nnz(A)
+        nnz(lu(A))
+        nnz(ilu(A,setup))
+ 
+     This shows that A has 7840 nonzeros, its complete LU factorization has
+     126478 nonzeros, and its incomplete LU factorization with 0 level of
+     fill-in has 7840 nonzeros, the same amount as A.
+ 
+     Example:
+ 
+        A = gallery('neumann', 1600) + speye(1600);
+        setup.type = 'crout';
+        setup.milu = 'row';
+        setup.droptol = 0.1;
+        [L,U] = ilu(A,setup);
+        e = ones(size(A,2),1);
+        norm(A*e-L*U*e)
+ 
+     This shows that A and L*U, where L and U are given by the modified
+     Crout <strong>ilu</strong>, have the same row-sum.
+ 
+     <strong>ilu</strong> works only for sparse matrices.
+ 
+     See also <a href="matlab:help ichol">ichol</a>, <a href="matlab:help lu">lu</a>, <a href="matlab:help gmres">gmres</a>, <a href="matlab:help bicg">bicg</a>.
+
+    Reference page in Help browser
+       <a href="matlab:doc ilu">doc ilu</a>
+
+ setup.type = 'crout';
+        setup.milu = 'row';
+        setup.droptol = 0.001;
+[L, U] = ilu(B, setup);
+nnz(L+U)/nnz(B)
+
+ans =
+
+   34.5893
+
+gmres(B,b,min(100,size(B,1)),1e-6,10,L,U);
+gmres(100) converged at outer iteration 1 (inner iteration 5) to a solution with relative residual 6.1e-07.
+setup.droptol = 0.01;
+nnz(L+U)/nnz(B)
+
+ans =
+
+   34.5893
+
+setup.droptol = 0.001;
+setup.droptol = 0.1;
+nnz(L+U)/nnz(B)
+
+ans =
+
+   34.5893
+
+setup.droptol = 0.001;
+[L, D, p, S, B] = ildl(A, 12, 0.001,1,'amd');
+Equilibration (bunch):	0.005 seconds.
+AMD:		0.016 seconds.
+Permutation:	0.019 seconds.
+Factorization:	0.420 seconds.
+Total time:	0.460 seconds.
+L is 14400 by 14400 with 307992 non-zeros.
+ld = @(x) D\(L\x);
+gmres(B,b,min(100,size(B,1)),1e-6,10,ld,L');
+gmres(100) stopped at outer iteration 10 (inner iteration 100) without converging to the desired tolerance 1e-06
+because the maximum number of iterations was reached.
+The iterate returned (number 10(100)) has relative residual 0.015.
+[L, D, p, S, B] = ildl(A, 22, 0.001,1,'amd');
+Equilibration (bunch):	0.005 seconds.
+AMD:		0.017 seconds.
+Permutation:	0.027 seconds.
+Factorization:	0.643 seconds.
+Total time:	0.692 seconds.
+L is 14400 by 14400 with 405664 non-zeros.
+ld = @(x) D\(L\x);
+gmres(B,b,min(100,size(B,1)),1e-6,10,ld,L');
+gmres(100) stopped at outer iteration 10 (inner iteration 100) without converging to the desired tolerance 1e-06
+because the maximum number of iterations was reached.
+The iterate returned (number 10(100)) has relative residual 0.033.
+[L, D, p, S, B] = ildl(A, 30, 0.001,1,'amd');
+Equilibration (bunch):	0.003 seconds.
+AMD:		0.015 seconds.
+Permutation:	0.019 seconds.
+Factorization:	0.783 seconds.
+Total time:	0.820 seconds.
+L is 14400 by 14400 with 455545 non-zeros.
+[L, D, p, S, B] = ildl(A, 40, 0.001,1,'amd');
+Equilibration (bunch):	0.004 seconds.
+AMD:		0.013 seconds.
+Permutation:	0.023 seconds.
+Factorization:	0.886 seconds.
+Total time:	0.926 seconds.
+L is 14400 by 14400 with 485876 non-zeros.
+ld = @(x) D\(L\x);
+gmres(B,b,min(100,size(B,1)),1e-6,10,ld,L');
+gmres(100) converged at outer iteration 1 (inner iteration 89) to a solution with relative residual 7.7e-07.
+nnz(L+L')/nnz(A)
+
+ans =
+
+   13.3858
+
+spy(L)
+spy(B)
+spy(A)
+spy(B)
+spy(A)

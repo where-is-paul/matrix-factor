@@ -41,35 +41,36 @@ other_mats = { 'extra_matrices/turon_m'; 'tuma1'; 'tuma2';  ...
                'extra_matrices/brainpc2'};
 %}
 
-all_mats = {'aug3dcqp'; 'd_pretok'; 'darcy003'; 'ncvxqp9'; 
-            'olesnik0'; 'sit100'; 'stokes64'; 'stokes128'; 'turon_m'};
-lfil = [1.2, 3.0, 12.0, 12.0, 8.5, 5.0, 12.0, 12.0, 6.5, 1.0];
-tol = [0.001, 0.001, 0.0007, 0.001, 0.001, 0.0001, 0.001, 0.001, 0.001];
+all_mats = { 'aug3dcqp'; 'bloweya'; 'bratu3d'; ...
+            'tuma1'; 'tuma2'; '1138_bus'; 'Lshape_matrices4'; 'lund_b'};
+        
+opts.fill_factor = 2.2;
+opts.tol = 0.001;
 
 %all_mats = {'c-55'; 'c-59'; 'c-63'; 'c-68'; 'c-69'; 'c-70'; 'c-71'; 'c-72'};
 %lfil = [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 3.0, 1.0];
 %tol = [0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003];
 opts.pp_tol = 1.0;
 opts.ordering = 'amd';
-opts.equil = 'y';
+opts.equil = 'bunch';
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);
     base = '';
     file = strcat(base, mat_name, '.mtx');
     A = mmread(file);
-    A = A(1:end-2, 1:end-2);
+    %A = A(1:end-2, 1:end-2);
     
-    opts.fill_factor = lfil(i);
-    opts.tol = tol(i);
-    [l d p S B] =ildl(A, opts.fill_factor, opts.tol, ...
+    opts.fill_factor = opts.fill_factor;
+    opts.tol = opts.tol;
+    [l d p S B] = ildl(A, opts.fill_factor, opts.tol, ...
                        opts.pp_tol, opts.ordering, opts.equil);
    
     fprintf('The relative residual is %f.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));
     fprintf('The largest elem. of L is %.3f.\n', full(max(max(abs(l)))));
 	fprintf('A has %i nnz.\n', nnz(A));
-    fprintf('The condition number is %f.\n', condest(B));
+    fprintf('The condition number is %e.\n', condest(B));
 
     %C = S*A*S;
     %B = C(p,p);

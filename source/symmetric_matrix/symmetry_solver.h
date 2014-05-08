@@ -113,14 +113,17 @@ class solver
 			clock_t start = clock(); double dif, total = 0;
 			
 			if (equil) {
+				string type;
 				if (equil == 1) {
 					A.equilibrate();
+					type = "bunch";
 				} else if (equil == 2) {
 					A.iterative_equilibrate();
+					type = "iterative";
 				}
 				
 				dif = clock() - start; total += dif;
-				printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("Equilibration (%s):\t%.3f seconds.\n", type.c_str(), dif/CLOCKS_PER_SEC);
 			}
 			
 			if (reorder_scheme != 2) {

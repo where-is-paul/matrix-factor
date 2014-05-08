@@ -15,13 +15,13 @@ namespace iter_equil_helper {
 		\return the p-norm of the i-th column of A.
 	*/
 	template<class el_type, class elt_it>
-	double norm(square_matrix<el_type>* A, double p, int i, vector<elt_it>& temp) {
-		typename square_matrix<el_type>::idx_it idx_iterator;
-		typename square_matrix<el_type>::elt_it elt_iterator;
+	inline double norm(square_matrix<el_type>* A, double p, int i, vector<elt_it>& temp) {
+		typename square_matrix<el_type>::idx_it idx_iterator, i_it;
+		typename square_matrix<el_type>::elt_it elt_iterator, e_it;
 		double norm_val = 0;
-		for (typename square_matrix<el_type>::idx_it it = A->list[i].begin(); it != A->list[i].end(); it++) {
-			A->coeffRef(i, *it, idx_iterator, elt_iterator);
-			temp[*it] = elt_iterator;
+		for (i_it = A->list[i].begin(); i_it != A->list[i].end(); i_it++) {
+			A->coeffRef(i, *i_it, idx_iterator, elt_iterator);
+			temp[*i_it] = elt_iterator;
 			if (p < 0) {	//norm < 0 means INFINITY norm.
 				norm_val = max(norm_val, abs(*elt_iterator));
 			} else { //otherwise use the p norm.
@@ -29,11 +29,11 @@ namespace iter_equil_helper {
 			}
 		}
 
-		for (typename square_matrix<el_type>::elt_it it = A->m_x[i].begin(); it != A->m_x[i].end(); it++) {
+		for (e_it = A->m_x[i].begin(); e_it != A->m_x[i].end(); e_it++) {
 			if (p < 0) {	//norm < 0 means INFINITY norm.
-				norm_val = max(norm_val, abs(*it));
+				norm_val = max(norm_val, abs(*e_it));
 			} else { //otherwise use the p norm.
-				norm_val += pow(abs(*it), p);
+				norm_val += pow(abs(*e_it), p);
 			}
 		}
 		
@@ -44,7 +44,7 @@ namespace iter_equil_helper {
 }
 
 template<class el_type>
-void square_matrix<el_type>::iterative_equilibrate(double norm, double tol) {
+void square_matrix<el_type>::iterative_equilibrate(double norm, double tol, int max_iter) {
 	// default norm is -1 (INF), tol is 1e-4
 	//find termination points for loops with binary search later.
 	int i, ncols = n_cols();
@@ -63,7 +63,7 @@ void square_matrix<el_type>::iterative_equilibrate(double norm, double tol) {
 	// To measure the convergence of this algorithm, we just check for when
 	// abs(1 - min_i || row i ||_inf) goes under a specified tolerance.
 	// (since the smallest row norm lower bounds all the other row norms).
-	while (abs(1-min_norm) > tol) {
+	while (abs(1-min_norm) > tol && max_iter--) {
 		//An outer inner iteration:
 		for (i = 0; i < ncols; i++) {
 			//assumes indices are ordered. since this procedure is run
@@ -80,6 +80,7 @@ void square_matrix<el_type>::iterative_equilibrate(double norm, double tol) {
 			//determine the row norm of column i:
 			norm_val = iter_equil_helper::norm(this, norm, i, temp);
 			
+			//scale row i and column i by 1/sqrt(norm)
 			scale = 1.0/sqrt(norm_val);
 			if (scale > eps) {
 				S[i] *= scale;
@@ -95,10 +96,14 @@ void square_matrix<el_type>::iterative_equilibrate(double norm, double tol) {
 		}
 		
 		// find minimum norm of over all columns
+		min_norm = 10.0;
 		for (int i = 0; i < ncols; i++) {
 			norm_val = iter_equil_helper::norm(this, norm, i, temp);
 			min_norm = min(min_norm, norm_val);
 		}
+		
+		//printf("%f\n", min_norm);
+		//fflush(stdout);
 	}
 
 }

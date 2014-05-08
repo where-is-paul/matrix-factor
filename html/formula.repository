@@ -24,3 +24,4 @@
 \form#23:$\mathbf{LDL^{T}}$
 \form#24:\[ \mathbf{P^{T}SASP=LDL^{T}}. \]
 \form#25:$\mathbf{P^{T}SASP}$
+\form#26:$fill\cdot nnz(\mathbf{A})/n$

@@ -101,10 +101,13 @@ public:
 	void equilibrate();
 
 	/*!	\brief The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A, where S is a diagonal scaling matrix. 
-		This algorithm is novel, but is very similar to the one published by Daniel Ruiz as MC77
-		the HSL Mathematical Software Library.
+		This algorithm is novel, but is very similar to the one published by Daniel Ruiz as MC77 in the HSL Mathematical Software Library.
+		
+		\param norm the norm we want to equilibrate the matrix in
+		\param tol stop iterations when the norm of each column is within tol of 1
+		\param max_iter maximum number of iterations before stopping
 	*/
-	void iterative_equilibrate(double norm = -1, double tol = 1e-4);
+	void iterative_equilibrate(double norm = 2, double tol = 1e-3, int max_iter = 30);
 
 	/*!	\brief Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across the graph of A (where A is viewed as an adjacency matrix).
 
