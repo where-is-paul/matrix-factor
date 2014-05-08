@@ -92,7 +92,7 @@ Quick Start</h1>
 <h2><a class="anchor" id="ldl_driver"></a>
 Using the package as a standalone program</h2>
 <p>The compiled program <code>ldl_driver</code> takes in (through the command line) three parameters as well as four optional ones.</p>
-<p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[<a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[<span class="keyword">true</span>/<span class="keyword">false</span>] -display=[<span class="keyword">true</span>/display]</div>
+<p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[<a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[y/n] -display=[y/n]</div>
 </div><!-- fragment --><p>The parameters above can be given in any order, and will use a default value when not specified.</p>
 <p>A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./ldl_driver --help </div>
 </div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="params"><dt>Parameters</dt><dd>
@@ -102,13 +102,13 @@ Using the package as a standalone program</h2>
     <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_19.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
-    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>true</code> indicates yes, <code>false</code> indicates no. The default flag is <code>true</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
-    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line. <code>true</code> indicates yes, <code>false</code> indicates no. The default flag is <code>false</code>.</td></tr>
+    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
+    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <p>Typically, the <code>pp_tol</code> and <code>reordering</code> parameters are best left to the default options.</p>
-<dl class="section user"><dt>Examples:</dt><dd>Suppose we wish to factor the <code>aug3dcqp</code> matrix stored in <code>test_matrices/aug3dcqp.mtx</code>. Using the parameters described above, the execution of the program may go something like this: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=<span class="keyword">true</span> -display=<span class="keyword">false</span></div>
+<dl class="section user"><dt>Examples:</dt><dd>Suppose we wish to factor the <code>aug3dcqp</code> matrix stored in <code>test_matrices/aug3dcqp.mtx</code>. Using the parameters described above, the execution of the program may go something like this: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=y -display=n</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by 35543 with 128115 non-zeros.</div>
@@ -126,14 +126,14 @@ Using the package as a standalone program</h2>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by ...</div>
-</div><!-- fragment --> This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that <code>save</code> defaults to <code>true</code> and <code>display</code> to <code>false</code>.</dd></dl>
+</div><!-- fragment --> This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that <code>save</code> defaults to <code>y</code> and <code>display</code> to <code>n</code>.</dd></dl>
 <dl class="section user"><dt></dt><dd>Finally, we may use all optional arguments: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by ...</div>
-</div><!-- fragment --> The code above would use the default arguments <code>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=true -display=false</code>.</dd></dl>
+</div><!-- fragment --> The code above would use the default arguments <code>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</code>.</dd></dl>
 <h2><a class="anchor" id="matlab_mex"></a>
-Using the \b sym-ildl within Matlab</h2>
+Using sym-ildl within Matlab</h2>
 <p>If everything is compiled correctly, simply open Matlab in the package directory. The <code>startup.m</code> script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, <code>ildl</code>.</p>
 <p><code>ildl</code> takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing </p><div class="fragment"><div class="line">help ildl</div>
 </div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="params"><dt>Parameters</dt><dd>
@@ -182,7 +182,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 8 2014 02:51:06 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 8 2014 03:11:41 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
