@@ -29,6 +29,8 @@
 		./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[true/false] -display=[true/display]
 	\endcode
 	
+	The parameters above can be given in any order, and will use a default value when not specified.
+	
 	A description of each of these parameters can be accessed by typing 
 	\code 
 		./ldl_driver --help 
@@ -49,30 +51,36 @@
 	
 	\param display Indicates whether the output matrices should be displayed to the command line. \c true indicates yes, \c false indicates no. The default flag is \c false.	
 	
+	Typically, the \c pp_tol and \c reordering parameters are best left to the default options.
+	
 	\par Examples:
 	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=true -display=true
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=true -display=false
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
-		A is 35543 by 35543 with 77829 non-zeros.
-		The reordering took 0.108006 seconds.
-		The factorization took 0.101006 seconds.
-		L is 35543 by 35543 with 143512 non-zeros.
+		A is 35543 by 35543 with 128115 non-zeros.
+		Equilibration:  0.047 seconds.
+		AMD:            0.047 seconds.
+		Permutation:    0.047 seconds.
+		Factorization:  0.109 seconds.
+		Total time:     0.250 seconds.
+		L is 35543 by 35543 with 108794 non-zeros.
 		Saving matrices...
 		Save complete.
+		Factorization Complete. All output written to /output_matrices directory.
 	\endcode	
-	The code above factors the \c aug3dcqp.mtx matrix (<c>lfil=1.0, tol=0.001</c>) from the \c test_matrices folder, displays the full factorization (L and D) to terminal, and saves the outputs. The time it took to pre-order and equilibriate the matrix (0.108s) as well as the actual factorization (0.101s) are also given.
+	The code above factors the \c aug3dcqp.mtx matrix (<c>lfil=1.0, tol=0.001</c>) from the \c test_matrices folder and saves the outputs. The time it took to pre-order and equilibriate the matrix (0.047s) as well as the actual factorization (0.109s) are also given.
 	
 	\par
-	The program may also run without the last two arguments:	
+	The program may also run without the last 4 arguments:	
 	\code
 		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 -tol=0.001
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	This code uses the defaults save to true, and display to false, resulting in the outputs being saved, but not displayed to the terminal.
+	This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that \c save defaults to \c true and \c display to \c false.
 	
 	\par
 	Finally, we may use all optional arguments:
@@ -82,9 +90,9 @@
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -save=true -display=false</c>.
+	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=true -display=false</c>.
 	
-	\subsection matlab_mex Using the package within Matlab
+	\subsection matlab_mex Using the \b sym-ildl within Matlab
 	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl.
 	
 	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
@@ -171,7 +179,7 @@ DEFINE_string(reordering, "amd", "Determines what sort of preordering will be us
 DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated (in the max-norm) "
 						 "before factoring is done.");
 						 
-DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder"
+DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
 						 "called output_matrices/ in the same directory as ldl_driver.");
 
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
