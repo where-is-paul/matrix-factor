@@ -82,10 +82,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
-<p><b>sym-ildl</b> is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_17.png"/> symmetric indefinite matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_23.png"/> factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee (RCM) algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
+<p><b>sym-ildl</b> is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_17.png"/> symmetric indefinite matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_23.png"/> factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_24.png"/>
 </p>
 <p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_2.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_3.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_4.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_5.png"/> are the unit lower triangular and diagonal factors respectively.</p>
+<p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).</p>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
 <p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a <a class="el" href="index.html#matlab_mex">Matlab interface</a>.</p>
@@ -182,7 +183,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 8 2014 03:11:41 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 8 2014 12:52:05 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

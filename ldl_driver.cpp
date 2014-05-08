@@ -1,4 +1,4 @@
-#include "source/solver.h"
+#include "source/symmetric_matrix/symmetry_solver.h"
 
 #include <iostream>
 #include <cassert>
@@ -11,11 +11,14 @@
 *	\section intro_sec Introduction
 *
 * 	
-	\b sym-ildl is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm, and then preorders the matrix using the Reverse Cuthill-McKee (RCM) algorithm. To maintain stability, we use Bunch-Kaufman partial pivoting during the factorization process. The factorization produced is of the form 
+	\b sym-ildl is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, this package first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
 		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
 	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and diagonal factors respectively. 
+	
+	This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).
+	
 	
 *	\section quick_start Quick Start
 *
@@ -163,21 +166,22 @@ DEFINE_string(filename, "", "The filename of the matrix to be factored"
 							"(in matrix-market format).");
 							
 DEFINE_double(fill, 1.0, "A parameter to control memory usage. Each column is guaranteed"
-						 "to have fewer than fill*nnz(A)/n elements.");
+						 "to have fewer than fill*nnz(A) elements.");
 						 
 DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In each column k,"
 						  "elements less than tol*||L(k+1:n,k)|| (1-norm) are dropped.");
-
+						  
 DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). "
 						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP"
 						   "is used. Values between 0 and 1 varies the aggressivness of"
 						   "BKP in a continuous manner.");
-												   
+						   
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
-DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated (in the max-norm) "
-						 "before factoring is done.");
+DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated (in the max-norm "
+							  "for 'bunch' and 2-norm for 'iter') before factoring is done. "
+							  "Choices are 'none', 'bunch', and 'iter'");
 						 
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
 						 "called output_matrices/ in the same directory as ldl_driver.");
@@ -190,7 +194,7 @@ int main(int argc, char* argv[])
 {
 	std::string usage("Performs an incomplete LDL factorization of a given matrix.\n"
 				      "Sample usage:\n"
-					  "./ldl_driver -filename=test_matrices/testmat1.mtx "
+					  "\t./ldl_driver -filename=test_matrices/testmat1.mtx "
 									 "-fill=2.0 -display=true -save=false\n"
 					  "Additionally, these flags can be loaded from a single file "
 					  "with the option -flagfile=[filename].");
@@ -210,7 +214,7 @@ int main(int argc, char* argv[])
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
 	//default is equil on
-	solv.set_equil(FLAGS_equil); 
+	solv.set_equil(FLAGS_equil.c_str()); 
 	
 	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol);
 	
