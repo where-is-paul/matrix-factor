@@ -92,7 +92,7 @@
 	\endcode
 	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=true -display=false</c>.
 	
-	\subsection matlab_mex Using the \b sym-ildl within Matlab
+	\subsection matlab_mex Using the sym-ildl within Matlab
 	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl.
 	
 	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
