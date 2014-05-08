@@ -162,54 +162,41 @@ class skew_solver
 
 		}
 		
-		void solve_mpp(double fill_factor, double tol, double pp_tol)
+		void solve_mpp(double fill_factor, double tol)
 		{
 			perm.reserve(A.n_cols());
-			// for (int i = 0; i < A.n_cols(); i++) {
-				// perm.push_back(i);
-			// }
+			//for (int i = 0; i < A.n_cols(); i++) {
+			//	perm.push_back(i);
+			//}
 			cout << std::fixed << std::setprecision(3);
 
 			clock_t start = clock(); double dif, total = 0;
 			
-			if (equil) {
-				if (equil == 1) {
-					A.equilibrate();
-				} else if (equil == 2) {
-					A.iterative_equilibrate();
-				}
-				
-				dif = clock() - start; total += dif;
-				printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-			}
+			A.equilibrate();
 			
-			if (reorder_scheme != 2) {
-				start = clock();
-				std::string perm_name;
-				switch (reorder_scheme) {
-					case 0:
-						A.amd(perm);
-						perm_name = "AMD";
-						break;
-					case 1:
-						A.rcm(perm);
-						perm_name = "RCM";
-						break;
-				}
-				
-				dif = clock() - start; total += dif;
-				printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
-				
-				start = clock();
-				A.permute(perm);
-				dif = clock() - start; total += dif;
-				printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-			} else {
-				// no permutation specified, store identity permutation instead.
-				for (int i = 0; i < A.n_cols(); i++) {
-					perm.push_back(i);
-				}
+			dif = clock() - start; total += dif;
+			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			start = clock();
+			
+			std::string perm_name;
+			switch (reorder_scheme) {
+				case 0:
+					A.amd(perm);
+					perm_name = "AMD";
+					break;
+				case 1:
+					A.rcm(perm);
+					perm_name = "RCM";
+					break;
 			}
+
+			dif = clock() - start; total += dif;
+			printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+			
+			start = clock();
+			A.permute(perm);
+			dif = clock() - start; total += dif;
+			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
 			A.ildlmpp(L, D, perm, fill_factor, tol);
@@ -222,54 +209,41 @@ class skew_solver
 
 		}
 
-		void solve_rp(double fill_factor, double tol, double pp_tol)
+		void solve_rp(double fill_factor, double tol)
 		{
 			perm.reserve(A.n_cols());
-			// for (int i = 0; i < A.n_cols(); i++) {
-				// perm.push_back(i);
-			// }
+			//for (int i = 0; i < A.n_cols(); i++) {
+			//	perm.push_back(i);
+			//}
 			cout << std::fixed << std::setprecision(3);
 
 			clock_t start = clock(); double dif, total = 0;
 			
-			if (equil) {
-				if (equil == 1) {
-					A.equilibrate();
-				} else if (equil == 2) {
-					A.iterative_equilibrate();
-				}
-				
-				dif = clock() - start; total += dif;
-				printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-			}
+			A.equilibrate();
 			
-			if (reorder_scheme != 2) {
-				start = clock();
-				std::string perm_name;
-				switch (reorder_scheme) {
-					case 0:
-						A.amd(perm);
-						perm_name = "AMD";
-						break;
-					case 1:
-						A.rcm(perm);
-						perm_name = "RCM";
-						break;
-				}
-				
-				dif = clock() - start; total += dif;
-				printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
-				
-				start = clock();
-				A.permute(perm);
-				dif = clock() - start; total += dif;
-				printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-			} else {
-				// no permutation specified, store identity permutation instead.
-				for (int i = 0; i < A.n_cols(); i++) {
-					perm.push_back(i);
-				}
+			dif = clock() - start; total += dif;
+			printf("Equilibration:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			start = clock();
+			
+			std::string perm_name;
+			switch (reorder_scheme) {
+				case 0:
+					A.amd(perm);
+					perm_name = "AMD";
+					break;
+				case 1:
+					A.rcm(perm);
+					perm_name = "RCM";
+					break;
 			}
+
+			dif = clock() - start; total += dif;
+			printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+			
+			start = clock();
+			A.permute(perm);
+			dif = clock() - start; total += dif;
+			printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			
 			start = clock();
 			A.ildlrp(L, D, perm, fill_factor, tol);
