@@ -1,7 +1,9 @@
 <map id="main" name="main">
-<area shape="rect" id="node3" href="$classsolver.html#adfabd9ff38a854a91f8443976fae5432" title="Loads the matrix A into solver. " alt="" coords="117,5,211,32"/>
-<area shape="rect" id="node5" href="$classsolver.html#a0731e55c9504797d498952172c931e23" title="Factors the matrix A into P&#39; * S^(&#45;1) * A * S^(&#45;1) * P = LDL&#39; in addition to printing some timing dat..." alt="" coords="113,56,215,83"/>
-<area shape="rect" id="node7" href="$classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder). " alt="" coords="114,107,214,133"/>
-<area shape="rect" id="node11" href="$classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout. " alt="" coords="107,157,221,184"/>
-<area shape="rect" id="node9" href="$solver_8h.html#af66a830d3fb9a94ff1657f9864dc6869" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="270,107,365,133"/>
+<area shape="rect" id="node3" href="$classsolver.html#adfabd9ff38a854a91f8443976fae5432" title="Loads the matrix A into solver. " alt="" coords="131,5,226,32"/>
+<area shape="rect" id="node5" href="$classsolver.html#ad6d05305c621452fed94b287db9e7367" title="Sets the reordering scheme for the solver. " alt="" coords="107,57,250,98"/>
+<area shape="rect" id="node7" href="$classsolver.html#a2254762a68ad031889857c5766e50e4d" title="Decides whether we should use equilibriation on the matrix or not. " alt="" coords="115,123,242,149"/>
+<area shape="rect" id="node9" href="$classsolver.html#ac74a36b48baec56eb547e2a822d07498" title="Factors the matrix A into P&#39; * S^(&#45;1) * A * S^(&#45;1) * P = LDL&#39; in addition to printing some timing dat..." alt="" coords="127,173,230,200"/>
+<area shape="rect" id="node11" href="$classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder). " alt="" coords="129,224,229,251"/>
+<area shape="rect" id="node15" href="$classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout. " alt="" coords="122,275,235,301"/>
+<area shape="rect" id="node13" href="$solver_8h.html#af66a830d3fb9a94ff1657f9864dc6869" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="299,224,394,251"/>
 </map>

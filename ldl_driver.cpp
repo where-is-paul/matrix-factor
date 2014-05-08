@@ -19,31 +19,40 @@
 	
 *	\section quick_start Quick Start
 *
-	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c gcc, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
+	To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c g++, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
 
 	\subsection ldl_driver Using the package as a standalone program
-	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as two optional ones.
+	The compiled program \c ldl_driver takes in (through the command line) three parameters as well as four optional ones.
 	
 	The format of execution is: 
 	\code 
-		./ldl_driver [in.mtx] [fill_factor] [tol] [save] [display]
+		./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[true/false] -display=[true/display]
 	\endcode
 	
-	The parameters are listed below:
-	\param in.mtx The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
+	A description of each of these parameters can be accessed by typing 
+	\code 
+		./ldl_driver --help 
+	\endcode
 	
-	\param fill_factor A parameter to control memory usage. Each column is guaranteed to have fewer than \f$fill\_factor\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill_factor is <c>1.0</c>.
+	For convenience, the parameters are listed below:
+	\param filename The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
-	\param tol A parameter to control agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
+	\param fill Controls memory usage. Each column is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill is <c>1.0</c>.
 	
-	\param save A flag indicating whether the output matrices should be saved. \c -y indicates yes, \c -n indicates no. The default flag is \c -y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
+	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
-	\param display A flag indicating whether the output matrices should be displayed to the command line. \c -y indicates yes, \c -n indicates no. The default flag is \c -n.
+	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.
+
+	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
+	
+	\param save Indicates whether the output matrices should be saved. \c true indicates yes, \c false indicates no. The default flag is \c true. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
+	
+	\param display Indicates whether the output matrices should be displayed to the command line. \c true indicates yes, \c false indicates no. The default flag is \c false.	
 	
 	\par Examples:
 	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001 -y -y
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=true -display=true
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by 35543 with 77829 non-zeros.
@@ -58,32 +67,41 @@
 	\par
 	The program may also run without the last two arguments:	
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx 1.0 0.001
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 -tol=0.001
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	This code uses the default flags <c>-y -n</c> for the last two arguments, resulting in the outputs being saved, but not displayed to the terminal.
+	This code uses the defaults save to true, and display to false, resulting in the outputs being saved, but not displayed to the terminal.
 	
 	\par
 	Finally, we may use all optional arguments:
 	\code
-		./ldl_driver test_matrices/aug3dcqp.mtx
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	The code above would use the default arguments <c>1.0 0.001 -y -n</c>.
+	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -save=true -display=false</c>.
 	
 	\subsection matlab_mex Using the package within Matlab
 	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl.
 	
-	\c ildl takes in three arguments, two of them being optional. The parameters are listed below:
+	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
+	\code
+		help ildl
+	\endcode
+	
+	For convenience, the parameters are listed below:
 	\param A The matrix to be factored.
 	
-	\param fill_factor A parameter to control memory usage. Each column is guaranteed to have fewer than \f$fill\_factor\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill_factor is <c>1.0</c>.
+	\param fill Controls memory usage. Each column is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill is <c>1.0</c>.
 	
-	\param tol A parameter to control agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
+	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
+	
+	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.
+
+	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
 	As with the standalone executable, the function has five outputs: <c>L, D, p, S,</c> and \c B:
 	\return \b L Unit lower triangular factor of \f$\mathbf{P^{T}SASP}\f$.
@@ -95,8 +113,8 @@
 *	\par Examples:
 	Before we begin, let's first generate some symmetric indefinite matrices:
 	\code
-		>> B = sparse(gallery('uniformdata',10,0));
-		>> A = [speye(10) B; B' sparse(10, 10)];
+		>> B = sparse(gallery('uniformdata',100,0));
+		>> A = [speye(100) B; B' sparse(100, 100)];
 	\endcode
 	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab \b sparse matrix.
 	
@@ -104,9 +122,12 @@
 	To factor the matrix, we supply \c ildl with the parameters described above:
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
-		The reordering took 0.000109 seconds.
-		The factorization took 0.000456 seconds.
-		L is 20 by 20 with 165 non-zeros.
+		Equilibration:	0.001 seconds.
+		AMD:		0.001 seconds.
+		Permutation:	0.000 seconds.
+		Factorization:	0.022 seconds.
+		Total time:	0.024 seconds.
+		L is 200 by 200 with 14388 non-zeros.
 	\endcode
 	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibriate and preorder the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
 	
@@ -114,9 +135,9 @@
 	We may also take advantage of the optional parameters and simply feed \c ildl only one parameter:
 	\code
 		>> [L, D, p, S, B] = ildl(A);
-		The reordering took 0.000109 seconds.
-		The factorization took 0.000456 seconds.
-		L is 20 by 20 with 165 non-zeros.
+		Equilibration:	0.001 seconds.
+		AMD:		0.001 seconds.
+		...
 	\endcode
 
 *
@@ -170,7 +191,7 @@ int main(int argc, char* argv[])
 	google::ParseCommandLineFlags(&argc, &argv, true);
 	
 	if (FLAGS_filename.empty()) {
-		std::cerr << "No file specified!" << std::endl;
+		std::cerr << "No file specified! Type ./ldl_driver --help for a description of the program parameters." << std::endl;
 		return 0;
 	}
 	
