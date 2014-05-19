@@ -14,8 +14,7 @@ var indexSectionsWithContent =
   4: "elmnv",
   5: "ei",
   6: "o",
-  7: "d",
-  8: "m"
+  7: "d"
 };
 
 var indexSectionNames =
@@ -27,8 +26,7 @@ var indexSectionNames =
   4: "variables",
   5: "typedefs",
   6: "related",
-  7: "defines",
-  8: "pages"
+  7: "defines"
 };
 
 function convertToId(search)
