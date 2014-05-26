@@ -113,7 +113,7 @@ class solver
 			clock_t start = clock(); double dif, total = 0;
 			
 			if (equil) {
-				string type;
+				std::string type;
 				if (equil == 1) {
 					A.equilibrate();
 					type = "bunch";
