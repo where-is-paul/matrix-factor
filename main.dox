@@ -128,10 +128,10 @@
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
 		Equilibration:	0.001 seconds.
-		AMD:		0.001 seconds.
-		Permutation:	0.000 seconds.
-		Factorization:	0.022 seconds.
-		Total time:	0.024 seconds.
+		AMD:		0.000 seconds.
+		Permutation:	0.001 seconds.
+		Factorization:	0.013 seconds.
+		Total time:	0.015 seconds.
 		L is 200 by 200 with 14388 non-zeros.
 	\endcode
 	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
@@ -152,15 +152,56 @@
 	
 	When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is \c skew_ldl_driver instead of \c ldl_driver.
 	
-	<c>add example</c>
+	For example, factoring the \c plskz362 matrix stored in <c>test_matrices/skew/plskz362.mtx</c>. As before, this is as simple as:
+	\par
+	\code
+		./skew_ldl_driver -filename=test_matrices/skew/plskz362.mtx
+		
+		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
+		A is 362 by 362 with 1760 non-zeros.
+		Equilibration:  0.000 seconds.
+		AMD:            0.000 seconds.
+		Permutation:    0.000 seconds.
+		Factorization:  0.000 seconds.
+		Total time:     0.000 seconds.
+		L is 362 by 362 with 1610 non-zeros.
+		Saving matrices...
+		Save complete.
+		Factorization Complete. All output written to /output_matrices directory.
+	\endcode
+	
+	As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing 
+	\code 
+		./skew_ldl_driver --help 
+	\endcode
 	
 	\subsection skew_matlab_mex Within MATLAB
 	Within MATLAB, using ildl is even easier. As in the symmetric case, the command \c ildl can be used. Everything remains the same as the symmetric case, as \c ildl automatically detects whether the input is symmetric or skew-symmetric.
 	
-	<c>add example</c>
+	Let's first generate a skew-symmetric matrix for testing:
+	\par
+	\code
+		>> B = sparse(gallery('uniformdata',100,0));
+		>> B = B+B';
+		>> A = [sparse(100, 100) B; -B sparse(100, 100)];
+	\endcode
 	
-	
+	Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call \c ildl exactly as before:
+	\par
+	\code
+		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
+		Equilibration:	0.001 seconds.
+		AMD:		0.000 seconds.
+		Permutation:	0.001 seconds.
+		Factorization:	0.015 seconds.
+		Total time:	0.017 seconds.
+		L is 200 by 200 with 9691 non-zeros.
+	\endcode
 
+	Finally, helpful information on the parameters for <c>ildl</c> can be found by typing:
+	\code
+		help ildl
+	\endcode
 *
 *
 *	\section refs References
@@ -168,6 +209,5 @@
 	-#	J. R. Bunch, <em>Equilibration of Symmetric Matrices in the Max-Norm</em>, JACM, 18 (1971), pp. 566-572.
 	-#	N. Li and Y. Saad, <em>Crout versions of the ILU factorization with pivoting for sparse symmetric matrices</em>, ETNA, 20 (2006), pp. 75-85.
 	-#	N. Li, Y. Saad, and E. Chow, <em>Crout versions of ILU for general sparse matrices</em>, SISC, 25 (2003), pp. 716-728.
-
 *	
 */

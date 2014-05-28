@@ -174,10 +174,10 @@ Using sym-ildl within MATLAB</h2>
 </div><!-- fragment --> The <code>A</code> generated is a special type of matrix called a saddle-point matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a MATLAB <b>sparse</b> matrix.</dd></dl>
 <dl class="section user"><dt></dt><dd>To factor the matrix, we supply <code>ildl</code> with the parameters described above: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
 <div class="line">Equilibration:  0.001 seconds.</div>
-<div class="line">AMD:            0.001 seconds.</div>
-<div class="line">Permutation:    0.000 seconds.</div>
-<div class="line">Factorization:  0.022 seconds.</div>
-<div class="line">Total time:     0.024 seconds.</div>
+<div class="line">AMD:            0.000 seconds.</div>
+<div class="line">Permutation:    0.001 seconds.</div>
+<div class="line">Factorization:  0.013 seconds.</div>
+<div class="line">Total time:     0.015 seconds.</div>
 <div class="line">L is 200 by 200 with 14388 non-zeros.</div>
 </div><!-- fragment --> As we can see above, <code>ildl</code> will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.</dd></dl>
 <dl class="section user"><dt></dt><dd>We may also take advantage of the optional parameters and simply feed <code>ildl</code> only one parameter: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A);</div>
@@ -190,12 +190,38 @@ Usage for skew-symmetric matrices</h1>
 <h2><a class="anchor" id="skew_ldl_driver"></a>
 As a standalone program</h2>
 <p>When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is <code>skew_ldl_driver</code> instead of <code>ldl_driver</code>.</p>
-<p><code>add example</code></p>
-<h2><a class="anchor" id="skew_matlab_mex"></a>
+<p>For example, factoring the <code>plskz362</code> matrix stored in <code>test_matrices/skew/plskz362.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/plskz362.mtx</div>
+<div class="line"></div>
+<div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
+<div class="line">A is 362 by 362 with 1760 non-zeros.</div>
+<div class="line">Equilibration:  0.000 seconds.</div>
+<div class="line">AMD:            0.000 seconds.</div>
+<div class="line">Permutation:    0.000 seconds.</div>
+<div class="line">Factorization:  0.000 seconds.</div>
+<div class="line">Total time:     0.000 seconds.</div>
+<div class="line">L is 362 by 362 with 1610 non-zeros.</div>
+<div class="line">Saving matrices...</div>
+<div class="line">Save complete.</div>
+<div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
+</div><!-- fragment --></dd></dl>
+<p>As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./skew_ldl_driver --help </div>
+</div><!-- fragment --><h2><a class="anchor" id="skew_matlab_mex"></a>
 Within MATLAB</h2>
 <p>Within MATLAB, using ildl is even easier. As in the symmetric case, the command <code>ildl</code> can be used. Everything remains the same as the symmetric case, as <code>ildl</code> automatically detects whether the input is symmetric or skew-symmetric.</p>
-<p><code>add example</code></p>
-<h1><a class="anchor" id="refs"></a>
+<p>Let's first generate a skew-symmetric matrix for testing: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,100,0));</div>
+<div class="line">&gt;&gt; B = B+B<span class="stringliteral">&#39;;</span></div>
+<div class="line"><span class="stringliteral">&gt;&gt; A = [sparse(100, 100) B; -B sparse(100, 100)];</span></div>
+</div><!-- fragment --></dd></dl>
+<p>Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call <code>ildl</code> exactly as before: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
+<div class="line">Equilibration:  0.001 seconds.</div>
+<div class="line">AMD:            0.000 seconds.</div>
+<div class="line">Permutation:    0.001 seconds.</div>
+<div class="line">Factorization:  0.015 seconds.</div>
+<div class="line">Total time:     0.017 seconds.</div>
+<div class="line">L is 200 by 200 with 9691 non-zeros.</div>
+</div><!-- fragment --></dd></dl>
+<p>Finally, helpful information on the parameters for <code>ildl</code> can be found by typing: </p><div class="fragment"><div class="line">help ildl</div>
+</div><!-- fragment --><h1><a class="anchor" id="refs"></a>
 References</h1>
 <ol type="1">
 <li>J. A. George and J. W-H. Liu, <em>Computer Solution of Large Sparse Positive Definite Systems</em>, Prentice-Hall, 1981.</li>
@@ -206,7 +232,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 19 2014 18:25:32 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 28 2014 05:37:04 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

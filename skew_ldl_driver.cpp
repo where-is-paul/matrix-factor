@@ -25,7 +25,8 @@ DEFINE_string(reordering, "amd", "Determines what sort of preordering will be us
 DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated (in the max-norm) "
 						 "before factoring is done. Choices are 'none', 'bunch', and 'iter'");
 						 
-DEFINE_bool(save, false, "If yes, saves the factors (in matrix-market format) into a folder" 						 "called output_matrices/ in the same directory as ldl_driver.");
+DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
+						 "called output_matrices/ in the same directory as ldl_driver.");
 
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
 							" standard out. Generates a large amount of output if the "
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 	google::ParseCommandLineFlags(&argc, &argv, true);
 	
 	if (FLAGS_filename.empty()) {
-		std::cerr << "No file specified!" << std::endl;
+		std::cerr << "No file specified! Type ./skew_ldl_driver --help for a description of the program parameters." << std::endl;
 		return 0;
 	}
 	
