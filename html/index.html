@@ -190,16 +190,16 @@ Usage for skew-symmetric matrices</h1>
 <h2><a class="anchor" id="skew_ldl_driver"></a>
 As a standalone program</h2>
 <p>When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is <code>skew_ldl_driver</code> instead of <code>ldl_driver</code>.</p>
-<p>For example, factoring the <code>plskz362</code> matrix stored in <code>test_matrices/skew/plskz362.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/plskz362.mtx</div>
+<p>For example, factoring the <code>m3dskew50</code> matrix stored in <code>test_matrices/skew/m3dskew50.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/m2dskew500.mtx</div>
 <div class="line"></div>
-<div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
-<div class="line">A is 362 by 362 with 1760 non-zeros.</div>
-<div class="line">Equilibration:  0.000 seconds.</div>
-<div class="line">AMD:            0.000 seconds.</div>
-<div class="line">Permutation:    0.000 seconds.</div>
-<div class="line">Factorization:  0.000 seconds.</div>
-<div class="line">Total time:     0.000 seconds.</div>
-<div class="line">L is 362 by 362 with 1610 non-zeros.</div>
+<div class="line">Load succeeded. File test_matrices/m2dskew500.mtx was loaded.</div>
+<div class="line">A is 125000 by 125000 with 735000 non-zeros.</div>
+<div class="line">Equilibration:  0.016 seconds.</div>
+<div class="line">AMD:            0.203 seconds.</div>
+<div class="line">Permutation:    0.125 seconds.</div>
+<div class="line">Factorization:  0.859 seconds.</div>
+<div class="line">Total time:     1.203 seconds.</div>
+<div class="line">L is 125000 by 125000 with 727553 non-zeros.</div>
 <div class="line">Saving matrices...</div>
 <div class="line">Save complete.</div>
 <div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
@@ -232,7 +232,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 28 2014 05:37:04 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 9 2014 16:30:50 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
