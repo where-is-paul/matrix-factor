@@ -155,9 +155,9 @@
 	For example, factoring the \c m3dskew50 matrix stored in <c>test_matrices/skew/m3dskew50.mtx</c>. As before, this is as simple as:
 	\par
 	\code
-		./skew_ldl_driver -filename=test_matrices/skew/m2dskew500.mtx
+		./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx
 		
-		Load succeeded. File test_matrices/m2dskew500.mtx was loaded.
+		Load succeeded. File test_matrices/m2dskew50.mtx was loaded.
 		A is 125000 by 125000 with 735000 non-zeros.
 		Equilibration:  0.016 seconds.
 		AMD:            0.203 seconds.
