@@ -72,10 +72,9 @@ void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew
 		}
 
 		//--------------begin pivoting--------------//
-		if (w1 < eps && w2 < eps)
-			cout << "singular" << endl;
-		else
-		{
+		if (w1 < eps && w2 < eps) {
+			//cout << "singular" << endl;
+		} else {
 			if (!firstcol) // maximum element in col k+1
 			{
 				// swap rows and columns of k and k+1

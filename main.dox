@@ -152,19 +152,19 @@
 	
 	When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is \c skew_ldl_driver instead of \c ldl_driver.
 	
-	For example, factoring the \c plskz362 matrix stored in <c>test_matrices/skew/plskz362.mtx</c>. As before, this is as simple as:
+	For example, factoring the \c m3dskew50 matrix stored in <c>test_matrices/skew/m3dskew50.mtx</c>. As before, this is as simple as:
 	\par
 	\code
-		./skew_ldl_driver -filename=test_matrices/skew/plskz362.mtx
+		./skew_ldl_driver -filename=test_matrices/skew/m2dskew500.mtx
 		
-		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
-		A is 362 by 362 with 1760 non-zeros.
-		Equilibration:  0.000 seconds.
-		AMD:            0.000 seconds.
-		Permutation:    0.000 seconds.
-		Factorization:  0.000 seconds.
-		Total time:     0.000 seconds.
-		L is 362 by 362 with 1610 non-zeros.
+		Load succeeded. File test_matrices/m2dskew500.mtx was loaded.
+		A is 125000 by 125000 with 735000 non-zeros.
+		Equilibration:  0.016 seconds.
+		AMD:            0.203 seconds.
+		Permutation:    0.125 seconds.
+		Factorization:  0.859 seconds.
+		Total time:     1.203 seconds.
+		L is 125000 by 125000 with 727553 non-zeros.
 		Saving matrices...
 		Save complete.
 		Factorization Complete. All output written to /output_matrices directory.

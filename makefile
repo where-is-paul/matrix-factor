@@ -26,7 +26,7 @@ clean:
 	@echo " Cleaning..."; $(RM) -r $(TARGET_SYM) $(TARGET_SKEW) $(TARBALL) $(OUTPUT); 
 
 tar:
-	tar cfv matrix_factor.tar ldl_driver.cpp source
+	tar cfv matrix_factor.tar ldl_driver.cpp skew_ldl_driver.cpp source
 
 test:
 	@cd matlab_files; make --no-print-directory test
