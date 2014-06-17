@@ -2,15 +2,14 @@
 #ifndef _BLOCK_DIAG_MATRIX_H_
 #define _BLOCK_DIAG_MATRIX_H_
 
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <cassert>
 #include <iostream>
 
-#ifndef DEBUG
-#define DEBUG
+#ifdef DEBUG
 template<class el_type>
 std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 {
