@@ -1,4 +1,4 @@
-#include "source/symmetric_matrix/symmetry_solver.h"
+#include "source/solver.h"
 
 #include <iostream>
 #include <cassert>
