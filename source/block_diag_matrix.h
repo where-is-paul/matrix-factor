@@ -36,7 +36,7 @@ class block_diag_matrix
 {
 public:
 
-	typedef std::tr1::unordered_map<int, el_type> int_elt_map;
+	typedef std::unordered_map<int, el_type> int_elt_map;
 	typedef std::vector<el_type>  elt_vector_type;
 	
 	/*! Allows outputting the contents of the matrix via << operators. */
