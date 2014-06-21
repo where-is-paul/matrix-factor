@@ -9,7 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-#ifdef DEBUG
+#ifdef SYM_ILDL_DEBUG
 template<class el_type>
 std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 {
