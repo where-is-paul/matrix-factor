@@ -179,9 +179,8 @@ DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivot
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
-DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated (in the max-norm "
-							  "for 'bunch' and 2-norm for 'iter') before factoring is done. "
-							  "Choices are 'none', 'bunch', and 'iter'");
+DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated before factoring is done. "
+							  "Choices are 'none' and 'bunch'");
 						 
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
 						 "called output_matrices/ in the same directory as ldl_driver.");
