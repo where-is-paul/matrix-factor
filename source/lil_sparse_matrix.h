@@ -7,8 +7,7 @@
 #include <fstream>
 #include <limits>
 
-#ifndef DEBUG
-#define DEBUG
+#ifdef SYM_ILDL_DEBUG
 template<class Container>
 std::ostream& operator<< (std::ostream& os, const Container& vec)
 {
