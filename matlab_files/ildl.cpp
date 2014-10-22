@@ -65,7 +65,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	//--------------------------------------//
 	
 	//factor A.
-	m.solv.solve(fill_factor, tol, pp_tol);
+	m.solv.solve(fill_factor, tol, pp_tol, -1);
 
 	m.mex_save_lhs(plhs[0], 'L');
 	m.mex_save_lhs(plhs[1], 'D');

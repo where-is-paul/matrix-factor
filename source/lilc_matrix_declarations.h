@@ -171,6 +171,36 @@ public:
 	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
 	
 	//------Helpers------//
+	/*! \brief Performs a solve of this matrix, assuming that it is lower triangular. 
+		
+		\param b the right hand side.
+		\param x a storage vector for the solution (must be same size as b).
+	*/
+	void solve(elt_vector_type b, elt_vector_type& x) {
+		assert(b.size() == x.size());
+		// simple forward substitution
+		for (int i = 0; i < n_cols; i++) {
+			x[i] = b[i]/m_x[i][0];
+			for (int k = 1; k < m_idx[i].size(); k++) {
+				b[m_idx[i][k]] -= x[i]*m_x[i][k];
+			}
+		}
+	}
+	
+	/*! \brief Performs a matrix-vector product with this matrix.
+		
+		\param x the vector to be multiplied.
+		\param y a storage vector for the result (must be same size as x).
+	*/
+	void multiply(const elt_vector_type& x, elt_vector_type& y) {
+		assert(x.size() == y.size());
+		for (int i = 0; i < n_cols; i++) {
+			for (int k = 0; k < m_idx[i].size(); k++) {
+				y[m_idx[i][k]] += x[i]*m_x[i][k];
+			}
+		}
+	}
+	
 	/*! \brief Performs a symmetric permutation between row/col k & r of A.
 	
 		\param s a struct containing temporary variables needed during pivoting.

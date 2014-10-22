@@ -59,7 +59,7 @@ public:
 	lil_sparse_matrix (int n_rows, int n_cols) : m_n_rows(n_rows), m_n_cols (n_cols)
 	{
 		nnz_count = 0;
-		eps = 1e-13;
+		eps = 1e-8;
 	}
 	
 	/*! \return Number of rows in the matrix. */

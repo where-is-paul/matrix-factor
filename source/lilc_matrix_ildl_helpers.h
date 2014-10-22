@@ -6,6 +6,29 @@ using std::vector;
 
 typedef vector<int>::iterator idx_it;
 
+/*! \brief Computes the dot product of v and w. Only works when el_type is real right now.
+	\param v the first vector whose dot product we wish to compute
+	\param w the second vector whose dot product we wish to compute
+*/
+template <class el_type>
+inline double dot_product(const vector<el_type>& v, const vector<el_type>& w) {
+	double res = 0;
+	for (int i = 0; i < v.size(); i++) {
+		res += v[i]*w[i];
+	}
+	return res;
+}
+
+/*! \brief Computes the sum of two vectors: u = a*v + b*w. a and b are scalars, u, v, and w are vectors.
+	\param u the storage vector for the result
+*/
+template <class el_type>
+inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& w, vector<el_type>& u) {
+	for (int i = 0; i < v.size(); i++) {
+		u[i] += a*v[i] + b*w[i];
+	}
+}
+
 /*! \brief Computes the maximum (in absolute value) element of v(curr_nnzs) and it's index.
 	\param v the vector whose max element is to be computed.
 	\param curr_nnzs a list of indices representing non-zero elements in v.
@@ -41,6 +64,21 @@ inline double norm(vector<el_type>& v, vector<int>& curr_nnzs, el_type p = 1) {
 	
 	return pow(res, 1/p);
 }
+
+/*! \brief Computes the norm of v.
+	\param v the vector whose norm is to be computed.
+	\param p The norm number.
+	\return the norm of v.
+*/
+template <class el_type>
+inline double norm(vector<el_type>& v, el_type p = 1) { 
+	el_type res = 0;
+	for (int i = 0; i < v.size(); i++) {
+		res += pow(abs(v[i]), p);
+	}
+	return pow(res, 1/p);
+}
+
 
 /*! \brief Functor for comparing elements by value (in decreasing order) instead of by index.
 	\param v the vector that contains the values being compared.

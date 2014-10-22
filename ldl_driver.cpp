@@ -1,4 +1,4 @@
-#include "source/symmetric_matrix/symmetry_solver.h"
+#include "source/solver.h"
 
 #include <iostream>
 #include <cassert>
@@ -216,7 +216,7 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil.c_str()); 
 	
-	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol);
+	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, -1);
 	
 	if (FLAGS_save) {
 		solv.save();

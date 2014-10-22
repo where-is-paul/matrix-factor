@@ -24,8 +24,9 @@ bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 	out << header << std::endl; 
 	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
 
-	for(int i = 0; i < (int) vec.size(); i++)
-	out << i+1 << " " << 1 << " " << vec[i]+1 << "\n";
+	for(int i = 0; i < (int) vec.size(); i++) {
+		out << i+1 << " " << 1 << " " << vec[i]+1 << "\n";
+	}
 	
 	out.close();
 	return true;
@@ -45,7 +46,10 @@ class solver
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
 		bool equil; ///<Set to true for max-norm equilibriation.
-				
+		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
+		vector<el_type> rhs; ///<The right hand side we'll solve for.
+		vector<el_type> sol_vec; ///<The solution vector.
+		
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
@@ -60,6 +64,14 @@ class solver
 			bool result = A.load(filename);
 			assert(result);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+		}
+		
+		/*! \brief Loads a right hand side b into the solver.
+			\param b a vector of the right hand side.
+		*/
+		void set_rhs(vector<el_type> b) {
+			rhs = b;
+			printf("Right hand side has %d entries.\n", rhs.size() );
 		}
 		
 		/*! \brief Sets the reordering scheme for the solver.
@@ -86,8 +98,10 @@ class solver
 			
 			\param fill_factor a factor controling memory usage of factorization.
 			\param tol a factor controling accuracy of factorization.
+			\param pp_tol a factor controling the aggresiveness of Bunch-Kaufman pivoting.
+			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
-		void solve(double fill_factor, double tol, double pp_tol) {
+		void solve(double fill_factor, double tol, double pp_tol, int max_iter) {
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);  
@@ -141,7 +155,19 @@ class solver
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
 			fflush(stdout);
+			
+			if (has_rhs) {
+				assert(max_iter >= 0);
+				minres(max_iter);
+			}
 		}
+		
+		/*! \brief Applies minres on A, preconditioning with factors L and D..
+			
+			\param max_iter the maximum number of minres iterations.
+			\param shift shifts A by shift*(identity matrix) to make it more positive definite. This sometimes helps.
+		*/
+		void minres(int max_iter, double shift = 0);
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
 			
@@ -165,5 +191,7 @@ class solver
 			cout << perm << endl;
 		}
 };
+
+#include "solver_minres.h"
 
 #endif
