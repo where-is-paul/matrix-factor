@@ -179,8 +179,8 @@ DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivot
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
-DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated before factoring is done. "
-							  "Choices are 'none' and 'bunch'");
+DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
+						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");
 						 
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
 						 "called output_matrices/ in the same directory as ldl_driver.");
@@ -217,7 +217,7 @@ int main(int argc, char* argv[])
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
 	//default is equil on
-	solv.set_equil(FLAGS_equil.c_str()); 
+	solv.set_equil(FLAGS_equil); 
 	
 	vector<double> rhs(solv.A.n_cols(), 1);
 	solv.set_rhs(rhs);

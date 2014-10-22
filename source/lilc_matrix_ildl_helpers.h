@@ -25,7 +25,7 @@ inline double dot_product(const vector<el_type>& v, const vector<el_type>& w) {
 template <class el_type>
 inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& w, vector<el_type>& u) {
 	for (int i = 0; i < v.size(); i++) {
-		u[i] += a*v[i] + b*w[i];
+		u[i] = a*v[i] + b*w[i];
 	}
 }
 

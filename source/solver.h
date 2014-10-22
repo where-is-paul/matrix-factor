@@ -116,7 +116,6 @@ class solver {
 
 			start = clock();
 
-			A.sym_rcm(perm);
 			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
 
 			if (reorder_scheme != 2) {
@@ -187,9 +186,11 @@ class solver {
 		/*! \brief Prints the L and D factors to stdout.
 		*/
 		void display() {
+#ifdef SYM_ILDL_DEBUG
 			cout << L << endl;
 			cout << D << endl;
 			cout << perm << endl;
+#endif
 		}
 };
 
