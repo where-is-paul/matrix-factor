@@ -37,8 +37,7 @@ bool save_perm(const std::vector<el_type>& vec, std::string filename) {
 	Currently, the only matrix type accepted is the lilc_matrix (as no other matrix type has been created yet).
 */
 template<class el_type, class mat_type = lilc_matrix<el_type> >
-class solver
-{
+class solver {
 	public:
 		mat_type A;	///<The matrix to be factored.
 		mat_type L;	///<The lower triangular factor of A.
@@ -71,6 +70,7 @@ class solver
 		*/
 		void set_rhs(vector<el_type> b) {
 			rhs = b;
+			has_rhs = true;
 			printf("Right hand side has %d entries.\n", rhs.size() );
 		}
 		
@@ -101,7 +101,7 @@ class solver
 			\param pp_tol a factor controling the aggresiveness of Bunch-Kaufman pivoting.
 			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
-		void solve(double fill_factor, double tol, double pp_tol, int max_iter) {
+		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1) {
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);  
@@ -165,9 +165,10 @@ class solver
 		/*! \brief Applies minres on A, preconditioning with factors L and D..
 			
 			\param max_iter the maximum number of minres iterations.
+			\param stop_tol the stopping tolerance of minres. i.e. we stop as soon as the residual goes below stop_tol.
 			\param shift shifts A by shift*(identity matrix) to make it more positive definite. This sometimes helps.
 		*/
-		void minres(int max_iter, double shift = 0);
+		void minres(int max_iter = 1000, double stop_tol = 1e-6, double shift = 0.0);
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
 			

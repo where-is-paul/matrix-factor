@@ -193,8 +193,8 @@ public:
 		\param y a storage vector for the result (must be same size as x).
 	*/
 	void multiply(const elt_vector_type& x, elt_vector_type& y) {
-		assert(x.size() == y.size());
-		for (int i = 0; i < n_cols; i++) {
+		y.clear(); y.resize(x.size(), 0);
+		for (int i = 0; i < m_n_cols; i++) {
 			for (int k = 0; k < m_idx[i].size(); k++) {
 				y[m_idx[i][k]] += x[i]*m_x[i][k];
 			}

@@ -189,6 +189,10 @@ DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) int
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
 							" standard out. Generates a large amount of output if the "
 							"matrix is big.");
+							
+DEFINE_int32(minres_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will "
+							   "attempt to use the preconditioner generated with MINRES to "
+							   "solve the system.");
 						 
 int main(int argc, char* argv[])
 {
@@ -216,7 +220,9 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil.c_str()); 
 	
-	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, -1);
+	vector<double> rhs(solv.A.n_cols(), 1);
+	solv.set_rhs(rhs);
+	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters);
 	
 	if (FLAGS_save) {
 		solv.save();
