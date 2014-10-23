@@ -171,18 +171,35 @@ public:
 	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
 	
 	//------Helpers------//
-	/*! \brief Performs a solve of this matrix, assuming that it is lower triangular. 
+	/*! \brief Performs a back solve of this matrix, assuming that it is lower triangular (stored column major). 
 		
 		\param b the right hand side.
 		\param x a storage vector for the solution (must be same size as b).
 	*/
-	void solve(elt_vector_type b, elt_vector_type& x) {
+	void backsolve(const elt_vector_type& b, elt_vector_type& x) {
 		assert(b.size() == x.size());
+		x = b;
 		// simple forward substitution
-		for (int i = 0; i < n_cols; i++) {
+		for (int i = 0; i < m_n_cols; i++) {
+			x[i] /= m_x[i][0];
+			for (int k = 1; k < m_idx[i].size(); k++) {
+				x[m_idx[i][k]] -= x[i]*m_x[i][k];
+			}
+		}
+	}
+	
+	/*! \brief Performs a forward solve of this matrix, assuming that it is upper triangular (stored row major).
+		
+		\param b the right hand side.
+		\param x a storage vector for the solution (must be same size as b).
+	*/
+	void forwardsolve(const elt_vector_type& b, elt_vector_type& x) {
+		assert(b.size() == x.size());
+		// simple back substitution
+		for (int i = m_n_cols-1; i >= 0; i--) {
 			x[i] = b[i]/m_x[i][0];
 			for (int k = 1; k < m_idx[i].size(); k++) {
-				b[m_idx[i][k]] -= x[i]*m_x[i][k];
+				x[i] -= x[m_idx[i][k]]*m_x[i][k]/m_x[i][0];
 			}
 		}
 	}
@@ -191,6 +208,7 @@ public:
 		
 		\param x the vector to be multiplied.
 		\param y a storage vector for the result (must be same size as x).
+		\param full_mult if true, we assume that only half the matrix is stored and do do operations per element of the matrix to account for the unstored other half.
 	*/
 	void multiply(const elt_vector_type& x, elt_vector_type& y, bool full_mult = true) {
 		y.clear(); y.resize(x.size(), 0);

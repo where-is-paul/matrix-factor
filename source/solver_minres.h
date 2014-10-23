@@ -25,7 +25,7 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	el_type delta1[2], delta2[2], ep[2], gamma1[2], gamma2[2];
 
 	// temporary vectors for lanczos calcluations
-	vector<el_type> pk(n);
+	vector<el_type> pk(n), tk(n);
 	
 	// step size in the current search direction (xk = x_{k-1} + tau*dk)
 	double tau = 0;
@@ -54,11 +54,22 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	while (res[k%2]/norm_rhs > stop_tol && k < max_iter) {
 		int cur = k%2, nxt = (k+1)%2;
 		// ---------- begin lanczos step ----------//
-		//pk = (A - shift*I) * v[cur]
-		A.multiply(v[cur], pk);
+		//pk = (M^(-1) A M^(-t) - shift*I) * v[cur], where M = L|D|^(1/2) where |D|^(1/2) = Q|V|^(1/2)
+		//we do this in steps. first, tk = L^(-t) * |D|^(-t/2) 
 		
+		D.sqrt_solve(v[cur], pk, true);
+		L.forwardsolve(pk, tk);
+		
+		//pk = A*tk
+		A.multiply(tk, pk);
+
+		//pk = |D|^(-1/2) L^(-1) pk. after this step, pk = M^(-1) A M^(-t) v[cur]
+		L.backsolve(pk, tk);
+		D.sqrt_solve(tk, pk, false);
+		
+		//finally, pk = pk - shift*I * v[cur];
 		for (int i = 0; i < n; i++) {
-			pk[i] -= shift;
+			pk[i] -= shift * v[cur][i];
 		}
 		
 		// alpha = v[cur]' * pk
@@ -133,7 +144,7 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 				d[nxt][i] /= gamma2[cur];
 			}
 			
-			//sol = sol + tau*d[(k+1)%3]
+			//sol = sol + tau*d[nxt]
 			vector_sum(1, sol_vec, tau, d[nxt], sol_vec);
 			gamma_min = std::min(gamma_min, gamma2[cur]);
 			cond_A = norm_A/gamma_min;

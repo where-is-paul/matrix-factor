@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 
 #ifdef SYM_ILDL_DEBUG
 template<class el_type>
@@ -28,6 +29,8 @@ std::ostream& operator<< (std::ostream& os, const std::vector<el_type>& vec)
 }
 #endif
 
+
+using std::abs;
 
 /*! \brief A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. 
 */
@@ -123,6 +126,55 @@ public:
 			return -2;
 		} else {
 			return 1;
+		}
+	}
+	
+	/*!	\brief Solves the preconditioned problem |D| = Q|V|Q', where QVQ' is the eigendecomposition of D, and |.| is applied elementwise.
+		\param b the right hand side.
+		\param x a storage vector for the solution (must be same size as b).
+	*/
+	void sqrt_solve(const elt_vector_type& b, elt_vector_type& x, bool transposed = false) {
+		assert(b.size() == x.size());
+		
+		double alpha, beta, gamma, eig0, eig1, disc;
+		double Q[2][2], tx[2];
+		for (int i = 0; i < m_n_size; i += block_size(i)) {
+			if (block_size(i) == 2) {
+				alpha = main_diag[i];
+				beta = main_diag[i+1];
+				gamma = off_diag[i];
+				
+				disc = sqrt((alpha-beta)*(alpha-beta) + 4*gamma*gamma);
+				eig0 = 0.5*(alpha+beta+disc);
+				eig1 = 0.5*(alpha+beta-disc);
+				
+				double sin2t = 2*gamma/disc, cos2t = (alpha-beta)/disc;
+				double theta = 0.5*atan2(sin2t, cos2t);
+
+				Q[0][0] = cos(theta); Q[0][1] = -sin(theta);
+				Q[1][0] = sin(theta); Q[1][1] = cos(theta);
+				
+				//solves Q|V|^(1/2) x = b or solves the transposed version |V|^(1/2)Q' x = b.
+				if (!transposed) {
+					//tx = Q'*b
+					tx[0] = Q[0][0] * b[i] + Q[1][0] * b[i+1];
+					tx[1] = Q[0][1] * b[i] + Q[1][1] * b[i+1];
+					
+					//x = |V|^(-1/2)*tx
+					x[i] = tx[0]/sqrt(abs(eig0));
+					x[i+1] = tx[1]/sqrt(abs(eig1));
+				} else {
+					//tx = |V|^(-1/2)*b
+					tx[0] = b[i]/sqrt(abs(eig0));
+					tx[1] = b[i+1]/sqrt(abs(eig1));
+					
+					//x = Q*tx
+					x[i] = Q[0][0] * tx[0] + Q[0][1] * tx[1];
+					x[i+1] = Q[1][0] * tx[0] + Q[1][1] * tx[1];
+				}
+			} else {
+				x[i] = b[i]/sqrt(abs(main_diag[i]));
+			}
 		}
 	}
 	
