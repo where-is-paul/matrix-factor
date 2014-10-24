@@ -12,7 +12,7 @@
 	\param filename the filename the matrix will be saved under.
 */
 template<class el_type>
-bool save_perm(const std::vector<el_type>& vec, std::string filename) {
+bool save_vector(const std::vector<el_type>& vec, std::string filename) {
 	std::ofstream out(filename.c_str(), std::ios::out | std::ios::binary);
 	if(!out)
 	return false;
@@ -101,7 +101,7 @@ class solver {
 			\param pp_tol a factor controling the aggresiveness of Bunch-Kaufman pivoting.
 			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
-		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1) {
+		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0) {
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);  
@@ -111,12 +111,8 @@ class solver {
 			if (equil == 1) {
 				A.sym_equil();
 				dif = clock() - start; total += dif; 
-				printf("Equilibriation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("  Equilibriation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
-
-			start = clock();
-
-			//for (int i = 0; i < A.n_cols(); i++) perm[i] = i;
 
 			if (reorder_scheme != 2) {
 				start = clock();
@@ -124,21 +120,21 @@ class solver {
 				switch (reorder_scheme) {
 					case 0:
 						A.sym_amd(perm);
-						perm_name = "AMD";
+						perm_name = "  AMD";
 						break;
 					case 1:
 						A.sym_rcm(perm);
-						perm_name = "RCM";
+						perm_name = "  RCM";
 						break;
 				}
 				
 				dif = clock() - start; total += dif;
-				printf("%s:\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+				printf("%s:\t\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
 				
 				start = clock();
 				A.sym_perm(perm);
 				dif = clock() - start; total += dif;
-				printf("Permutation:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("  Permutation:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			} else {
 				// no permutation specified, store identity permutation instead.
 				for (int i = 0; i < A.n_cols(); i++) {
@@ -150,14 +146,72 @@ class solver {
 			A.ildl(L, D, perm, fill_factor, tol, pp_tol);
 			dif = clock() - start; total += dif;
 			
-			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+			printf("  Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
 			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+			printf("\n");
 			fflush(stdout);
 			
+			// if there is a right hand side, it means the user wants a solve.
+			// TODO: refactor this solve to be in its own method, and separate 
+			// factoring/minres solve phase
 			if (has_rhs) {
 				assert(max_iter >= 0);
-				minres(max_iter);
+				
+				printf("Solving matrix with MINRES...");
+				start = clock();
+				// we've permuted and equilibrated the matrix, so we gotta apply 
+				// the same permutation and equilibration to the right hand side.
+				// i.e. rhs = P'S*rhs
+				// 0. apply S
+				for (int i = 0; i < A.n_cols(); i++) {
+					rhs[i] = A.S[i]*rhs[i];
+				}
+				
+				// 1. apply P' (takes rhs[perm[i]] to rhs[i], i.e. inverse of perm, 
+				//    where perm takes i to perm[i])
+				vector<el_type> tmp(A.n_cols());
+				for (int i = 0; i < A.n_cols(); i++) {
+					tmp[i] = rhs[perm[i]];
+				}
+				rhs = tmp;
+				
+				// finally, since we're preconditioning with M = L|D|^(1/2), we have
+				// to multiply M^(-1) to the rhs and solve the system
+				// M^(-1) * B * M'^(-1) y = M^(-1)P'*S*b
+				L.backsolve(rhs, tmp);
+				D.sqrt_solve(tmp, rhs, false);
+				
+				// solve the equilibrated, preconditioned, and permuted linear system
+				minres(max_iter, minres_tol, shift);
+				
+				// now we've solved M^(-1)*B*M'^(-1)y = M^(-1)P'*S*b
+				// where B = P'SASPy.
+				
+				// but the actual solution is y = M' * P'S^(-1)*x
+				// so x = S*P*M'^(-1)*y
+				
+				// 0. apply M'^(-1)
+				D.sqrt_solve(sol_vec, tmp, true);
+				L.forwardsolve(tmp, sol_vec);
+				
+				// 1. apply P
+				for (int i = 0; i < A.n_cols(); i++) {
+					tmp[perm[i]] = sol_vec[i];
+				}
+				sol_vec = tmp;
+				
+				// 2. apply S
+				for (int i = 0; i < A.n_cols(); i++) {
+					sol_vec[i] = A.S[i]*sol_vec[i];
+				}
+				dif = clock() - start;
+				printf("Solve time:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("\n");
+				
+				// save results
+				// TODO: refactor this to be in its own method
+				save_vector(sol_vec, "output_matrices/outsol.mtx");
 			}
 		}
 		
@@ -173,11 +227,11 @@ class solver {
 			
 			The names of the output matrices follow the format out{}.mtx, where {} describes what the file contains (i.e. A, L, or D).
 		*/
-		void save() {
+		void save() { // TODO: refactor this as a "save factors" method
 			cout << "Saving matrices..." << endl;
 			A.save("output_matrices/outB.mtx", true);
 			A.S.save("output_matrices/outS.mtx");
-			save_perm(perm, "output_matrices/outP.mtx");
+			save_vector(perm, "output_matrices/outP.mtx");
 			L.save("output_matrices/outL.mtx", false);
 			D.save("output_matrices/outD.mtx");
 			cout << "Save complete." << endl;

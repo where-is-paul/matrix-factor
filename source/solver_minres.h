@@ -56,7 +56,6 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		// ---------- begin lanczos step ----------//
 		//pk = (M^(-1) A M^(-t) - shift*I) * v[cur], where M = L|D|^(1/2) where |D|^(1/2) = Q|V|^(1/2)
 		//we do this in steps. first, tk = L^(-t) * |D|^(-t/2) 
-		
 		D.sqrt_solve(v[cur], pk, true);
 		L.forwardsolve(pk, tk);
 		
@@ -159,7 +158,7 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	
 	printf("The estimated condition number of the matrix is %e.\n", cond_A);
 	printf("MINRES took %i iterations and got down to relative residual %e.\n", k, res[k%2]/norm_rhs);
-	
+	return;
 }
 
 #endif // _SOLVER_MINRES_H_
