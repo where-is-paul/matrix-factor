@@ -182,7 +182,7 @@ DEFINE_string(reordering, "amd", "Determines what sort of preordering will be us
 DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
 						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");
 						 
-DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder"
+DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder "
 						 "called output_matrices/ in the same directory as ldl_driver.");
 
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"

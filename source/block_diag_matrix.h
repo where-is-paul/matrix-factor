@@ -136,6 +136,7 @@ public:
 	void sqrt_solve(const elt_vector_type& b, elt_vector_type& x, bool transposed = false) {
 		assert(b.size() == x.size());
 		
+		const double eps = 1e-8;
 		double alpha, beta, gamma, eig0, eig1, disc;
 		double Q[2][2], tx[2];
 		for (int i = 0; i < m_n_size; i += block_size(i)) {
@@ -148,11 +149,17 @@ public:
 				eig0 = 0.5*(alpha+beta+disc);
 				eig1 = 0.5*(alpha+beta-disc);
 				
-				double sin2t = 2*gamma/disc, cos2t = (alpha-beta)/disc;
-				double theta = 0.5*atan2(sin2t, cos2t);
+				if (abs(gamma) < eps) {
+					eig0 = alpha; eig1 = beta;
+					Q[0][0] = 1; Q[1][0] = 0;
+					Q[0][1] = 0; Q[1][1] = 1;
+				} else {
+					double sin2t = 2*gamma/disc, cos2t = (alpha-beta)/disc;
+					double theta = 0.5*atan2(sin2t, cos2t);
 
-				Q[0][0] = cos(theta); Q[0][1] = -sin(theta);
-				Q[1][0] = sin(theta); Q[1][1] = cos(theta);
+					Q[0][0] = cos(theta); Q[0][1] = -sin(theta);
+					Q[1][0] = sin(theta); Q[1][1] = cos(theta);
+				}
 				
 				//solves Q|V|^(1/2) x = b or solves the transposed version |V|^(1/2)Q' x = b.
 				if (!transposed) {

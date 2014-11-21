@@ -74,8 +74,10 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		// alpha = v[cur]' * pk
 		alpha[cur] = dot_product(v[cur], pk);
 		
-		// pk = pk - alpha*v[cur] - beta[cur]*v[nxt]
+		// pk = pk - alpha*v[cur]
 		vector_sum(1, pk, -alpha[cur], v[cur], pk);
+		
+		// v[nxt] =  pk - beta[cur]*v[nxt]
 		vector_sum(1, pk, -beta[cur], v[nxt], v[nxt]);
 		beta[nxt] = norm(v[nxt], 2.0);
 		
