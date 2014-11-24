@@ -22,10 +22,10 @@ bool save_vector(const std::vector<el_type>& vec, std::string filename) {
 	std::string header = "%%MatrixMarket matrix coordinate real general";; 
 
 	out << header << std::endl; 
-	out << vec.size() << " " << vec.size() << " " << vec.size() << "\n";
+	out << vec.size() << " " << 1 << " " << vec.size() << "\n";
 
 	for(int i = 0; i < (int) vec.size(); i++) {
-		out << i+1 << " " << 1 << " " << vec[i]+1 << "\n";
+		out << i+1 << " " << 1 << " " << vec[i] << "\n";
 	}
 	
 	out.close();

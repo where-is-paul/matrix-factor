@@ -74,7 +74,9 @@ public:
 	/*!	\brief Resizes this matrix to an n*n matrix.
 	*/
 	void resize(int n) {
+		m_n_size = n;
 		resize(n, 0);
+		nnz_count = n;
 	}
 	
 	/*! \return Number of rows in the matrix. */
@@ -136,7 +138,7 @@ public:
 	void sqrt_solve(const elt_vector_type& b, elt_vector_type& x, bool transposed = false) {
 		assert(b.size() == x.size());
 		
-		const double eps = 1e-8;
+		const double eps = 1e-6;
 		double alpha, beta, gamma, eig0, eig1, disc;
 		double Q[2][2], tx[2];
 		for (int i = 0; i < m_n_size; i += block_size(i)) {

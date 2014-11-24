@@ -6,6 +6,7 @@
 
 template<class el_type, class mat_type >
 void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double shift) {
+	//Zero out solution vector
 	int n = A.n_rows();
 	sol_vec.resize(n, 0);
 	
@@ -21,9 +22,10 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	double c = -1, s = 0; // givens rotation elements
 	
 	// temporary variables to store the corner of the matrix we're factoring
-	double gamma_min = 1;
+	double gamma_min = 1e99;
 	el_type delta1[2], delta2[2], ep[2], gamma1[2], gamma2[2];
-
+	delta1[1] = 0;
+	
 	// temporary vectors for lanczos calcluations
 	vector<el_type> pk(n), tk(n);
 	
@@ -35,27 +37,28 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	
 	// set up initial values for variables above
 	double eps = A.eps;
-	beta[0] = norm(rhs, 2.0);
+	beta[0] = 0;
+	beta[1] = norm(rhs, 2.0);
 	
-	double norm_rhs = beta[0];
+	double norm_rhs = beta[1];
 	
-	// v[0] = rhs/beta[0]
+	// v[1] = rhs/beta[1]
 	for (int i = 0; i < n; i++) {
-		v[0][i] = rhs[i]/beta[0];
+		v[1][i] = rhs[i]/beta[1];
 	}
 	
-	res[0] = beta[0];
-	tau = beta[0];
+	res[0] = beta[1];
+	tau = beta[1];
 	
 	auto sign = [&](double x) { return (abs(x) < eps ? 0 : x/abs(x)); };
 
 	// -------------- begin minres iterations --------------//
-	int k = 0; // iteration number
-	while (res[k%2]/norm_rhs > stop_tol && k < max_iter) {
+	int k = 1; // iteration number
+	while (res[(k+1)%2]/norm_rhs > stop_tol && k <= max_iter) {
 		int cur = k%2, nxt = (k+1)%2;
 		// ---------- begin lanczos step ----------//
 		//pk = (M^(-1) A M^(-t) - shift*I) * v[cur], where M = L|D|^(1/2) where |D|^(1/2) = Q|V|^(1/2)
-		//we do this in steps. first, tk = L^(-t) * |D|^(-t/2) 
+		//we do this in steps. first, tk = L^(-t) * |D|^(-t/2) pk
 		D.sqrt_solve(v[cur], pk, true);
 		L.forwardsolve(pk, tk);
 		
@@ -76,7 +79,6 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		
 		// pk = pk - alpha*v[cur]
 		vector_sum(1, pk, -alpha[cur], v[cur], pk);
-		
 		// v[nxt] =  pk - beta[cur]*v[nxt]
 		vector_sum(1, pk, -beta[cur], v[nxt], v[nxt]);
 		beta[nxt] = norm(v[nxt], 2.0);
@@ -125,10 +127,10 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		// ---------- end givens rotation ----------//
 		
 		// update residual norms and estimate for matrix norm
-		tau = c*res[cur];
-		res[nxt] = s*res[cur];
+		tau = c*res[nxt];
+		res[cur] = s*res[nxt];
 		
-		if (k == 0) norm_A = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt]);
+		if (k == 1) norm_A = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt]);
 		else {
 			double tnorm = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt] + beta[cur]*beta[cur]);
 			norm_A = std::max(norm_A, tnorm);
@@ -137,16 +139,16 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		// ------ update solution and matrix condition number ------ //
 		if (abs(gamma2[cur]) > eps) {
 			// compute new search direction
-			// d[nxt] = (v[cur] - delta2[cur]*d[cur] - ep[cur]*d[nxt])/gamma2[cur];
-			vector_sum(1, v[cur], -ep[cur], d[nxt], d[nxt]);
-			vector_sum(1, d[nxt], -delta2[cur], d[cur], d[nxt]);
+			// d[cur] = (v[cur] - delta2[cur]*d[nxt] - ep[cur]*d[cur])/gamma2[cur];
+			vector_sum(1, v[cur], -ep[cur], d[cur], d[cur]);
+			vector_sum(1, d[cur], -delta2[cur], d[nxt], d[cur]);
 			
 			for (int i = 0; i < n; i++) {
-				d[nxt][i] /= gamma2[cur];
+				d[cur][i] /= gamma2[cur];
 			}
 			
-			//sol = sol + tau*d[nxt]
-			vector_sum(1, sol_vec, tau, d[nxt], sol_vec);
+			//sol = sol + tau*d[cur]
+			vector_sum(1, sol_vec, tau, d[cur], sol_vec);
 			gamma_min = std::min(gamma_min, gamma2[cur]);
 			cond_A = norm_A/gamma_min;
 		}
@@ -154,12 +156,11 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		k++;
 		
 		// ------------- end update ------------- //
-		
 		//cout << "current residual " << res[cur]/norm_rhs << endl;
 	}
 	
 	printf("The estimated condition number of the matrix is %e.\n", cond_A);
-	printf("MINRES took %i iterations and got down to relative residual %e.\n", k, res[k%2]/norm_rhs);
+	printf("MINRES took %i iterations and got down to relative residual %e.\n", k-1, res[(k+1)%2]/norm_rhs);
 	return;
 }
 
