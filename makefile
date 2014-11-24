@@ -7,7 +7,7 @@ TARGET_SYM := ldl_driver
 TARGET_SKEW := skew_ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
- 
+
 SOURCES_SYM := ./ldl_driver.cpp ./include/gflags/*
 SOURCES_SKEW := ./skew_ldl_driver.cpp ./include/gflags/*
 
