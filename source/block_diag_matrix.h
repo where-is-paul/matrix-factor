@@ -67,6 +67,7 @@ public:
 	*/
 	void resize(int n, el_type default_value) {
 		m_n_size = n;
+		main_diag.clear();
 		main_diag.resize(n, default_value);
 		nnz_count = n;
 	}

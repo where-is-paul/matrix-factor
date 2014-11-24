@@ -9,7 +9,8 @@ void lilc_matrix<el_type> :: sym_equil() {
 
 	//find termination points for loops with binary search later.
 	int i, ncols = n_cols();
-	S.resize(ncols);
+	// this is required since we do S[i] = max(S[i], ...)
+	S.resize(ncols, 0);
 	
 	std::pair<idx_it, elt_it> elem_its;
 	for (i = 0; i < ncols; i++) {
