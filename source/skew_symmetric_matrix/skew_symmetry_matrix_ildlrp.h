@@ -7,7 +7,7 @@ using std::min;
 using std::endl;
 
 template <class el_type>
-void skew_symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
+void skew_symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); // number of cols in A.
@@ -35,7 +35,6 @@ void skew_symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, skew
 	//------------------- main loop: factoring begins -------------------------//
 	for (k = 0; k < ncols; k=k+2)
 	{
-		cout << k << endl;
 		i = k;
 		// assign nonzeros indices and values of A(k:n, i) to col_i_nnzs
 		col_i_nnzs.assign(m_idx[k].begin(), m_idx[k].end());

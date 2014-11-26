@@ -4,7 +4,7 @@
 using std::abs;
 
 template <class el_type>
-void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
+void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); //number of cols in A.
