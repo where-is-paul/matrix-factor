@@ -48,9 +48,9 @@ public:
 	
 	//----Factorizations----//
 	
-	void ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
-	void ildlmpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
-	void ildlrp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol);
+	void ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
+	void ildlmpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
+	void ildlrp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
 	
 	//------Helpers------//
 	

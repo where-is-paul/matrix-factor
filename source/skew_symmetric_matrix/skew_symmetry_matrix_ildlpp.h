@@ -7,7 +7,7 @@ using std::min;
 using std::endl;
 
 template <class el_type>
-void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol)
+void skew_symmetry_matrix<el_type>::ildlpp(ultriangular_matrix<el_type>& L, skew_block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
 {
 	//----------------- initialize temporary variables --------------------//
 	const int ncols = n_cols(); // number of cols in A.
