@@ -139,7 +139,7 @@ public:
 	void sqrt_solve(const elt_vector_type& b, elt_vector_type& x, bool transposed = false) {
 		assert(b.size() == x.size());
 		
-		const double eps = 1e-6;
+		const double eps = 1e-8;
 		double alpha, beta, gamma, eig0, eig1, disc;
 		double Q[2][2], tx[2];
 		for (int i = 0; i < m_n_size; i += block_size(i)) {
@@ -152,7 +152,7 @@ public:
 				eig0 = 0.5*(alpha+beta+disc);
 				eig1 = 0.5*(alpha+beta-disc);
 				
-				if (abs(gamma) < eps) {
+				if (abs(gamma/min(alpha, beta)) < eps) {
 					eig0 = alpha; eig1 = beta;
 					Q[0][0] = 1; Q[1][0] = 0;
 					Q[0][1] = 0; Q[1][1] = 1;
