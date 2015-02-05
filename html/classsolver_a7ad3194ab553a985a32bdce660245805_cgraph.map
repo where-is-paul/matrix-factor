@@ -1,0 +1,6 @@
+<map id="solver::minres" name="solver::minres">
+<area shape="rect" id="node2" href="$lilc__matrix__ildl__helpers_8h.html#aea06d6463fd81af794e681e2faaddb37" title="Computes the norm of v(curr_nnzs). " alt="" coords="186,5,241,32"/>
+<area shape="rect" id="node3" href="$lilc__matrix__ildl__helpers_8h.html#a8636c2f2f386c718364cb5ef8c029063" title="Computes the dot product of v and w. Only works when el_type is real right now. " alt="" coords="164,56,263,83"/>
+<area shape="rect" id="node4" href="$lilc__matrix__ildl__helpers_8h.html#a58553b8869079ea89552fda5da183b8b" title="Computes the sum of two vectors: u = a*v + b*w. a and b are scalars, u, v, and w are vectors..." alt="" coords="164,107,263,133"/>
+<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="189,157,237,184"/>
+</map>

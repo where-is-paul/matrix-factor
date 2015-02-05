@@ -152,7 +152,7 @@ public:
 				eig0 = 0.5*(alpha+beta+disc);
 				eig1 = 0.5*(alpha+beta-disc);
 				
-				if (abs(gamma/min(alpha, beta)) < eps) {
+				if (abs(gamma/std::min(alpha, beta)) < eps) {
 					eig0 = alpha; eig1 = beta;
 					Q[0][0] = 1; Q[1][0] = 0;
 					Q[0][1] = 0; Q[1][1] = 1;

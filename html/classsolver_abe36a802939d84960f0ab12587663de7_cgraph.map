@@ -1,3 +1,4 @@
 <map id="solver::save" name="solver::save">
-<area shape="rect" id="node3" href="$solver_8h.html#af66a830d3fb9a94ff1657f9864dc6869" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="155,5,250,32"/>
+<area shape="rect" id="node2" href="$solver_8h.html#a9eb6e1d945435ae060984e12054d837a" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="189,5,292,32"/>
+<area shape="rect" id="node3" href="$classblock__diag__matrix.html#aa6b66605d7e4af701ec12effaa1f0637" title="block_diag_matrix::save" alt="" coords="153,56,328,83"/>
 </map>

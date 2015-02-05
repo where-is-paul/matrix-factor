@@ -7,16 +7,14 @@
 
 var indexSectionsWithContent =
 {
-  0: "abcdefilmnoprstuvw~",
+  0: "abcdefhilmnoprstuvw~",
   1: "bls",
   2: "a",
   3: "bls",
   4: "abcdefilmnoprstuvw~",
-  5: "acdeflmnoprsv",
+  5: "acdefhlmnoprsv",
   6: "ei",
-  7: "o",
-  8: "d",
-  9: "m"
+  7: "o"
 };
 
 var indexSectionNames =
@@ -28,9 +26,7 @@ var indexSectionNames =
   4: "functions",
   5: "variables",
   6: "typedefs",
-  7: "related",
-  8: "defines",
-  9: "pages"
+  7: "related"
 };
 
 function convertToId(search)

@@ -9,13 +9,11 @@
 #include <vector>
 
 template <class el_type>
-inline bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value)
-{
+inline bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i, int& j, el_type& value) {
 	line >> i >> j >> value;
 	i--;
 	j--;
-	if(i>=0 && j>=0 && i<n_rows&& j< n_cols)
-	{
+	if(i>=0 && j>=0 && i<n_rows&& j< n_cols) {
 		return true; 
 	}
 	else

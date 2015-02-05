@@ -1,0 +1,10 @@
+<map id="solver::solve" name="solver::solve">
+<area shape="rect" id="node2" href="$classblock__diag__matrix.html#a5f75bcd1cafdb778f2658b7677ad97b9" title="Solves the preconditioned problem |D| = Q|V|Q&#39;, where QVQ&#39; is the eigendecomposition of D..." alt="" coords="156,31,299,72"/>
+<area shape="rect" id="node4" href="$classsolver.html#a7ad3194ab553a985a32bdce660245805" title="Applies minres on A, preconditioning with factors L and D.. " alt="" coords="172,122,283,149"/>
+<area shape="rect" id="node9" href="$solver_8h.html#a9eb6e1d945435ae060984e12054d837a" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="176,173,279,199"/>
+<area shape="rect" id="node3" href="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::\lblock_size" alt="" coords="347,5,489,47"/>
+<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#aea06d6463fd81af794e681e2faaddb37" title="Computes the norm of v(curr_nnzs). " alt="" coords="391,71,445,98"/>
+<area shape="rect" id="node6" href="$lilc__matrix__ildl__helpers_8h.html#a8636c2f2f386c718364cb5ef8c029063" title="Computes the dot product of v and w. Only works when el_type is real right now. " alt="" coords="369,122,467,149"/>
+<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#a58553b8869079ea89552fda5da183b8b" title="Computes the sum of two vectors: u = a*v + b*w. a and b are scalars, u, v, and w are vectors..." alt="" coords="369,173,467,199"/>
+<area shape="rect" id="node8" href="$lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="394,223,442,250"/>
+</map>

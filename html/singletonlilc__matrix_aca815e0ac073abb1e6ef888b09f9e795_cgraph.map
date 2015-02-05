@@ -1,0 +1,5 @@
+<map id="lilc_matrix::resize" name="lilc_matrix::resize">
+<area shape="rect" id="node2" href="$classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0" title="lil_sparse_matrix::\ln_rows" alt="" coords="187,5,323,47"/>
+<area shape="rect" id="node3" href="$classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d" title="lil_sparse_matrix::\ln_cols" alt="" coords="187,71,323,112"/>
+<area shape="rect" id="node4" href="$classblock__diag__matrix.html#aa2f3ffb9d4e198ab18262b702c79cadb" title="Resizes this matrix to an n*n matrix with default_value on the main diagonal. " alt="" coords="184,136,327,177"/>
+</map>

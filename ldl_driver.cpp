@@ -5,9 +5,9 @@
 #include <cstring>
 #include "include/gflags/gflags.h"
 
-/*!	\mainpage Main Page
+/*!	\mainpage \authors <a href="https://www.cs.ubc.ca/~greif/">Chen Greif</a>, Shiwen He, <a href="https://www.cs.ubc.ca/~inutard/">Paul Liu</a>
 *
-*	
+*	\tableofcontents
 *	\section intro_sec Introduction
 *
 * 	
@@ -175,7 +175,10 @@ DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivot
 						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP"
 						   "is used. Values between 0 and 1 varies the aggressivness of"
 						   "BKP in a continuous manner.");
-						   
+
+DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be used"
+								 " during the factorization. Choices are 'rook' and 'bunch'.");
+                                 
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
@@ -192,7 +195,9 @@ DEFINE_bool(display, false, "If yes, outputs a human readable version of the fac
 DEFINE_int32(minres_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will "
 							   "attempt to use the preconditioner generated with MINRES to "
 							   "solve the system.");
-						 
+							   
+DEFINE_string(rhs_file, "", "The filename of the right hand side (in matrix-market format).");
+
 int main(int argc, char* argv[])
 {
 	std::string usage("Performs an incomplete LDL factorization of a given matrix.\n"
@@ -219,8 +224,25 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil); 
 	
-	vector<double> rhs(solv.A.n_cols(), 1);
+    // for testing purposes only
+#ifdef TEST_MINRES
+    vector<double> rhs;
+    rhs.resize(solv.A.n_cols(), 1);
 	solv.set_rhs(rhs);
+#endif
+
+	if (!FLAGS_rhs_file.empty()) {
+		vector<double> rhs;
+		read_vector(rhs, FLAGS_rhs_file);
+		
+		if (rhs.size() != solv.A.n_cols()) {
+			std::cout << "The right hand side dimensions do not match the dimensions of A." << std::endl;
+			return 1;
+		}
+		solv.set_rhs(rhs);
+	}
+	
+    solv.set_pivot(FLAGS_pivot.c_str());
 	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters);
 	
 	if (FLAGS_save) {

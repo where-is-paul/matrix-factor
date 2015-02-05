@@ -32,6 +32,51 @@ bool save_vector(const std::vector<el_type>& vec, std::string filename) {
 	return true;
 }
 
+/*!	\brief Reads in a dense row or column vector vec in matrix market (.mtx) format.
+	\param rhs the permutation vector.
+	\param filename the filename the matrix will be saved under.
+*/
+template<class el_type>
+bool read_vector(std::vector<el_type>& vec, std::string filename) {
+	std::ifstream input(filename.c_str(), std::ios::in);
+
+	if(!input) return false;
+	
+	const int maxBuffersize = 2048;
+	char buffer[maxBuffersize];
+
+	bool readsizes = false;
+	el_type value; 
+
+	int i = 0, n_rows, n_cols;
+	while(input.getline(buffer, maxBuffersize)) {
+		// skip comments   
+		//NOTE An appropriate test should be done on the header to get the symmetry
+		if(buffer[0]=='%') continue;
+		
+		std::stringstream line(buffer);
+		
+		if(!readsizes) {
+			line >> n_rows >> n_cols;
+			if(n_rows > 0 && n_cols > 0) {
+				readsizes = true;
+				vec.resize(std::max(n_rows, n_cols));
+			}
+		} else {
+			line >> value;
+			vec[i++] = value;
+		}
+	}
+	
+	if (i != std::max(n_rows, n_cols)) {
+		std::cerr << "Expected " << std::max(n_rows, n_cols) << " elems but read " << i << "." << std::endl;
+	}
+	
+	std::cout << "Load succeeded. " << "Vector file " << filename << " was loaded." << std::endl;
+	input.close();
+	return true;
+}
+
 /*! \brief Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface.
 
 	Currently, the only matrix type accepted is the lilc_matrix (as no other matrix type has been created yet).
@@ -44,6 +89,7 @@ class solver {
 		vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
+        int pivot_type; ///<Set to 0 for rook, 1 for bunch.
 		bool equil; ///<Set to true for max-norm equilibriation.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		vector<el_type> rhs; ///<The right hand side we'll solve for.
@@ -52,8 +98,10 @@ class solver {
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
+            pivot_type = 0;
 			reorder_scheme = 0;
 			equil = true;
+            has_rhs = false;
 		}
 				
 		/*! \brief Loads the matrix A into solver.
@@ -92,6 +140,16 @@ class solver {
 			equil = equil_opt;
 		}
 		
+        /*! \brief Decides the kind of partial pivoting we should use.
+		*/
+		void set_pivot(const char* pivot) {
+			if (strcmp(pivot, "rook") == 0) {
+                pivot_type = 0;
+            } else if (strcmp(pivot, "bunch") == 0) {
+                pivot_type = 1;
+            }
+		}
+        
 		/*! \brief Factors the matrix A into P' * S^(-1) * A * S^(-1) * P = LDL' in addition to printing some timing data to screen.
 			
 			More information about the parameters can be found in the documentation for the ildl() function.
@@ -143,7 +201,12 @@ class solver {
 			}
 
 			start = clock();
-			A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+            if (pivot_type == 0) {
+                A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+            } else {
+                // rook to be merged from experimental branch
+                A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+            }
 			dif = clock() - start; total += dif;
 			
 			printf("  Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);

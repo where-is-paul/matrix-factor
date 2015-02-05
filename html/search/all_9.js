@@ -1,8 +1,13 @@
 var searchData=
 [
-  ['n_5fcols',['n_cols',['../classblock__diag__matrix.html#a09c9b0481acb773a864fa9f320f76cc7',1,'block_diag_matrix::n_cols()'],['../classlil__sparse__matrix.html#ac88631204bcf7c9a223fb082a7d0cd3d',1,'lil_sparse_matrix::n_cols()']]],
-  ['n_5frows',['n_rows',['../classblock__diag__matrix.html#a7d965a63398622c241a1b28b41cd9d18',1,'block_diag_matrix::n_rows()'],['../classlil__sparse__matrix.html#a29e9ea5f7c8a9fca9029a91b39c592e0',1,'lil_sparse_matrix::n_rows()']]],
-  ['nnz',['nnz',['../classblock__diag__matrix.html#a7119c39d6ffdf74c2e995d9ae53f57a2',1,'block_diag_matrix::nnz()'],['../classlil__sparse__matrix.html#a40bc09d3b6716e57134eed0aeba49199',1,'lil_sparse_matrix::nnz()']]],
-  ['nnz_5fcount',['nnz_count',['../classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9',1,'block_diag_matrix::nnz_count()'],['../classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8',1,'lil_sparse_matrix::nnz_count()']]],
-  ['norm',['norm',['../lilc__matrix__ildl__helpers_8h.html#aea06d6463fd81af794e681e2faaddb37',1,'lilc_matrix_ildl_helpers.h']]]
+  ['m_5fidx',['m_idx',['../classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6',1,'lil_sparse_matrix']]],
+  ['m_5fn_5fcols',['m_n_cols',['../classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a',1,'lil_sparse_matrix']]],
+  ['m_5fn_5frows',['m_n_rows',['../classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9',1,'lil_sparse_matrix']]],
+  ['m_5fn_5fsize',['m_n_size',['../classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4',1,'block_diag_matrix']]],
+  ['m_5fx',['m_x',['../classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de',1,'lil_sparse_matrix']]],
+  ['main',['main',['../ldl__driver_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'ldl_driver.cpp']]],
+  ['main_5fdiag',['main_diag',['../classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32',1,'block_diag_matrix']]],
+  ['max',['max',['../lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb',1,'lilc_matrix_ildl_helpers.h']]],
+  ['minres',['minres',['../classsolver.html#a7ad3194ab553a985a32bdce660245805',1,'solver']]],
+  ['multiply',['multiply',['../singletonlilc__matrix.html#a00362a639b1e8ec341014c39afaf5e5a',1,'lilc_matrix']]]
 ];

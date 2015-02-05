@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['unordered_5finplace_5funion',['unordered_inplace_union',['../lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567',1,'lilc_matrix_ildl_helpers.h']]],
-  ['update',['update',['../lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e',1,'lilc_matrix_ildl_helpers.h']]],
-  ['update_5fsingle',['update_single',['../lilc__matrix__ildl__helpers_8h.html#a737792b9fd3b712d9b15578a3f067f3c',1,'lilc_matrix_ildl_helpers.h']]]
+  ['tdfs',['tdfs',['../namespaceamd.html#a3a3538487048ffb0e8c35ece6e2c09ad',1,'amd']]],
+  ['to_5fstring',['to_string',['../classblock__diag__matrix.html#a8aa70dbd0e2c29d814fe5c29701b84cc',1,'block_diag_matrix::to_string()'],['../classlil__sparse__matrix.html#a5c2c43867660473176de5c73ebdac7be',1,'lil_sparse_matrix::to_string()'],['../singletonlilc__matrix.html#a60c5a4a0ec9a49d43be087b6d67f4df2',1,'lilc_matrix::to_string()']]]
 ];

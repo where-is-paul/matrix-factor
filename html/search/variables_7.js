@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['nnz_5fcount',['nnz_count',['../classblock__diag__matrix.html#a13fa6893c7125ff3443e75d3b5f64cd9',1,'block_diag_matrix::nnz_count()'],['../classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8',1,'lil_sparse_matrix::nnz_count()']]]
+  ['m_5fidx',['m_idx',['../classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6',1,'lil_sparse_matrix']]],
+  ['m_5fn_5fcols',['m_n_cols',['../classlil__sparse__matrix.html#aab335a46ece471fd0edf52540e24225a',1,'lil_sparse_matrix']]],
+  ['m_5fn_5frows',['m_n_rows',['../classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9',1,'lil_sparse_matrix']]],
+  ['m_5fn_5fsize',['m_n_size',['../classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4',1,'block_diag_matrix']]],
+  ['m_5fx',['m_x',['../classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de',1,'lil_sparse_matrix']]],
+  ['main_5fdiag',['main_diag',['../classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32',1,'block_diag_matrix']]]
 ];
