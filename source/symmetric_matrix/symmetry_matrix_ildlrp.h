@@ -64,7 +64,7 @@ void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_dia
 				for (j = list_first[r]; j < (int) list[r].size(); j++)
 				{
 					col_r_nnzs.push_back(list[r][j]);
-					col_r[list[r][j]] = coeff(r, list[r][j]);
+					col_r[list[r][j]] = this->coeff(r, list[r][j]);
 				}
 				col_r_nnzs.insert(col_r_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
 				for (j = 0; j < (int) m_idx[r].size(); j++)
@@ -79,7 +79,7 @@ void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_dia
 				if (alpha * wr <= abs(d) + eps)
 				{
 					// swap rows and columns k and r
-					pivot(s, L, k, r);
+					this->pivot(s, L, k, r);
 					std::swap(perm[k], perm[r]);
 					std::swap(col_r[k], col_r[r]);
 					safe_swap(col_r_nnzs, k, r);
@@ -93,7 +93,7 @@ void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_dia
 					// swap rows and columns k and i, k+1 and r
 					if (k != i)
 					{
-						pivot(s, L, k, i);
+						this->pivot(s, L, k, i);
 						std::swap(perm[k], perm[i]);
 						std::swap(col_i[k], col_i[i]);
 						std::swap(col_r[k], col_r[i]);
@@ -106,7 +106,7 @@ void symmetry_matrix<el_type>::ildlrp(ultriangular_matrix<el_type>& L, block_dia
 
 					if (k+1 != r)
 					{
-						pivot(s, L, k+1, r);
+						this->pivot(s, L, k+1, r);
 						std::swap(perm[k+1], perm[r]);
 						std::swap(col_i[k+1], col_i[r]);
 						std::swap(col_r[k+1], col_r[r]);
