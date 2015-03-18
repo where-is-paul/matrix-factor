@@ -156,6 +156,7 @@ class solver
 			
 			start = clock();
 			A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+			//A.ildlrp(L, D, perm, fill_factor, tol);
 			dif = clock() - start; total += dif;
 			
 			printf("Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);	
