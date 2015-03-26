@@ -2,10 +2,11 @@
 #define _SOLVER_H
 
 #include <iostream>
-#include <string.h>
-#include "lilc_matrix.h"
+#include <cstring>
 #include <ctime>
 #include <iomanip>
+
+#include "lilc_matrix.h"
 
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
@@ -92,6 +93,7 @@ class solver {
         int pivot_type; ///<Set to 0 for rook, 1 for bunch.
 		bool equil; ///<Set to true for max-norm equilibriation.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
+		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
 		vector<el_type> rhs; ///<The right hand side we'll solve for.
 		vector<el_type> sol_vec; ///<The solution vector.
 		
@@ -102,6 +104,7 @@ class solver {
 			reorder_scheme = 0;
 			equil = true;
             has_rhs = false;
+            perform_inplace = false;
 		}
 				
 		/*! \brief Loads the matrix A into solver.
@@ -140,6 +143,12 @@ class solver {
 			equil = equil_opt;
 		}
 		
+        /*! \brief Decides whether we perform the factorization inplace or not.
+		*/
+		void set_inplace(bool inplace) {
+			perform_inplace = inplace;
+		}
+        
         /*! \brief Decides the kind of partial pivoting we should use.
 		*/
 		void set_pivot(const char* pivot) {
@@ -202,7 +211,11 @@ class solver {
 
 			start = clock();
             if (pivot_type == 0) {
-                A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+                if (perform_inplace) {
+                    A.ildl_inplace(D, perm, fill_factor, tol, pp_tol);
+                } else {
+                    A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+                }
             } else {
                 // rook to be merged from experimental branch
                 A.ildl(L, D, perm, fill_factor, tol, pp_tol);
@@ -211,7 +224,11 @@ class solver {
 			
 			printf("  Factorization:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			printf("Total time:\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
-			printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+            if (perform_inplace) {
+                printf("L is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+            } else {
+                printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+            }
 			printf("\n");
 			fflush(stdout);
 			
@@ -292,10 +309,16 @@ class solver {
 		*/
 		void save() { // TODO: refactor this as a "save factors" method
 			cout << "Saving matrices..." << endl;
-			A.save("output_matrices/outB.mtx", true);
+            if (!perform_inplace) {
+                A.save("output_matrices/outB.mtx", true);
+                L.save("output_matrices/outL.mtx", false);
+            } else {
+                A.save("output_matrices/outL.mtx", false);
+            }
+            
 			A.S.save("output_matrices/outS.mtx");
 			save_vector(perm, "output_matrices/outP.mtx");
-			L.save("output_matrices/outL.mtx", false);
+			
 			D.save("output_matrices/outD.mtx");
 			cout << "Save complete." << endl;
 		}
@@ -304,7 +327,11 @@ class solver {
 		*/
 		void display() {
 #ifdef SYM_ILDL_DEBUG
-			cout << L << endl;
+            if (perform_inplace) {
+                cout << A << endl;
+            } else {
+                cout << L << endl;
+            }
 			cout << D << endl;
 			cout << perm << endl;
 #endif

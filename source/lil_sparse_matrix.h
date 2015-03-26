@@ -7,25 +7,6 @@
 #include <fstream>
 #include <limits>
 
-#ifdef SYM_ILDL_DEBUG
-template<class Container>
-std::ostream& operator<< (std::ostream& os, const Container& vec)
-{
-	os << "[";
-	if (!vec.empty())
-	{
-		for (Container::iterator it = vec.begin(); it+1 != vec.end(); it++)
-		{
-			os << *it << ", ";
-		}
-		
-		it++;
-		os << *it;
-	}
-	os << "]";
-	return os;
-}
-#endif
 
 using std::vector;
 

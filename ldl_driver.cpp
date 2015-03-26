@@ -184,6 +184,9 @@ DEFINE_string(reordering, "amd", "Determines what sort of preordering will be us
 								 
 DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
 						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");
+
+DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (faster and saves memory, "
+						    "at the cost of not being able to use the built-in solver).");
 						 
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder "
 						 "called output_matrices/ in the same directory as ldl_driver.");
@@ -224,16 +227,14 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil); 
 	
-    // for testing purposes only
-#ifdef TEST_MINRES
-    vector<double> rhs;
-    rhs.resize(solv.A.n_cols(), 1);
-	solv.set_rhs(rhs);
-#endif
-
-	if (!FLAGS_rhs_file.empty()) {
-		vector<double> rhs;
-		read_vector(rhs, FLAGS_rhs_file);
+	if (FLAGS_minres_iters > 0) {
+        vector<double> rhs;
+        if (!FLAGS_rhs_file.empty()) {
+            read_vector(rhs, FLAGS_rhs_file);
+        } else {
+            // for testing purposes only
+            rhs.resize(solv.A.n_cols(), 1);
+        }
 		
 		if (rhs.size() != solv.A.n_cols()) {
 			std::cout << "The right hand side dimensions do not match the dimensions of A." << std::endl;
@@ -243,6 +244,7 @@ int main(int argc, char* argv[])
 	}
 	
     solv.set_pivot(FLAGS_pivot.c_str());
+    solv.set_inplace(FLAGS_inplace);
 	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters);
 	
 	if (FLAGS_save) {
@@ -253,6 +255,7 @@ int main(int argc, char* argv[])
 		solv.display();
 		std::cout << endl;
 	}
+    
 	std::cout << "Factorization Complete. All output written to /output_matrices directory." << std::endl;
 
 	return 0;

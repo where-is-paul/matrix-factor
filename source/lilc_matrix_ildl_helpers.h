@@ -137,6 +137,7 @@ template <class InputContainer, class InputIterator>
 inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_start, InputIterator const& b_end, vector<bool>& in_set)
 {
 	for (InputIterator it = a.begin(), end = a.end(); it != end; ++it) {
+        assert(*it < in_set.size() && *it >= 0);
 		in_set[*it] = true;
 	}
 	
@@ -148,6 +149,7 @@ inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_st
 	}
 	
 	for (InputIterator it = a.begin(), end = a.end(); it != end; ++it) {
+        assert(*it < in_set.size() && *it >= 0);
 		in_set[*it] = false;
 	}
 }
@@ -178,7 +180,7 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 		v[curr_nnzs[i]] = 0;
 	}
 	
-  by_tolerance<el_type> is_zero(v, eps);
+    by_tolerance<el_type> is_zero(v, eps);
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.
@@ -190,14 +192,14 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 template <class el_type>
 inline void update_single(const int& k, const int& j, const el_type& l_ki, const el_type& d, vector<el_type>& work, vector<int>& curr_nnzs, lilc_matrix<el_type>& L, vector<bool>& in_set) {
 	//find where L(k, k+1:n) starts
-	unsigned int i, offset = L.first[j];
-		
+	int i, offset = L.col_first[j];
+    
 	L.ensure_invariant(j, k, L.m_idx[j]);
+    
 	el_type factor = l_ki * d;
 	for (i = offset; i < L.m_idx[j].size(); ++i) {
 		work[L.m_idx[j][i]] -= factor * L.m_x[j][i];
 	}
-	
 	//merge current non-zeros of col k with nonzeros of col *it.
 	unordered_inplace_union(curr_nnzs, L.m_idx[j].begin() + offset,  L.m_idx[j].end(), in_set);
 }
@@ -218,9 +220,10 @@ inline void update(const int& r, vector<el_type>& work, vector<int>& curr_nnzs, 
 
 	//iterate across non-zeros of row k using Llist
 	for (int i = 0; i < (int) L.list[r].size(); ++i) {
-		j = L.list[r][i];
-		
-		l_ri = L.coeff(r, j, L.first[j]);
+		j = L.list[r][i];        
+        assert(j < r);
+		l_ri = L.coeff(r, j, L.col_first[j]);
+        
 		update_single(r, j, l_ri, D[j], work, curr_nnzs, L, in_set); //update col using d11
 		
 		blk_sz = D.block_size(j);

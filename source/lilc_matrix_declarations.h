@@ -7,6 +7,8 @@
 #include <cassert>
 #include <iostream>
 #include <iterator>
+#include <set>
+
 #include "swap_struct.h"
 
 /*! \brief A list-of-lists (LIL) matrix in column oriented format.
@@ -41,8 +43,9 @@ public:
 
 	std::vector< std::vector< int > > list;	///<A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A.
 	
-	std::vector<int> first;	///<On iteration k, first[i] gives the number of non-zero elements on col (or row) i of A before A(i, k).
-
+	std::vector<int> row_first;	///<On iteration k, first[i] gives the number of non-zero elements on row i of A before A(i, k).
+    std::vector<int> col_first;	///<On iteration k, first[i] gives the number of non-zero elements on col i of A before A(i, k).
+    
 	block_diag_matrix<el_type> S; ///<A diagonal scaling matrix S such that SAS will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which SAS will be stored in place of A.
 	
 public:
@@ -72,7 +75,7 @@ public:
 			return (m_idx[j][0] == i ? m_x[j][0] : 0);
 		}
 		
-		for (unsigned int k = offset, end = m_idx[j].size(); k < end; k++) {
+		for (int k = offset, end = m_idx[j].size(); k < end; k++) {
 			if (m_idx[j][k] == i) return m_x[j][k];
 		}
 		
@@ -111,7 +114,8 @@ public:
 		m_x.resize(n_cols);
 		m_idx.resize(n_cols);
 		
-		first.resize(n_cols, 1);
+		row_first.resize(n_cols, 1);
+		col_first.resize(n_cols, 1);
 		list.resize(n_cols);
 		
 		S.resize(n_cols, 1);
@@ -170,6 +174,18 @@ public:
 	*/
 	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
 	
+    /*! \brief Performs an _inplace_ LDL' factorization of this matrix. 
+		
+		The pivoted matrix P'AP will be stored in place of A. In addition, the L and D factors of P'AP will be stored in L and D (so that P'AP = LDL'). The factorization is performed in crout order and follows the algorithm outlined in "Crout versions of the ILU factorization with pivoting for sparse symmetric matrices" by Li and Saad (2005).
+	
+		\param D the D factor of this matrix.
+		\param perm the current permutation of A.
+		\param fill_factor a parameter to control memory usage. Each column is guaranteed to have fewer than fill_factor*(nnz(A)/n_col(A)) elements.
+		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
+	    \param pp_tol a parameter to control aggresiveness of pivoting. Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements.
+	*/
+	void ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol);
+    
 	//------Helpers------//
 	/*! \brief Performs a back solve of this matrix, assuming that it is lower triangular (stored column major). 
 		
@@ -231,6 +247,15 @@ public:
 		\param r index of row/col r.
 	*/
 	inline void pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r);
+    
+    /*! \brief The inplace version of the function above.
+    
+        \param s a struct containing temporary variables needed during pivoting.
+		\param in_set a bitset needed for unordered unions during pivoting.
+		\param k index of row/col k.
+		\param r index of row/col r.
+    */
+	inline void pivotA(swap_struct<el_type> s, vector<bool>& in_set, const int& k, const int& r);
 	
 	/*! \brief Ensures two the invariants observed by A.first and A.list are held.
 		
@@ -251,7 +276,10 @@ public:
 	*/
 	template <class Container>
 	inline void ensure_invariant(const int& j, const int& k, Container& con, bool update_list = false) {
-		int offset = first[j];
+		int offset;
+        if (update_list) offset = row_first[j];
+        else offset = col_first[j];
+        
 		if ((offset >= (int) con.size()) || con.empty() || con[offset] == k) return;
 		
 		int i, min(offset);
@@ -278,7 +306,7 @@ public:
 	inline void advance_first(const int& k) {
 		for (idx_it it = list[k].begin(); it != list[k].end(); it++) {	
 			ensure_invariant(*it, k, m_idx[*it]); //make sure next element is good before we increment.
-			first[*it]++; //should have ensured invariant now
+			col_first[*it]++; //should have ensured invariant now
 		}
 	}
 	
@@ -287,9 +315,9 @@ public:
 	*/
 	inline void advance_list(const int& k) {
 		for (idx_it it = m_idx[k].begin(); it != m_idx[k].end(); it++) {
-			if (*it == k) continue;
+            if (*it == k) continue;
 			ensure_invariant(*it, k, list[*it], true); //make sure next element is good.
-			first[*it]++; //invariant ensured.
+            row_first[*it]++; //invariant ensured.
 		}			
 	}
 	
@@ -324,6 +352,7 @@ public:
 #include "lilc_matrix_sym_equil.h"
 #include "lilc_matrix_ildl_helpers.h"
 #include "lilc_matrix_ildl.h"
+#include "lilc_matrix_ildl_inplace.h"
 #include "lilc_matrix_pivot.h"
 #include "lilc_matrix_load.h"
 #include "lilc_matrix_save.h"
