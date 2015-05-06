@@ -221,10 +221,10 @@ Using sym-ildl within MATLAB</h2>
 </div><!-- fragment --> As specified above, the default values of <code>fill=1.0</code>, <code>tol=0.001</code>, <code>pp_tol=1.0</code>, and <code>reordering=amd</code> are used.</dd></dl>
 <h1><a class="anchor" id="skew_usage"></a>
 Usage for skew-symmetric matrices</h1>
+<p>When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is <code>skew_ldl_driver</code> instead of <code>ldl_driver</code>. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.</p>
 <h2><a class="anchor" id="skew_ldl_driver"></a>
 As a standalone program</h2>
-<p>When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is <code>skew_ldl_driver</code> instead of <code>ldl_driver</code>. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.</p>
-<p>For example, let's factor the <code>m3dskew50</code> matrix stored in <code>test_matrices/skew/m3dskew50.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx</div>
+<p>Let's factor the <code>m3dskew50</code> matrix stored in <code>test_matrices/skew/m3dskew50.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/m2dskew50.mtx was loaded.</div>
 <div class="line">A is 125000 by 125000 with 735000 non-zeros.</div>
@@ -269,7 +269,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 16:36:48 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 16:39:47 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

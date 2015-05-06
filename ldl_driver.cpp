@@ -192,11 +192,11 @@
 	
 	\section skew_usage Usage for skew-symmetric matrices
 	
+    When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is \c skew_ldl_driver instead of \c ldl_driver. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.
+    
 	\subsection skew_ldl_driver As a standalone program
 	
-	When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is \c skew_ldl_driver instead of \c ldl_driver. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.
-	
-	For example, let's factor the \c m3dskew50 matrix stored in <c>test_matrices/skew/m3dskew50.mtx</c>. As before, this is as simple as:
+	Let's factor the \c m3dskew50 matrix stored in <c>test_matrices/skew/m3dskew50.mtx</c>. As before, this is as simple as:
 	\par
 	\code
 		./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx
