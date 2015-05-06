@@ -1,0 +1,13 @@
+<map id="lilc_matrix::ildl_inplace" name="lilc_matrix::ildl_inplace">
+<area shape="rect" id="node2" href="$classblock__diag__matrix.html#aa2f3ffb9d4e198ab18262b702c79cadb" title="Resizes this matrix to an n*n matrix with default_value on the main diagonal. " alt="" coords="216,58,359,99"/>
+<area shape="rect" id="node3" href="$lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e" title="Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of..." alt="" coords="254,124,321,151"/>
+<area shape="rect" id="node7" href="$lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="597,176,783,203"/>
+<area shape="rect" id="node9" href="$classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3" title="block_diag_matrix::\loff_diagonal" alt="" coords="407,173,549,214"/>
+<area shape="rect" id="node10" href="$lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="263,289,311,316"/>
+<area shape="rect" id="node11" href="$lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1" title="safe_swap" alt="" coords="242,340,333,367"/>
+<area shape="rect" id="node12" href="$lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2" title="Performs the dual&#45;dropping criteria outlined in Li &amp; Saad (2005). " alt="" coords="250,391,325,417"/>
+<area shape="rect" id="node4" href="$classlilc__matrix.html#a0e59d373ec514c8cb264da653d36f753" title="Finds the (i,j)th coefficient of the matrix. " alt="" coords="417,5,539,32"/>
+<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#a737792b9fd3b712d9b15578a3f067f3c" title="update_single" alt="" coords="422,56,534,83"/>
+<area shape="rect" id="node8" href="$classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::\lblock_size" alt="" coords="407,107,549,149"/>
+<area shape="rect" id="node6" href="$classlilc__matrix.html#aa1d3045545357a8f33955a87dc55f3aa" title="Ensures two the invariants observed by A.first and A.list are held. " alt="" coords="622,49,758,90"/>
+</map>

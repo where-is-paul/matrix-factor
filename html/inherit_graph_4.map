@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$classlil__sparse__matrix.html" title="The abstract parent of all sparse matrices. " alt="" coords="5,5,144,47"/>
-<area shape="rect" id="node2" href="$singletonlilc__matrix.html" title="A list&#45;of&#45;lists (LIL) matrix in column oriented format. " alt="" coords="192,13,347,39"/>
+<area shape="rect" id="node2" href="$classlilc__matrix.html" title="A list&#45;of&#45;lists (LIL) matrix in column oriented format. " alt="" coords="192,13,347,39"/>
 </map>

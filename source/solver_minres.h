@@ -2,6 +2,7 @@
 #ifndef _SOLVER_MINRES_H_
 #define _SOLVER_MINRES_H_
 
+#include <string>
 #include <algorithm>
 
 template<class el_type, class mat_type >
@@ -160,7 +161,11 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	}
 	
 	printf("The estimated condition number of the matrix is %e.\n", cond_A);
-	printf("MINRES took %i iterations and got down to relative residual %e.\n", k-1, res[(k+1)%2]/norm_rhs);
+    
+    std::string iter_str = "iteration";
+    if (k-1 > 1) iter_str += "s";
+
+	printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), res[(k+1)%2]/norm_rhs);
 	return;
 }
 

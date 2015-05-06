@@ -8,6 +8,7 @@ var searchData=
   ['lilc_5fmatrix_5ffind_5froot_2eh',['lilc_matrix_find_root.h',['../lilc__matrix__find__root_8h.html',1,'']]],
   ['lilc_5fmatrix_5fildl_2eh',['lilc_matrix_ildl.h',['../lilc__matrix__ildl_8h.html',1,'']]],
   ['lilc_5fmatrix_5fildl_5fhelpers_2eh',['lilc_matrix_ildl_helpers.h',['../lilc__matrix__ildl__helpers_8h.html',1,'']]],
+  ['lilc_5fmatrix_5fildl_5finplace_2eh',['lilc_matrix_ildl_inplace.h',['../lilc__matrix__ildl__inplace_8h.html',1,'']]],
   ['lilc_5fmatrix_5fload_2eh',['lilc_matrix_load.h',['../lilc__matrix__load_8h.html',1,'']]],
   ['lilc_5fmatrix_5fpivot_2eh',['lilc_matrix_pivot.h',['../lilc__matrix__pivot_8h.html',1,'']]],
   ['lilc_5fmatrix_5fsave_2eh',['lilc_matrix_save.h',['../lilc__matrix__save_8h.html',1,'']]],

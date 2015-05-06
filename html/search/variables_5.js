@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['has_5frhs',['has_rhs',['../classsolver.html#a18ed7b46dee944764d14e1533699c20b',1,'solver']]]
+  ['l',['L',['../classsolver.html#aefb194babf72ece8f73913e863676ead',1,'solver']]],
+  ['list',['list',['../classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81',1,'lilc_matrix']]]
 ];

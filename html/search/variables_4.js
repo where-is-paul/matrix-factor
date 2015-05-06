@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['first',['first',['../singletonlilc__matrix.html#a12026d9abf82ced3faf37d6b8e4b95d3',1,'lilc_matrix']]]
+  ['has_5frhs',['has_rhs',['../classsolver.html#a18ed7b46dee944764d14e1533699c20b',1,'solver']]]
 ];

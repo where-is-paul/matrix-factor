@@ -7,7 +7,7 @@ using std::cout;
 using std::abs;
 
 template <class el_type>
-void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol)
+void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, pivot_type piv_type)
 {
 
 	//----------------- initialize temporary variables --------------------//
@@ -61,133 +61,216 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
 		//find maximum element in work and store its index in r.
 		w1 = max(work, curr_nnzs, r);
 
-		//we do partial pivoting here, where we take the first element u in the column that satisfies
-		//|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
-		//Symmetric Matrix Decomposition" by J.H. Liu (1987).
-		int t = r; //stores location of u 
-		el_type u = w1; //stores value of u
-		for (i = 0; i < (int) curr_nnzs.size(); i++) {
-			if (abs(work[curr_nnzs[i]])-pp_tol*w1 > eps ) {
-				t = curr_nnzs[i];
-				u = work[t];
-				break;
-			}
-		}
-		
-		//bunch-kaufman partial pivoting is used below. for a more detailed reference,
-		//refer to "Accuracy and Stability of Numerical Algorithms." by Higham (2002).
-		//------------------- begin bunch-kaufman pivoting ------------------//
-		if (w1 < eps) {
-			//case 0: do nothing. pivot is k.
-		} else if ( (alpha * w1 - abs(d1)) < eps  ) {
-			//case 1: do nothing. pivot is k.
-		} else {
-			//since we are doing partial pivoting, we should treat u and t like wi and r, so
-			//we'll just reassign wi and r. note: this has to go in the else clause since
-			//we still use the old wi for case 0 and case 1.
-			w1 = u;
-			r = t;
-			
-			offset = row_first[r];
-			//assign all nonzero indices and values in A(r, k:r) 
-			//( not including A(r,r) ) to temp and temp_nnzs
-			for (j = offset; j < (int) list[r].size(); j++) {
-				temp_nnzs.push_back(list[r][j]);
-				temp[list[r][j]] = coeff(r, list[r][j]);
-			}
-
-			//assign nonzero indices of A(r:n, r) to temp_nnzs 
-			temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
-
-			//assign nonzero values of to temp
-			for (j = 0; j < (int) m_idx[r].size(); j++) {
-				temp[m_idx[r][j]] = m_x[r][j];
-			}
-
-			//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).
-			//(the formula above generalizes to block matrix form in the case of 2x2 pivots).
-			update(r, temp, temp_nnzs, *this, D, in_set);
-
-			dr = temp[r];
-			temp[r] = 0;
-
-			//find maximum element in temp.
-			wr = max(temp, temp_nnzs, j);
-
-			if ((alpha*w1*w1 - abs(d1)*wr) < eps) {
-				//case 2: do nothing. pivot is k.
-				
-			} else if ( (alpha * wr - abs(dr)) < eps) {
-
-				//case 3: pivot is k with r: 1x1 pivot case.
-				temp[r] = dr;
-				work[k] = d1;
-
-				//--------pivot A ---------//
-				pivotA(s, in_set, k, r);
-
-				//----------pivot rest ----------//
-				std::swap(d1, dr);
-
-				//permute perm
-				std::swap(perm[k], perm[r]);
-
-				work.swap(temp);	//swap work with temp.
-				std::swap(work[k], work[r]); //swap kth and rth row of work
-
-				curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
-
-				safe_swap(curr_nnzs, k, r); //swap k and r if they are present in curr_nnzs
-
-				//--------end pivot rest---------//
-
-			} else {
-				//case 4: pivot is k+1 with r: 2x2 pivot case.
+        if (piv_type == pivot_type::BKP) {
+            //we do partial pivoting here, where we take the first element u in the column that satisfies
+            //|u| > pp_tol*|wi|. for more information, consult "A Partial Pivoting Strategy for Sparse 
+            //Symmetric Matrix Decomposition" by J.H. Liu (1987).
+            int t = r; //stores location of u 
+            el_type u = w1; //stores value of u
+            for (i = 0; i < (int) curr_nnzs.size(); i++) {
+                if (abs(work[curr_nnzs[i]])-pp_tol*w1 > eps ) {
+                    t = curr_nnzs[i];
+                    u = work[t];
+                    break;
+                }
+            }
+            
+            //bunch-kaufman partial pivoting is used below. for a more detailed reference,
+            //refer to "Accuracy and Stability of Numerical Algorithms." by Higham (2002).
+            //------------------- begin bunch-kaufman pivoting ------------------//
+            if (w1 < eps) {
+                //case 0: do nothing. pivot is k.
+            } else if ( (alpha * w1 - abs(d1)) < eps  ) {
+                //case 1: do nothing. pivot is k.
+            } else {
+                //since we are doing partial pivoting, we should treat u and t like wi and r, so
+                //we'll just reassign wi and r. note: this has to go in the else clause since
+                //we still use the old wi for case 0 and case 1.
+                w1 = u;
+                r = t;
                 
-                // remote col k for convenience while we are pivoting on col k+1
-                for (int i = 0; i < m_idx[k].size(); i++) {
-                    int l = m_idx[k][i];
-                    if (l == k) continue;
-                    for (int j = row_first[l]; j < list[l].size(); j++) {
-                        if (list[l][j] == k) {
-                            std::swap(list[l][j], list[l][list[l].size()-1]);
-                            list[l].pop_back();
-                            break;
+                offset = row_first[r];
+                //assign all nonzero indices and values in A(r, k:r) 
+                //( not including A(r,r) ) to temp and temp_nnzs
+                for (j = offset; j < (int) list[r].size(); j++) {
+                    temp_nnzs.push_back(list[r][j]);
+                    temp[list[r][j]] = coeff(r, list[r][j]);
+                }
+
+                //assign nonzero indices of A(r:n, r) to temp_nnzs 
+                temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
+
+                //assign nonzero values of to temp
+                for (j = 0; j < (int) m_idx[r].size(); j++) {
+                    temp[m_idx[r][j]] = m_x[r][j];
+                }
+
+                //perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).
+                //(the formula above generalizes to block matrix form in the case of 2x2 pivots).
+                update(r, temp, temp_nnzs, *this, D, in_set);
+
+                dr = temp[r];
+                temp[r] = 0;
+
+                //find maximum element in temp.
+                wr = max(temp, temp_nnzs, j);
+
+                if ((alpha*w1*w1 - abs(d1)*wr) < eps) {
+                    //case 2: do nothing. pivot is k.
+                    
+                } else if ( (alpha * wr - abs(dr)) < eps) {
+
+                    //case 3: pivot is k with r: 1x1 pivot case.
+                    temp[r] = dr;
+                    work[k] = d1;
+
+                    //--------pivot A ---------//
+                    pivotA(s, in_set, k, r);
+
+                    //----------pivot rest ----------//
+                    std::swap(d1, dr);
+
+                    //permute perm
+                    std::swap(perm[k], perm[r]);
+
+                    work.swap(temp);	//swap work with temp.
+                    std::swap(work[k], work[r]); //swap kth and rth row of work
+
+                    curr_nnzs.swap(temp_nnzs);	//swap curr_nnzs with temp_nnzs
+
+                    safe_swap(curr_nnzs, k, r); //swap k and r if they are present in curr_nnzs
+
+                    //--------end pivot rest---------//
+
+                } else {
+                    //case 4: pivot is k+1 with r: 2x2 pivot case.
+                    
+                    // remote col k for convenience while we are pivoting on col k+1
+                    for (int i = 0; i < m_idx[k].size(); i++) {
+                        int l = m_idx[k][i];
+                        if (l == k) continue;
+                        for (int j = row_first[l]; j < list[l].size(); j++) {
+                            if (list[l][j] == k) {
+                                std::swap(list[l][j], list[l][list[l].size()-1]);
+                                list[l].pop_back();
+                                break;
+                            }
                         }
                     }
+                    m_x[k].clear();
+                    m_idx[k].clear();
+                    col_first[k] = 0;
+
+                    //restore diagonal elements in work and temp
+                    temp[r] = dr;
+                    work[k] = d1;
+
+                    //indicate that pivot is 2x2
+                    size_two_piv = true;
+
+                    if (k+1 != r) {
+                        //symmetrically permute row/col k+1 and r.
+                        pivotA(s, in_set, k+1, r);
+                        
+                        //----------pivot rest ----------//
+
+                        //permute perm
+                        std::swap(perm[k+1], perm[r]);
+
+                        //swap rows k+1 and r of work and temp
+                        std::swap(work[k+1], work[r]);
+                        std::swap(temp[k+1], temp[r]);
+
+                        //swap k+1 and r in curr_nnzs and temp_nnzs
+                        safe_swap(curr_nnzs, k+1, r);
+                        safe_swap(temp_nnzs, k+1, r);
+                    }
                 }
-                m_x[k].clear();
-                m_idx[k].clear();
-                col_first[k] = 0;
-
-				//restore diagonal elements in work and temp
-				temp[r] = dr;
-				work[k] = d1;
-
-				//indicate that pivot is 2x2
-				size_two_piv = true;
-
-				if (k+1 != r) {
-					//symmetrically permute row/col k+1 and r.
-					pivotA(s, in_set, k+1, r);
+            }
+            //--------------end bkp pivoting--------------//
+        } else if (piv_type == pivot_type::ROOK) {
+            //--------------begin rook pivoting--------------//
+            i = k;
+            work[k] = d1;
+            if (alpha * w1 <= abs(d1) + eps) {
+                // do nothing
+            } else {
+                while (true) {
+                    // assign nonzeros indices and values of A(k:n, r) to col_r_nnzs
+                    for (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
+                        temp[*it] = 0;
+                    }
+                    temp_nnzs.clear();
                     
-					//----------pivot rest ----------//
+                    offset = row_first[r];
+                    //assign all nonzero indices and values in A(r, k:r) 
+                    //( not including A(r,r) ) to temp and temp_nnzs
+                    for (j = offset; j < (int) list[r].size(); j++) {
+                        temp_nnzs.push_back(list[r][j]);
+                        temp[list[r][j]] = coeff(r, list[r][j]);
+                    }
 
-					//permute perm
-					std::swap(perm[k+1], perm[r]);
+                    //assign nonzero indices of A(r:n, r) to temp_nnzs 
+                    temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());
 
-					//swap rows k+1 and r of work and temp
-					std::swap(work[k+1], work[r]);
-					std::swap(temp[k+1], temp[r]);
+                    //assign nonzero values of to temp
+                    for (j = 0; j < (int) m_idx[r].size(); j++) {
+                        temp[m_idx[r][j]] = m_x[r][j];
+                    }
 
-					//swap k+1 and r in curr_nnzs and temp_nnzs
-					safe_swap(curr_nnzs, k+1, r);
-					safe_swap(temp_nnzs, k+1, r);
-				}
-			}
-		}
-		//--------------end pivoting--------------//
+                    //perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).
+                    //(the formula above generalizes to block matrix form in the case of 2x2 pivots).
+                    update(r, temp, temp_nnzs, *this, D, in_set);
 
+                    dr = temp[r];
+                    temp[r] = 0;
+
+                    //find maximum element in temp.
+                    wr = max(temp, temp_nnzs, j);
+                    temp[r] = dr;
+                    
+                    if (alpha * wr <= abs(dr) + eps) {
+                        // swap rows and columns k and r
+                        this->pivotA(s, in_set, k, r);
+                        std::swap(perm[k], perm[r]);
+                        std::swap(temp[k], temp[r]);
+                        safe_swap(temp_nnzs, k, r);
+                        work.swap(temp);
+                        curr_nnzs.swap(temp_nnzs);
+                        break;
+                    } else if (abs(w1 - wr) < eps) {
+                        size_two_piv = true;
+                        // swap rows and columns k and i, k+1 and r
+                        if (k != i) {
+                            this->pivotA(s, in_set, k, i);
+                            std::swap(perm[k], perm[i]);
+                            std::swap(work[k], work[i]);
+                            std::swap(temp[k], temp[i]);
+                            safe_swap(curr_nnzs, k, i);
+                            safe_swap(temp_nnzs, k, i);
+                        }
+
+                        if (k+1 != r) {
+                            this->pivotA(s, in_set, k+1, r);
+                            std::swap(perm[k+1], perm[r]);
+                            std::swap(work[k+1], work[r]);
+                            std::swap(temp[k+1], temp[r]);
+                            safe_swap(curr_nnzs, k+1, r);
+                            safe_swap(temp_nnzs, k+1, r);
+                        }
+                        break;
+                    } else {
+                        i = r;
+                        w1 = wr;
+                        r = j;
+                        work.swap(temp);
+                        curr_nnzs.swap(temp_nnzs);
+                    }
+                }
+            }
+            //--------------end rook pivoting--------------//
+        }
+        
 		//erase diagonal element from non-zero indices (to exclude it from being dropped)
 		curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());
 

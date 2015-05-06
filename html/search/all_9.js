@@ -9,5 +9,5 @@ var searchData=
   ['main_5fdiag',['main_diag',['../classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32',1,'block_diag_matrix']]],
   ['max',['max',['../lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb',1,'lilc_matrix_ildl_helpers.h']]],
   ['minres',['minres',['../classsolver.html#a7ad3194ab553a985a32bdce660245805',1,'solver']]],
-  ['multiply',['multiply',['../singletonlilc__matrix.html#a00362a639b1e8ec341014c39afaf5e5a',1,'lilc_matrix']]]
+  ['multiply',['multiply',['../classlilc__matrix.html#a00362a639b1e8ec341014c39afaf5e5a',1,'lilc_matrix']]]
 ];

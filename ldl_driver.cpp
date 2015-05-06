@@ -200,7 +200,8 @@ DEFINE_bool(display, false, "If yes, outputs a human readable version of the fac
 							
 DEFINE_int32(minres_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will "
 							   "attempt to use the preconditioner generated with MINRES to "
-							   "solve the system.");
+							   "solve the system. The solution will be written to "
+                               "output_matrices/ in matrix-market format.");
 							   
 DEFINE_string(rhs_file, "", "The filename of the right hand side (in matrix-market format).");
 
@@ -262,8 +263,6 @@ int main(int argc, char* argv[])
 	std::cout << "Factorization Complete. ";
     if (FLAGS_save) {
         std::cout << "All output written to /output_matrices directory.";
-    } else {
-        std::cout << "No output files written since -save was off.";
     }
     std::cout << std::endl;
 
