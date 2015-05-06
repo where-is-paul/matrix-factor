@@ -621,68 +621,68 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;{</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        std::string usage(<span class="stringliteral">&quot;Performs an incomplete LDL factorization of a given matrix.\n&quot;</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                      <span class="stringliteral">&quot;Sample usage:\n&quot;</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                                          <span class="stringliteral">&quot;\t./ldl_driver -filename=test_matrices/testmat1.mtx &quot;</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                                                                         <span class="stringliteral">&quot;-fill=2.0 -display=true -save=false\n&quot;</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                          <span class="stringliteral">&quot;Additionally, these flags can be loaded from a single file &quot;</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                                          <span class="stringliteral">&quot;with the option -flagfile=[filename].&quot;</span>);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                                 </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        google::SetUsageMessage(usage);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        google::ParseCommandLineFlags(&amp;argc, &amp;argv, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="keywordflow">if</span> (FLAGS_filename.empty()) {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                std::cerr &lt;&lt; <span class="stringliteral">&quot;No file specified! Type ./ldl_driver --help for a description of the program parameters.&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <a class="code" href="classsolver.html">solver&lt;double&gt;</a> solv;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        solv.<a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">load</a>(FLAGS_filename);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="comment">//default reordering scheme is AMD</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        solv.<a class="code" href="classsolver.html#ad6d05305c621452fed94b287db9e7367">set_reorder_scheme</a>(FLAGS_reordering.c_str());</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="comment">//default is equil on</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        solv.<a class="code" href="classsolver.html#a2254762a68ad031889857c5766e50e4d">set_equil</a>(FLAGS_equil); </div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">if</span> (FLAGS_minres_iters &gt; 0) {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        vector&lt;double&gt; rhs;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <span class="keywordflow">if</span> (!FLAGS_rhs_file.empty()) {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <a class="code" href="solver_8h.html#a2f81db5837ed7b532590264b3f804461">read_vector</a>(rhs, FLAGS_rhs_file);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <span class="comment">// for testing purposes only</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;            rhs.resize(solv.<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">A</a>.n_cols(), 1);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        }</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                </div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                <span class="keywordflow">if</span> (rhs.size() != solv.<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">A</a>.n_cols()) {</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        std::cout &lt;&lt; <span class="stringliteral">&quot;The right hand side dimensions do not match the dimensions of A.&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                }</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                solv.<a class="code" href="classsolver.html#ab4231b74187f6068e25ebf588b6f85e5">set_rhs</a>(rhs);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        }</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    solv.<a class="code" href="classsolver.html#a2ef1b8669eb6a72763d29eded73a618d">set_pivot</a>(FLAGS_pivot.c_str());</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    solv.<a class="code" href="classsolver.html#a0db2d124c24a018a030ea5e8475d3c51">set_inplace</a>(FLAGS_inplace);</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        solv.<a class="code" href="classsolver.html#abe9292aa2b2d995ed26633aae55d2444">solve</a>(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters, FLAGS_minres_tol);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        </div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keywordflow">if</span> (FLAGS_save) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                solv.<a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7">save</a>();</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        }</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">if</span> (FLAGS_display) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                solv.<a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352">display</a>();</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                std::cout &lt;&lt; endl;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    </div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Factorization Complete. &quot;</span>;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="keywordflow">if</span> (FLAGS_save) {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;All output written to /output_matrices directory.&quot;</span>;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    }</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    std::cout &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;{</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        std::string usage(<span class="stringliteral">&quot;Performs an incomplete LDL factorization of a given matrix.\n&quot;</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                                      <span class="stringliteral">&quot;Sample usage:\n&quot;</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                          <span class="stringliteral">&quot;\t./ldl_driver -filename=test_matrices/testmat1.mtx &quot;</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                                                                         <span class="stringliteral">&quot;-fill=2.0 -display=true -save=false\n&quot;</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                                          <span class="stringliteral">&quot;Additionally, these flags can be loaded from a single file &quot;</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                          <span class="stringliteral">&quot;with the option -flagfile=[filename].&quot;</span>);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                                 </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        google::SetUsageMessage(usage);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        google::ParseCommandLineFlags(&amp;argc, &amp;argv, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keywordflow">if</span> (FLAGS_filename.empty()) {</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                std::cerr &lt;&lt; <span class="stringliteral">&quot;No file specified! Type ./ldl_driver --help for a description of the program parameters.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <a class="code" href="classsolver.html">solver&lt;double&gt;</a> solv;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        solv.<a class="code" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">load</a>(FLAGS_filename);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="comment">//default reordering scheme is AMD</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        solv.<a class="code" href="classsolver.html#ad6d05305c621452fed94b287db9e7367">set_reorder_scheme</a>(FLAGS_reordering.c_str());</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="comment">//default is equil on</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        solv.<a class="code" href="classsolver.html#a2254762a68ad031889857c5766e50e4d">set_equil</a>(FLAGS_equil); </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="keywordflow">if</span> (FLAGS_minres_iters &gt; 0) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        vector&lt;double&gt; rhs;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">if</span> (!FLAGS_rhs_file.empty()) {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <a class="code" href="solver_8h.html#a2f81db5837ed7b532590264b3f804461">read_vector</a>(rhs, FLAGS_rhs_file);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="comment">// for testing purposes only</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            rhs.resize(solv.<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">A</a>.n_cols(), 1);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <span class="keywordflow">if</span> (rhs.size() != solv.<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">A</a>.n_cols()) {</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                        std::cout &lt;&lt; <span class="stringliteral">&quot;The right hand side dimensions do not match the dimensions of A.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                }</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                solv.<a class="code" href="classsolver.html#ab4231b74187f6068e25ebf588b6f85e5">set_rhs</a>(rhs);</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    solv.<a class="code" href="classsolver.html#a2ef1b8669eb6a72763d29eded73a618d">set_pivot</a>(FLAGS_pivot.c_str());</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    solv.<a class="code" href="classsolver.html#a0db2d124c24a018a030ea5e8475d3c51">set_inplace</a>(FLAGS_inplace);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        solv.<a class="code" href="classsolver.html#abe9292aa2b2d995ed26633aae55d2444">solve</a>(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters, FLAGS_minres_tol);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        </div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keywordflow">if</span> (FLAGS_save) {</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                solv.<a class="code" href="classsolver.html#abe36a802939d84960f0ab12587663de7">save</a>();</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        }</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">if</span> (FLAGS_display) {</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                solv.<a class="code" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352">display</a>();</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                std::cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        }</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    </div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Factorization Complete. &quot;</span>;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="keywordflow">if</span> (FLAGS_save) {</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;All output written to /output_matrices directory.&quot;</span>;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    }</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    std::cout &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;}</div>
 <div class="ttc" id="classsolver_html_abe9292aa2b2d995ed26633aae55d2444"><div class="ttname"><a href="classsolver.html#abe9292aa2b2d995ed26633aae55d2444">solver::solve</a></div><div class="ttdeci">void solve(double fill_factor, double tol, double pp_tol, int max_iter=-1, double minres_tol=1e-6, double shift=0.0)</div><div class="ttdoc">Factors the matrix A into P&#39; * S^(-1) * A * S^(-1) * P = LDL&#39; in addition to printing some timing dat...</div><div class="ttdef"><b>Definition:</b> solver.h:173</div></div>
 <div class="ttc" id="classsolver_html_a0db2d124c24a018a030ea5e8475d3c51"><div class="ttname"><a href="classsolver.html#a0db2d124c24a018a030ea5e8475d3c51">solver::set_inplace</a></div><div class="ttdeci">void set_inplace(bool inplace)</div><div class="ttdoc">Decides whether we perform the factorization inplace or not. </div><div class="ttdef"><b>Definition:</b> solver.h:150</div></div>
 <div class="ttc" id="classsolver_html"><div class="ttname"><a href="classsolver.html">solver</a></div><div class="ttdoc">Set of tools that facilitates conversion between different matrix formats. Also contains solver metho...</div><div class="ttdef"><b>Definition:</b> solver.h:86</div></div>
@@ -710,7 +710,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:37:33 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 15:52:20 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

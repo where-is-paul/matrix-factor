@@ -10,12 +10,11 @@
 *	\tableofcontents
 *	\section intro_sec Introduction
 *
-* 	
 	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
 		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
-	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using sym-ildl incomplete factorization to precondition the built-in solver.
+	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using sym-ildl's incomplete factorization to precondition the built-in solver.
 	
 	This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).
 	
@@ -190,7 +189,7 @@
 		...
 	\endcode
 
-*	\section intro_sec Introduction
+*	\section contribute_sec How to contribute
 *
     sym-ildl is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.  Simply send us a pull request to contribute.
 *
