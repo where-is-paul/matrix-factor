@@ -1,7 +1,0 @@
-<map id="lilc_matrix::pivot" name="lilc_matrix::pivot">
-<area shape="rect" id="node2" href="$classswap__struct.html#ad97200ee23cd1f70668d6b4462228343" title="Clears all col vectors (col_k, col_r, col_k_nnzs, col_r_nnzs). " alt="" coords="185,5,352,32"/>
-<area shape="rect" id="node3" href="$classswap__struct.html#a9727bf8ea70308977661235c59e3b8da" title="Clears all row vectors (row_k, row_r). " alt="" coords="183,56,354,83"/>
-<area shape="rect" id="node4" href="$classswap__struct.html#ac67fad73735b183c372ef63b4a9cd581" title="Clears all swap vectors (swapk, swapr, all_swaps). " alt="" coords="178,107,359,133"/>
-<area shape="rect" id="node5" href="$lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567" title="Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list..." alt="" coords="176,157,361,184"/>
-<area shape="rect" id="node6" href="$lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1" title="safe_swap" alt="" coords="223,208,314,235"/>
-</map>

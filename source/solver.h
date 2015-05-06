@@ -170,7 +170,7 @@ class solver {
 			\param pp_tol a factor controling the aggresiveness of Bunch-Kaufman pivoting.
 			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
-		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0) {
+		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0.0) {
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);  
@@ -297,7 +297,7 @@ class solver {
                     
                     // save results
                     // TODO: refactor this to be in its own method
-                    printf("Solution saved to output_matrices/outsol.mtx\n");
+                    printf("Solution saved to output_matrices/outsol.mtx.\n");
                     save_vector(sol_vec, "output_matrices/outsol.mtx");
                 }
 			}

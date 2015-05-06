@@ -11,11 +11,11 @@
 *	\section intro_sec Introduction
 *
 * 	
-	\b sym-ildl is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
+	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
 		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
-	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. 
+	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using sym-ildl incomplete factorization to precondition the built-in solver.
 	
 	This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).
 	
@@ -40,6 +40,7 @@
 	\endcode
 	
 	For convenience, the parameters are listed below:
+    \par Factorization parameters
 	\param filename The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
 	\param fill Controls memory usage. Each column is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill is <c>1.0</c>.
@@ -50,10 +51,22 @@
 
 	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
-	\param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
-	
-	\param display Indicates whether the output matrices should be displayed to the command line. \c y indicates yes, \c n indicates no. The default flag is \c y.	
-	
+    \param inplace Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If only the solver is needed, then \c inplace should not be used. \c y indicates yes, \c n indicates no. The default flag is \c y.	
+    
+    \param pivot Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If \c rook is used, the \c pp_tol parameter is ignored.
+    
+    \param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
+    
+    \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c y.	
+    
+    \par Solver parameters
+    \param minres_iters Number of iterations that the builtin MINRES solver can use. The default is \c -1 (i.e. no MINRES). The output solution is written to <c>output_matrices\outsol.mtx</c>.
+    
+    \param minres_tol Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| < \c minres_tol, MINRES is terminated. The default is \c 1e-6.
+    
+    \param rhs_file The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form.
+    
+    \par
 	Typically, the \c pp_tol and \c reordering parameters are best left to the default options.
 	
 	\par Examples:
@@ -63,10 +76,10 @@
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by 35543 with 128115 non-zeros.
-		Equilibration:  0.047 seconds.
-		AMD:            0.047 seconds.
-		Permutation:    0.047 seconds.
-		Factorization:  0.109 seconds.
+		  Equilibration:                0.047 seconds.
+		  AMD:                          0.047 seconds.
+		  Permutation:                  0.047 seconds.
+		  Factorization (BK pivoting):  0.109 seconds.
 		Total time:     0.250 seconds.
 		L is 35543 by 35543 with 108794 non-zeros.
 		Saving matrices...
@@ -86,7 +99,7 @@
 	This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that \c save defaults to \c y and \c display to \c n.
 	
 	\par
-	Finally, we may use all optional arguments:
+	For convenience, we may use all optional arguments:
 	\code
 		./ldl_driver -filename=test_matrices/aug3dcqp.mtx
 		
@@ -95,8 +108,34 @@
 	\endcode
 	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</c>.
 	
+    \par
+	To actually solve the matrix, simply supply a right hand side file and a maximum number of minres iterations. When no right hand side is specified, sym-ildl assumes a right hand side of all 1's for debugging purposes:
+	\code
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -minres_iters=300 -minres_tol=1e-6
+        
+        Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
+        A is 35543 by 35543 with 77829 non-zeros.
+        Right hand side has 35543 entries.
+          Equilibriation:                       0.000 seconds.
+          AMD:                                  0.015 seconds.
+          Permutation:                          0.047 seconds.
+          Factorization (Rook pivoting):        0.047 seconds.
+        Total time:     0.109 seconds.
+        L is 35543 by 35543 with 117013 non-zeros.
+
+        Solving matrix with MINRES...The estimated condition number of the matrix is 5.899689e+01.
+        MINRES took 71 iterations and got down to relative residual 8.995307e-07.
+        Solve time:             0.484 seconds.
+
+        Solution saved to output_matrices/outsol.mtx.
+        Saving matrices...
+        Save complete.
+        Factorization Complete. All output written to /output_matrices directory.
+        
+	\endcode
+    
 	\subsection matlab_mex Using sym-ildl within Matlab
-	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl.
+	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl. In MATLAB, ildl can only factor the matrix, not solve it. We suggest using sym-ildl as a preconditioner to one of the many different iterative solvers implemented in MATLAB.
 	
 	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
 	\code
@@ -202,7 +241,9 @@ DEFINE_int32(minres_iters, -1, "If >= 0 and supplied with a right hand side, SYM
 							   "attempt to use the preconditioner generated with MINRES to "
 							   "solve the system. The solution will be written to "
                                "output_matrices/ in matrix-market format.");
-							   
+
+DEFINE_double(minres_tol, 1e-6, "A tolerance for MINRES. When the iterate x satisfies ||Ax-b||/||b|| < minres_tol, MINRES is terminated.");
+                           
 DEFINE_string(rhs_file, "", "The filename of the right hand side (in matrix-market format).");
 
 int main(int argc, char* argv[])
@@ -249,7 +290,7 @@ int main(int argc, char* argv[])
 	
     solv.set_pivot(FLAGS_pivot.c_str());
     solv.set_inplace(FLAGS_inplace);
-	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters);
+	solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters, FLAGS_minres_tol);
 	
 	if (FLAGS_save) {
 		solv.save();
