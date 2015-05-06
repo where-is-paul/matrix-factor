@@ -133,9 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ef1b8669eb6a72763d29eded73a618d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsolver.html#a2ef1b8669eb6a72763d29eded73a618d">set_pivot</a> (const char *pivot)</td></tr>
 <tr class="memdesc:a2ef1b8669eb6a72763d29eded73a618d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decides the kind of partial pivoting we should use.  <a href="#a2ef1b8669eb6a72763d29eded73a618d">More...</a><br /></td></tr>
 <tr class="separator:a2ef1b8669eb6a72763d29eded73a618d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7b46634fe8205d05bfe2c65cc8f71c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsolver.html#ab7b46634fe8205d05bfe2c65cc8f71c3">solve</a> (double fill_factor, double tol, double pp_tol, int max_iter=-1, double minres_tol=1e-6, double shift=0)</td></tr>
-<tr class="memdesc:ab7b46634fe8205d05bfe2c65cc8f71c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factors the matrix A into P' * S^(-1) * A * S^(-1) * P = LDL' in addition to printing some timing data to screen.  <a href="#ab7b46634fe8205d05bfe2c65cc8f71c3">More...</a><br /></td></tr>
-<tr class="separator:ab7b46634fe8205d05bfe2c65cc8f71c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe9292aa2b2d995ed26633aae55d2444"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsolver.html#abe9292aa2b2d995ed26633aae55d2444">solve</a> (double fill_factor, double tol, double pp_tol, int max_iter=-1, double minres_tol=1e-6, double shift=0.0)</td></tr>
+<tr class="memdesc:abe9292aa2b2d995ed26633aae55d2444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factors the matrix A into P' * S^(-1) * A * S^(-1) * P = LDL' in addition to printing some timing data to screen.  <a href="#abe9292aa2b2d995ed26633aae55d2444">More...</a><br /></td></tr>
+<tr class="separator:abe9292aa2b2d995ed26633aae55d2444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ad3194ab553a985a32bdce660245805"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsolver.html#a7ad3194ab553a985a32bdce660245805">minres</a> (int max_iter=1000, double stop_tol=1e-6, double shift=0.0)</td></tr>
 <tr class="memdesc:a7ad3194ab553a985a32bdce660245805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies minres on A, preconditioning with factors L and D..  <a href="#a7ad3194ab553a985a32bdce660245805">More...</a><br /></td></tr>
 <tr class="separator:a7ad3194ab553a985a32bdce660245805"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -524,8 +524,8 @@ template&lt;class el_type , class mat_type &gt; </div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        </div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        printf(<span class="stringliteral">&quot;The estimated condition number of the matrix is %e.\n&quot;</span>, cond_A);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::string iter_str = <span class="stringliteral">&quot;iteration&quot;</span>;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (k-1 &gt; 1) iter_str += <span class="stringliteral">&quot;s&quot;</span>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::string iter_str = <span class="stringliteral">&quot;iterations&quot;</span>;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (k-1 == 1) iter_str = <span class="stringliteral">&quot;iteration&quot;</span>;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        printf(<span class="stringliteral">&quot;MINRES took %i %s and got down to relative residual %e.\n&quot;</span>, k-1, iter_str.c_str(), res[(k+1)%2]/norm_rhs);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span>;</div>
@@ -788,7 +788,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="ab7b46634fe8205d05bfe2c65cc8f71c3"></a>
+<a class="anchor" id="abe9292aa2b2d995ed26633aae55d2444"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -831,7 +831,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>shift</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>shift</em> = <code>0.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -857,7 +857,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                                                                                                         {</div>
+<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                                                                                                           {</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                        <a class="code" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892">perm</a>.reserve(<a class="code" href="classsolver.html#ad6a3a848b36c92c85fd2ad7d6e664fcf">A</a>.n_cols());</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                        cout &lt;&lt; std::fixed &lt;&lt; std::setprecision(3);</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                        <span class="comment">//gettimeofday(&amp;tim, NULL);  </span></div>
@@ -984,7 +984,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                    </div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    <span class="comment">// save results</span></div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    <span class="comment">// TODO: refactor this to be in its own method</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                    printf(<span class="stringliteral">&quot;Solution saved to output_matrices/outsol.mtx\n&quot;</span>);</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                    printf(<span class="stringliteral">&quot;Solution saved to output_matrices/outsol.mtx.\n&quot;</span>);</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                    <a class="code" href="solver_8h.html#a9eb6e1d945435ae060984e12054d837a">save_vector</a>(<a class="code" href="classsolver.html#ad3e7308f2937a02ffb31cb9bcf7031ff">sol_vec</a>, <span class="stringliteral">&quot;output_matrices/outsol.mtx&quot;</span>);</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                }</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                        }</div>
@@ -1006,8 +1006,8 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classsolver_ab7b46634fe8205d05bfe2c65cc8f71c3_cgraph.png" border="0" usemap="#classsolver_ab7b46634fe8205d05bfe2c65cc8f71c3_cgraph" alt=""/></div>
-<map name="classsolver_ab7b46634fe8205d05bfe2c65cc8f71c3_cgraph" id="classsolver_ab7b46634fe8205d05bfe2c65cc8f71c3_cgraph">
+<div class="center"><img src="classsolver_abe9292aa2b2d995ed26633aae55d2444_cgraph.png" border="0" usemap="#classsolver_abe9292aa2b2d995ed26633aae55d2444_cgraph" alt=""/></div>
+<map name="classsolver_abe9292aa2b2d995ed26633aae55d2444_cgraph" id="classsolver_abe9292aa2b2d995ed26633aae55d2444_cgraph">
 <area shape="rect" id="node2" href="classblock__diag__matrix.html#a5f75bcd1cafdb778f2658b7677ad97b9" title="Solves the preconditioned problem |D| = Q|V|Q&#39;, where QVQ&#39; is the eigendecomposition of D..." alt="" coords="156,31,299,72"/><area shape="rect" id="node4" href="classsolver.html#a7ad3194ab553a985a32bdce660245805" title="Applies minres on A, preconditioning with factors L and D.. " alt="" coords="172,122,283,149"/><area shape="rect" id="node9" href="solver_8h.html#a9eb6e1d945435ae060984e12054d837a" title="Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format. " alt="" coords="176,173,279,199"/><area shape="rect" id="node3" href="classblock__diag__matrix.html#ad2a00befe5b5c5718e222fa99cbbefd2" title="block_diag_matrix::\lblock_size" alt="" coords="347,5,489,47"/><area shape="rect" id="node5" href="lilc__matrix__ildl__helpers_8h.html#aea06d6463fd81af794e681e2faaddb37" title="Computes the norm of v(curr_nnzs). " alt="" coords="391,71,445,98"/><area shape="rect" id="node6" href="lilc__matrix__ildl__helpers_8h.html#a8636c2f2f386c718364cb5ef8c029063" title="Computes the dot product of v and w. Only works when el_type is real right now. " alt="" coords="369,122,467,149"/><area shape="rect" id="node7" href="lilc__matrix__ildl__helpers_8h.html#a58553b8869079ea89552fda5da183b8b" title="Computes the sum of two vectors: u = a*v + b*w. a and b are scalars, u, v, and w are vectors..." alt="" coords="369,173,467,199"/><area shape="rect" id="node8" href="lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="394,223,442,250"/></map>
 </div>
 </p>
@@ -1198,7 +1198,7 @@ template&lt;class el_type, class mat_type = lilc_matrix&lt;el_type&gt;&gt; </div
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 14:54:10 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 15:37:35 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

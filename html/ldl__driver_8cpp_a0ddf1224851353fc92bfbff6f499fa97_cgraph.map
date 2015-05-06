@@ -6,7 +6,7 @@
 <area shape="rect" id="node7" href="$classsolver.html#ab4231b74187f6068e25ebf588b6f85e5" title="Loads a right hand side b into the solver. " alt="" coords="118,224,235,251"/>
 <area shape="rect" id="node8" href="$classsolver.html#a2ef1b8669eb6a72763d29eded73a618d" title="Decides the kind of partial pivoting we should use. " alt="" coords="113,275,240,301"/>
 <area shape="rect" id="node9" href="$classsolver.html#a0db2d124c24a018a030ea5e8475d3c51" title="Decides whether we perform the factorization inplace or not. " alt="" coords="105,325,248,352"/>
-<area shape="rect" id="node10" href="$classsolver.html#ab7b46634fe8205d05bfe2c65cc8f71c3" title="Factors the matrix A into P&#39; * S^(&#45;1) * A * S^(&#45;1) * P = LDL&#39; in addition to printing some timing dat..." alt="" coords="125,376,228,403"/>
+<area shape="rect" id="node10" href="$classsolver.html#abe9292aa2b2d995ed26633aae55d2444" title="Factors the matrix A into P&#39; * S^(&#45;1) * A * S^(&#45;1) * P = LDL&#39; in addition to printing some timing dat..." alt="" coords="125,376,228,403"/>
 <area shape="rect" id="node18" href="$classsolver.html#abe36a802939d84960f0ab12587663de7" title="Save results of factorization (automatically saved into the output_matrices folder). " alt="" coords="127,427,227,453"/>
 <area shape="rect" id="node20" href="$classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352" title="Prints the L and D factors to stdout. " alt="" coords="120,477,233,504"/>
 <area shape="rect" id="node6" href="$lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb" title="Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. " alt="" coords="566,173,614,200"/>

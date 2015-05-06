@@ -10,7 +10,7 @@ var searchData=
   ['set_5freorder_5fscheme',['set_reorder_scheme',['../classsolver.html#ad6d05305c621452fed94b287db9e7367',1,'solver']]],
   ['set_5frhs',['set_rhs',['../classsolver.html#ab4231b74187f6068e25ebf588b6f85e5',1,'solver']]],
   ['sol_5fvec',['sol_vec',['../classsolver.html#ad3e7308f2937a02ffb31cb9bcf7031ff',1,'solver']]],
-  ['solve',['solve',['../classsolver.html#ab7b46634fe8205d05bfe2c65cc8f71c3',1,'solver']]],
+  ['solve',['solve',['../classsolver.html#abe9292aa2b2d995ed26633aae55d2444',1,'solver']]],
   ['solver',['solver',['../classsolver.html',1,'solver&lt; el_type, mat_type &gt;'],['../classsolver.html#a57cca84670fefb12179caab5dcceeb12',1,'solver::solver()']]],
   ['solver_2eh',['solver.h',['../solver_8h.html',1,'']]],
   ['solver_5fminres_2eh',['solver_minres.h',['../solver__minres_8h.html',1,'']]],

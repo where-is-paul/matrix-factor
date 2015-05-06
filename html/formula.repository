@@ -1,27 +1,12 @@
-\form#0:$\mathbf{A}$
-\form#1:\[ \mathbf{P^{T}SASP=L^{T}DL}. \]
-\form#2:$\mathbf{P}$
-\form#3:$\mathbf{S}$
-\form#4:$\mathbf{L}$
-\form#5:$\mathbf{D}$
-\form#6:$\mathbf{L^{T}DL}$
-\form#7:$\mathrm{A}$
-\form#8:$\mathrm{L^{T}DL}$
-\form#9:\[ \mathrm{P^{T}SASP=L^{T}DL}. \]
-\form#10:$\mathrm{P}$
-\form#11:$\mathrm{S}$
-\form#12:$\mathrm{L}$
-\form#13:$\mathrm{D}$
-\form#14:$\mathrm{A}\in \mathbb{R}^{n\times n}$
-\form#15:$\text{fill_factor}\cdot nnz(\mathrm{A})/n$
-\form#16:$tol \cdot \left|\left|\mathrm{L}_{k+1:n,k}\right|\right|_1$
-\form#17:$n\times n$
-\form#18:$\mathrm{fill_factor}\cdot nnz(\mathbf{A})/n$
-\form#19:$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$
-\form#20:$\mathrm{fill\_factor}\cdot nnz(\mathbf{A})/n$
-\form#21:$\mathbf{B=P^{T}SASP}$
-\form#22:$fill\_factor\cdot nnz(\mathbf{A})/n$
-\form#23:$\mathbf{LDL^{T}}$
-\form#24:\[ \mathbf{P^{T}SASP=LDL^{T}}. \]
-\form#25:$\mathbf{P^{T}SASP}$
-\form#26:$fill\cdot nnz(\mathbf{A})/n$
+\form#0:$n\times n$
+\form#1:$\mathbf{A}$
+\form#2:$\mathbf{LDL^{T}}$
+\form#3:\[ \mathbf{P^{T}SASP=LDL^{T}}. \]
+\form#4:$\mathbf{P}$
+\form#5:$\mathbf{S}$
+\form#6:$\mathbf{L}$
+\form#7:$\mathbf{D}$
+\form#8:$fill\cdot nnz(\mathbf{A})/n$
+\form#9:$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$
+\form#10:$\mathbf{B=P^{T}SASP}$
+\form#11:$\mathbf{P^{T}SASP}$

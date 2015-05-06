@@ -93,11 +93,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
-<pre class="fragment">\b sym-ildl is a C++ package for producing fast incomplete factorizations of symmetric indefinite matrices. Given an \form#17 symmetric indefinite matrix \form#0, this package produces an incomplete \form#23 factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
+<pre class="fragment">\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite matrices. Given an \form#0 symmetric indefinite matrix \form#1, this package produces an incomplete \form#2 factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 </pre> <p class="formulaDsp">
-<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_24.png"/>
+<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_3.png"/>
 </p>
-<p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_2.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_3.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_4.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_5.png"/> are the unit lower triangular and block diagonal factors respectively.</p>
+<p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_4.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_5.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_6.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_7.png"/> are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using sym-ildl incomplete factorization to precondition the built-in solver.</p>
 <p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).</p>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
@@ -108,27 +108,39 @@ Using the package as a standalone program</h2>
 <p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[<a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>] -pp_tol=[pp_tol] -reordering=[<a class="code" href="namespaceamd.html">amd</a>/rcm/none] -save=[y/n] -display=[y/n]</div>
 </div><!-- fragment --><p>The parameters above can be given in any order, and will use a default value when not specified.</p>
 <p>A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./ldl_driver --help </div>
-</div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="params"><dt>Parameters</dt><dd>
+</div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="section user"><dt>Factorization parameters</dt><dd></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
-    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_26.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
-    <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_19.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
+    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
+    <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
-    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
-    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
+    <tr><td class="paramname">inplace</td><td>Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If only the solver is needed, then <code>inplace</code> should not be used. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
+    <tr><td class="paramname">pivot</td><td>Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If <code>rook</code> is used, the <code>pp_tol</code> parameter is ignored.</td></tr>
+    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_10.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
+    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
   </table>
   </dd>
 </dl>
-<p>Typically, the <code>pp_tol</code> and <code>reordering</code> parameters are best left to the default options.</p>
+<dl class="section user"><dt>Solver parameters</dt><dd></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minres_iters</td><td>Number of iterations that the builtin MINRES solver can use. The default is <code>-1</code> (i.e. no MINRES). The output solution is written to <code>output_matrices\outsol.mtx</code>.</td></tr>
+    <tr><td class="paramname">minres_tol</td><td>Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| &lt; <code>minres_tol</code>, MINRES is terminated. The default is <code>1e-6</code>.</td></tr>
+    <tr><td class="paramname">rhs_file</td><td>The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt></dt><dd>Typically, the <code>pp_tol</code> and <code>reordering</code> parameters are best left to the default options.</dd></dl>
 <dl class="section user"><dt>Examples:</dt><dd>Suppose we wish to factor the <code>aug3dcqp</code> matrix stored in <code>test_matrices/aug3dcqp.mtx</code>. Using the parameters described above, the execution of the program may go something like this: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=y -display=n</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by 35543 with 128115 non-zeros.</div>
-<div class="line">Equilibration:  0.047 seconds.</div>
-<div class="line">AMD:            0.047 seconds.</div>
-<div class="line">Permutation:    0.047 seconds.</div>
-<div class="line">Factorization:  0.109 seconds.</div>
+<div class="line">  Equilibration:                0.047 seconds.</div>
+<div class="line">  AMD:                          0.047 seconds.</div>
+<div class="line">  Permutation:                  0.047 seconds.</div>
+<div class="line">  Factorization (BK pivoting):  0.109 seconds.</div>
 <div class="line">Total time:     0.250 seconds.</div>
 <div class="line">L is 35543 by 35543 with 108794 non-zeros.</div>
 <div class="line">Saving matrices...</div>
@@ -140,34 +152,55 @@ Using the package as a standalone program</h2>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by ...</div>
 </div><!-- fragment --> This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that <code>save</code> defaults to <code>y</code> and <code>display</code> to <code>n</code>.</dd></dl>
-<dl class="section user"><dt></dt><dd>Finally, we may use all optional arguments: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx</div>
+<dl class="section user"><dt></dt><dd>For convenience, we may use all optional arguments: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by ...</div>
 </div><!-- fragment --> The code above would use the default arguments <code>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</code>.</dd></dl>
+<dl class="section user"><dt></dt><dd>To actually solve the matrix, simply supply a right hand side file and a maximum number of minres iterations. When no right hand side is specified, sym-ildl assumes a right hand side of all 1's for debugging purposes: <div class="fragment"><div class="line">    ./ldl_driver -filename=test_matrices/aug3dcqp.mtx -minres_iters=300 -minres_tol=1e-6</div>
+<div class="line"></div>
+<div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
+<div class="line">A is 35543 by 35543 with 77829 non-zeros.</div>
+<div class="line">Right hand side has 35543 entries.</div>
+<div class="line">  Equilibriation:                       0.000 seconds.</div>
+<div class="line">  AMD:                                  0.015 seconds.</div>
+<div class="line">  Permutation:                          0.047 seconds.</div>
+<div class="line">  Factorization (Rook pivoting):        0.047 seconds.</div>
+<div class="line">Total time:     0.109 seconds.</div>
+<div class="line">L is 35543 by 35543 with 117013 non-zeros.</div>
+<div class="line"></div>
+<div class="line">Solving matrix with MINRES...The estimated condition number of the matrix is 5.899689e+01.</div>
+<div class="line">MINRES took 71 iterations and got down to relative residual 8.995307e-07.</div>
+<div class="line">Solve time:             0.484 seconds.</div>
+<div class="line"></div>
+<div class="line">Solution saved to output_matrices/outsol.mtx.</div>
+<div class="line">Saving matrices...</div>
+<div class="line">Save complete.</div>
+<div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
+</div><!-- fragment --></dd></dl>
 <h2><a class="anchor" id="matlab_mex"></a>
 Using sym-ildl within Matlab</h2>
-<p>If everything is compiled correctly, simply open Matlab in the package directory. The <code>startup.m</code> script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, <code>ildl</code>.</p>
+<p>If everything is compiled correctly, simply open Matlab in the package directory. The <code>startup.m</code> script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, <code>ildl</code>. In MATLAB, ildl can only factor the matrix, not solve it. We suggest using sym-ildl as a preconditioner to one of the many different iterative solvers implemented in MATLAB.</p>
 <p><code>ildl</code> takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing </p><div class="fragment"><div class="line">help ildl</div>
 </div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>The matrix to be factored.</td></tr>
-    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_26.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
-    <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_19.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
+    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
+    <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
   </table>
   </dd>
 </dl>
-<p>As with the standalone executable, the function has five outputs: <code>L, D, p, S,</code> and <code>B:</code> </p><dl class="section return"><dt>Returns</dt><dd><b>L</b> Unit lower triangular factor of <img class="formulaInl" alt="$\mathbf{P^{T}SASP}$" src="form_25.png"/>. </dd>
+<p>As with the standalone executable, the function has five outputs: <code>L, D, p, S,</code> and <code>B:</code> </p><dl class="section return"><dt>Returns</dt><dd><b>L</b> Unit lower triangular factor of <img class="formulaInl" alt="$\mathbf{P^{T}SASP}$" src="form_11.png"/>. </dd>
 <dd>
-<b>D</b> Block diagonal factor (consisting of 1x1 and 2x2 blocks) of <img class="formulaInl" alt="$\mathbf{P^{T}SASP}$" src="form_25.png"/>. </dd>
+<b>D</b> Block diagonal factor (consisting of 1x1 and 2x2 blocks) of <img class="formulaInl" alt="$\mathbf{P^{T}SASP}$" src="form_11.png"/>. </dd>
 <dd>
-<b>p</b> Permutation vector containing permutations done to <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/>. </dd>
+<b>p</b> Permutation vector containing permutations done to <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>. </dd>
 <dd>
-<b>S</b> Diagonal scaling matrix that equilibrations <img class="formulaInl" alt="$\mathbf{A}$" src="form_0.png"/> in the max-norm. </dd>
+<b>S</b> Diagonal scaling matrix that equilibrations <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/> in the max-norm. </dd>
 <dd>
-<b>B</b> Permuted and scaled matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_21.png"/> after factorization.</dd></dl>
+<b>B</b> Permuted and scaled matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_10.png"/> after factorization.</dd></dl>
 <dl class="section user"><dt>Examples:</dt><dd>Before we begin, let's first generate some symmetric indefinite matrices: <div class="fragment"><div class="line">&gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,100,0));</div>
 <div class="line">&gt;&gt; A = [speye(100) B; B&#39; sparse(100, 100)];</div>
 </div><!-- fragment --> The <code>A</code> generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab <b>sparse</b> matrix.</dd></dl>
@@ -198,7 +231,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 14:54:10 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 15:37:35 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
