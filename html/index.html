@@ -83,7 +83,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#intro_sec">Introduction</a></li>
 <li class="level1"><a href="#quick_start">Quick Start</a><ul><li class="level2"><a href="#ldl_driver">Using the package as a standalone program</a></li>
-<li class="level2"><a href="#matlab_mex">Using sym-ildl within Matlab</a></li>
+<li class="level2"><a href="#MATLAB_mex">Using sym-ildl within MATLAB</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#skew_usage">Usage for skew-symmetric matrices</a><ul><li class="level2"><a href="#skew_ldl_driver">As a standalone program</a></li>
+<li class="level2"><a href="#skew_matlab_mex">Within MATLAB</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#contribute_sec">How to contribute</a></li>
@@ -99,7 +103,7 @@ Introduction</h1>
 <p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).</p>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
-<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a <a class="el" href="index.html#matlab_mex">Matlab interface</a>.</p>
+<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a Matlab interface.</p>
 <h2><a class="anchor" id="ldl_driver"></a>
 Using the package as a standalone program</h2>
 <p>The compiled program <code>ldl_driver</code> takes in (through the command line) three parameters as well as four optional ones.</p>
@@ -112,19 +116,19 @@ Using the package as a standalone program</h2>
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
-    <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.</td></tr>
+    <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the <b>pivot</b> parameters for more details.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
     <tr><td class="paramname">inplace</td><td>Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If only the solver is needed, then <code>inplace</code> should not be used. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
     <tr><td class="paramname">pivot</td><td>Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If <code>rook</code> is used, the <code>pp_tol</code> parameter is ignored.</td></tr>
-    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_10.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
-    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
+    <tr><td class="paramname">save</td><td>Indicates whether the output matrices should be saved. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>. All matrices are saved in matrix market (.mtx) form. The matrices are saved into a folder named <code>output_matrices</code>. There are five saved files: <code>outA.mtx, outL.mtx, outD.mtx, outS.mtx</code>, and <code>outP.mtx</code>. <code>outB.mtx</code> is the matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_10.png"/>. The rest of the outputs should be clear from the description above.</td></tr>
+    <tr><td class="paramname">display</td><td>Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>n</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section user"><dt>Solver parameters</dt><dd></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">minres_iters</td><td>Number of iterations that the builtin MINRES solver can use. The default is <code>-1</code> (i.e. no MINRES). The output solution is written to <code>output_matrices\outsol.mtx</code>.</td></tr>
+    <tr><td class="paramname">minres_iters</td><td>Number of iterations that the builtin MINRES solver can use. The default is <code>-1</code> (i.e. MINRES is not applied). The output solution is written to <code>output_matrices\outsol.mtx</code>.</td></tr>
     <tr><td class="paramname">minres_tol</td><td>Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| &lt; <code>minres_tol</code>, MINRES is terminated. The default is <code>1e-6</code>.</td></tr>
     <tr><td class="paramname">rhs_file</td><td>The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form.</td></tr>
   </table>
@@ -176,17 +180,17 @@ Using the package as a standalone program</h2>
 <div class="line">Save complete.</div>
 <div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
 </div><!-- fragment --></dd></dl>
-<h2><a class="anchor" id="matlab_mex"></a>
-Using sym-ildl within Matlab</h2>
-<p>If everything is compiled correctly, simply open Matlab in the package directory. The <code>startup.m</code> script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, <code>ildl</code>. In MATLAB, ildl can only factor the matrix, not solve it. We suggest using sym-ildl as a preconditioner to one of the many different iterative solvers implemented in MATLAB.</p>
+<h2><a class="anchor" id="MATLAB_mex"></a>
+Using sym-ildl within MATLAB</h2>
+<p>If everything is compiled correctly, simply open MATLAB in the package directory. The <code>startup.m</code> script adds all necessary paths to MATLAB upon initiation. The program can now be called by its function handle, <code>ildl</code>.</p>
 <p><code>ildl</code> takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing </p><div class="fragment"><div class="line">help ildl</div>
-</div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="params"><dt>Parameters</dt><dd>
+</div><!-- fragment --><p>For convenience, the parameters are described below: </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>The matrix to be factored.</td></tr>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
-    <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
-    <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.</td></tr>
-    <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
+    <tr><td class="paramname">tol</td><td>Controls aggressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
+    <tr><td class="paramname">pp_tol</td><td>Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.</td></tr>
+    <tr><td class="paramname">reordering</td><td>Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
   </table>
   </dd>
 </dl>
@@ -196,26 +200,62 @@ Using sym-ildl within Matlab</h2>
 <dd>
 <b>p</b> Permutation vector containing permutations done to <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>. </dd>
 <dd>
-<b>S</b> Diagonal scaling matrix that equilibrations <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/> in the max-norm. </dd>
+<b>S</b> Diagonal scaling matrix that equilibrates <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/> in the max-norm. </dd>
 <dd>
 <b>B</b> Permuted and scaled matrix <img class="formulaInl" alt="$\mathbf{B=P^{T}SASP}$" src="form_10.png"/> after factorization.</dd></dl>
 <dl class="section user"><dt>Examples:</dt><dd>Before we begin, let's first generate some symmetric indefinite matrices: <div class="fragment"><div class="line">&gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,100,0));</div>
 <div class="line">&gt;&gt; A = [speye(100) B; B&#39; sparse(100, 100)];</div>
-</div><!-- fragment --> The <code>A</code> generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab <b>sparse</b> matrix.</dd></dl>
+</div><!-- fragment --> The <code>A</code> generated is a special type of matrix called a saddle-point matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a MATLAB <b>sparse</b> matrix.</dd></dl>
 <dl class="section user"><dt></dt><dd>To factor the matrix, we supply <code>ildl</code> with the parameters described above: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
 <div class="line">Equilibration:  0.001 seconds.</div>
-<div class="line">AMD:        0.001 seconds.</div>
-<div class="line">Permutation:    0.000 seconds.</div>
-<div class="line">Factorization:  0.022 seconds.</div>
-<div class="line">Total time: 0.024 seconds.</div>
+<div class="line">AMD:        0.000 seconds.</div>
+<div class="line">Permutation:    0.001 seconds.</div>
+<div class="line">Factorization:  0.013 seconds.</div>
+<div class="line">Total time: 0.015 seconds.</div>
 <div class="line">L is 200 by 200 with 14388 non-zeros.</div>
-</div><!-- fragment --> As we can see above, <code>ildl</code> will supply some timing information to the console when used. The reordering time is the time taken to equilibriate and preorder the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.</dd></dl>
+</div><!-- fragment --> As we can see above, <code>ildl</code> will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.</dd></dl>
 <dl class="section user"><dt></dt><dd>We may also take advantage of the optional parameters and simply feed <code>ildl</code> only one parameter: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A);</div>
 <div class="line">Equilibration:  0.001 seconds.</div>
 <div class="line">AMD:        0.001 seconds.</div>
 <div class="line">...</div>
+</div><!-- fragment --> As specified above, the default values of <code>fill=1.0</code>, <code>tol=0.001</code>, <code>pp_tol=1.0</code>, and <code>reordering=amd</code> are used.</dd></dl>
+<h1><a class="anchor" id="skew_usage"></a>
+Usage for skew-symmetric matrices</h1>
+<h2><a class="anchor" id="skew_ldl_driver"></a>
+As a standalone program</h2>
+<p>When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is <code>skew_ldl_driver</code> instead of <code>ldl_driver</code>. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.</p>
+<p>For example, let's factor the <code>m3dskew50</code> matrix stored in <code>test_matrices/skew/m3dskew50.mtx</code>. As before, this is as simple as: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx</div>
+<div class="line"></div>
+<div class="line">Load succeeded. File test_matrices/m2dskew50.mtx was loaded.</div>
+<div class="line">A is 125000 by 125000 with 735000 non-zeros.</div>
+<div class="line">Equilibration:  0.016 seconds.</div>
+<div class="line">AMD:            0.203 seconds.</div>
+<div class="line">Permutation:    0.125 seconds.</div>
+<div class="line">Factorization:  0.859 seconds.</div>
+<div class="line">Total time:     1.203 seconds.</div>
+<div class="line">L is 125000 by 125000 with 727553 non-zeros.</div>
+<div class="line">Saving matrices...</div>
+<div class="line">Save complete.</div>
+<div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
 </div><!-- fragment --></dd></dl>
-<h1><a class="anchor" id="contribute_sec"></a>
+<p>As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./skew_ldl_driver --help </div>
+</div><!-- fragment --><h2><a class="anchor" id="skew_matlab_mex"></a>
+Within MATLAB</h2>
+<p>Within MATLAB, using ildl is even easier. As in the symmetric case, the command <code>ildl</code> can be used. Everything remains the same as the symmetric case, as <code>ildl</code> automatically detects whether the input is symmetric or skew-symmetric.</p>
+<p>Let's first generate a skew-symmetric matrix for testing: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,100,0));</div>
+<div class="line">&gt;&gt; B = B+B<span class="stringliteral">&#39;;</span></div>
+<div class="line"><span class="stringliteral">&gt;&gt; A = [sparse(100, 100) B; -B sparse(100, 100)];</span></div>
+</div><!-- fragment --></dd></dl>
+<p>Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call <code>ildl</code> exactly as before: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
+<div class="line">Equilibration:  0.001 seconds.</div>
+<div class="line">AMD:        0.000 seconds.</div>
+<div class="line">Permutation:    0.001 seconds.</div>
+<div class="line">Factorization:  0.015 seconds.</div>
+<div class="line">Total time: 0.017 seconds.</div>
+<div class="line">L is 200 by 200 with 9691 non-zeros.</div>
+</div><!-- fragment --></dd></dl>
+<p>Finally, helpful information on the parameters for <code>ildl</code> can be found by typing: </p><div class="fragment"><div class="line">help ildl</div>
+</div><!-- fragment --><h1><a class="anchor" id="contribute_sec"></a>
 How to contribute</h1>
 <p>sym-ildl is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. Simply send us a pull request to contribute.</p>
 <h1><a class="anchor" id="refs"></a>
@@ -229,7 +269,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:57:18 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 16:36:48 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

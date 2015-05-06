@@ -46,7 +46,7 @@
 	
 	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
-	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.
+	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the \b pivot parameters for more details.
 
 	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
@@ -54,12 +54,12 @@
     
     \param pivot Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If \c rook is used, the \c pp_tol parameter is ignored.
     
-    \param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into an external folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
+    \param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into a folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
     
-    \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c y.	
+    \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c n.	
     
     \par Solver parameters
-    \param minres_iters Number of iterations that the builtin MINRES solver can use. The default is \c -1 (i.e. no MINRES). The output solution is written to <c>output_matrices\outsol.mtx</c>.
+    \param minres_iters Number of iterations that the builtin MINRES solver can use. The default is \c -1 (i.e. MINRES is not applied). The output solution is written to <c>output_matrices\outsol.mtx</c>.
     
     \param minres_tol Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| < \c minres_tol, MINRES is terminated. The default is \c 1e-6.
     
@@ -133,30 +133,30 @@
         
 	\endcode
     
-	\subsection matlab_mex Using sym-ildl within Matlab
-	If everything is compiled correctly, simply open Matlab in the package directory. The \c startup.m script adds all necessary paths to Matlab upon initiation. The program can now be called by its function handle, \c ildl. In MATLAB, ildl can only factor the matrix, not solve it. We suggest using sym-ildl as a preconditioner to one of the many different iterative solvers implemented in MATLAB.
+	\subsection MATLAB_mex Using sym-ildl within MATLAB
+	If everything is compiled correctly, simply open MATLAB in the package directory. The \c startup.m script adds all necessary paths to MATLAB upon initiation. The program can now be called by its function handle, \c ildl.
 	
 	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
 	\code
 		help ildl
 	\endcode
 	
-	For convenience, the parameters are listed below:
+	For convenience, the parameters are described below:
 	\param A The matrix to be factored.
 	
 	\param fill Controls memory usage. Each column is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill is <c>1.0</c>.
 	
-	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
+	\param tol Controls aggressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
-	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 varies the number of pivots of BKP makes.
+	\param pp_tol Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.
 
-	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
+	\param reordering Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
 	As with the standalone executable, the function has five outputs: <c>L, D, p, S,</c> and \c B:
 	\return \b L Unit lower triangular factor of \f$\mathbf{P^{T}SASP}\f$.
 	\return \b D Block diagonal factor (consisting of 1x1 and 2x2 blocks) of \f$\mathbf{P^{T}SASP}\f$.
 	\return \b p Permutation vector containing permutations done to \f$\mathbf{A}\f$.
-	\return \b S Diagonal scaling matrix that equilibrations \f$\mathbf{A}\f$ in the max-norm.
+	\return \b S Diagonal scaling matrix that equilibrates \f$\mathbf{A}\f$ in the max-norm.
 	\return \b B Permuted and scaled matrix \f$\mathbf{B=P^{T}SASP}\f$ after factorization.
 *
 *	\par Examples:
@@ -165,20 +165,20 @@
 		>> B = sparse(gallery('uniformdata',100,0));
 		>> A = [speye(100) B; B' sparse(100, 100)];
 	\endcode
-	The \c A generated is a special type of matrix called a KKT matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a Matlab \b sparse matrix.
+	The \c A generated is a special type of matrix called a saddle-point matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a MATLAB \b sparse matrix.
 	
 	\par
 	To factor the matrix, we supply \c ildl with the parameters described above:
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
 		Equilibration:	0.001 seconds.
-		AMD:		0.001 seconds.
-		Permutation:	0.000 seconds.
-		Factorization:	0.022 seconds.
-		Total time:	0.024 seconds.
+		AMD:		0.000 seconds.
+		Permutation:	0.001 seconds.
+		Factorization:	0.013 seconds.
+		Total time:	0.015 seconds.
 		L is 200 by 200 with 14388 non-zeros.
 	\endcode
-	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibriate and preorder the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
+	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
 	
 	\par
 	We may also take advantage of the optional parameters and simply feed \c ildl only one parameter:
@@ -187,6 +187,64 @@
 		Equilibration:	0.001 seconds.
 		AMD:		0.001 seconds.
 		...
+	\endcode	
+	As specified above, the default values of <c>fill=1.0</c>, <c>tol=0.001</c>, <c>pp_tol=1.0</c>, and <c>reordering=amd</c> are used.
+	
+	\section skew_usage Usage for skew-symmetric matrices
+	
+	\subsection skew_ldl_driver As a standalone program
+	
+	When the matrix is skew-symmetric, almost all documentation above still applies. The only difference is that the executable is \c skew_ldl_driver instead of \c ldl_driver. The skew functionality of sym-ildl can be found in the experimental branch of <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>.
+	
+	For example, let's factor the \c m3dskew50 matrix stored in <c>test_matrices/skew/m3dskew50.mtx</c>. As before, this is as simple as:
+	\par
+	\code
+		./skew_ldl_driver -filename=test_matrices/skew/m2dskew50.mtx
+		
+		Load succeeded. File test_matrices/m2dskew50.mtx was loaded.
+		A is 125000 by 125000 with 735000 non-zeros.
+		Equilibration:  0.016 seconds.
+		AMD:            0.203 seconds.
+		Permutation:    0.125 seconds.
+		Factorization:  0.859 seconds.
+		Total time:     1.203 seconds.
+		L is 125000 by 125000 with 727553 non-zeros.
+		Saving matrices...
+		Save complete.
+		Factorization Complete. All output written to /output_matrices directory.
+	\endcode
+	
+	As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing 
+	\code 
+		./skew_ldl_driver --help 
+	\endcode
+	
+	\subsection skew_matlab_mex Within MATLAB
+	Within MATLAB, using ildl is even easier. As in the symmetric case, the command \c ildl can be used. Everything remains the same as the symmetric case, as \c ildl automatically detects whether the input is symmetric or skew-symmetric.
+	
+	Let's first generate a skew-symmetric matrix for testing:
+	\par
+	\code
+		>> B = sparse(gallery('uniformdata',100,0));
+		>> B = B+B';
+		>> A = [sparse(100, 100) B; -B sparse(100, 100)];
+	\endcode
+	
+	Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call \c ildl exactly as before:
+	\par
+	\code
+		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
+		Equilibration:	0.001 seconds.
+		AMD:		0.000 seconds.
+		Permutation:	0.001 seconds.
+		Factorization:	0.015 seconds.
+		Total time:	0.017 seconds.
+		L is 200 by 200 with 9691 non-zeros.
+	\endcode
+
+	Finally, helpful information on the parameters for <c>ildl</c> can be found by typing:
+	\code
+		help ildl
 	\endcode
 
 *	\section contribute_sec How to contribute
