@@ -212,13 +212,13 @@ class solver {
 			start = clock();
             if (pivot_type == 0) {
                 if (perform_inplace) {
+                    // still need to implement rook for inplace
                     A.ildl_inplace(D, perm, fill_factor, tol, pp_tol);
                 } else {
-                    A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+                    A.ildl(L, D, perm, fill_factor, tol, pp_tol, mat_type::pivot_type::BKP);
                 }
             } else {
-                // rook to be merged from experimental branch
-                A.ildl(L, D, perm, fill_factor, tol, pp_tol);
+                A.ildl(L, D, perm, fill_factor, tol, pp_tol, mat_type::pivot_type::ROOK);
             }
 			dif = clock() - start; total += dif;
 			
