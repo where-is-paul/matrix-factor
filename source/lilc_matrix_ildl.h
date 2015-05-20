@@ -125,12 +125,11 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                     //case 3: pivot is k with r: 1x1 pivot case.
                     temp[r] = dr;
                     work[k] = d1;
-
+                    
                     //--------pivot A and L ---------//
                     pivot(s, in_set, L, k, r);
 
                     //----------pivot rest ----------//
-                    std::swap(d1, dr);
 
                     //permute perm
                     std::swap(perm[k], perm[r]);
@@ -142,6 +141,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
                     safe_swap(curr_nnzs, k, r); //swap k and r if they are present in curr_nnzs
 
+                    d1 = work[k];
                     //--------end pivot rest---------//
 
                 } else {
@@ -163,7 +163,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                         //symmetrically permute row/col k+1 and r.
                         pivot(s, in_set, L, k+1, r);
 
-
                         //----------pivot rest ----------//
 
                         //permute perm
@@ -177,6 +176,9 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                         safe_swap(curr_nnzs, k+1, r);
                         safe_swap(temp_nnzs, k+1, r);
                     }
+                    
+                    d1 = work[k];
+                    dr = temp[k+1];
                 }
             }
             //--------------end bkp pivoting--------------//
@@ -184,11 +186,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
             //--------------begin rook pivoting--------------//
             i = k;
             work[k] = d1;
+            
             if (alpha * w1 <= abs(d1) + eps) {
                 // do nothing
             } else {
                 while (true) {
-                    // assign nonzeros indices and values of A(k:n, r) to col_r_nnzs
+                    // assign nonzeros indices and values of A(r:n, r) to col_r_nnzs
                     for (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
                         temp[*it] = 0;
                     }
@@ -216,42 +219,70 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 
                     dr = temp[r];
                     temp[r] = 0;
-
+                    
                     //find maximum element in temp.
                     wr = max(temp, temp_nnzs, j);
                     temp[r] = dr;
                     
                     if (alpha * wr <= abs(dr) + eps) {
                         // swap rows and columns k and r
-                        this->pivot(s, in_set, L, k, r);
+                        
+                        pivot(s, in_set, L, k, r);
+                        
                         std::swap(perm[k], perm[r]);
+                        
                         std::swap(temp[k], temp[r]);
-                        safe_swap(temp_nnzs, k, r);
                         work.swap(temp);
+                        
+                        safe_swap(temp_nnzs, k, r);
                         curr_nnzs.swap(temp_nnzs);
+                        
+                        d1 = work[k];
                         break;
                     } else if (abs(w1 - wr) < eps) {
                         size_two_piv = true;
                         // swap rows and columns k and i, k+1 and r
                         if (k != i) {
-                            this->pivot(s, in_set, L, k, i);
+                            //symmetrically permute row/col k and i.
+                            pivot(s, in_set, L, k, i);
+
+                            //----------pivot rest ----------//
+                            
+                            //permute perm
                             std::swap(perm[k], perm[i]);
+
+                            //swap rows k and i of work and temp
                             std::swap(work[k], work[i]);
                             std::swap(temp[k], temp[i]);
+
+                            //swap k+1 and r in curr_nnzs and temp_nnzs
                             safe_swap(curr_nnzs, k, i);
                             safe_swap(temp_nnzs, k, i);
+                            
+                            d1 = work[k];
                         }
 
                         advance_list(k);
                         L.advance_first(k);
 
                         if (k+1 != r) {
-                            this->pivot(s, in_set, L, k+1, r);
+                            //symmetrically permute row/col k+1 and r.
+                            pivot(s, in_set, L, k+1, r);
+
+                            //----------pivot rest ----------//
+                            
+                            //permute perm
                             std::swap(perm[k+1], perm[r]);
+
+                            //swap rows k+1 and r of work and temp
                             std::swap(work[k+1], work[r]);
                             std::swap(temp[k+1], temp[r]);
+
+                            //swap k+1 and r in curr_nnzs and temp_nnzs
                             safe_swap(curr_nnzs, k+1, r);
                             safe_swap(temp_nnzs, k+1, r);
+                            
+                            dr = temp[k+1];
                         }
                         break;
                     } else {
