@@ -135,7 +135,8 @@ Using the package as a standalone program</h2>
 <p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] [-rhs_file=rhs-name.mtx ...]</div>
 </div><!-- fragment --><p>The parameters can be given in any order, and will use a default value when not specified.</p>
 <p>A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./ldl_driver --help </div>
-</div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="section user"><dt>Factorization parameters</dt><dd></dd></dl>
+</div><!-- fragment --><p>For convenience, the parameters are listed below. Generally speaking, the code operates in two phases: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the LDL' preconditioner is built. The solver takes the preconditioner and uses it in either preconditioned MINRES or a direct solve (full factorization with Bunch-Kaufman or Rook pivoting).</p>
+<dl class="section user"><dt>Factorization parameters</dt><dd></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
@@ -296,7 +297,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 22 2015 13:36:45 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 13:44:04 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

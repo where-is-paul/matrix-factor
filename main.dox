@@ -40,8 +40,10 @@
 		./ldl_driver --help 
 	\endcode
 	
-	For convenience, the parameters are listed below:
+	For convenience, the parameters are listed below. Generally speaking, the code operates in two phases: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the LDL' preconditioner is built. The solver takes the preconditioner and uses it in either preconditioned MINRES or a direct solve (full factorization with Bunch-Kaufman or Rook pivoting).
+    
     \par Factorization parameters
+    
 	\param filename The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
 	\param fill Controls memory usage. Each column is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. When this argument is not given, the default value for \c fill is <c>3.0</c>.
