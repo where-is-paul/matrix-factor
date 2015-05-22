@@ -137,7 +137,7 @@
         
 	\endcode
     
-	\subsection MATLAB_mex Using sym-ildl within MATLAB
+	\subsection matlab_mex Using sym-ildl within MATLAB
 	If everything is compiled correctly, simply open MATLAB in the package directory. The \c startup.m script adds all necessary paths to MATLAB upon initiation. The program can now be called by its function handle, \c ildl.
 	
 	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 

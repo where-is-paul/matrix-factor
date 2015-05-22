@@ -57,7 +57,7 @@ void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx,
 	int count = 0;
 
 	solv.A.resize(nnzs, nnzs);
-	fill(solv.A.first.begin(), solv.A.first.end(), 0);
+	fill(solv.A.col_first.begin(), solv.A.col_first.end(), 0);
 		
 	for (mwSize i = 0; i < nnzs; i++) {
 
