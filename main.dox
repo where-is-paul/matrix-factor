@@ -4,13 +4,13 @@
 *
 *   \section dlinks Download links
 *       \subsection matlab_dlinks MATLAB MEX Files
-*           - <a href="placeholder">For MATLAB 2015a and above on 64-bit Windows 8.1</a>
-*           - <a href="placeholder">For MATLAB 2015a and above on 64-bit OpenSuse 13.2</a>
+*           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/win64/ildl-2015a.zip">For MATLAB 2015a and above on 64-bit Windows 8.1</a>
+*           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/linux/ildl-2014a.zip">For MATLAB 2014a and above on 64-bit OpenSUSE 13.1</a>
 *       \subsection binary_dlinks Prebuilt binaries
-*           - <a href="placeholder">For 64-bit Windows 8.1</a>
-*           - <a href="placeholder">For 64-bit OpenSuse 13.2</a>
+*           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/win64/ldl_driver.exe">For 64-bit Windows 8.1</a>
+*           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/linux/ldl_driver">For 64-bit OpenSUSE 13.2</a>
 *       \subsection source_dlinks The source code
-*           - <a href="https://github.com/inutard/matrix-factor/archive/master.zip">The source code</a>
+*           - <a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a>
 *	\section intro_sec Introduction
 *
 	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite matrices. Given an \f$n\times n\f$ symmetric indefinite matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
