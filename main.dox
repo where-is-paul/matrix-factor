@@ -40,7 +40,9 @@
 		./ldl_driver --help 
 	\endcode
 	
-	For convenience, the parameters are listed below. Generally speaking, the code operates in two phases: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the LDL' preconditioner is built. The solver takes the preconditioner and uses it in either preconditioned MINRES or a direct solve (full factorization with Bunch-Kaufman or Rook pivoting).
+	Generally speaking, the code operates in two phases: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the LDL' preconditioner is built. If a right hand side is specified, the built-in solver attempts to solve the given linear system. The solver takes the preconditioner and uses it in either preconditioned MINRES or a direct solve (full factorization with Bunch-Kaufman or rook pivoting).
+    
+    For convenience, the parameters are listed below. 
     
     \par Factorization parameters
     
