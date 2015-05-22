@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -65,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -96,18 +95,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classsolver.html#a2f30ed863d7e014c4f0fce2384e03344">D</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352">display</a>()</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classsolver.html#ac9e84c0e49400735be9f548698d0a9ed">equil</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a18ed7b46dee944764d14e1533699c20b">has_rhs</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#aefb194babf72ece8f73913e863676ead">L</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">load</a>(std::string filename)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#a7ad3194ab553a985a32bdce660245805">minres</a>(int max_iter=1000, double stop_tol=1e-6, double shift=0.0)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a448d9b8ca7a62e01107cbe038a82da33">perform_inplace</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892">perm</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a09d23ddd1d9708b9a3229d29c1e530d5">piv_type</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#a32aa527fd4e61641d666d0f27074a08b">pivot_type</a> typedef</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#aee35330d4a12561f30c9b9ef879b3061">reorder_scheme</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#a0e267c1d63c40fdfedfc6af80667e55d">rhs</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#abe36a802939d84960f0ab12587663de7">save</a>()</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classsolver.html#a2254762a68ad031889857c5766e50e4d">set_equil</a>(bool equil_opt)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#ab20b2db6317e7d63f1944248d946045b">full_solve</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#a18ed7b46dee944764d14e1533699c20b">has_rhs</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#aefb194babf72ece8f73913e863676ead">L</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#adfabd9ff38a854a91f8443976fae5432">load</a>(std::string filename)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a7ad3194ab553a985a32bdce660245805">minres</a>(int max_iter=1000, double stop_tol=1e-6, double shift=0.0)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#a448d9b8ca7a62e01107cbe038a82da33">perform_inplace</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892">perm</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#a09d23ddd1d9708b9a3229d29c1e530d5">piv_type</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>pivot_type</b> typedef (defined in <a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a>)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#aee35330d4a12561f30c9b9ef879b3061">reorder_scheme</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a0e267c1d63c40fdfedfc6af80667e55d">rhs</a></td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#abe36a802939d84960f0ab12587663de7">save</a>()</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a2254762a68ad031889857c5766e50e4d">set_equil</a>(bool equil_opt)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classsolver.html#abf2c7f7161d9b17d02e431c7345fc55e">set_full_solve</a>(bool full)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsolver.html#a0db2d124c24a018a030ea5e8475d3c51">set_inplace</a>(bool inplace)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classsolver.html#a2ef1b8669eb6a72763d29eded73a618d">set_pivot</a>(const char *pivot)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsolver.html#ad6d05305c621452fed94b287db9e7367">set_reorder_scheme</a>(const char *ordering)</td><td class="entry"><a class="el" href="classsolver.html">solver&lt; el_type, mat_type &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
@@ -118,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:52:21 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 01:09:57 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

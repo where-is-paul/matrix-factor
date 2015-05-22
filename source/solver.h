@@ -89,14 +89,18 @@ class solver {
         
 		mat_type A;	///<The matrix to be factored.
 		mat_type L;	///<The lower triangular factor of A.
-		vector<int> perm;	///<A permutation vector containing all permutations on A.
+		
+        vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
         pivot_type piv_type; ///<Set to 0 for rook, 1 for bunch.
-		bool equil; ///<Set to true for max-norm equilibriation.
+		
+        bool equil; ///<Set to true for max-norm equilibriation.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
-		vector<el_type> rhs; ///<The right hand side we'll solve for.
+		bool full_solve; ///<Set to true if we are using SYM-ILDL as a direct solver.
+        
+        vector<el_type> rhs; ///<The right hand side we'll solve for.
 		vector<el_type> sol_vec; ///<The solution vector.
 		
 		/*! \brief Solver constructor, initializes default reordering scheme.
@@ -107,6 +111,7 @@ class solver {
 			equil = true;
             has_rhs = false;
             perform_inplace = false;
+            full_solve = false;
 		}
 				
 		/*! \brief Loads the matrix A into solver.
@@ -144,6 +149,12 @@ class solver {
 		void set_equil(bool equil_opt) {
 			equil = equil_opt;
 		}
+        
+        /*! \brief Decides whether we perform a full solve or not.
+		*/
+		void set_full_solve(bool full) {
+			full_solve = full;
+		}
 		
         /*! \brief Decides whether we perform the factorization inplace or not.
 		*/
@@ -171,6 +182,12 @@ class solver {
 			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
 		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0.0) {
+            // A full factorization is equivalent to a fill factor of n and tol of 0
+            if (full_solve) {
+                tol = 0.0;
+                fill_factor = A.n_cols();
+            }
+            
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
 			//gettimeofday(&tim, NULL);  
@@ -189,16 +206,16 @@ class solver {
 				switch (reorder_scheme) {
 					case 0:
 						A.sym_amd(perm);
-						perm_name = "  AMD";
+						perm_name = "AMD";
 						break;
 					case 1:
 						A.sym_rcm(perm);
-						perm_name = "  RCM";
+						perm_name = "RCM";
 						break;
 				}
 				
 				dif = clock() - start; total += dif;
-				printf("%s:\t\t\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+				printf("  %s:\t\t\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
 				
 				start = clock();
 				A.sym_perm(perm);
@@ -243,9 +260,9 @@ class solver {
                 if (perform_inplace) {
                     printf("Inplace factorization cannot be used with the solver. Please try again without -inplace.\n");
                 } else {
-				
-                    printf("Solving matrix with MINRES...");
+                    // start timer in case we're doing a full solve
                     start = clock();
+                    
                     // we've permuted and equilibrated the matrix, so we gotta apply 
                     // the same permutation and equilibration to the right hand side.
                     // i.e. rhs = P'S*rhs
@@ -262,24 +279,39 @@ class solver {
                     }
                     rhs = tmp;
                     
-                    // finally, since we're preconditioning with M = L|D|^(1/2), we have
-                    // to multiply M^(-1) to the rhs and solve the system
-                    // M^(-1) * B * M'^(-1) y = M^(-1)P'*S*b
-                    L.backsolve(rhs, tmp);
-                    D.sqrt_solve(tmp, rhs, false);
+                    if (full_solve) {
+                        printf("Solving matrix with direct solver...\n");
+                        sol_vec.resize(A.n_cols(), 0);
+                        // MINRES uses the preconditioned solver that
+                        // splits the block D into |D|^(1/2).
+                        // For the full solver we'll just solve D directly.
+                        L.backsolve(rhs, sol_vec);
+                        D.solve(sol_vec, tmp);
+                        L.forwardsolve(tmp, sol_vec);
+                    } else {
+                        // finally, since we're preconditioning with M = L|D|^(1/2), we have
+                        // to multiply M^(-1) to the rhs and solve the system
+                        // M^(-1) * B * M'^(-1) y = M^(-1)P'*S*b
+                        L.backsolve(rhs, tmp);
+                        D.sqrt_solve(tmp, rhs, false);
+                        
+                        printf("Solving matrix with MINRES...\n");
+                        start = clock();
+                        // solve the equilibrated, preconditioned, and permuted linear system
+                        minres(max_iter, minres_tol, shift);
+                        
+                        // now we've solved M^(-1)*B*M'^(-1)y = M^(-1)P'*S*b
+                        // where B = P'SASPy.
+                        
+                        // but the actual solution is y = M' * P'S^(-1)*x
+                        // so x = S*P*M'^(-1)*y
+                        
+                        // 0. apply M'^(-1)
+                        D.sqrt_solve(sol_vec, tmp, true);
+                        L.forwardsolve(tmp, sol_vec);
+                    }
                     
-                    // solve the equilibrated, preconditioned, and permuted linear system
-                    minres(max_iter, minres_tol, shift);
                     
-                    // now we've solved M^(-1)*B*M'^(-1)y = M^(-1)P'*S*b
-                    // where B = P'SASPy.
-                    
-                    // but the actual solution is y = M' * P'S^(-1)*x
-                    // so x = S*P*M'^(-1)*y
-                    
-                    // 0. apply M'^(-1)
-                    D.sqrt_solve(sol_vec, tmp, true);
-                    L.forwardsolve(tmp, sol_vec);
                     
                     // 1. apply P
                     for (int i = 0; i < A.n_cols(); i++) {

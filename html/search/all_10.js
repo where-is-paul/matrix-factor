@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['unordered_5finplace_5funion',['unordered_inplace_union',['../lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567',1,'lilc_matrix_ildl_helpers.h']]],
-  ['update',['update',['../lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e',1,'lilc_matrix_ildl_helpers.h']]],
-  ['update_5fsingle',['update_single',['../lilc__matrix__ildl__helpers_8h.html#a737792b9fd3b712d9b15578a3f067f3c',1,'lilc_matrix_ildl_helpers.h']]]
+  ['_7eblock_5fdiag_5fmatrix',['~block_diag_matrix',['../classblock__diag__matrix.html#a060d90add0a7490196fd47f5efb1c818',1,'block_diag_matrix']]],
+  ['_7elil_5fsparse_5fmatrix',['~lil_sparse_matrix',['../classlil__sparse__matrix.html#aebd4e61eeb73f709d0900cc064d8986d',1,'lil_sparse_matrix']]]
 ];

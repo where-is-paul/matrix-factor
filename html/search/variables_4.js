@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['has_5frhs',['has_rhs',['../classsolver.html#a18ed7b46dee944764d14e1533699c20b',1,'solver']]]
+  ['full_5fsolve',['full_solve',['../classsolver.html#ab20b2db6317e7d63f1944248d946045b',1,'solver']]]
 ];

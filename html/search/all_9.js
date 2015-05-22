@@ -5,9 +5,7 @@ var searchData=
   ['m_5fn_5frows',['m_n_rows',['../classlil__sparse__matrix.html#a6eac075dab519f837ae660c9ef933eb9',1,'lil_sparse_matrix']]],
   ['m_5fn_5fsize',['m_n_size',['../classblock__diag__matrix.html#a8e55b8cb27c7686a6e62f5e1655723b4',1,'block_diag_matrix']]],
   ['m_5fx',['m_x',['../classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de',1,'lil_sparse_matrix']]],
-  ['main',['main',['../ldl__driver_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'ldl_driver.cpp']]],
   ['main_5fdiag',['main_diag',['../classblock__diag__matrix.html#a74396564eee4ad30c97b0eab031dda32',1,'block_diag_matrix']]],
-  ['max',['max',['../lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb',1,'lilc_matrix_ildl_helpers.h']]],
   ['minres',['minres',['../classsolver.html#a7ad3194ab553a985a32bdce660245805',1,'solver']]],
   ['multiply',['multiply',['../classlilc__matrix.html#a00362a639b1e8ec341014c39afaf5e5a',1,'lilc_matrix']]]
 ];

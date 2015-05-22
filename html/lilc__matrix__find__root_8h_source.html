@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -64,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -91,50 +89,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">lilc_matrix_find_root.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="lilc__matrix__find__root_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// -*- mode: c++ -*-</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// -*- mode: c++ -*-</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef _LILC_MATRIX_FIND_ROOT_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define _LILC_MATRIX_FIND_ROOT_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; </div>
 <div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classlilc__matrix.html#a46161695c5bfb0f43a7dedb9b9146fef">    6</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a46161695c5bfb0f43a7dedb9b9146fef">lilc_matrix&lt;el_type&gt; :: find_root</a>(<span class="keywordtype">int</span>&amp; s) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        vector&lt;int&gt; lvl_set;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keywordtype">int</span> ls_max = 0, ls = 0;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                lvl_set.clear();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                std::fill(visited.begin(), visited.end(), <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                ls = 0;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                lvl_set.push_back(s);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                visited[s] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <span class="keywordflow">while</span> (find_level_set(lvl_set, visited))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                        ls++;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    vector&lt;int&gt; lvl_set;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordtype">int</span> ls_max = 0, ls = 0;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        lvl_set.clear();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        std::fill(visited.begin(), visited.end(), <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        ls = 0;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        lvl_set.push_back(s);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        visited[s] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">while</span> (find_level_set(lvl_set, visited))</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            ls++;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordflow">if</span> (ls &gt; ls_max) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                        ls_max = ls;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                        <span class="keywordtype">int</span> deg, min_deg = m_n_cols;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = lvl_set.begin(); it != lvl_set.end(); it++) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                deg = list[*it].size() + m_idx[*it].size();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                <span class="keywordflow">if</span> (m_idx[*it].size() &gt; 0 &amp;&amp; m_idx[*it][0] == *it) deg--;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                <span class="keywordflow">if</span> (deg &lt; min_deg) { <span class="comment">//should consider tie breaking by index later if needed.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                        min_deg = deg;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                        s = *it;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> (ls &gt; ls_max) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            ls_max = ls;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordtype">int</span> deg, min_deg = m_n_cols;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">for</span> (idx_it it = lvl_set.begin(); it != lvl_set.end(); it++) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                deg = list[*it].size() + m_idx[*it].size();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keywordflow">if</span> (m_idx[*it].size() &gt; 0 &amp;&amp; m_idx[*it][0] == *it) deg--;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">if</span> (deg &lt; min_deg) { <span class="comment">//should consider tie breaking by index later if needed.</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                    min_deg = deg;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    s = *it;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classlilc__matrix_html_a8cd399b5bc0ef50dcf5a59a671e32248"><div class="ttname"><a href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">lilc_matrix::idx_it</a></div><div class="ttdeci">idx_vector_type::iterator idx_it</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:41</div></div>
 <div class="ttc" id="classlilc__matrix_html_a46161695c5bfb0f43a7dedb9b9146fef"><div class="ttname"><a href="classlilc__matrix.html#a46161695c5bfb0f43a7dedb9b9146fef">lilc_matrix::find_root</a></div><div class="ttdeci">void find_root(int &amp;s)</div><div class="ttdoc">Returns a pseudo-peripheral root of A. This is essentially many chained breadth-first searchs across ...</div><div class="ttdef"><b>Definition:</b> lilc_matrix_find_root.h:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:52:20 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 01:09:56 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

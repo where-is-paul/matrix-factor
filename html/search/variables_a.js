@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['reorder_5fscheme',['reorder_scheme',['../classsolver.html#aee35330d4a12561f30c9b9ef879b3061',1,'solver']]],
-  ['rhs',['rhs',['../classsolver.html#a0e267c1d63c40fdfedfc6af80667e55d',1,'solver']]],
-  ['row_5ffirst',['row_first',['../classlilc__matrix.html#a2ca57e0c3866ed0cf1f17f6253666ebb',1,'lilc_matrix']]],
-  ['row_5fk',['row_k',['../classswap__struct.html#a52180e1635646cd4f2dab0209ae62cb9',1,'swap_struct']]],
-  ['row_5fr',['row_r',['../classswap__struct.html#a3b6ad04f7393ddd5c8b130e33208d427',1,'swap_struct']]]
+  ['perform_5finplace',['perform_inplace',['../classsolver.html#a448d9b8ca7a62e01107cbe038a82da33',1,'solver']]],
+  ['perm',['perm',['../classsolver.html#aab91f0fb6fc84bf5add83dfc317ca892',1,'solver']]],
+  ['piv_5ftype',['piv_type',['../classsolver.html#a09d23ddd1d9708b9a3229d29c1e530d5',1,'solver']]]
 ];

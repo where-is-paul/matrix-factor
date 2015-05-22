@@ -40,7 +40,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -81,7 +82,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#intro_sec">Introduction</a></li>
+<ul><li class="level1"><a href="#dlinks">Download links</a><ul><li class="level2"><a href="#matlab_dlinks">MATLAB MEX Files</a></li>
+<li class="level2"><a href="#binary_dlinks">Prebuilt binaries</a></li>
+<li class="level2"><a href="#source_dlinks">The source code</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#intro_sec">Introduction</a></li>
 <li class="level1"><a href="#quick_start">Quick Start</a><ul><li class="level2"><a href="#ldl_driver">Using the package as a standalone program</a></li>
 <li class="level2"><a href="#MATLAB_mex">Using sym-ildl within MATLAB</a></li>
 </ul>
@@ -90,11 +96,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level2"><a href="#skew_matlab_mex">Within MATLAB</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#contribute_sec">How to contribute</a></li>
+<li class="level1"><a href="#contribute_sec">Licensing and How to contribute</a></li>
 <li class="level1"><a href="#refs">References</a></li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
+<div class="textblock"><h1><a class="anchor" id="dlinks"></a>
+Download links</h1>
+<h2><a class="anchor" id="matlab_dlinks"></a>
+MATLAB MEX Files</h2>
+<ul>
+<li><a href="placeholder">For MATLAB 2015a and above on 64-bit Windows 8.1</a></li>
+<li><a href="placeholder">For MATLAB 2015a and above on 64-bit OpenSuse 13.2</a> </li>
+</ul>
+<h2><a class="anchor" id="binary_dlinks"></a>
+Prebuilt binaries</h2>
+<ul>
+<li><a href="placeholder">For 64-bit Windows 8.1</a></li>
+<li><a href="placeholder">For 64-bit OpenSuse 13.2</a> </li>
+</ul>
+<h2><a class="anchor" id="source_dlinks"></a>
+The source code</h2>
+<ul>
+<li><a href="https://github.com/inutard/matrix-factor/archive/master.zip">The source code</a> </li>
+</ul>
+<h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
 <p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_3.png"/>
@@ -103,11 +128,11 @@ Introduction</h1>
 <p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).</p>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
-<p>To begin using the package, first download the files hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a Matlab interface.</p>
+<p>To begin using the package, first download the files above or compile the code hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The GitHub repository contains the most up to date source code as well as an "experimental" branch that we release new features to. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a Matlab interface.</p>
 <h2><a class="anchor" id="ldl_driver"></a>
 Using the package as a standalone program</h2>
 <p>The compiled program <code>ldl_driver</code> takes in (through the command line) three parameters as well as four optional ones.</p>
-<p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[amd/rcm/none] -save=[y/n] -display=[y/n]</div>
+<p>The format of execution is: </p><div class="fragment"><div class="line">./ldl_driver -filename=[matrix-name.mtx] -fill=[fill_factor] -tol=[drop_tol] -pp_tol=[pp_tol] -reordering=[<a class="code" href="namespaceamd.html">amd</a>/rcm/none] -save=[y/n] -display=[y/n]</div>
 </div><!-- fragment --><p>The parameters above can be given in any order, and will use a default value when not specified.</p>
 <p>A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./ldl_driver --help </div>
 </div><!-- fragment --><p>For convenience, the parameters are listed below: </p><dl class="section user"><dt>Factorization parameters</dt><dd></dd></dl>
@@ -128,6 +153,7 @@ Using the package as a standalone program</h2>
 <dl class="section user"><dt>Solver parameters</dt><dd></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">full</td><td>This flag enables SYM-ILDL to be used as a direct solver. Internally the full factorization is produced and a straight forward direct solve is done. Setting this parameter to <code>y</code> overrides all other solver parameters as well as -fill and -tol (since we will no longer produce an incomplete factorization). The default value is <code>n</code>.</td></tr>
     <tr><td class="paramname">minres_iters</td><td>Number of iterations that the builtin MINRES solver can use. The default is <code>-1</code> (i.e. MINRES is not applied). The output solution is written to <code>output_matrices\outsol.mtx</code>.</td></tr>
     <tr><td class="paramname">minres_tol</td><td>Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| &lt; <code>minres_tol</code>, MINRES is terminated. The default is <code>1e-6</code>.</td></tr>
     <tr><td class="paramname">rhs_file</td><td>The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form.</td></tr>
@@ -256,8 +282,8 @@ Within MATLAB</h2>
 </div><!-- fragment --></dd></dl>
 <p>Finally, helpful information on the parameters for <code>ildl</code> can be found by typing: </p><div class="fragment"><div class="line">help ildl</div>
 </div><!-- fragment --><h1><a class="anchor" id="contribute_sec"></a>
-How to contribute</h1>
-<p>sym-ildl is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. Simply send us a pull request to contribute.</p>
+Licensing and How to contribute</h1>
+<p>sym-ildl is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request to contribute.</p>
 <h1><a class="anchor" id="refs"></a>
 References</h1>
 <ol type="1">
@@ -269,7 +295,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 16:39:47 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 01:09:57 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

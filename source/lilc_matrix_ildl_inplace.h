@@ -192,6 +192,7 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
             //--------------begin rook pivoting--------------//
             i = k;
             work[k] = d1;
+            
             if (alpha * w1 <= abs(d1) + eps) {
                 // do nothing
             } else {
@@ -232,31 +233,46 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
                     if (alpha * wr <= abs(dr) + eps) {
                         // swap rows and columns k and r
                         this->pivotA(s, in_set, k, r);
+                        
                         std::swap(perm[k], perm[r]);
+                        
                         std::swap(temp[k], temp[r]);
-                        safe_swap(temp_nnzs, k, r);
                         work.swap(temp);
+                        
+                        safe_swap(temp_nnzs, k, r);
                         curr_nnzs.swap(temp_nnzs);
+                        
+                        d1 = work[k];
                         break;
                     } else if (abs(w1 - wr) < eps) {
                         size_two_piv = true;
                         // swap rows and columns k and i, k+1 and r
                         if (k != i) {
                             this->pivotA(s, in_set, k, i);
+                            
                             std::swap(perm[k], perm[i]);
+                            
                             std::swap(work[k], work[i]);
                             std::swap(temp[k], temp[i]);
+                            
                             safe_swap(curr_nnzs, k, i);
                             safe_swap(temp_nnzs, k, i);
+                            
+                            d1 = work[k];
                         }
 
                         if (k+1 != r) {
                             this->pivotA(s, in_set, k+1, r);
+                            
                             std::swap(perm[k+1], perm[r]);
+                            
                             std::swap(work[k+1], work[r]);
                             std::swap(temp[k+1], temp[r]);
+                            
                             safe_swap(curr_nnzs, k+1, r);
                             safe_swap(temp_nnzs, k+1, r);
+                            
+                            dr = temp[k+1];
                         }
                         break;
                     } else {

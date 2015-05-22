@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -64,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -91,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">lilc_matrix_ildl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="lilc__matrix__ildl_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _LILC_MATRIX_ILDL_H_</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _LILC_MATRIX_ILDL_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define _LILC_MATRIX_ILDL_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -100,62 +98,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using</span> std::abs;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">lilc_matrix&lt;el_type&gt; :: ildl</a>(<a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>&amp; L, <a class="code" href="classblock__diag__matrix.html">block_diag_matrix&lt;el_type&gt;</a>&amp; D, <a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a>&amp; perm, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; fill_factor, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; tol, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; pp_tol, <a class="code" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a> piv_type)</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">lilc_matrix&lt;el_type&gt; :: ildl</a>(<a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>&amp; L, <a class="code" href="classblock__diag__matrix.html">block_diag_matrix&lt;el_type&gt;</a>&amp; D, idx_vector_type&amp; perm, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; fill_factor, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; tol, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; pp_tol, <a class="code" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a> piv_type)</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="comment">//----------------- initialize temporary variables --------------------//</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">int</span> ncols = n_cols(); <span class="comment">//number of cols in A.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">int</span> lfil;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">if</span> (fill_factor &gt; 1e4) lfil = ncols; <span class="comment">//just incase users decide to enter a giant fill factor for fun...</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">else</span> lfil = 2*fill_factor*nnz()/ncols; <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> el_type alpha = (1.0+sqrt(17.0))/8.0;  <span class="comment">//for use in pivoting.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        el_type w1(-1), wr(-1), d1(-1), dr(-1);         <span class="comment">//for use in bk-pivoting</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        el_type det_D, D_inv11, D_inv22, D_inv12;       <span class="comment">//for use in 2x2 pivots</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        el_type l_11, l_12;                                                     <span class="comment">//for use in 2x2 pivots</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">//----------------- initialize temporary variables --------------------//</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> ncols = n_cols(); <span class="comment">//number of cols in A.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> lfil;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (fill_factor &gt; 1e4) lfil = ncols; <span class="comment">//just incase users decide to enter a giant fill factor for fun...</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">else</span> lfil = 2*fill_factor*nnz()/ncols; <span class="comment">//roughly a factor of 2 since only lower tri. of A is stored</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">const</span> el_type alpha = (1.0+sqrt(17.0))/8.0;  <span class="comment">//for use in pivoting.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    el_type w1(-1), wr(-1), d1(-1), dr(-1);     <span class="comment">//for use in bk-pivoting</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    el_type det_D, D_inv11, D_inv22, D_inv12;   <span class="comment">//for use in 2x2 pivots</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    el_type l_11, l_12;                         <span class="comment">//for use in 2x2 pivots</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        vector&lt;bool&gt; in_set(ncols, <span class="keyword">false</span>); <span class="comment">//bitset used for unsorted merges</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classswap__struct.html">swap_struct&lt;el_type&gt;</a> s; <span class="comment">//struct containing temp vars used in pivoting.</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">elt_vector_type</a> work(ncols, 0), temp(ncols, 0); </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">idx_vector_type</a> curr_nnzs, temp_nnzs;  <span class="comment">//non-zeros on current col.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        curr_nnzs.reserve(ncols); <span class="comment">//reserves space for worse case (entire col is non-zero)</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    vector&lt;bool&gt; in_set(ncols, <span class="keyword">false</span>); <span class="comment">//bitset used for unsorted merges</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classswap__struct.html">swap_struct&lt;el_type&gt;</a> s; <span class="comment">//struct containing temp vars used in pivoting.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    elt_vector_type work(ncols, 0), temp(ncols, 0); </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    idx_vector_type curr_nnzs, temp_nnzs;  <span class="comment">//non-zeros on current col.</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    curr_nnzs.reserve(ncols); <span class="comment">//reserves space for worse case (entire col is non-zero)</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">int</span> count = 0; <span class="comment">//the total number of nonzeros stored in L.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">int</span> i, j, k, r, offset, col_size, col_size2(-1);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">bool</span> size_two_piv = <span class="keyword">false</span>;      <span class="comment">//boolean indicating if the pivot is 2x2 or 1x1</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">int</span> count = 0; <span class="comment">//the total number of nonzeros stored in L.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> i, j, k, r, offset, col_size, col_size2(-1);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">bool</span> size_two_piv = <span class="keyword">false</span>;  <span class="comment">//boolean indicating if the pivot is 2x2 or 1x1</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">//--------------- allocate memory for L and D ------------------//</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        L.<a class="code" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795">resize</a>(ncols, ncols); <span class="comment">//allocate a vector of size n for Llist as well</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        D.<a class="code" href="classblock__diag__matrix.html#aa2f3ffb9d4e198ab18262b702c79cadb">resize</a>(ncols );</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">//------------------- main loop: factoring begins -------------------------//</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">for</span> (k = 0; k &lt; ncols; k++) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="comment">//curr nnz vector starts out empty and is cleared at the end of each loop iteration.</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="comment">//assign nonzeros indices of A(k:n, k) to curr_nnzs</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">//--------------- allocate memory for L and D ------------------//</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    L.<a class="code" href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795">resize</a>(ncols, ncols); <span class="comment">//allocate a vector of size n for Llist as well</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    D.<a class="code" href="classblock__diag__matrix.html#aa2f3ffb9d4e198ab18262b702c79cadb">resize</a>(ncols );</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//------------------- main loop: factoring begins -------------------------//</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">for</span> (k = 0; k &lt; ncols; k++) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">//curr nnz vector starts out empty and is cleared at the end of each loop iteration.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">//assign nonzeros indices of A(k:n, k) to curr_nnzs</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="comment">//assign nonzero values of A(k:n, k) to work</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">for</span> (j = 0; j &lt; (int) curr_nnzs.size(); j++) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        work[curr_nnzs[j]] = m_x[k][j];</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">//assign nonzero values of A(k:n, k) to work</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">for</span> (j = 0; j &lt; (int) curr_nnzs.size(); j++) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            work[curr_nnzs[j]] = m_x[k][j];</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="comment">//--------------begin pivoting--------------//</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">//--------------begin pivoting--------------//</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// the pivoting below DEFINITELY needs to be refactored into a separate function</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="comment">//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * D(i,i) * L(k:n, i)</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e">update</a>(k, work, curr_nnzs, L, D, in_set);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="comment">//store diagonal element in d1. set diagonal element in work vector to 0</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="comment">//since we want to find the maximum off-diagonal element.</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                d1 = work[k];</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                work[k] = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * D(i,i) * L(k:n, i)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        update(k, work, curr_nnzs, L, D, in_set);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">//store diagonal element in d1. set diagonal element in work vector to 0</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">//since we want to find the maximum off-diagonal element.</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        d1 = work[k];</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        work[k] = 0;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">//find maximum element in work and store its index in r.</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                w1 = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb">max</a>(work, curr_nnzs, r);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">//find maximum element in work and store its index in r.</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        w1 = max(work, curr_nnzs, r);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span> (piv_type == pivot_type::BKP) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="comment">//we do partial pivoting here, where we take the first element u in the column that satisfies</span></div>
@@ -203,13 +201,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="comment">//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e">update</a>(r, temp, temp_nnzs, L, D, in_set);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                update(r, temp, temp_nnzs, L, D, in_set);</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                dr = temp[r];</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                temp[r] = 0;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <span class="comment">//find maximum element in temp.</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                wr = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb">max</a>(temp, temp_nnzs, j);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                wr = max(temp, temp_nnzs, j);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">if</span> ((alpha*w1*w1 - abs(d1)*wr) &lt; eps) {</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    <span class="comment">//case 2: do nothing. pivot is k.</span></div>
@@ -218,23 +216,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    <span class="comment">//case 3: pivot is k with r: 1x1 pivot case.</span></div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                    temp[r] = dr;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    work[k] = d1;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                    </div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                    <span class="comment">//--------pivot A and L ---------//</span></div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                    pivot(s, in_set, L, k, r);</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    <span class="comment">//----------pivot rest ----------//</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    std::swap(d1, dr);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                    <span class="comment">//permute perm</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                    std::swap(perm[k], perm[r]);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                    work.swap(temp);    <span class="comment">//swap work with temp.</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    std::swap(work[k], work[r]); <span class="comment">//swap kth and rth row of work</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                    curr_nnzs.swap(temp_nnzs);  <span class="comment">//swap curr_nnzs with temp_nnzs</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                    <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(curr_nnzs, k, r); <span class="comment">//swap k and r if they are present in curr_nnzs</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                    <span class="comment">//permute perm</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                    std::swap(perm[k], perm[r]);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                    work.swap(temp);    <span class="comment">//swap work with temp.</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                    std::swap(work[k], work[r]); <span class="comment">//swap kth and rth row of work</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    curr_nnzs.swap(temp_nnzs);  <span class="comment">//swap curr_nnzs with temp_nnzs</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    safe_swap(curr_nnzs, k, r); <span class="comment">//swap k and r if they are present in curr_nnzs</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    d1 = work[k];</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    <span class="comment">//--------end pivot rest---------//</span></div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                } <span class="keywordflow">else</span> {</div>
@@ -256,300 +254,322 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                        <span class="comment">//symmetrically permute row/col k+1 and r.</span></div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                        pivot(s, in_set, L, k+1, r);</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                        <span class="comment">//----------pivot rest ----------//</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                        <span class="comment">//permute perm</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                        std::swap(perm[k+1], perm[r]);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                        <span class="comment">//swap rows k+1 and r of work and temp</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                        std::swap(work[k+1], work[r]);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                        std::swap(temp[k+1], temp[r]);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                        <span class="comment">//swap k+1 and r in curr_nnzs and temp_nnzs</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(curr_nnzs, k+1, r);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(temp_nnzs, k+1, r);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="comment">//--------------end bkp pivoting--------------//</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (piv_type == pivot_type::ROOK) {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="comment">//--------------begin rook pivoting--------------//</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            i = k;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            work[k] = d1;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">if</span> (alpha * w1 &lt;= abs(d1) + eps) {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="comment">// do nothing</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    <span class="comment">// assign nonzeros indices and values of A(k:n, r) to col_r_nnzs</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                    <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                        temp[*it] = 0;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                    }</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                    temp_nnzs.clear();</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                    </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                    offset = row_first[r];</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    <span class="comment">//assign all nonzero indices and values in A(r, k:r) </span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    <span class="comment">//( not including A(r,r) ) to temp and temp_nnzs</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                    <span class="keywordflow">for</span> (j = offset; j &lt; (int) list[r].size(); j++) {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                        temp_nnzs.push_back(list[r][j]);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                        temp[list[r][j]] = coeff(r, list[r][j]);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    }</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    <span class="comment">//assign nonzero indices of A(r:n, r) to temp_nnzs </span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                        <span class="comment">//----------pivot rest ----------//</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                        <span class="comment">//permute perm</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                        std::swap(perm[k+1], perm[r]);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        <span class="comment">//swap rows k+1 and r of work and temp</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                        std::swap(work[k+1], work[r]);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                        std::swap(temp[k+1], temp[r]);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                        <span class="comment">//swap k+1 and r in curr_nnzs and temp_nnzs</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                        safe_swap(curr_nnzs, k+1, r);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                        safe_swap(temp_nnzs, k+1, r);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                    }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                    d1 = work[k];</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                    dr = temp[k+1];</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="comment">//--------------end bkp pivoting--------------//</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (piv_type == pivot_type::ROOK) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="comment">//--------------begin rook pivoting--------------//</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            i = k;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            work[k] = d1;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="keywordflow">if</span> (alpha * w1 &lt;= abs(d1) + eps) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="comment">// do nothing</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                    <span class="comment">// assign nonzeros indices and values of A(r:n, r) to col_r_nnzs</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                    <span class="keywordflow">for</span> (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                        temp[*it] = 0;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                    }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    temp_nnzs.clear();</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                    offset = row_first[r];</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    <span class="comment">//assign all nonzero indices and values in A(r, k:r) </span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    <span class="comment">//( not including A(r,r) ) to temp and temp_nnzs</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    <span class="keywordflow">for</span> (j = offset; j &lt; (int) list[r].size(); j++) {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        temp_nnzs.push_back(list[r][j]);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        temp[list[r][j]] = coeff(r, list[r][j]);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    }</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    <span class="comment">//assign nonzero values of to temp</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    <span class="keywordflow">for</span> (j = 0; j &lt; (int) m_idx[r].size(); j++) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                        temp[m_idx[r][j]] = m_x[r][j];</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                    }</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                    <span class="comment">//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e">update</a>(r, temp, temp_nnzs, L, D, in_set);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    dr = temp[r];</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    temp[r] = 0;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    <span class="comment">//assign nonzero indices of A(r:n, r) to temp_nnzs </span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    temp_nnzs.insert(temp_nnzs.end(), m_idx[r].begin(), m_idx[r].end());</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                    <span class="comment">//assign nonzero values of to temp</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    <span class="keywordflow">for</span> (j = 0; j &lt; (int) m_idx[r].size(); j++) {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                        temp[m_idx[r][j]] = m_x[r][j];</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                    <span class="comment">//perform delayed updates on temp. temp = Sum_{i=0}^{k-1} L(r,i) * D(i,i) * L(k:n, i).</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    <span class="comment">//(the formula above generalizes to block matrix form in the case of 2x2 pivots).</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                    update(r, temp, temp_nnzs, L, D, in_set);</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    <span class="comment">//find maximum element in temp.</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    wr = <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb">max</a>(temp, temp_nnzs, j);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                    temp[r] = dr;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                    </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    <span class="keywordflow">if</span> (alpha * wr &lt;= abs(dr) + eps) {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                        <span class="comment">// swap rows and columns k and r</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                        this-&gt;pivot(s, in_set, L, k, r);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                        std::swap(perm[k], perm[r]);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                        std::swap(temp[k], temp[r]);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(temp_nnzs, k, r);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                        work.swap(temp);</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                        curr_nnzs.swap(temp_nnzs);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (abs(w1 - wr) &lt; eps) {</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                        size_two_piv = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                        <span class="comment">// swap rows and columns k and i, k+1 and r</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                        <span class="keywordflow">if</span> (k != i) {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                            this-&gt;pivot(s, in_set, L, k, i);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                            std::swap(perm[k], perm[i]);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                            std::swap(work[k], work[i]);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                            std::swap(temp[k], temp[i]);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                            <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(curr_nnzs, k, i);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                            <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(temp_nnzs, k, i);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                        }</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                        advance_list(k);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                        L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k);</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    dr = temp[r];</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    temp[r] = 0;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                    </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                    <span class="comment">//find maximum element in temp.</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                    wr = max(temp, temp_nnzs, j);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                    temp[r] = dr;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                    <span class="keywordflow">if</span> (alpha * wr &lt;= abs(dr) + eps) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                        <span class="comment">// swap rows and columns k and r</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                        pivot(s, in_set, L, k, r);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                        </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                        std::swap(perm[k], perm[r]);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                        </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                        std::swap(temp[k], temp[r]);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                        work.swap(temp);</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                        </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                        safe_swap(temp_nnzs, k, r);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                        curr_nnzs.swap(temp_nnzs);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                        </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                        d1 = work[k];</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (abs(w1 - wr) &lt; eps) {</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                        size_two_piv = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                        <span class="comment">// swap rows and columns k and i, k+1 and r</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                        <span class="keywordflow">if</span> (k != i) {</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                            <span class="comment">//symmetrically permute row/col k and i.</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                            pivot(s, in_set, L, k, i);</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                        <span class="keywordflow">if</span> (k+1 != r) {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                            this-&gt;pivot(s, in_set, L, k+1, r);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                            std::swap(perm[k+1], perm[r]);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                            std::swap(work[k+1], work[r]);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                            std::swap(temp[k+1], temp[r]);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                            <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(curr_nnzs, k+1, r);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                            <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a>(temp_nnzs, k+1, r);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                        }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                        i = r;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                        w1 = wr;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                        r = j;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        work.swap(temp);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                        curr_nnzs.swap(temp_nnzs);</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            }</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            <span class="comment">//--------------end rook pivoting--------------//</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                <span class="comment">//erase diagonal element from non-zero indices (to exclude it from being dropped)</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                <span class="comment">//performs the dual dropping procedure.</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                <span class="keywordflow">if</span> (!size_two_piv) {</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                        <span class="comment">//perform dual dropping criteria on work</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>(work, curr_nnzs, lfil, tol);</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                        <span class="comment">//erase diagonal 2x2 block from non-zero indices (to exclude it from being dropped)</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                        temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                        curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                        </div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                        <span class="comment">//compute inverse of the 2x2 block diagonal pivot.</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                        det_D = d1*dr - work[k+1]*work[k+1];</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        <span class="keywordflow">if</span> ( abs(det_D) &lt; eps) det_D = 1e-6;  <span class="comment">//statically pivot;</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                        D_inv11 = dr/det_D;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                        D_inv22 = d1/det_D;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                        D_inv12 = -work[k+1]/det_D;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                        </div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                        <span class="comment">//assign pivot to D (d1 is assigned to D(k,k) later)</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                        D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(k) = work[k+1];</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                        D[k+1] = dr;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                        </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                        <span class="comment">//merge nonzeros of curr and temp together so iterating through them will be easier</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567">unordered_inplace_union</a>(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                        </div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                        <span class="comment">//multiply inverse of pivot to work and temp (gives us two columns of l)</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                                l_11 = work[*it]*D_inv11 + temp[*it]*D_inv12;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                                l_12 = work[*it]*D_inv12 + temp[*it]*D_inv22;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                                </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                                <span class="comment">//note that work and temp roughly share the same non-zero indices</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                                work[*it] = l_11;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                                temp[*it] = l_12;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                        }</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                        </div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                        <span class="comment">//since the work and temp non-zero indices are roughly the same,</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                        <span class="comment">//we can copy it over to temp_nnzs</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                        temp_nnzs.assign(curr_nnzs.begin(), curr_nnzs.end());</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                        </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                        <span class="comment">//perform dual dropping procedure on work and temp</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>(temp, temp_nnzs, lfil, tol);</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                        <a class="code" href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a>(work, curr_nnzs, lfil, tol);</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                        </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                }</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                <span class="comment">//resize kth column of L to proper size.</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(curr_nnzs.size()+1);</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(curr_nnzs.size()+1);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                </div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                <span class="comment">//assign diagonal element to D</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                D[k] = d1;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                </div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                <span class="comment">//assign 1s to diagonal of L.</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][0] = 1;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][0] = k;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                count++;</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                </div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                <span class="keywordflow">if</span> (!size_two_piv) {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                        <span class="keywordflow">if</span> ( abs(D[k]) &lt; eps) D[k] = 1e-6; <span class="comment">//statically pivot</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                        i = 1;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; eps) {</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i] = *it; <span class="comment">//col k nonzero indices of L are stored</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i] = work[*it]/D[k]; <span class="comment">//col k nonzero values of L are stored</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k); <span class="comment">//update Llist</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                                        count++;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                                        i++;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                                }</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                        }</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                        </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                        col_size = i;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                        </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                        <span class="comment">//advance list and L.first</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                        L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k);</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                        advance_list(k);</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                        <span class="comment">//resize k+1th column of L to proper size.</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(temp_nnzs.size()+1);</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(temp_nnzs.size()+1);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                        <span class="comment">//assign 1s to diagonal of L.</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][0] = 1;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][0] = k+1;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                        count++;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                        i = 1;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; eps) {</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i] = work[*it]; <span class="comment">//col k nonzero indices of L are stored</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i] = *it; <span class="comment">//col k nonzero values of L are stored</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                                        </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k); <span class="comment">//update L.list</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                                        count++;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                                        i++;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                                }</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                                </div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                        }</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                        </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                        j = 1;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                                <span class="keywordflow">if</span> ( abs(temp[*it]) &gt; eps) {</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][j] = temp[*it]; <span class="comment">//col k+1 nonzero indices of L are stored</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][j] = *it; <span class="comment">//col k+1 nonzero values of L are stored</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                                        </div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                        L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k+1); <span class="comment">//update L.list</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                        count++;</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                                        j++;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                                }</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                                </div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                        }</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                        col_size = i;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                        col_size2 = j;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                        <span class="comment">//update list and L.first</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                        L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k+1);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                        advance_list(k+1);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                        </div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                }</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                </div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                <span class="comment">// ------------- reset temp and work back to zero -----------------//</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                work[k] = 0;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                temp[k] = 0;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                <span class="keywordflow">if</span> (k + 1 &lt; ncols) {</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                        temp[k+1] = 0;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                        work[k+1] = 0;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;                }</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                </div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                        work[*it] = 0;</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                }</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                curr_nnzs.clear(); <span class="comment">//zero out work vector</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                </div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                <span class="keywordflow">for</span> (<a class="code" href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">idx_it</a> it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                        temp[*it] = 0;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                }</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                temp_nnzs.clear(); <span class="comment">//zero out work vector</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                            <span class="comment">//----------pivot rest ----------//</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                            </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                            <span class="comment">//permute perm</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                            std::swap(perm[k], perm[i]);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                            <span class="comment">//swap rows k and i of work and temp</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                            std::swap(work[k], work[i]);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                            std::swap(temp[k], temp[i]);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                            <span class="comment">//swap k+1 and r in curr_nnzs and temp_nnzs</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                            safe_swap(curr_nnzs, k, i);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                            safe_swap(temp_nnzs, k, i);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                            </div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                            d1 = work[k];</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                        }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                        advance_list(k);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                        L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                        <span class="keywordflow">if</span> (k+1 != r) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                            <span class="comment">//symmetrically permute row/col k+1 and r.</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                            pivot(s, in_set, L, k+1, r);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                            <span class="comment">//----------pivot rest ----------//</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                            </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                            <span class="comment">//permute perm</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                            std::swap(perm[k+1], perm[r]);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                            <span class="comment">//swap rows k+1 and r of work and temp</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                            std::swap(work[k+1], work[r]);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                            std::swap(temp[k+1], temp[r]);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                            <span class="comment">//swap k+1 and r in curr_nnzs and temp_nnzs</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                            safe_swap(curr_nnzs, k+1, r);</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                            safe_swap(temp_nnzs, k+1, r);</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                            </div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                            dr = temp[k+1];</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        }</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                        i = r;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                        w1 = wr;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                        r = j;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                        work.swap(temp);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                        curr_nnzs.swap(temp_nnzs);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                    }</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                }</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            <span class="comment">//--------------end rook pivoting--------------//</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="comment">//erase diagonal element from non-zero indices (to exclude it from being dropped)</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k), curr_nnzs.end());</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="comment">//performs the dual dropping procedure.</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="keywordflow">if</span> (!size_two_piv) {</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <span class="comment">//perform dual dropping criteria on work</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            drop_tol(work, curr_nnzs, lfil, tol);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            <span class="comment">//erase diagonal 2x2 block from non-zero indices (to exclude it from being dropped)</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k), temp_nnzs.end());</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            curr_nnzs.erase(std::remove(curr_nnzs.begin(), curr_nnzs.end(), k+1), curr_nnzs.end());</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            temp_nnzs.erase(std::remove(temp_nnzs.begin(), temp_nnzs.end(), k+1), temp_nnzs.end());</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            <span class="comment">//compute inverse of the 2x2 block diagonal pivot.</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            det_D = d1*dr - work[k+1]*work[k+1];</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            <span class="keywordflow">if</span> ( abs(det_D) &lt; eps) det_D = 1e-6;  <span class="comment">//statically pivot;</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            D_inv11 = dr/det_D;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            D_inv22 = d1/det_D;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            D_inv12 = -work[k+1]/det_D;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="comment">//assign pivot to D (d1 is assigned to D(k,k) later)</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            D.<a class="code" href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">off_diagonal</a>(k) = work[k+1];</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            D[k+1] = dr;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            </div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="comment">//merge nonzeros of curr and temp together so iterating through them will be easier</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            unordered_inplace_union(curr_nnzs, temp_nnzs.begin(), temp_nnzs.end(), in_set);</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            </div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <span class="comment">//multiply inverse of pivot to work and temp (gives us two columns of l)</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            <span class="keywordflow">for</span> (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                l_11 = work[*it]*D_inv11 + temp[*it]*D_inv12;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                l_12 = work[*it]*D_inv12 + temp[*it]*D_inv22;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                </div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="comment">//note that work and temp roughly share the same non-zero indices</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                work[*it] = l_11;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                temp[*it] = l_12;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            }</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            <span class="comment">//since the work and temp non-zero indices are roughly the same,</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            <span class="comment">//we can copy it over to temp_nnzs</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            temp_nnzs.assign(curr_nnzs.begin(), curr_nnzs.end());</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            </div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <span class="comment">//perform dual dropping procedure on work and temp</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;            drop_tol(temp, temp_nnzs, lfil, tol);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            drop_tol(work, curr_nnzs, lfil, tol);</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            </div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        }</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="comment">//resize kth column of L to proper size.</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(curr_nnzs.size()+1);</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(curr_nnzs.size()+1);</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        <span class="comment">//assign diagonal element to D</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        D[k] = d1;</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="comment">//assign 1s to diagonal of L.</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][0] = 1;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][0] = k;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        count++;</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        </div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        <span class="keywordflow">if</span> (!size_two_piv) {</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            <span class="keywordflow">if</span> ( abs(D[k]) &lt; eps) D[k] = 1e-6; <span class="comment">//statically pivot</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            i = 1;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            <span class="keywordflow">for</span> (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) { </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; eps) {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i] = *it; <span class="comment">//col k nonzero indices of L are stored</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i] = work[*it]/D[k]; <span class="comment">//col k nonzero values of L are stored</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                    L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k); <span class="comment">//update Llist</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                    count++;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                    i++;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                }</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            col_size = i;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;            <span class="comment">//advance list and L.first</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            advance_list(k);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <span class="comment">//resize k+1th column of L to proper size.</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(temp_nnzs.size()+1);</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(temp_nnzs.size()+1);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            <span class="comment">//assign 1s to diagonal of L.</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][0] = 1;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][0] = k+1;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            count++;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            i = 1;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">for</span> (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                <span class="keywordflow">if</span> ( abs(work[*it]) &gt; eps) {</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k][i] = work[*it]; <span class="comment">//col k nonzero indices of L are stored</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k][i] = *it; <span class="comment">//col k nonzero values of L are stored</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                    </div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                    L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k); <span class="comment">//update L.list</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                    count++;</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                    i++;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                }</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                </div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            }</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            </div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            j = 1;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            <span class="keywordflow">for</span> (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;                <span class="keywordflow">if</span> ( abs(temp[*it]) &gt; eps) {</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1][j] = temp[*it]; <span class="comment">//col k+1 nonzero indices of L are stored</span></div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                    L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1][j] = *it; <span class="comment">//col k+1 nonzero values of L are stored</span></div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                    </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                    L.<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[*it].push_back(k+1); <span class="comment">//update L.list</span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                    count++;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                    j++;</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                }</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                <span class="comment">//-------------------------------------------------------------------//</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                </div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="comment">//resize columns of L to correct size</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(col_size);</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(col_size);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                <span class="keywordflow">if</span> (size_two_piv) {</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(col_size2);</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(col_size2);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                        k++;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                        </div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                        size_two_piv = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                }</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        }</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="comment">//assign number of non-zeros in L to L.nnz_count</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = count;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;}</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            }</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            col_size = i;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            col_size2 = j;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            <span class="comment">//update list and L.first</span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            L.<a class="code" href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">advance_first</a>(k+1);</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            advance_list(k+1);</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            </div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        }</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        </div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        <span class="comment">// ------------- reset temp and work back to zero -----------------//</span></div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        work[k] = 0;</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        temp[k] = 0;</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        </div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="keywordflow">if</span> (k + 1 &lt; ncols) {</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            temp[k+1] = 0;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            work[k+1] = 0;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        }</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        </div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="keywordflow">for</span> (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            work[*it] = 0;</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        }</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        curr_nnzs.clear(); <span class="comment">//zero out work vector</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        </div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="keywordflow">for</span> (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            temp[*it] = 0;</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        }</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        temp_nnzs.clear(); <span class="comment">//zero out work vector</span></div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        </div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        <span class="comment">//-------------------------------------------------------------------//</span></div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        <span class="comment">//resize columns of L to correct size</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k].resize(col_size);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k].resize(col_size);</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        <span class="keywordflow">if</span> (size_two_piv) {</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">m_x</a>[k+1].resize(col_size2);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            L.<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[k+1].resize(col_size2);</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            k++;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            </div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            size_two_piv = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        }</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    }</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <span class="comment">//assign number of non-zeros in L to L.nnz_count</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    L.<a class="code" href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">nnz_count</a> = count;</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;}</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classlilc__matrix_html_a1e027b8d354b29b8fcd9a7777835dc3f"><div class="ttname"><a href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">lilc_matrix::ildl</a></div><div class="ttdeci">void ildl(lilc_matrix&lt; el_type &gt; &amp;L, block_diag_matrix&lt; el_type &gt; &amp;D, idx_vector_type &amp;perm, const double &amp;fill_factor, const double &amp;tol, const double &amp;pp_tol, pivot_type piv_type=pivot_type::BKP)</div><div class="ttdoc">Performs an LDL&#39; factorization of this matrix. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl.h:10</div></div>
 <div class="ttc" id="classlil__sparse__matrix_html_acdc8477f4f3893490bbf0b196438fab8"><div class="ttname"><a href="classlil__sparse__matrix.html#acdc8477f4f3893490bbf0b196438fab8">lil_sparse_matrix::nnz_count</a></div><div class="ttdeci">int nnz_count</div><div class="ttdoc">Number of nonzeros in the matrix. </div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:32</div></div>
 <div class="ttc" id="classblock__diag__matrix_html_aa57572352da969e948428ad7521a1ce3"><div class="ttname"><a href="classblock__diag__matrix.html#aa57572352da969e948428ad7521a1ce3">block_diag_matrix::off_diagonal</a></div><div class="ttdeci">el_type &amp; off_diagonal(int i)</div><div class="ttdef"><b>Definition:</b> block_diag_matrix.h:111</div></div>
-<div class="ttc" id="classlil__sparse__matrix_html_aac6d12fd87c19ad7d39f0fbdf7e0aa01"><div class="ttname"><a href="classlil__sparse__matrix.html#aac6d12fd87c19ad7d39f0fbdf7e0aa01">lil_sparse_matrix::idx_vector_type</a></div><div class="ttdeci">vector&lt; int &gt; idx_vector_type</div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:20</div></div>
 <div class="ttc" id="classlil__sparse__matrix_html_ac2abac5da68172e1e3e21376247643de"><div class="ttname"><a href="classlil__sparse__matrix.html#ac2abac5da68172e1e3e21376247643de">lil_sparse_matrix::m_x</a></div><div class="ttdeci">vector&lt; elt_vector_type &gt; m_x</div><div class="ttdoc">The values of the nonzeros in the matrix. </div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:36</div></div>
-<div class="ttc" id="classlil__sparse__matrix_html_aac442ebc44706f184c7ce4ee7e1fdd6d"><div class="ttname"><a href="classlil__sparse__matrix.html#aac442ebc44706f184c7ce4ee7e1fdd6d">lil_sparse_matrix::elt_vector_type</a></div><div class="ttdeci">vector&lt; el_type &gt; elt_vector_type</div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:21</div></div>
 <div class="ttc" id="classlil__sparse__matrix_html_a133b6db4ddc63626a8787abbb2564aa6"><div class="ttname"><a href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">lil_sparse_matrix::m_idx</a></div><div class="ttdeci">vector&lt; idx_vector_type &gt; m_idx</div><div class="ttdoc">The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...</div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:35</div></div>
-<div class="ttc" id="lilc__matrix__ildl__helpers_8h_html_a1ff3caa5707b4757ef6286017c9ded5e"><div class="ttname"><a href="lilc__matrix__ildl__helpers_8h.html#a1ff3caa5707b4757ef6286017c9ded5e">update</a></div><div class="ttdeci">void update(const int &amp;r, vector&lt; el_type &gt; &amp;work, vector&lt; int &gt; &amp;curr_nnzs, lilc_matrix&lt; el_type &gt; &amp;L, block_diag_matrix&lt; el_type &gt; &amp;D, vector&lt; bool &gt; &amp;in_set)</div><div class="ttdoc">Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of...</div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl_helpers.h:216</div></div>
-<div class="ttc" id="lilc__matrix__ildl__helpers_8h_html_af0e67313612267ba689bc7625a691567"><div class="ttname"><a href="lilc__matrix__ildl__helpers_8h.html#af0e67313612267ba689bc7625a691567">unordered_inplace_union</a></div><div class="ttdeci">void unordered_inplace_union(InputContainer &amp;a, InputIterator const &amp;b_start, InputIterator const &amp;b_end, vector&lt; bool &gt; &amp;in_set)</div><div class="ttdoc">Performs an inplace union of two unsorted lists (a and b), removing duplicates in the final list...</div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl_helpers.h:137</div></div>
 <div class="ttc" id="classblock__diag__matrix_html_aa2f3ffb9d4e198ab18262b702c79cadb"><div class="ttname"><a href="classblock__diag__matrix.html#aa2f3ffb9d4e198ab18262b702c79cadb">block_diag_matrix::resize</a></div><div class="ttdeci">void resize(int n, el_type default_value)</div><div class="ttdoc">Resizes this matrix to an n*n matrix with default_value on the main diagonal. </div><div class="ttdef"><b>Definition:</b> block_diag_matrix.h:68</div></div>
-<div class="ttc" id="classlilc__matrix_html_a177dde39764c88fe4e82b050a5e60303"><div class="ttname"><a href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">lilc_matrix::advance_first</a></div><div class="ttdeci">void advance_first(const int &amp;k)</div><div class="ttdoc">Updates A.first for iteration k. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:313</div></div>
-<div class="ttc" id="classlilc__matrix_html_a8cd399b5bc0ef50dcf5a59a671e32248"><div class="ttname"><a href="classlilc__matrix.html#a8cd399b5bc0ef50dcf5a59a671e32248">lilc_matrix::idx_it</a></div><div class="ttdeci">idx_vector_type::iterator idx_it</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:41</div></div>
+<div class="ttc" id="classlilc__matrix_html_a177dde39764c88fe4e82b050a5e60303"><div class="ttname"><a href="classlilc__matrix.html#a177dde39764c88fe4e82b050a5e60303">lilc_matrix::advance_first</a></div><div class="ttdeci">void advance_first(const int &amp;k)</div><div class="ttdoc">Updates A.first for iteration k. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:315</div></div>
 <div class="ttc" id="classlilc__matrix_html"><div class="ttname"><a href="classlilc__matrix.html">lilc_matrix</a></div><div class="ttdoc">A list-of-lists (LIL) matrix in column oriented format. </div><div class="ttdef"><b>Definition:</b> lilc_matrix.h:9</div></div>
 <div class="ttc" id="classblock__diag__matrix_html"><div class="ttname"><a href="classblock__diag__matrix.html">block_diag_matrix</a></div><div class="ttdoc">A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. </div><div class="ttdef"><b>Definition:</b> block_diag_matrix.h:38</div></div>
 <div class="ttc" id="classswap__struct_html"><div class="ttname"><a href="classswap__struct.html">swap_struct</a></div><div class="ttdoc">A structure containing variables used in pivoting a LIL-C matrix. </div><div class="ttdef"><b>Definition:</b> swap_struct.h:6</div></div>
-<div class="ttc" id="lilc__matrix__ildl__helpers_8h_html_a281d3bdc2bb15862886008e2ea39a1e2"><div class="ttname"><a href="lilc__matrix__ildl__helpers_8h.html#a281d3bdc2bb15862886008e2ea39a1e2">drop_tol</a></div><div class="ttdeci">void drop_tol(vector&lt; el_type &gt; &amp;v, vector&lt; int &gt; &amp;curr_nnzs, const int &amp;lfil, const double &amp;tol)</div><div class="ttdoc">Performs the dual-dropping criteria outlined in Li & Saad (2005). </div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl_helpers.h:166</div></div>
-<div class="ttc" id="classlilc__matrix_html_aca815e0ac073abb1e6ef888b09f9e795"><div class="ttname"><a href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795">lilc_matrix::resize</a></div><div class="ttdeci">void resize(int n_rows, int n_cols)</div><div class="ttdoc">Resizes the matrix. For use in preallocating space before factorization begins. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:115</div></div>
-<div class="ttc" id="classlilc__matrix_html_a9c53c4a5816e0e21a167044f07b2ba6a"><div class="ttname"><a href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">lilc_matrix::pivot_type</a></div><div class="ttdeci">pivot_type</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:52</div></div>
+<div class="ttc" id="classlilc__matrix_html_aca815e0ac073abb1e6ef888b09f9e795"><div class="ttname"><a href="classlilc__matrix.html#aca815e0ac073abb1e6ef888b09f9e795">lilc_matrix::resize</a></div><div class="ttdeci">void resize(int n_rows, int n_cols)</div><div class="ttdoc">Resizes the matrix. For use in preallocating space before factorization begins. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:117</div></div>
+<div class="ttc" id="classlilc__matrix_html_a9c53c4a5816e0e21a167044f07b2ba6a"><div class="ttname"><a href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">lilc_matrix::pivot_type</a></div><div class="ttdeci">pivot_type</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:54</div></div>
 <div class="ttc" id="classlilc__matrix_html_ad942a0e5503a2b4327a12287432fca81"><div class="ttname"><a href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">lilc_matrix::list</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; int &gt; &gt; list</div><div class="ttdoc">A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:44</div></div>
-<div class="ttc" id="lilc__matrix__ildl__helpers_8h_html_a7319334b43609089b10764dcd0df64cb"><div class="ttname"><a href="lilc__matrix__ildl__helpers_8h.html#a7319334b43609089b10764dcd0df64cb">max</a></div><div class="ttdeci">double max(vector&lt; el_type &gt; &amp;v, vector&lt; int &gt; &amp;curr_nnzs, int &amp;r)</div><div class="ttdoc">Computes the maximum (in absolute value) element of v(curr_nnzs) and it&#39;s index. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl_helpers.h:40</div></div>
-<div class="ttc" id="lilc__matrix__ildl__helpers_8h_html_a9c060e7f9ab18bfcd8386b523f36b0e1"><div class="ttname"><a href="lilc__matrix__ildl__helpers_8h.html#a9c060e7f9ab18bfcd8386b523f36b0e1">safe_swap</a></div><div class="ttdeci">void safe_swap(vector&lt; int &gt; &amp;curr_nnzs, const int &amp;k, const int &amp;r)</div><div class="ttdef"><b>Definition:</b> lilc_matrix_ildl_helpers.h:251</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:52:20 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 01:09:56 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

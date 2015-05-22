@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -64,7 +63,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -91,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">block_diag_matrix_to_string.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="block__diag__matrix__to__string_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//-*- mode: c++ -*-</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//-*- mode: c++ -*-</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef _BLOCK_DIAG_MATRIX_TO_STRING_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define _BLOCK_DIAG_MATRIX_TO_STRING_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -109,9 +107,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;Off Diagonal (col, val)  = &quot;</span> &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n_cols(); i++) {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">if</span> (block_size(i) == 2) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; off_diag.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                i++;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        os &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; off_diag.find(i)-&gt;second &lt;&lt; <span class="stringliteral">&quot;), &quot;</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        i++;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  }</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -124,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 6 2015 15:52:20 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 22 2015 01:09:56 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

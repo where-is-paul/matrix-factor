@@ -49,6 +49,8 @@ public:
 	block_diag_matrix<el_type> S; ///<A diagonal scaling matrix S such that SAS will be equilibriated in the max-norm (i.e. every row/column has norm 1). S is constructed after running the sym_equil() function, after which SAS will be stored in place of A.
     
     //-------------- types of pivoting procedures ----------------//
+    /*! A simple enum class for listing the type of pivoting procedure SYM-ILDL uses.
+    */
     enum class pivot_type {
         BKP, 
         ROOK

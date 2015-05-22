@@ -226,7 +226,6 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                     
                     if (alpha * wr <= abs(dr) + eps) {
                         // swap rows and columns k and r
-                        
                         pivot(s, in_set, L, k, r);
                         
                         std::swap(perm[k], perm[r]);

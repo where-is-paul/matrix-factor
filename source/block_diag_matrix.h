@@ -135,6 +135,7 @@ public:
 	/*!	\brief Solves the preconditioned problem |D| = Q|V|Q', where QVQ' is the eigendecomposition of D, and |.| is applied elementwise.
 		\param b the right hand side.
 		\param x a storage vector for the solution (must be same size as b).
+        \param transposed solves |V|^(1/2)Q' if true, Q|V|^(1/2) if false.
 	*/
 	void sqrt_solve(const elt_vector_type& b, elt_vector_type& x, bool transposed = false) {
 		assert(b.size() == x.size());
@@ -188,6 +189,30 @@ public:
 		}
 	}
 	
+    /*!	\brief Solves the system Dx = b.
+		\param b the right hand side.
+		\param x a storage vector for the solution (must be same size as b).
+	*/
+	void solve(const elt_vector_type& b, elt_vector_type& x) {
+		assert(b.size() == x.size());
+		
+		double a, d, c, det;
+		for (int i = 0; i < m_n_size; i += block_size(i)) {
+			if (block_size(i) == 2) {
+				a = main_diag[i];
+				d = main_diag[i+1];
+				c = off_diag[i];
+                det = a*d - c*c;
+				// system is (a c; c d)
+                // inverse is 1/(ad - c^2) * (d -c; -c a)
+                x[i] = (d*b[i] - c*b[i+1])/det;
+                x[i+1] = (-c*b[i] + a*b[i+1])/det;
+			} else {
+				x[i] = b[i]/main_diag[i];
+			}
+		}
+	}
+    
 	/*! \return A string reprepsentation of this matrix.
 	*/
 	std::string to_string () const;
