@@ -8,7 +8,7 @@
 DEFINE_string(filename, "", "The filename of the matrix to be factored"
 							"(in matrix-market format).");
 							
-DEFINE_double(fill, 1.0, "A parameter to control memory usage. Each column is guaranteed"
+DEFINE_double(fill, 3.0, "A parameter to control memory usage. Each column is guaranteed"
 						 "to have fewer than fill*nnz(A) elements.");
 						 
 DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In each column k,"
