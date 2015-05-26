@@ -19,7 +19,7 @@ DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivot
 						   "is used. Values between 0 and 1 varies the aggressivness of"
 						   "BKP in a continuous manner.");
 
-DEFINE_string(pivot, "bunch", "Determines what kind of pivoting algorithm will be used"
+DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be used"
 								 " during the factorization. Choices are 'rook' and 'bunch'.");
                                  
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"

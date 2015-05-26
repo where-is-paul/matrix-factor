@@ -87,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level2"><a href="#source_dlinks">The source code</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#intro_sec">Introduction</a></li>
+<li class="level1"><a href="#intro_sec">Overview</a></li>
 <li class="level1"><a href="#quick_start">Quick Start</a><ul><li class="level2"><a href="#ldl_driver">Using the package as a standalone program</a></li>
 <li class="level2"><a href="#matlab_mex">Using sym-ildl within MATLAB</a></li>
 </ul>
@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li class="level1"><a href="#contribute_sec">Licensing and How to contribute</a></li>
-<li class="level1"><a href="#refs">References</a></li>
+<li class="level1"><a href="#refs">References and Citations</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="dlinks"></a>
@@ -117,15 +117,15 @@ Prebuilt binaries</h2>
 <h2><a class="anchor" id="source_dlinks"></a>
 The source code</h2>
 <ul>
-<li><a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a> </li>
+<li><a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a></li>
 </ul>
 <h1><a class="anchor" id="intro_sec"></a>
-Introduction</h1>
-<p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite or skew-symmetric matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, <b>sym-ildl</b> first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
+Overview</h1>
+<p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite or skew-symmetric matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, <b>sym-ildl</b> first scales the matrix to be equilibriated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_3.png"/>
 </p>
 <p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_4.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_5.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_6.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_7.png"/> are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using <b>sym-ildl's</b> incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.</p>
-<p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).</p>
+<p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).</p>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
 <p>To begin using the package, first download the files above or compile the code hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The GitHub repository contains the most up to date source code as well as an "experimental" branch that we release new features to. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is <code>g++</code>, simply type <code>make</code> at the command line to compile the entire package. In addition to <a class="el" href="index.html#ldl_driver">usage as a standalone program</a>, the package also has a <a class="el" href="index.html#matlab_mex">Matlab interface</a>.</p>
@@ -237,10 +237,10 @@ Using sym-ildl within MATLAB</h2>
 </div><!-- fragment --> The <code>A</code> generated is a special type of matrix called a saddle-point matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a MATLAB <b>sparse</b> matrix.</dd></dl>
 <dl class="section user"><dt></dt><dd>To factor the matrix, we supply <code>ildl</code> with the parameters described above: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
 <div class="line">Equilibration:  0.001 seconds.</div>
-<div class="line">AMD:        0.000 seconds.</div>
+<div class="line">AMD:            0.000 seconds.</div>
 <div class="line">Permutation:    0.001 seconds.</div>
 <div class="line">Factorization:  0.013 seconds.</div>
-<div class="line">Total time: 0.015 seconds.</div>
+<div class="line">Total time:     0.015 seconds.</div>
 <div class="line">L is 200 by 200 with 14388 non-zeros.</div>
 </div><!-- fragment --> As we can see above, <code>ildl</code> will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.</dd></dl>
 <dl class="section user"><dt></dt><dd>We may also take advantage of the optional parameters and simply feed <code>ildl</code> only one parameter: <div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A);</div>
@@ -272,23 +272,23 @@ As a standalone program</h2>
 Within MATLAB</h2>
 <p>Within MATLAB, using ildl is even easier. As in the symmetric case, the command <code>ildl</code> can be used. Everything remains the same as the symmetric case, as <code>ildl</code> automatically detects whether the input is symmetric or skew-symmetric.</p>
 <p>Let's first generate a skew-symmetric matrix for testing: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; B = sparse(gallery(<span class="stringliteral">&#39;uniformdata&#39;</span>,100,0));</div>
-<div class="line">&gt;&gt; B = B+B<span class="stringliteral">&#39;;</span></div>
-<div class="line"><span class="stringliteral">&gt;&gt; A = [sparse(100, 100) B; -B sparse(100, 100)];</span></div>
+<div class="line">&gt;&gt; A = B-B<span class="stringliteral">&#39;;</span></div>
 </div><!-- fragment --></dd></dl>
 <p>Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call <code>ildl</code> exactly as before: </p><dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&gt;&gt; [L, D, p, S, B] = ildl(A, 1.0, 0.001);</div>
-<div class="line">Equilibration:  0.001 seconds.</div>
-<div class="line">AMD:        0.000 seconds.</div>
-<div class="line">Permutation:    0.001 seconds.</div>
-<div class="line">Factorization:  0.015 seconds.</div>
-<div class="line">Total time: 0.017 seconds.</div>
-<div class="line">L is 200 by 200 with 9691 non-zeros.</div>
+<div class="line">Equilibration:  0.000 seconds.</div>
+<div class="line">AMD:            0.000 seconds.</div>
+<div class="line">Permutation:    0.000 seconds.</div>
+<div class="line">Factorization:  0.005 seconds.</div>
+<div class="line">Total time:     0.005 seconds.</div>
+<div class="line">L is 100 by 100 with 4815 non-zeros.</div>
 </div><!-- fragment --></dd></dl>
 <p>Finally, helpful information on the parameters for <code>ildl</code> can be found by typing: </p><div class="fragment"><div class="line">help ildl</div>
 </div><!-- fragment --><h1><a class="anchor" id="contribute_sec"></a>
 Licensing and How to contribute</h1>
-<p><b>sym-ildl</b> is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request to contribute.</p>
+<p><b>sym-ildl</b> is open source, and we're always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request on GitHub to contribute.</p>
 <h1><a class="anchor" id="refs"></a>
-References</h1>
+References and Citations</h1>
+<p>If you have found our code useful, please consider citing us! You can grab the reference in BibTeX <a href="placeholder">here</a> or simply use the following reference <em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu. <a href="http://www.cs.ubc.ca/~greif/code/sym-ildl.html">http://www.cs.ubc.ca/~greif/code/sym-ildl.html</a></em></p>
 <ol type="1">
 <li>J. A. George and J. W-H. Liu, <em>Computer Solution of Large Sparse Positive Definite Systems</em>, Prentice-Hall, 1981.</li>
 <li>J. R. Bunch, <em>Equilibration of Symmetric Matrices in the Max-Norm</em>, JACM, 18 (1971), pp. 566-572.</li>
@@ -298,7 +298,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 22 2015 13:48:42 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 25 2015 17:42:01 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
