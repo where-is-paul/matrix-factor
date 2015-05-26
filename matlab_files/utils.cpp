@@ -58,7 +58,8 @@ void mex_utils :: mex_convert(double* m_x, mwSize* m_col_idx, mwSize* m_row_idx,
 
 	solv.A.resize(nnzs, nnzs);
 	fill(solv.A.col_first.begin(), solv.A.col_first.end(), 0);
-		
+	fill(solv.A.row_first.begin(), solv.A.row_first.end(), 0);
+	
 	for (mwSize i = 0; i < nnzs; i++) {
 
 		for (mwSize j = m_col_idx[i]; j < m_col_idx[i+1]; j++) {

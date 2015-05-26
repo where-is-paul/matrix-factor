@@ -11,15 +11,17 @@
 *           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/linux/ldl_driver">For 64-bit OpenSUSE 13.2</a>
 *       \subsection source_dlinks The source code
 *           - <a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a>
-*	\section intro_sec Introduction
 *
-	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an \f$n\times n\f$ symmetric indefinite or skew-symmetric matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, \b sym-ildl first scales the matrix to be equilibriated in the max-norm [2], and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) [1]. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
+*
+*	\section intro_sec Overview
+*
+	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an \f$n\times n\f$ symmetric indefinite or skew-symmetric matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, \b sym-ildl first scales the matrix to be equilibriated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
 		\mathbf{P^{T}SASP=LDL^{T}}.
 	\f]
 	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
 	
-	This package is based on and extends an incomplete factorization approach proposed by Li and Saad [3] (which itself builds on Li, Saad, and Chow [4]).
+	This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).
 *
 *	\section quick_start Quick Start
 *
@@ -181,10 +183,10 @@
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
 		Equilibration:	0.001 seconds.
-		AMD:		0.000 seconds.
+		AMD:		    0.000 seconds.
 		Permutation:	0.001 seconds.
 		Factorization:	0.013 seconds.
-		Total time:	0.015 seconds.
+		Total time:	    0.015 seconds.
 		L is 200 by 200 with 14388 non-zeros.
 	\endcode
 	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
@@ -235,20 +237,19 @@
 	\par
 	\code
 		>> B = sparse(gallery('uniformdata',100,0));
-		>> B = B+B';
-		>> A = [sparse(100, 100) B; -B sparse(100, 100)];
+		>> A = B-B';
 	\endcode
 	
 	Since B is a matrix of random values between 0 and 1, A is almost certainly non-singular. Now we can call \c ildl exactly as before:
 	\par
 	\code
 		>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
-		Equilibration:	0.001 seconds.
-		AMD:		0.000 seconds.
-		Permutation:	0.001 seconds.
-		Factorization:	0.015 seconds.
-		Total time:	0.017 seconds.
-		L is 200 by 200 with 9691 non-zeros.
+		Equilibration:	0.000 seconds.
+        AMD:		    0.000 seconds.
+        Permutation:	0.000 seconds.
+        Factorization:	0.005 seconds.
+        Total time:	    0.005 seconds.
+        L is 100 by 100 with 4815 non-zeros.
 	\endcode
 
 	Finally, helpful information on the parameters for <c>ildl</c> can be found by typing:
@@ -258,10 +259,12 @@
 
 *	\section contribute_sec Licensing and How to contribute
 *
-    \b sym-ildl is open source and always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request to contribute.
+    \b sym-ildl is open source, and we're always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request on GitHub to contribute.
 *
 *
-*	\section refs References
+*	\section refs References and Citations
+    If you have found our code useful, please consider citing us! You can grab the reference in BibTeX <a href="placeholder">here</a> or simply use the following reference <em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu. http://www.cs.ubc.ca/~greif/code/sym-ildl.html</em>
+    
 	-#	J. A. George and J. W-H. Liu, <em>Computer Solution of Large Sparse Positive Definite Systems</em>, Prentice-Hall, 1981.
 	-#	J. R. Bunch, <em>Equilibration of Symmetric Matrices in the Max-Norm</em>, JACM, 18 (1971), pp. 566-572.
 	-#	N. Li and Y. Saad, <em>Crout versions of the ILU factorization with pivoting for sparse symmetric matrices</em>, ETNA, 20 (2006), pp. 75-85.
