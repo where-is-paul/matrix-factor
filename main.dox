@@ -2,6 +2,16 @@
 *
 *	\tableofcontents
 *
+*	\section intro_sec Overview
+*
+	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an \f$n\times n\f$ symmetric indefinite or skew-symmetric matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, \b sym-ildl first scales the matrix to be equilibriated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
+	\f[
+		\mathbf{P^{T}SASP=LDL^{T}}.
+	\f]
+	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
+	
+	This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).
+*    
 *   \section dlinks Download links
 *       \subsection matlab_dlinks MATLAB MEX Files
 *           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/win64/ildl-2015a.zip">For MATLAB 2015a and above on 64-bit Windows 8.1</a>
@@ -13,15 +23,7 @@
 *           - <a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a>
 *
 *
-*	\section intro_sec Overview
 *
-	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an \f$n\times n\f$ symmetric indefinite or skew-symmetric matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, \b sym-ildl first scales the matrix to be equilibriated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
-	\f[
-		\mathbf{P^{T}SASP=LDL^{T}}.
-	\f]
-	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
-	
-	This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).
 *
 *	\section quick_start Quick Start
 *
@@ -231,7 +233,7 @@
 	\endcode
 	
 	\subsection skew_matlab_mex Within MATLAB
-	Within MATLAB, using ildl is even easier. As in the symmetric case, the command \c ildl can be used. Everything remains the same as the symmetric case, as \c ildl automatically detects whether the input is symmetric or skew-symmetric.
+	Within MATLAB, using \b sym-ildl is even easier. As in the symmetric case, the command \c ildl can be used. Everything remains the same as the symmetric case, as \c ildl automatically detects whether the input is symmetric or skew-symmetric.
 	
 	Let's first generate a skew-symmetric matrix for testing:
 	\par
@@ -262,8 +264,12 @@
     \b sym-ildl is open source, and we're always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request on GitHub to contribute.
 *
 *
-*	\section refs References and Citations
-    If you have found our code useful, please consider citing us! You can grab the reference in BibTeX <a href="placeholder">here</a> or simply use the following reference <em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu. http://www.cs.ubc.ca/~greif/code/sym-ildl.html</em>
+*   \section citations Citing this code
+    If you have found our code useful, please consider citing us! A technical report (pdf), a BibTeX entry, and a link to the code are available here:
+*    
+    <em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu.</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a> <a href="https://github.com/inutard/matrix-factor/archive/master.zip">[code]</a>
+*    
+*	\section refs References
     
 	-#	J. A. George and J. W-H. Liu, <em>Computer Solution of Large Sparse Positive Definite Systems</em>, Prentice-Hall, 1981.
 	-#	J. R. Bunch, <em>Equilibration of Symmetric Matrices in the Max-Norm</em>, JACM, 18 (1971), pp. 566-572.

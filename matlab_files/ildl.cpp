@@ -16,7 +16,8 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 		mexErrMsgTxt("Too many output arguments.");
 
 	mex_utils m;
-
+    m.solv.set_pivot("rook");
+    
 	// set up raw variables
 	const mxArray* raw_csc = prhs[0];
 
