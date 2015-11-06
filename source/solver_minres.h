@@ -4,6 +4,7 @@
 
 #include <string>
 #include <algorithm>
+#include <cmath>
 
 template<class el_type, class mat_type >
 void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double shift) {

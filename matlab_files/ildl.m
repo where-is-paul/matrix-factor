@@ -25,7 +25,7 @@ function [L, D, p, S, B] = ildl(A, fill, tol, ordering, equil, pivot_type, pp_to
 %       norm) before anything. This parameter must be one of 'y' or 'n'. Default: 'y'
 %
 %       pivot_type - chooses the pivoting scheme used during the factorization. This 
-%       parameter must be one of 'rook' or 'bunch'. Default: 'bunch'
+%       parameter must be one of 'rook' or 'bunch'. Default: 'rook'
 %
 %       pp_tol - a parameter to control aggresiveness of pivoting. 
 %       This parameter is ignored for rook pivoting. Allowable ranges are [0,inf). 

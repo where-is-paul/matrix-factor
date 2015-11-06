@@ -144,7 +144,7 @@ Using the package as a standalone program</h2>
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>3.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
-    <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the <b>pivot</b> parameters for more details.</td></tr>
+    <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the <b>pivot</b> parameters for more details. The default is 'rook'.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
     <tr><td class="paramname">inplace</td><td>Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If only the solver is needed, then <code>inplace</code> should not be used. <code>y</code> indicates yes, <code>n</code> indicates no. The default flag is <code>y</code>.</td></tr>
     <tr><td class="paramname">pivot</td><td>Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If <code>rook</code> is used, the <code>pp_tol</code> parameter is ignored.</td></tr>
@@ -220,7 +220,7 @@ Using sym-ildl within MATLAB</h2>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls aggressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
-    <tr><td class="paramname">pivot_type</td><td>Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'bunch'.</td></tr>
+    <tr><td class="paramname">pivot_type</td><td>Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.</td></tr>
   </table>
   </dd>
@@ -303,7 +303,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 6 2015 11:03:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 6 2015 13:19:39 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

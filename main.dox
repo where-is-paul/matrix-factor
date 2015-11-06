@@ -56,7 +56,7 @@
 	
 	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
-	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the \b pivot parameters for more details.
+	\param pp_tol A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the \b pivot parameters for more details. The default is 'rook'.
 
 	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
@@ -163,7 +163,7 @@
 
 	\param reordering Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
-    \param pivot_type Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'bunch'.
+    \param pivot_type Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.
     
 	\param pp_tol Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.
     

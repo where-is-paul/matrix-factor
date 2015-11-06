@@ -106,7 +106,7 @@ class solver {
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
-            piv_type = pivot_type::BKP;
+            piv_type = pivot_type::ROOK;
 			reorder_scheme = 0;
 			equil = true;
             has_rhs = false;

@@ -9,6 +9,7 @@
 #include <cassert>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 #ifdef SYM_ILDL_DEBUG
 template<class el_type>
