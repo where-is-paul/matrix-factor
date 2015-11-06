@@ -10,13 +10,12 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	// validate number of inputs and outputs
 	if (nrhs < 1)
 		mexErrMsgTxt("Not enough input arguments.");
-	if (nrhs > 6)
+	if (nrhs > 7)
 		mexErrMsgTxt("Too many input arguments.");
 	if (nlhs > 5)
 		mexErrMsgTxt("Too many output arguments.");
 
 	mex_utils m;
-    m.solv.set_pivot("rook");
     
 	// set up raw variables
 	const mxArray* raw_csc = prhs[0];
@@ -31,21 +30,26 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 		tol = m.parse_double(raw_tol);
 	}
 	if (nrhs > 3) {
-		const mxArray* raw_pp_tol = prhs[3];
-		pp_tol = m.parse_double(raw_pp_tol);
-	}
-	if (nrhs > 4) {
-		const mxArray* raw_ordering = prhs[4];
+		const mxArray* raw_ordering = prhs[3];
 		char* ordering = m.parse_str(raw_ordering);
 
 		m.solv.set_reorder_scheme(ordering);
 	}
-	if (nrhs > 5) {
-		const mxArray* raw_equil = prhs[5];
+	if (nrhs > 4) {
+		const mxArray* raw_equil = prhs[4];
 		char* equil = m.parse_str(raw_equil);
 
 		if (strcmp(equil, "y") == 0) m.solv.set_equil(true);
 		else m.solv.set_equil(false);
+	}
+    if (nrhs > 5) {
+		const mxArray* raw_piv_type = prhs[5];
+		char* piv_type = m.parse_str(raw_piv_type);
+        m.solv.set_pivot(piv_type);
+	}
+	if (nrhs > 6) {
+		const mxArray* raw_pp_tol = prhs[6];
+		pp_tol = m.parse_double(raw_pp_tol);
 	}
 
 	if (mxGetN(raw_csc) != mxGetM(raw_csc))

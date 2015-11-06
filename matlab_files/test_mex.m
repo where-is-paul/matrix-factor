@@ -45,6 +45,7 @@ lfil = 2.0;
 tol = 0.001;
 pp_tol = 1.0;
 reordering = 'amd';
+pivot_type = 'bunch';
 equil = 'y';
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
@@ -53,7 +54,7 @@ for i = 1:length(all_mats)
     file = strcat(base, mat_name, '.mtx');
     A = mmread(file);
     
-    [l d p S B] = ildl(A, lfil, tol, pp_tol, reordering, equil);
+    [l d p S B] = ildl(A, lfil, tol, reordering, equil, pivot_type, pp_tol);
    
     fprintf('The relative residual is %d.\n', norm(B - l*d*l', 1)/norm(B, 1));
     fprintf('The fill factor is %.3f.\n', nnz(l+d+l')/nnz(B));

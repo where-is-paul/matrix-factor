@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>sym-ildl: Incomplete LDL' factorizations of indefinite symmetric and skew-symmetric matrices.</title>
+<title>sym-ildl: \authors &lt;a href=&quot;https://www.cs.ubc.ca/~greif/&quot;&gt;Chen Greif&lt;/a&gt;, Shiwen He, &lt;a href=&quot;https://www.cs.ubc.ca/~inutard/&quot;&gt;Paul Liu&lt;/a&gt;</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Overview</h1>
-<p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite or skew-symmetric matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, <b>sym-ildl</b> first scales the matrix to be equilibriated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
+<p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite or skew-symmetric matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, <b>sym-ildl</b> first scales the matrix to be equilibrated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
 <img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_3.png"/>
 </p>
 <p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_4.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_5.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_6.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_7.png"/> are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using <b>sym-ildl's</b> incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.</p>
@@ -177,7 +177,7 @@ Using the package as a standalone program</h2>
 <div class="line">Saving matrices...</div>
 <div class="line">Save complete.</div>
 <div class="line">Factorization Complete. All output written to /output_matrices directory.</div>
-</div><!-- fragment --> The code above factors the <code>aug3dcqp.mtx</code> matrix (<code>fill=1.0, tol=0.001</code>) from the <code>test_matrices</code> folder and saves the outputs. The time it took to pre-order and equilibriate the matrix (0.047s) as well as the actual factorization (0.109s) are also given.</dd></dl>
+</div><!-- fragment --> The code above factors the <code>aug3dcqp.mtx</code> matrix (<code>fill=1.0, tol=0.001</code>) from the <code>test_matrices</code> folder and saves the outputs. The time it took to pre-order and equilibrate the matrix (0.047s) as well as the actual factorization (0.109s) are also given.</dd></dl>
 <dl class="section user"><dt></dt><dd>The program may also run without the last 4 arguments: <div class="fragment"><div class="line">./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 -tol=0.001</div>
 <div class="line"></div>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
@@ -193,7 +193,7 @@ Using the package as a standalone program</h2>
 <div class="line">Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.</div>
 <div class="line">A is 35543 by 35543 with 77829 non-zeros.</div>
 <div class="line">Right hand side has 35543 entries.</div>
-<div class="line">  Equilibriation:                       0.000 seconds.</div>
+<div class="line">  Equilibration:                       0.000 seconds.</div>
 <div class="line">  AMD:                                  0.015 seconds.</div>
 <div class="line">  Permutation:                          0.047 seconds.</div>
 <div class="line">  Factorization (Rook pivoting):        0.047 seconds.</div>
@@ -219,8 +219,9 @@ Using sym-ildl within MATLAB</h2>
     <tr><td class="paramname">A</td><td>The matrix to be factored.</td></tr>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls aggressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
-    <tr><td class="paramname">pp_tol</td><td>Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
+    <tr><td class="paramname">pivot_type</td><td>Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'bunch'.</td></tr>
+    <tr><td class="paramname">pp_tol</td><td>Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.</td></tr>
   </table>
   </dd>
 </dl>
@@ -290,7 +291,7 @@ Licensing and How to contribute</h1>
 <h1><a class="anchor" id="citations"></a>
 Citing this code</h1>
 <p>If you have found our code useful, please consider citing us! A technical report (pdf), a BibTeX entry, and a link to the code are available here:</p>
-<p><em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu.</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a> <a href="https://github.com/inutard/matrix-factor/archive/master.zip">[code]</a></p>
+<p><em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu.</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a></p>
 <h1><a class="anchor" id="refs"></a>
 References</h1>
 <ol type="1">
@@ -302,7 +303,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 2 2015 10:10:53 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 6 2015 11:03:49 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

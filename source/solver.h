@@ -197,7 +197,7 @@ class solver {
 			if (equil == 1) {
 				A.sym_equil();
 				dif = clock() - start; total += dif; 
-				printf("  Equilibriation:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
 
 			if (reorder_scheme != 2) {

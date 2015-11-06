@@ -1,4 +1,4 @@
-function [L, D, p, S, B] = ildl(A, fill, tol, pp_tol, ordering, equil)
+function [L, D, p, S, B] = ildl(A, fill, tol, ordering, equil, pivot_type, pp_tol)
 %ILDL   Incomplete LDL factorization of indefinite Hermitian matrices.
 %Before factoring, the matrix is equilibriated (resulting in a matrix S)
 %and then permuted by the Reverse Cuthill-McKee algorithm.
@@ -18,20 +18,25 @@ function [L, D, p, S, B] = ildl(A, fill, tol, pp_tol, ordering, equil)
 %       tol - a parameter to control accuracy. For the each column of L, 
 %       elements less than norm(column(L), 1) will be dropped. Default: 0.001
 %
-%       pp_tol - a parameter to control aggresiveness of pivoting. 
-%       Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting 
-%       will be done in full. If the parameter is 0, partial pivoting will be turned off 
-%       and the first non-zero pivot under the diagonal will be used. Choices close to 0
-%       increase locality in pivoting (pivots closer to the diagonal are used) while
-%       choices closer to 1 increase the stability of pivoting. Useful for situations
-%       where you care more about preserving the structure of the matrix rather than
-%       bounding the size of its elements. Default: 2.0
-%
 %		ordering - determines what reordering scheme is used to preorder the matrix. 
 %		AMD and RCM are available. This parameter must be one of 'amd' or 'rcm'. Default: 'amd'
 %
 %       equil - determine if matrix is to be equilibriated (in the max
 %       norm) before anything. This parameter must be one of 'y' or 'n'. Default: 'y'
+%
+%       pivot_type - chooses the pivoting scheme used during the factorization. This 
+%       parameter must be one of 'rook' or 'bunch'. Default: 'bunch'
+%
+%       pp_tol - a parameter to control aggresiveness of pivoting. 
+%       This parameter is ignored for rook pivoting. Allowable ranges are [0,inf). 
+%       If the parameter is >= 1, Bunch-Kaufman pivoting will be done in full. If 
+%       the parameter is 0, partial pivoting will be turned off and the first 
+%       non-zero pivot under the diagonal will be used. Choices close to 0
+%       increase locality in pivoting (pivots closer to the diagonal are used) while
+%       choices closer to 1 increase the stability of pivoting. Useful for situations
+%       where you care more about preserving the structure of the matrix rather than
+%       bounding the size of its elements. Default: 2.0
+%
 %
 %   Outputs:
 %       L - unit lower triangular factor of P'SASP.
