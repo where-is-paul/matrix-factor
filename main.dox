@@ -6,13 +6,14 @@
 *
 	\b sym-ildl is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an \f$n\times n\f$ symmetric indefinite or skew-symmetric matrix \f$\mathbf{A}\f$, this package produces an incomplete \f$\mathbf{LDL^{T}}\f$ factorization. Prior to factorization, \b sym-ildl first scales the matrix to be equilibrated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form 
 	\f[
-		\mathbf{P^{T}SASP=LDL^{T}}.
+		\mathbf{P^{T}SASP \approx LDL^{T}}.
 	\f]
 	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
 	
 	This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).
 *    
 *   \section dlinks Download links
+*       <i>[Latest release: 11/15/2015]</i>
 *       \subsection matlab_dlinks MATLAB MEX Files
 *           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/win64/ildl-2015a.zip">For MATLAB 2015a and above on 64-bit Windows 8.1</a>
 *           - <a href="https://github.com/inutard/matrix-factor/raw/master/release/linux/ildl-2014a.zip">For MATLAB 2014a and above on 64-bit OpenSUSE 13.1</a>
