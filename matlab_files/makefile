@@ -5,17 +5,20 @@ FILES = utils.cpp ../*.cpp ../*.h
 all : ildl.mex*
 
 UNAME := $(shell uname)
-MATLABDIR := /Applications/Matlab/MATLAB_R2015b.app
 
+# The part below requires some set up. If this makefile doesn't work out of the box,
+# you'll need to find the mex script in your MATLAB folder below
 ifeq ($(UNAME), Linux)
-MEXNAME = mex
+    MEX = mex
 else ifeq ($(UNAME), Darwin)
-MEXNAME = mex
+    MEXNAME = mex
+    MATLABDIR := /Applications/Matlab/MATLAB_R2015b.app
+    MEX = $(MATLABDIR)/bin/$(MEXNAME)
 else
-MEXNAME = mex.bat
+    MEXNAME = mex.bat
+    MATLABDIR := C:/Program\ Files/MATLAB/MATLAB\ Production\ Server/R2015a
+    MEX = $(MATLABDIR)/bin/$(MEXNAME)
 endif
-
-MEX = $(MATLABDIR)/bin/$(MEXNAME)
 
 MEXFLAGS = -largeArrayDims
 MEXEXTRA = ildl.cpp utils.cpp

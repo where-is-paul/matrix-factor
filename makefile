@@ -1,36 +1,25 @@
 CC := g++
-SRCDIR := $(PWD)
+SRCDIR := $(shell pwd | sed 's/ /\\ /g')
 BUILDDIR := build
-CFLAGS := -O3 -std=gnu++0x -I$(SRCDIR)/include/gflags
+CFLAGS := -O3 -std=gnu++0x 
 DEBUG := -w
 TARGET := ldl_driver
 TARBALL := matrix_factor.tar
 OUTPUT := output_matrices/out*
- 
-VPATH = .:include/gflags
-SOURCES_CPP := $(SRCDIR)/ldl_driver.cpp
-SOURCES_CC := $(wildcard $(SRCDIR)/include/gflags/*.cc)
 
-%.o: %.cpp
-	$(CC) -c -o $@ $(DEBUG) $(CFLAGS) $<
+SOURCES := $(SRCDIR)/ldl_driver.cpp $(SRCDIR)/include/gflags/*
 
-%.o: %.cc
-	$(CC) -c -o $@ $(DEBUG) $(CFLAGS) $<
-
-$(TARGET): $(SOURCES_CPP:.cpp=.o) $(SOURCES_CC:.cc=.o)
+$(TARGET): 
 	@mkdir -p output_matrices
-	@echo " Compiling executable...";
-	$(CC) -o $@ $(DEBUG) $(CFLAGS) $^
+	@echo " Compiling executable..."; $(CC) $^ $(DEBUG) $(CFLAGS) $(SOURCES) -o $(TARGET)
 	@echo " Done.";
 	@echo " Compiling mex files...";
-	@cd matlab_files; make
+	@cd matlab_files; make > /dev/null
 	@echo " Done.";
-	
-.PHONY : clean
+
 clean:
 	@echo " Cleaning...";
 	$(RM) -r $(TARGET) $(TARBALL) $(OUTPUT)
-	$(RM) $(SOURCES_CPP:.cpp=.o) $(SOURCES_CC:.cc=.o)
 
 tar:
 	tar cfv matrix_factor.tar ldl_driver.cpp source
@@ -39,5 +28,5 @@ test:
 	@cd matlab_files; make --no-print-directory test
 
 -include $(DEPS)
- 
-.PHONY: clean
+
+.PHONY : clean tar test
