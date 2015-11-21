@@ -5,16 +5,20 @@ FILES = utils.cpp ../*.cpp ../*.h
 all : ildl.mex*
 
 UNAME := $(shell uname)
-MEX = mex
+MATLABDIR := /Applications/Matlab/MATLAB_R2015b.app
 
 ifeq ($(UNAME), Linux)
-MEX = mex
+MEXNAME = mex
+else ifeq ($(UNAME), Darwin)
+MEXNAME = mex
 else
-MEX = mex.bat
+MEXNAME = mex.bat
 endif
 
-MEXFLAGS =-largeArrayDims
-MEXEXTRA =ildl.cpp utils.cpp
+MEX = $(MATLABDIR)/bin/$(MEXNAME)
+
+MEXFLAGS = -largeArrayDims
+MEXEXTRA = ildl.cpp utils.cpp
 
 %.mex*: %.cpp
 	$(MEX) $(MEXFLAGS) $(MEXEXTRA)
