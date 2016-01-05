@@ -104,12 +104,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Overview</h1>
 <p><b>sym-ildl</b> is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-symmetric matrices. Given an <img class="formulaInl" alt="$n\times n$" src="form_0.png"/> symmetric indefinite or skew-symmetric matrix <img class="formulaInl" alt="$\mathbf{A}$" src="form_1.png"/>, this package produces an incomplete <img class="formulaInl" alt="$\mathbf{LDL^{T}}$" src="form_2.png"/> factorization. Prior to factorization, <b>sym-ildl</b> first scales the matrix to be equilibrated in the max-norm <a href="#refs">[2]</a>, and then preorders the matrix using either the Reverse Cuthill-McKee (RCM) algorithm or the Approximate Minimum Degree algorithm (AMD) <a href="#refs">[1]</a>. To maintain stability, the user can use Bunch-Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form </p><p class="formulaDsp">
-<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP=LDL^{T}}. \]" src="form_3.png"/>
+<img class="formulaDsp" alt="\[ \mathbf{P^{T}SASP \approx LDL^{T}}. \]" src="form_12.png"/>
 </p>
 <p> where <img class="formulaInl" alt="$\mathbf{P}$" src="form_4.png"/> is a permutation matrix, <img class="formulaInl" alt="$\mathbf{S}$" src="form_5.png"/> a scaling matrix, and <img class="formulaInl" alt="$\mathbf{L}$" src="form_6.png"/> and <img class="formulaInl" alt="$\mathbf{D}$" src="form_7.png"/> are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using <b>sym-ildl's</b> incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.</p>
 <p>This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).</p>
 <h1><a class="anchor" id="dlinks"></a>
 Download links</h1>
+<p><em>[Latest release: 11/15/2015]</em> </p>
 <h2><a class="anchor" id="matlab_dlinks"></a>
 MATLAB MEX Files</h2>
 <ul>
@@ -142,7 +143,7 @@ Using the package as a standalone program</h2>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
-    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>3.0</code>.</td></tr>
+    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column of ${L}$ is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. Each column of ${D}$ has at most 2 elements. When this argument is not given, the default value for <code>fill</code> is <code>3.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls agressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). When pp_tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of BKP makes. When pp_tol is equal to 1, standard BKP is used. The pp_tol parameter is ignored if the pivot parameter is set to 'rook'. See the <b>pivot</b> parameters for more details. The default is 'rook'.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
@@ -217,7 +218,7 @@ Using sym-ildl within MATLAB</h2>
 </div><!-- fragment --><p>For convenience, the parameters are described below: </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>The matrix to be factored.</td></tr>
-    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>1.0</code>.</td></tr>
+    <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>3.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls aggressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
     <tr><td class="paramname">pivot_type</td><td>Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.</td></tr>
@@ -303,7 +304,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 6 2015 13:19:39 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 5 2016 14:27:40 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

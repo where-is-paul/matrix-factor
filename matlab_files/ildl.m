@@ -13,7 +13,7 @@ function [L, D, p, S, B] = ildl(A, fill, tol, ordering, equil, pivot_type, pp_to
 %       A - an n x n indefinite Hermitian matrix.
 %
 %       fill_factor - a parameter to control memory usage. Each column of L will
-%       have at most fill_factor*nnz(A)/n non-zero elements. Default: 2.0
+%       have at most fill_factor*nnz(A)/n non-zero elements. Default: 3.0
 %
 %       tol - a parameter to control accuracy. For the each column of L, 
 %       elements less than norm(column(L), 1) will be dropped. Default: 0.001
@@ -35,7 +35,7 @@ function [L, D, p, S, B] = ildl(A, fill, tol, ordering, equil, pivot_type, pp_to
 %       increase locality in pivoting (pivots closer to the diagonal are used) while
 %       choices closer to 1 increase the stability of pivoting. Useful for situations
 %       where you care more about preserving the structure of the matrix rather than
-%       bounding the size of its elements. Default: 2.0
+%       bounding the size of its elements. Default: 1.0
 %
 %
 %   Outputs:

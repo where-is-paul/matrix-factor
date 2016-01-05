@@ -10,3 +10,5 @@
 \form#9:$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$
 \form#10:$\mathbf{B=P^{T}SASP}$
 \form#11:$\mathbf{P^{T}SASP}$
+\form#12:\[ \mathbf{P^{T}SASP \approx LDL^{T}}. \]
+\form#13:\[ \mathbf{P^{T}SASP â LDL^{T}}. \]

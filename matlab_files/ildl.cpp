@@ -20,7 +20,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	// set up raw variables
 	const mxArray* raw_csc = prhs[0];
 
-	double fill_factor = 2.0, tol = 0.001, pp_tol = 1.0;
+	double fill_factor = 3.0, tol = 0.001, pp_tol = 1.0;
 	if (nrhs > 1) {
 		const mxArray* raw_fill_fact = prhs[1];
 		fill_factor = m.parse_double(raw_fill_fact);
