@@ -1,9 +1,9 @@
-#include "source/symmetric_matrix/symmetry_solver.h"
+#include "symmetry_solver.h"
 
 #include <iostream>
 #include <cassert>
 #include <cstring>
-#include "include/gflags/gflags.h"
+#include "gflags.h"
 
 DEFINE_string(filename, "", "The filename of the matrix to be factored"
 							"(in matrix-market format).");
@@ -73,3 +73,4 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
