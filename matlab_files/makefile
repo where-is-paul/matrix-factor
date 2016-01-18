@@ -1,32 +1,20 @@
-CXXFLAGS = -Wall -O3 -std=c++0x
+include ../make_defs.inc
+MEX_EXT = $(shell $(MATLAB_BIN)/mexext)
 
-FILES = utils.cpp ../*.cpp ../*.h
+ILDL_TARGET = ildl
 
-all : ildl.mex*
+MEXFLAGS = -largeArrayDims 
+MEXEXTRA = utils
 
-UNAME := $(shell uname)
-MEX = mex
+all: $(addsuffix .$(MEX_EXT), $(ILDL_TARGET))
 
-ifeq ($(UNAME), Linux)
-MEX = mex
-else
-MEX = mex.bat
-endif
-
-MEXFLAGS =-largeArrayDims 
-MEXEXTRA =ildl.cpp utils.cpp
-
-%.mex*: %.cpp
-	$(MEX) $(MEXFLAGS) $(MEXEXTRA)
-
-ildl.mex* : ildl.cpp
+$(addsuffix .$(MEX_EXT), $(ILDL_TARGET)): $(addsuffix .cpp, $(ILDL_TARGET) $(MEXEXTRA))
+	$(MATLAB_BIN)/mex $(MEXFLAGS) $?
     
 clean:
-	$(RM) *.mex*
+	$(RM) $(addsuffix .$(MEX_EXT), $(ILDL_TARGET))
     
 test: 
-	matlab -nodesktop -nosplash -r test_mex
+	matlab -nodesktop -nosplash -r 'test_mex; exit'
 
-debug: 
-	matlab -Dgdb
 .PHONY : all clean test
