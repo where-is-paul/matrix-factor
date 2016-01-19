@@ -8,7 +8,7 @@
 	\f[
 		\mathbf{P^{T}SASP \approx LDL^{T}}.
 	\f]
-	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the matrix, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
+	where \f$\mathbf{P}\f$ is a permutation matrix, \f$\mathbf{S}\f$ a scaling matrix, and \f$\mathbf{L}\f$ and \f$\mathbf{D}\f$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the given linear system, using \b sym-ildl's incomplete factorization to precondition the built-in solver or using the full factorization as a direct solver.
 	
 	This package is based on and extends an incomplete factorization approach proposed by Li and Saad <a href="#refs">[3]</a> (which itself builds on Li, Saad, and Chow <a href="#refs">[4]</a>).
 *    
@@ -121,7 +121,7 @@
 	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</c>.
 	
     \par
-	To actually solve the matrix, simply supply a right hand side file and a maximum number of minres iterations. When no right hand side is specified, \b sym-ildl assumes a right hand side of all 1's for debugging purposes:
+	To actually solve the given linear system, simply supply a right hand side file and a maximum number of minres iterations. When no right hand side is specified, \b sym-ildl assumes a right hand side of all 1's for debugging purposes:
 	\code
 		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -minres_iters=300 -minres_tol=1e-6
         
