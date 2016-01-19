@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <cstring>
-#include "include/gflags/gflags.h"
+#include "gflags.h"
 
 DEFINE_string(filename, "", "The filename of the matrix to be factored"
 							"(in matrix-market format).");
@@ -23,7 +23,7 @@ DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be
 								 " during the factorization. Choices are 'rook' and 'bunch'. The default is 'rook'.");
                                  
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
-								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
+								 " on the matrix. Choices are 'amd', 'rcm', 'mc64', and 'none'. MC64 will only work if it is installed.");
 								 
 DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
 						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");

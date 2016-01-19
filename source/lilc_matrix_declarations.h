@@ -156,7 +156,17 @@ public:
 		\param perm An empty permutation vector (filled on function completion).
 	*/
 	inline void sym_amd(vector<int>& perm);
+	
+	/*! \brief Returns MC64 ordering of the matrix A (stored in perm), and an optional scaling. 
 		
+		A detailed description of this function as well as all its subfunctions can be found at http://www.hsl.rl.ac.uk/catalogue/hsl_mc64.html
+		\param perm An empty permutation vector (filled on function completion).
+		\returns An optional scaling vector that scales diagonal entries to 1 and off diagonals to < 1 (in absolute value).
+		
+		NOTE: Currently supports doubles only.
+	*/
+	inline elt_vector_type sym_mc64(vector<int>& perm);
+	
 	/*! \brief Given a permutation vector perm, A is permuted to P'AP, where P is the permutation matrix associated with perm. 
 		\param perm the permutation vector.
 	*/
@@ -348,7 +358,42 @@ public:
 		\param sym flags whether the matrix is symmetric or not.
 	*/
 	bool save(std::string filename, bool sym = false);
-
+	
+	/*! \brief Converts a matrix to CSC form, includes *only* the lower triangular part of the matrix.
+		\param val A vector that stores the non-zero values.
+		\param row_ind The row indices of each value.
+		\param col_ptr The length of each column in row_ind.
+	*/
+	bool to_csc(elt_vector_type& val, idx_vector_type& row_ind, idx_vector_type& col_ptr) {
+		val.clear();
+		row_ind.clear();
+		col_ptr.clear();
+		
+		int last = 0;
+		col_ptr.push_back(last);
+		for (int i = 0; i < m_n_cols; i++) {
+			int col_len = m_idx[i].size();
+			if (col_len != m_x[i].size()) {
+				return false; // malformed input matrix
+			}
+			
+			last += col_len;
+			col_ptr.push_back(last);
+			
+			std::vector<std::pair<int, el_type> > col_vals;
+			for (int j = 0; j < col_len; j++) {
+				col_vals.push_back(std::make_pair(m_idx[i][j], m_x[i][j]));
+			}
+			std::sort(col_vals.begin(), col_vals.end());
+			
+			for (int j = 0; j < col_len; j++) {
+				val.push_back(m_x[i][j]);
+				row_ind.push_back(m_idx[i][j]);
+			}
+		}
+		
+		return true;
+	}
 };
 
 //------------------ include files for class functions -------------------//
@@ -357,6 +402,7 @@ public:
 #include "lilc_matrix_find_root.h"
 #include "lilc_matrix_sym_rcm.h"
 #include "lilc_matrix_sym_amd.h"
+#include "lilc_matrix_sym_mc64.h"
 #include "lilc_matrix_sym_perm.h"
 #include "lilc_matrix_sym_equil.h"
 #include "lilc_matrix_ildl_helpers.h"

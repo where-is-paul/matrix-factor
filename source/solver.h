@@ -92,7 +92,7 @@ class solver {
 		
         vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
-		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
+		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for MC64 (if installed), and 3 for no reordering.
         pivot_type piv_type; ///<Set to 0 for rook, 1 for bunch.
 		
         bool equil; ///<Set to true for max-norm equilibriation.
@@ -139,8 +139,10 @@ class solver {
 					reorder_scheme = 1;
 			} else if (strcmp(ordering, "amd") == 0) {
 					reorder_scheme = 0;
-			} else if (strcmp(ordering, "none") == 0) {
+			} else if (strcmp(ordering, "mc64") == 0) {
 					reorder_scheme = 2;
+			} else if (strcmp(ordering, "none") == 0) {
+					reorder_scheme = 3;
 			}
 		}
 		
@@ -200,7 +202,7 @@ class solver {
 				printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
 
-			if (reorder_scheme != 2) {
+			if (reorder_scheme != 3) {
 				start = clock();
 				std::string perm_name;
 				switch (reorder_scheme) {
@@ -211,6 +213,10 @@ class solver {
 					case 1:
 						A.sym_rcm(perm);
 						perm_name = "RCM";
+						break;
+					case 2:
+						A.sym_mc64(perm);
+						perm_name = "MC64";
 						break;
 				}
 				
