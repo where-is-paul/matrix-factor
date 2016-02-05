@@ -178,6 +178,11 @@ public:
 	*/
 	void sym_equil();
 	
+	/*!	\brief The symmetric matrix A is equilibrated by the input S and the symmetric equilibrated matrix SAS is stored in A.
+		\param The diagonal of the scaling matrix S.
+	*/
+	void sym_equil(const elt_vector_type& S);
+	
 	//----Factorizations----//
 	/*! \brief Performs an LDL' factorization of this matrix. 
 		

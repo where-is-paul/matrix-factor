@@ -12,7 +12,7 @@ INC_GFLAGS = $(addprefix -I, include/gflags)
 
 INC_SYM    = $(addprefix -I, source/)
 
-INC_MC64 = $(addprefix -I, include/hsl_mc64)
+INC_MC64 = $(addprefix -I, $(SRCDIR)/include/hsl_mc64)
 LIB_MC64 = $(SRCDIR)/lib/libhsl_mc64.a
 
 include/gflags/%.o: include/gflags/%.cc

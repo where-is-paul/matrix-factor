@@ -38,9 +38,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	if (nrhs > 4) {
 		const mxArray* raw_equil = prhs[4];
 		char* equil = m.parse_str(raw_equil);
-
-		if (strcmp(equil, "y") == 0) m.solv.set_equil(true);
-		else m.solv.set_equil(false);
+		m.solv.set_equil(equil);
 	}
     if (nrhs > 5) {
 		const mxArray* raw_piv_type = prhs[5];

@@ -95,7 +95,7 @@ class solver {
 		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for MC64 (if installed), and 3 for no reordering.
         pivot_type piv_type; ///<Set to 0 for rook, 1 for bunch.
 		
-        bool equil; ///<Set to true for max-norm equilibriation.
+        int equil; ///<Set to 1 for max-norm equilibriation, 2 for mc64.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
 		bool full_solve; ///<Set to true if we are using SYM-ILDL as a direct solver.
@@ -108,7 +108,7 @@ class solver {
 		solver() {
             piv_type = pivot_type::ROOK;
 			reorder_scheme = 0;
-			equil = true;
+			equil = 1;
             has_rhs = false;
             perform_inplace = false;
             full_solve = false;
@@ -148,8 +148,12 @@ class solver {
 		
 		/*! \brief Decides whether we should use equilibriation on the matrix or not.
 		*/
-		void set_equil(bool equil_opt) {
-			equil = equil_opt;
+		void set_equil(const char* ordering) {
+			if (strcmp(ordering, "bunch") == 0) {
+				equil = 1;
+			} else if (strcmp(ordering, "mc64") == 0) {
+				equil = 2;
+			}
 		}
         
         /*! \brief Decides whether we perform a full solve or not.
@@ -196,10 +200,20 @@ class solver {
 			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
 			clock_t start = clock(); double dif, total = 0;
 
-			if (equil == 1) {
-				A.sym_equil();
+			if (equil) {
+				std::string equil_name;
+				if (equil == 1) {
+					A.sym_equil();
+					equil_name = "Bunch";
+				} else if (equil == 2) {
+					vector<el_type> scale = A.sym_mc64(perm);
+					A.sym_equil(scale);	
+					perm.clear();
+					
+					equil_name = "MC64";
+				}
 				dif = clock() - start; total += dif; 
-				printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				printf("  Equilibration (%s):\t\t%.3f seconds.\n", equil_name.c_str(), dif/CLOCKS_PER_SEC);
 			}
 
 			if (reorder_scheme != 3) {
@@ -380,6 +394,7 @@ class solver {
             }
 			cout << D << endl;
 			cout << perm << endl;
+			cout << A.S << endl;
 #endif
 		}
 };

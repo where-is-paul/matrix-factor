@@ -64,4 +64,33 @@ void lilc_matrix<el_type> :: sym_equil() {
 	}
 }
 
+
+template<class el_type>
+void lilc_matrix<el_type> :: sym_equil(const elt_vector_type& s) {
+
+	//find termination points for loops with binary search later.
+	int i, ncols = n_cols();
+	
+	S.resize(ncols, 0);
+	for (int i = 0; i < ncols; i++) {
+		S[i] = s[i];
+	}
+	
+	std::pair<idx_it, elt_it> elem_its;
+	for (i = 0; i < ncols; i++) {
+		for (idx_it it = list[i].begin(); it != list[i].end(); it++) {
+			coeffRef(i, *it, elem_its);
+			
+			//can use bin. search on coeff since no reordering is done yet.
+			*(elem_its.second) *= S[i]; 
+		}
+
+		if (!m_idx[i].empty() && (m_idx[i][0] == i) ) 
+			m_x[i][0] *= S[i];
+		for (elt_it it = m_x[i].begin(); it != m_x[i].end(); it++) {
+			*it *= S[i];
+		}
+	}
+}
+
 #endif // _LIL_MATRIX_SYM_EQUIL_H_

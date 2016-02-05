@@ -2,13 +2,13 @@ ifeq ($(shell uname), Darwin)
 	CC := clang++
 	CFLAGS := -O3 -std=c++11
 	LINKFLAGS := -stdlib=libc++ -lgfortran
-	MATLAB_BIN = /Applications/Matlab/MATLAB_R2015b.app/bin
+	MATLAB_BIN = /Applications/Matlab/MATLAB_R2015b.app/bin/mex
 	MEX_EXT = $(shell $(MATLAB_BIN)/mexext)
 else
 	CC := g++
 	CFLAGS := -O3 -std=gnu++0x
 	LINKFLAGS := -lgfortran
-	MATLAB_BIN = 
+	MATLAB_BIN = mex
 	MEX_EXT = 
 endif
 

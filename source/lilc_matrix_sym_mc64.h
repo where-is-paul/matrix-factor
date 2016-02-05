@@ -38,7 +38,13 @@ inline std::vector<double> lilc_matrix<double> :: sym_mc64(vector<int>& perm) {
 	delete p;
 	
 	// Return scaling factors
-	return std::vector<double>(s, s+m_n_cols);
+	std::vector<double> res = std::vector<double>(s, s+m_n_cols);
+	for (int i = 0; i < m_n_cols; i++) {
+		res[i] = exp(res[i]);
+	}
+	delete s;
+	
+	return res;
 }
 
 #endif

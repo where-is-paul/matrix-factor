@@ -15,7 +15,7 @@ DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In 
 						  "elements less than tol*||L(k+1:n,k)|| (1-norm) are dropped.");
 						  
 DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). "
-						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP"
+						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP "
 						   "is used. Values between 0 and 1 varies the aggressivness of"
 						   "BKP in a continuous manner.");
 
@@ -25,8 +25,8 @@ DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', 'mc64', and 'none'. MC64 will only work if it is installed.");
 								 
-DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
-						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");
+DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated before factoring is done. "
+						 "If 'bunch', matrix is equilibrated with Bunch's algorithm in the max norm. If 'mc64', matrix is equilibrated with mc64 when reordering scheme is also set to MC64");
 
 DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (faster and saves memory, "
 						    "at the cost of not being able to use the built-in solver).");
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
 	//default is equil on
-	solv.set_equil(FLAGS_equil); 
+	solv.set_equil(FLAGS_equil.c_str()); 
 	
 	if (FLAGS_minres_iters > 0 || FLAGS_full || !FLAGS_rhs_file.empty()) {
         if (!FLAGS_full && FLAGS_minres_iters <= 0) {
