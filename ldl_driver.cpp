@@ -26,7 +26,7 @@ DEFINE_string(reordering, "amd", "Determines what sort of preordering will be us
 								 " on the matrix. Choices are 'amd', 'rcm', 'mc64', and 'none'. MC64 will only work if it is installed.");
 								 
 DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated before factoring is done. "
-						 "If 'bunch', matrix is equilibrated with Bunch's algorithm in the max norm. If 'mc64', matrix is equilibrated with mc64 when reordering scheme is also set to MC64");
+						 "If 'bunch', matrix is equilibrated with Bunch's algorithm in the max norm. MC64 will only work if it is installed.");
 
 DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (faster and saves memory, "
 						    "at the cost of not being able to use the built-in solver).");

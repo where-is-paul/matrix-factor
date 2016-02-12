@@ -148,10 +148,10 @@ class solver {
 		
 		/*! \brief Decides whether we should use equilibriation on the matrix or not.
 		*/
-		void set_equil(const char* ordering) {
-			if (strcmp(ordering, "bunch") == 0) {
+		void set_equil(const char* equilibrate) {
+			if (strcmp(equilibrate, "bunch") == 0) {
 				equil = 1;
-			} else if (strcmp(ordering, "mc64") == 0) {
+			} else if (strcmp(equilibrate, "mc64") == 0) {
 				equil = 2;
 			}
 		}
