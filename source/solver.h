@@ -8,6 +8,8 @@
 
 #include "lilc_matrix.h"
 
+namespace symildl {
+
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
 	\param filename the filename the matrix will be saved under.
@@ -78,6 +80,34 @@ bool read_vector(std::vector<el_type>& vec, std::string filename) {
 	return true;
 }
 
+// Using struct'd enums to achieve a C++11 style enum class without C++11
+struct reordering_type {
+enum {
+	NONE,
+	AMD,
+	RCM,
+	MC64
+};
+};
+
+struct equilibration_type {
+enum {
+	NONE,
+	BUNCH,
+	RUIZ,
+	MC64
+};
+};
+
+struct solver_type {
+enum {
+	NONE,
+	MINRES,
+	SQMR,
+	FULL
+};
+};
+
 /*! \brief Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface.
 
 	Currently, the only matrix type accepted is the lilc_matrix (as no other matrix type has been created yet).
@@ -92,13 +122,14 @@ class solver {
 		
         vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
-		int reorder_scheme; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
+		int reorder_type; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
         pivot_type piv_type; ///<Set to 0 for rook, 1 for bunch.
 		
-        bool equil; ///<Set to true for max-norm equilibriation.
+        int equil_type; ///<The equilibration method used. Set to 1 for max-norm equilibriation.
+		
+		int solve_type; //<The type of solver used to solve the right hand side.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
-		bool full_solve; ///<Set to true if we are using SYM-ILDL as a direct solver.
         
         vector<el_type> rhs; ///<The right hand side we'll solve for.
 		vector<el_type> sol_vec; ///<The solution vector.
@@ -107,11 +138,11 @@ class solver {
 		*/
 		solver() {
             piv_type = pivot_type::ROOK;
-			reorder_scheme = 0;
-			equil = true;
+			reorder_type = reordering_type::AMD;
+			equil_type = equilibration_type::BUNCH;
+			solve_type = solver_type::SQMR;
             has_rhs = false;
             perform_inplace = false;
-            full_solve = false;
 		}
 				
 		/*! \brief Loads the matrix A into solver.
@@ -136,24 +167,36 @@ class solver {
 		*/
 		void set_reorder_scheme(const char* ordering) {
 			if (strcmp(ordering, "rcm") == 0) {
-					reorder_scheme = 1;
+				reorder_type = reordering_type::RCM;
 			} else if (strcmp(ordering, "amd") == 0) {
-					reorder_scheme = 0;
+				reorder_type = reordering_type::AMD;
 			} else if (strcmp(ordering, "none") == 0) {
-					reorder_scheme = 2;
+				reorder_type = reordering_type::NONE;
 			}
 		}
 		
 		/*! \brief Decides whether we should use equilibriation on the matrix or not.
 		*/
 		void set_equil(bool equil_opt) {
-			equil = equil_opt;
+			if (equil_opt) {
+				equil_type = equilibration_type::BUNCH;
+			} else {
+				equil_type = equilibration_type::NONE;
+			}
 		}
         
-        /*! \brief Decides whether we perform a full solve or not.
+		/*! \brief Decides whether we perform a full solve or not.
 		*/
-		void set_full_solve(bool full) {
-			full_solve = full;
+		void set_solver(const char* solver) {
+			if (strcmp(solver, "minres") == 0) {
+				solve_type = solver_type::MINRES;
+			} else if (strcmp(solver, "sqmr") == 0) {
+				solve_type = solver_type::SQMR;
+			} else if (strcmp(solver, "full") == 0) {
+				solve_type = solver_type::FULL;
+			} else if (strcmp(solver, "none") == 0) {
+				solve_type = solver_type::NONE;
+			}
 		}
 		
         /*! \brief Decides whether we perform the factorization inplace or not.
@@ -183,32 +226,33 @@ class solver {
 		*/
 		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0.0) {
             // A full factorization is equivalent to a fill factor of n and tol of 0
-            if (full_solve) {
+            if (solve_type == solver_type::FULL) {
                 tol = 0.0;
                 fill_factor = A.n_cols();
             }
             
 			perm.reserve(A.n_cols());
 			cout << std::fixed << std::setprecision(3);
-			//gettimeofday(&tim, NULL);  
-			//double t0=tim.tv_sec+(tim.tv_usec/1e6);
-			clock_t start = clock(); double dif, total = 0;
-
-			if (equil == 1) {
+			
+			double dif, total = 0;
+			clock_t start;
+			
+			if (equil_type == equilibration_type::BUNCH) {
+				start = clock();
 				A.sym_equil();
 				dif = clock() - start; total += dif; 
 				printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
 
-			if (reorder_scheme != 2) {
+			if (reorder_type != reordering_type::NONE) {
 				start = clock();
 				std::string perm_name;
-				switch (reorder_scheme) {
-					case 0:
+				switch (reorder_type) {
+					case reordering_type::AMD:
 						A.sym_amd(perm);
 						perm_name = "AMD";
 						break;
-					case 1:
+					case reordering_type::RCM:
 						A.sym_rcm(perm);
 						perm_name = "RCM";
 						break;
@@ -279,7 +323,7 @@ class solver {
                     }
                     rhs = tmp;
                     
-                    if (full_solve) {
+                    if (solve_type == solver_type::FULL) {
                         printf("Solving matrix with direct solver...\n");
                         sol_vec.resize(A.n_cols(), 0);
                         // MINRES uses the preconditioned solver that
@@ -295,11 +339,16 @@ class solver {
                         L.backsolve(rhs, tmp);
                         D.sqrt_solve(tmp, rhs, false);
                         
-                        printf("Solving matrix with MINRES...\n");
                         start = clock();
-                        // solve the equilibrated, preconditioned, and permuted linear system
-                        minres(max_iter, minres_tol, shift);
-                        
+						
+						if (solve_type == solver_type::MINRES) {
+							printf("Solving matrix with MINRES...\n");
+							// solve the equilibrated, preconditioned, and permuted linear system
+							minres(max_iter, minres_tol, shift);
+						} else if (solve_type == solver_type::SQMR) {
+							sqmr(max_iter, minres_tol);
+						}
+						
                         // now we've solved M^(-1)*B*M'^(-1)y = M^(-1)P'*S*b
                         // where B = P'SASPy.
                         
@@ -310,9 +359,7 @@ class solver {
                         D.sqrt_solve(sol_vec, tmp, true);
                         L.forwardsolve(tmp, sol_vec);
                     }
-                    
-                    
-                    
+            
                     // 1. apply P
                     for (int i = 0; i < A.n_cols(); i++) {
                         tmp[perm[i]] = sol_vec[i];
@@ -335,13 +382,20 @@ class solver {
 			}
 		}
 		
-		/*! \brief Applies minres on A, preconditioning with factors L and D..
+		/*! \brief Applies minres on A, preconditioning with factors L and D.
 			
 			\param max_iter the maximum number of minres iterations.
 			\param stop_tol the stopping tolerance of minres. i.e. we stop as soon as the residual goes below stop_tol.
 			\param shift shifts A by shift*(identity matrix) to make it more positive definite. This sometimes helps.
 		*/
 		void minres(int max_iter = 1000, double stop_tol = 1e-6, double shift = 0.0);
+		
+		/*! \brief Applies SMQR on A, preconditioning with factors L and D.
+			
+			\param max_iter the maximum number of minres iterations.
+			\param stop_tol the stopping tolerance of minres. i.e. we stop as soon as the residual goes below stop_tol.
+		*/
+		void sqmr(int max_iter = 1000, double stop_tol = 1e-6);
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
 			
@@ -379,5 +433,8 @@ class solver {
 };
 
 #include "solver_minres.h"
+#include "solver_sqmr.h"
+
+}
 
 #endif

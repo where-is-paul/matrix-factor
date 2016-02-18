@@ -30,9 +30,6 @@ DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before f
 
 DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (faster and saves memory, "
 						    "at the cost of not being able to use the built-in solver).");
-
-DEFINE_bool(full, false, "Uses SYM-ILDL to do the full factorization of the matrix, hence "
-						 "using it as a direct solver.");
                             
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder "
 						 "called output_matrices/ in the same directory as ldl_driver.");
@@ -41,12 +38,16 @@ DEFINE_bool(display, false, "If yes, outputs a human readable version of the fac
 							" standard out. Generates a large amount of output if the "
 							"matrix is big.");
 							
-DEFINE_int32(minres_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will "
-							   "attempt to use the preconditioner generated with MINRES to "
-							   "solve the system. The solution will be written to "
-                               "output_matrices/ in matrix-market format.");
+DEFINE_int32(max_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will attempt "
+							"to use the preconditioner generated with the chosen solver to "
+							"solve the system. This parameter controls the max iterations of "
+							"the solver (has no effect if choosing the full solve).");
+							
+DEFINE_string(solver, "sqmr", "The solver used if supplied a right-hand side. The "
+							  "solution will be written to output_matrices/ in matrix-market "
+							  "format. Choices are 'sqmr', 'minres', and 'full'");
 
-DEFINE_double(minres_tol, 1e-6, "A tolerance for MINRES. When the iterate x satisfies ||Ax-b||/||b|| < minres_tol, MINRES is terminated.");
+DEFINE_double(solver_tol, 1e-6, "A tolerance for the iterative solver used. When the iterate x satisfies ||Ax-b||/||b|| < solver_tol, the solver is terminated. Has no effect when doing a full solve.");
                            
 DEFINE_string(rhs_file, "", "The filename of the right hand side (in matrix-market format).");
 
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	
-	solver<double> solv;
+	symildl::solver<double> solv;
 	solv.load(FLAGS_filename);
 	
 	//default reordering scheme is AMD
@@ -76,15 +77,17 @@ int main(int argc, char* argv[])
 	//default is equil on
 	solv.set_equil(FLAGS_equil); 
 	
-	if (FLAGS_minres_iters > 0 || FLAGS_full || !FLAGS_rhs_file.empty()) {
-        if (!FLAGS_full && FLAGS_minres_iters <= 0) {
-            printf("Using MINRES (200 max iterations) as default solver since RHS was loaded.\n");
-            FLAGS_minres_iters = 200;
+	//default solver is SQMR
+	solv.set_solver(FLAGS_solver.c_str());
+	if (FLAGS_max_iters > 0 || !FLAGS_rhs_file.empty()) {
+        if (FLAGS_max_iters <= 0) {
+            printf("Using SQMR (200 max iterations) as default solver since RHS was loaded.\n");
+            FLAGS_max_iters = 200;
         }
         
         vector<double> rhs;
         if (!FLAGS_rhs_file.empty()) {
-            read_vector(rhs, FLAGS_rhs_file);
+            symildl::read_vector(rhs, FLAGS_rhs_file);
         } else {
             // for testing purposes only
             rhs.resize(solv.A.n_cols(), 1);
@@ -99,8 +102,7 @@ int main(int argc, char* argv[])
 	
     solv.set_pivot(FLAGS_pivot.c_str());
     solv.set_inplace(FLAGS_inplace);
-	solv.set_full_solve(FLAGS_full);
-    solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_minres_iters, FLAGS_minres_tol);
+    solv.solve(FLAGS_fill, FLAGS_tol, FLAGS_pp_tol, FLAGS_max_iters, FLAGS_solver_tol);
 	
 	if (FLAGS_save) {
 		solv.save();
