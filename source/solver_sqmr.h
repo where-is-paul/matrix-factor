@@ -103,7 +103,7 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
     std::string iter_str = "iterations";
     if (k-1 == 1) iter_str = "iteration";
 
-	printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), resmin/norm_rhs);
+	printf("SQMR took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), resmin/norm_rhs);
 	return;
 }
 
