@@ -379,7 +379,6 @@ class solver {
 							L.forwardsolve(tmp, sol_vec);
 						} else if (solve_type == solver_type::SQMR) {
 							printf("Solving matrix with SQMR...\n");
-							// solve the equilibrated, preconditioned, and permuted linear system
 							sqmr(max_iter, minres_tol);
 						}
                     }
