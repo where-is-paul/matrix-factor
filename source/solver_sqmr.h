@@ -81,10 +81,14 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 		// update x
 		vector_sum(1, x, 1, d, x);
 		
-		// update residual and norms (we should figure out a way to estimate the residual without this...)
+		// update residual and norms
+		res = norm(r, 2.0);
+		/*
+		// the true residual
 		A.multiply(x, tmp);
 		vector_sum(1, rhs, -1, tmp, tmp);
 		res = norm(tmp, 2.0);
+		*/
 		
 		if (res < resmin) {
 			resmin = res;
