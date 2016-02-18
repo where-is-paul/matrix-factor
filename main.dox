@@ -55,7 +55,7 @@
     
     For convenience, the parameters are listed below. 
     
-    \subsubsection Factorization parameters
+    \subsubsection fact_param Factorization parameters
     
 	\param filename The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
@@ -75,7 +75,7 @@
     
     \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c n.	For this parameter to appear, sym-ildl must be compiled with \c SYM_ILDL_DEBUG defined.
     
-    \par Solver parameters
+    \subsubsection solver_param Solver parameters
     \param solver This chooses the solver for \b sym-ildl if given a right hand side. The options are 'sqmr', 'minres', 'full', and 'none'. If the 'full' solver is chosen, the full factorization is produced and a straightforward direct solve is done. Setting this parameter to \c y overrides all other solver parameters as well as -fill and -tol (since we will no longer produce an incomplete factorization). The default solver is 'sqmr'.
     
     \param max_iters Number of iterations that the builtin iterative solvers (SQMR or MINRES) can use. The default is \c -1 (i.e. iterative solver is not applied). The output solution is written to <c>output_matrices\outsol.mtx</c>.

@@ -89,7 +89,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li class="level1"><a href="#why_use">Why use sym-ildl?</a></li>
-<li class="level1"><a href="#quick_start">Quick Start</a><ul><li class="level2"><a href="#ldl_driver">Using the package as a standalone program</a><ul><li class="level3"><a href="#Factorization">parameters</a></li>
+<li class="level1"><a href="#quick_start">Quick Start</a><ul><li class="level2"><a href="#ldl_driver">Using the package as a standalone program</a><ul><li class="level3"><a href="#fact_param">Factorization parameters</a></li>
+<li class="level3"><a href="#solver_param">Solver parameters</a></li>
 </ul>
 </li>
 <li class="level2"><a href="#matlab_mex">Using sym-ildl within MATLAB</a><ul><li class="level3"><a href="#gmres_ildl">Using sym-ildl with an iterative solver in MATLAB</a></li>
@@ -152,8 +153,8 @@ Using the package as a standalone program</h2>
 <p>A description of each of these parameters can be accessed by typing </p><div class="fragment"><div class="line">./ldl_driver --help </div>
 </div><!-- fragment --><p>Generally speaking, the code operates in two phases: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the LDL' preconditioner is built. If a right hand side is specified, the built-in solver attempts to solve the given linear system. The solver takes the preconditioner and uses it in either preconditioned MINRES or a direct solve (full factorization with Bunch-Kaufman or rook pivoting).</p>
 <p>For convenience, the parameters are listed below.</p>
-<h3><a class="anchor" id="Factorization"></a>
-parameters</h3>
+<h3><a class="anchor" id="fact_param"></a>
+Factorization parameters</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.</td></tr>
@@ -168,7 +169,8 @@ parameters</h3>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Solver parameters</dt><dd></dd></dl>
+<h3><a class="anchor" id="solver_param"></a>
+Solver parameters</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">solver</td><td>This chooses the solver for <b>sym-ildl</b> if given a right hand side. The options are 'sqmr', 'minres', 'full', and 'none'. If the 'full' solver is chosen, the full factorization is produced and a straightforward direct solve is done. Setting this parameter to <code>y</code> overrides all other solver parameters as well as -fill and -tol (since we will no longer produce an incomplete factorization). The default solver is 'sqmr'.</td></tr>
@@ -338,7 +340,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 18 2016 05:12:54 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 18 2016 05:29:14 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
