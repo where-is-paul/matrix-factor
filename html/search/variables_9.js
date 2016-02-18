@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['off_5fdiag',['off_diag',['../classblock__diag__matrix.html#a894255ea4928f43a2cae577abc4910d3',1,'block_diag_matrix']]]
+  ['perform_5finplace',['perform_inplace',['../classsymildl_1_1solver.html#a832633b9ca934cf072b0c61910457b6c',1,'symildl::solver']]],
+  ['perm',['perm',['../classsymildl_1_1solver.html#aa98f03a6a70a130e6aaa4bb04938b666',1,'symildl::solver']]],
+  ['piv_5ftype',['piv_type',['../classsymildl_1_1solver.html#a3ade18f7dbaf5233efa69d27df242b8f',1,'symildl::solver']]]
 ];

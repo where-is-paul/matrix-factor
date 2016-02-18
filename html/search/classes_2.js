@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['solver',['solver',['../classsolver.html',1,'']]],
-  ['swap_5fstruct',['swap_struct',['../classswap__struct.html',1,'']]]
+  ['lil_5fsparse_5fmatrix',['lil_sparse_matrix',['../classlil__sparse__matrix.html',1,'']]],
+  ['lilc_5fmatrix',['lilc_matrix',['../classlilc__matrix.html',1,'']]]
 ];

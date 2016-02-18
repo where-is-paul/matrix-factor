@@ -24,11 +24,17 @@
 *           - <a href="https://github.com/inutard/matrix-factor/archive/master.zip">Latest stable release (gcc 4.7 and above)</a>
 *
 *
-*
+*	\section why_use Why use sym-ildl?
+		- <b>It's easy to use</b>: We offer precompiled versions of sym-ildl on both Windows and Linux, as well as for use within MATLAB. If you want to use sym-ildl as a C++ library, there is no need to compile anything. You can just use the header files right away. sym-ildl is defined entirely in the header files.
+		- <b>It's reliable</b>: sym-ildl includes several methods to improve stability of the preconditioner. These include different kinds of equilibration, reordering, as well partial pivoting. 
+		- <b>It's not just a preconditioner</b>: sym-ildl implements several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.
+*	
 *
 *	\section quick_start Quick Start
 *
 	To begin using the package, first download the files above or compile the code hosted at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. The GitHub repository contains the most up to date source code as well as an "experimental" branch that we release new features to. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is \c g++, simply type \c make at the command line to compile the entire package. In addition to \subpage ldl_driver "usage as a standalone program", the package also has a \subpage matlab_mex "Matlab interface".
+	
+	For using sym-ildl as a software library, see the API <a href="http://www.cs.ubc.ca/~inutard/html/classsolver.html">here</a>. sym-ildl is a header only library, so one only needs to include \c source/solver.h for everything to work.
 
 	\subsection ldl_driver Using the package as a standalone program
 	The compiled program \c ldl_driver takes in through the command line one parameter (the matrix) as well as several additional optional parameters.
@@ -49,11 +55,11 @@
     
     For convenience, the parameters are listed below. 
     
-    \par Factorization parameters
+    \subsubsection Factorization parameters
     
 	\param filename The filename of the matrix to be loaded. Several test matrices exist in the test_matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.
 	
-	\param fill Controls memory usage. Each column of $\mathbf{L}$ is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. Each column of $\mathbf{D}$ has at most 2 elements. When this argument is not given, the default value for \c fill is <c>3.0</c>.
+	\param fill Controls memory usage. Each column of \f$\mathbf{L}\f$ is guaranteed to have fewer than \f$fill\cdot nnz(\mathbf{A})/n\f$ elements. Each column of \f$\mathbf{D}\f$ has at most 2 elements. When this argument is not given, the default value for \c fill is <c>3.0</c>.
 	
 	\param tol Controls agressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 	
@@ -61,30 +67,30 @@
 
 	\param reordering Determines what sort of preordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
 	
-    \param inplace Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If only the solver is needed, then \c inplace should not be used. \c y indicates yes, \c n indicates no. The default flag is \c y.	
+    \param inplace Indicates whether the factorization should be performed in-place, leading to roughly a 33% saving in memory. This memory comes out of extra information used in the solver. If the solver is needed, then \c inplace should not be used. \c y indicates yes, \c n indicates no. The default flag is \c n.	
     
-    \param pivot Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If \c rook is used, the \c pp_tol parameter is ignored.
+    \param pivot Indicates the pivoting algorithm used. Choices are 'rook' and 'bunch'. If \c rook is used, the \c pp_tol parameter is ignored. The default is 'rook'.
     
     \param save Indicates whether the output matrices should be saved. \c y indicates yes, \c n indicates no. The default flag is \c y. All matrices are saved in matrix market (.mtx) form. The matrices are saved into a folder named \c output_matrices. There are five saved files: <c>outA.mtx, outL.mtx, outD.mtx, outS.mtx</c>, and \c outP.mtx. \c outB.mtx is the matrix \f$\mathbf{B=P^{T}SASP}\f$. The rest of the outputs should be clear from the description above.
     
-    \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c n.	
+    \param display Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. \c y indicates yes, \c n indicates no. The default flag is \c n.	For this parameter to appear, sym-ildl must be compiled with \c SYM_ILDL_DEBUG defined.
     
     \par Solver parameters
-    \param full This flag enables \b sym-ildl to be used as a direct solver. Internally the full factorization is produced and a straightforward direct solve is done. Setting this parameter to \c y overrides all other solver parameters as well as -fill and -tol (since we will no longer produce an incomplete factorization). The default value is \c n.
+    \param solver This chooses the solver for \b sym-ildl if given a right hand side. The options are 'sqmr', 'minres', 'full', and 'none'. If the 'full' solver is chosen, the full factorization is produced and a straightforward direct solve is done. Setting this parameter to \c y overrides all other solver parameters as well as -fill and -tol (since we will no longer produce an incomplete factorization). The default solver is 'sqmr'.
     
-    \param minres_iters Number of iterations that the builtin MINRES solver can use. The default is \c -1 (i.e. MINRES is not applied). The output solution is written to <c>output_matrices\outsol.mtx</c>.
+    \param max_iters Number of iterations that the builtin iterative solvers (SQMR or MINRES) can use. The default is \c -1 (i.e. iterative solver is not applied). The output solution is written to <c>output_matrices\outsol.mtx</c>.
     
-    \param minres_tol Relative tolerance for the builtin MINRES solver. When the iterate x satisfies ||Ax-b||/||b|| < \c minres_tol, MINRES is terminated. The default is \c 1e-6.
+    \param solver_tol Relative tolerance for the builtin iterative solvers. When the iterate x satisfies ||Ax-b||/||b|| < \c solver_tol, the iterative solver is terminated. The default is \c 1e-6.
     
     \param rhs_file The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form. If no right hand sides are given, only the preconditioner is generated.
     
     \par
-	Typically, the \c pp_tol and \c reordering parameters are best left to the default options.
+	Typically, the \c pivot, \c equil, and \c reordering parameters are best left to the default options.
 	
 	\par Examples:
 	Suppose we wish to factor the \c aug3dcqp matrix stored in <c>test_matrices/aug3dcqp.mtx</c>. Using the parameters described above, the execution of the program may go something like this:	
 	\code
-		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 tol=0.001 -save=y -display=n
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=3.0 tol=0.001 -save=y
 		
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by 35543 with 128115 non-zeros.
@@ -93,22 +99,12 @@
 		  Permutation:                  0.047 seconds.
 		  Factorization (BK pivoting):  0.109 seconds.
 		Total time:     0.250 seconds.
-		L is 35543 by 35543 with 108794 non-zeros.
+		L is 35543 by 35543 with 162160 non-zeros.
 		Saving matrices...
 		Save complete.
 		Factorization Complete. All output written to /output_matrices directory.
 	\endcode	
-	The code above factors the \c aug3dcqp.mtx matrix (<c>fill=1.0, tol=0.001</c>) from the \c test_matrices folder and saves the outputs. The time it took to pre-order and equilibrate the matrix (0.047s) as well as the actual factorization (0.109s) are also given.
-	
-	\par
-	The program may also run without the last 4 arguments:	
-	\code
-		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -fill=1.0 -tol=0.001
-		
-		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
-		A is 35543 by ...
-	\endcode
-	This code does the exact same thing as the code in the previous example, except this time we take advantage of the fact that \c save defaults to \c y and \c display to \c n.
+	The code above factors the \c aug3dcqp.mtx matrix (<c>fill=3.0, tol=0.001</c>) from the \c test_matrices folder and saves the outputs. The time it took to pre-order and equilibrate the matrix (0.047s) as well as the actual factorization (0.109s) are also given.
 	
 	\par
 	For convenience, we may use all optional arguments:
@@ -118,12 +114,12 @@
 		Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
 		A is 35543 by ...
 	\endcode
-	The code above would use the default arguments <c>-fill=1.0 -tol=0.001 -pp_tol=1.0 -reordering=amd -save=y -display=n</c>.
+	The code above would use the default arguments <c>-fill=3.0 -tol=0.001 -reordering=amd -save=y</c>. In general, we may give \c ldl_driver the arguments in any order, and omit any number of them (except the \c filename argument).
 	
-    \par
-	To actually solve the given linear system, simply supply a right hand side file and a maximum number of minres iterations. When no right hand side is specified, \b sym-ildl assumes a right hand side of all 1's for debugging purposes:
+    \par Solving a linear system
+	To actually solve the given linear system, simply supply a right hand side file (with the \c rhs_file argument) and a maximum number of solver iterations. When no right hand side is specified (but a solver iteration is), \b sym-ildl assumes a right hand side of all 1's for debugging purposes:
 	\code
-		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -minres_iters=300 -minres_tol=1e-6
+		./ldl_driver -filename=test_matrices/aug3dcqp.mtx -max_iters=300 -max_tol=1e-6 -solver=minres
         
         Load succeeded. File test_matrices/aug3dcqp.mtx was loaded.
         A is 35543 by 35543 with 77829 non-zeros.
@@ -133,12 +129,12 @@
           Permutation:                          0.047 seconds.
           Factorization (Rook pivoting):        0.047 seconds.
         Total time:     0.109 seconds.
-        L is 35543 by 35543 with 117013 non-zeros.
+        L is 35543 by 35543 with 162160 non-zeros.
 
         Solving matrix with MINRES...
-        The estimated condition number of the matrix is 5.899689e+01.
-        MINRES took 71 iterations and got down to relative residual 8.995307e-07.
-        Solve time:             0.484 seconds.
+        The estimated condition number of the matrix is 2.202256e+00.
+        MINRES took 18 iterations and got down to relative residual 8.627871e-07.
+        Solve time:             0.141 seconds.
 
         Solution saved to output_matrices/outsol.mtx.
         Saving matrices...
@@ -166,7 +162,7 @@
 	
     \param pivot_type Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.
     
-	\param pp_tol Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0.
+	\param pp_tol Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol >= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0. When rook pivoting is used, this parameter has no effect.
     
 	As with the standalone executable, the function has five outputs: <c>L, D, p, S,</c> and \c B:
 	\return \b L Unit lower triangular factor of \f$\mathbf{P^{T}SASP}\f$.
@@ -191,8 +187,7 @@
 		AMD:		    0.000 seconds.
 		Permutation:	0.001 seconds.
 		Factorization:	0.013 seconds.
-		Total time:	    0.015 seconds.
-		L is 200 by 200 with 14388 non-zeros.
+		...
 	\endcode
 	As we can see above, \c ildl will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
 	
@@ -204,7 +199,42 @@
 		AMD:		0.001 seconds.
 		...
 	\endcode	
-	As specified above, the default values of <c>fill=1.0</c>, <c>tol=0.001</c>, <c>pp_tol=1.0</c>, and <c>reordering=amd</c> are used.
+	As specified above, the default values of <c>fill=3.0</c>, <c>tol=0.001</c>,  <c>pivot_type='rook'</c>, <c>pp_tol=1.0</c>, and <c>reordering=amd</c> are used.
+	
+	\subsubsection gmres_ildl Using sym-ildl with an iterative solver in MATLAB
+	To use the factorization as a preconditioner, we must apply the permutation and scaling matrices returned by \c ildl. For convenience here is a complete example of how \c ildl can be used with GMRES:
+	
+	\par
+	\code
+		% Generate a test matrix
+		B = sparse(gallery('uniformdata',100,0));
+		A = [speye(100) B; B' sparse(100, 100)];
+		
+		% Run sym-ildl
+		[L, D, p, S, B] = ildl(A, 1.0, 0.001);
+
+		% Create a right hand side of all 1s
+		rhs = ones(size(A,1), 1);
+		
+		% Solve A*x = e, or equivalently, P'SASP*y = P'S*e,
+		% where y = P'S^(-1)*x. Since B = P'SASP, we can use give it to GMRES for convenience.
+		% Create the new right hand side (scaled and permuted)
+		new_rhs = S*rhs;
+		new_rhs = new_rhs(p);
+		
+		% Create our preconditioner. LDLt(x) = (LDL')^(-1) * x.
+		LDLt = @(x) L'\(D\(L\x));
+		
+		% Run GMRES(60), stopping when the relative residual is below 1e-6 or when 3*60 total iterations have passed.
+		y = gmres(B, new_rhs, 60, 1e-8, 3, LDLt);
+		
+		% Get the solution x
+		z(p) = y;
+		x = S*z';
+		
+		% Sanity check: Is it the close to the direct solve?
+		fprintf('This number should be small: %f\n', norm(x - A\rhs));
+	\endcode
 	
 	\section skew_usage Usage for skew-symmetric matrices
 	
@@ -221,13 +251,7 @@
 		A is 125000 by 125000 with 735000 non-zeros.
 		Equilibration:  0.016 seconds.
 		AMD:            0.203 seconds.
-		Permutation:    0.125 seconds.
-		Factorization:  0.859 seconds.
-		Total time:     1.203 seconds.
-		L is 125000 by 125000 with 727553 non-zeros.
-		Saving matrices...
-		Save complete.
-		Factorization Complete. All output written to /output_matrices directory.
+		...
 	\endcode
 	
 	As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing 
@@ -264,7 +288,7 @@
 
 *	\section contribute_sec Licensing and How to contribute
 *
-    \b sym-ildl is open source, and we're always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. To this end, we use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request on GitHub to contribute.
+    \b sym-ildl is open source, and we're always looking for new contributions! The entire codebase is freely accessible at <a href="https://github.com/inutard/matrix-factor">https://github.com/inutard/matrix-factor</a>. We also use the MIT Licence, which essentially allow free use of this software in any way you want (see <a href="http://opensource.org/licenses/MIT">here</a> for more details). Simply send us a pull request on GitHub to contribute.
 *
 *
 *   \section citations Citing this code

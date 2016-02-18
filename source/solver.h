@@ -215,7 +215,7 @@ class solver {
             }
 		}
         
-		/*! \brief Factors the matrix A into P' * S^(-1) * A * S^(-1) * P = LDL' in addition to printing some timing data to screen.
+		/*! \brief Factors the matrix A into P' * S * A * S * P = LDL' in addition to printing some timing data to screen.
 			
 			More information about the parameters can be found in the documentation for the ildl() function.
 			
