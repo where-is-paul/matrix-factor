@@ -82,30 +82,30 @@ bool read_vector(std::vector<el_type>& vec, std::string filename) {
 
 // Using struct'd enums to achieve a C++11 style enum class without C++11
 struct reordering_type {
-enum {
-	NONE,
-	AMD,
-	RCM,
-	MC64
-};
+	enum {
+		NONE,
+		AMD,
+		RCM,
+		MC64
+	};
 };
 
 struct equilibration_type {
-enum {
-	NONE,
-	BUNCH,
-	RUIZ,
-	MC64
-};
+	enum {
+		NONE,
+		BUNCH,
+		RUIZ,
+		MC64
+	};
 };
 
 struct solver_type {
-enum {
-	NONE,
-	MINRES,
-	SQMR,
-	FULL
-};
+	enum {
+		NONE,
+		MINRES,
+		SQMR,
+		FULL
+	};
 };
 
 /*! \brief Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface.
@@ -123,7 +123,7 @@ class solver {
         vector<int> perm;	///<A permutation vector containing all permutations on A.
 		block_diag_matrix<el_type> D;	///<The diagonal factor of A.
 		int reorder_type; ///<Set to to 0 for AMD, 1 for RCM, 2 for no reordering.
-        pivot_type piv_type; ///<Set to 0 for rook, 1 for bunch.
+        int piv_type; ///<Set to 0 for rook, 1 for bunch.
 		
         int equil_type; ///<The equilibration method used. Set to 1 for max-norm equilibriation.
 		
