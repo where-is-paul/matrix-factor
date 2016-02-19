@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">sym-ildl
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
    <div id="projectbrief">Incomplete LDL&#39; factorizations of indefinite symmetric and skew-symmetric matrices.</div>
   </td>
@@ -93,58 +93,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef _LILC_MATRIX_SYM_RCM_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define _LILC_MATRIX_SYM_RCM_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="structby__degree.html">    9</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structby__degree.html">by_degree</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>* A;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="structby__degree.html">by_degree</a>(<a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>* mat) : A(mat) {}</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">bool</span> operator()(<span class="keywordtype">int</span> <span class="keyword">const</span> &amp;a, <span class="keywordtype">int</span> <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordtype">int</span> deg_a = A-&gt;<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[a].size() + A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a].size();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordtype">int</span> deg_b = A-&gt;<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[b].size() + A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b].size();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> (A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a].size() &gt; 0 &amp;&amp; A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a][0] == a) deg_a--;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">if</span> (A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b].size() &gt; 0 &amp;&amp; A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b][0] == b) deg_b--;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">if</span> (deg_a == deg_b) <span class="keywordflow">return</span> a &gt; b;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">return</span> deg_a &lt; deg_b;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">   25</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">lilc_matrix&lt;el_type&gt; :: sym_rcm</a>(vector&lt;int&gt;&amp; perm) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">int</span> i, s;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    vector&lt;int&gt; lvl_set;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; m_n_cols; i++) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">if</span> (visited[i]) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        lvl_set.clear();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        s = i;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        find_root(s);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        lvl_set.push_back(s);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        perm.push_back(s);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="structby__degree.html">by_degree&lt;el_type&gt;</a> sorter(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> el_type&gt;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">struct </span>by_degree {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>* A;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    by_degree(<a class="code" href="classlilc__matrix.html">lilc_matrix&lt;el_type&gt;</a>* mat) : A(mat) {}</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">bool</span> operator()(<span class="keywordtype">int</span> <span class="keyword">const</span> &amp;a, <span class="keywordtype">int</span> <span class="keyword">const</span> &amp;b)<span class="keyword"> const </span>{ </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordtype">int</span> deg_a = A-&gt;<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[a].size() + A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a].size();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordtype">int</span> deg_b = A-&gt;<a class="code" href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">list</a>[b].size() + A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b].size();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">if</span> (A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a].size() &gt; 0 &amp;&amp; A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[a][0] == a) deg_a--;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">if</span> (A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b].size() &gt; 0 &amp;&amp; A-&gt;<a class="code" href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">m_idx</a>[b][0] == b) deg_b--;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">if</span> (deg_a == deg_b) <span class="keywordflow">return</span> a &gt; b;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">return</span> deg_a &lt; deg_b;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type&gt; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">   27</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">lilc_matrix&lt;el_type&gt; :: sym_rcm</a>(vector&lt;int&gt;&amp; perm) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> i, s;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    vector&lt;bool&gt; visited(m_n_cols, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    vector&lt;int&gt; lvl_set;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> (i = 0; i &lt; m_n_cols; i++) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">if</span> (visited[i]) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        lvl_set.clear();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        s = i;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        find_root(s);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        lvl_set.push_back(s);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        perm.push_back(s);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        visited[s] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">while</span> (find_level_set(lvl_set, visited)) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            sort(lvl_set.begin(), lvl_set.end(), sorter);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            perm.insert( perm.end(), lvl_set.begin(), lvl_set.end() );  </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    reverse(perm.begin(), perm.end());</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        by_degree&lt;el_type&gt; sorter(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        visited[s] = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">while</span> (find_level_set(lvl_set, visited)) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            sort(lvl_set.begin(), lvl_set.end(), sorter);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            perm.insert( perm.end(), lvl_set.begin(), lvl_set.end() );  </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    reverse(perm.begin(), perm.end());</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classlil__sparse__matrix_html_a133b6db4ddc63626a8787abbb2564aa6"><div class="ttname"><a href="classlil__sparse__matrix.html#a133b6db4ddc63626a8787abbb2564aa6">lil_sparse_matrix::m_idx</a></div><div class="ttdeci">vector&lt; idx_vector_type &gt; m_idx</div><div class="ttdoc">The row/col indices. The way m_idx is used depends on whether the matrix is in LIL-C or LIL-R...</div><div class="ttdef"><b>Definition:</b> lil_sparse_matrix.h:35</div></div>
-<div class="ttc" id="structby__degree_html"><div class="ttname"><a href="structby__degree.html">by_degree</a></div><div class="ttdoc">Functor for comparing elements by degree (in increasing order) instead of by index. </div><div class="ttdef"><b>Definition:</b> lilc_matrix_sym_rcm.h:9</div></div>
 <div class="ttc" id="classlilc__matrix_html"><div class="ttname"><a href="classlilc__matrix.html">lilc_matrix</a></div><div class="ttdoc">A list-of-lists (LIL) matrix in column oriented format. </div><div class="ttdef"><b>Definition:</b> lilc_matrix.h:9</div></div>
-<div class="ttc" id="classlilc__matrix_html_ab34914d2b48a5bf14e7ef22e89d2f2e7"><div class="ttname"><a href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">lilc_matrix::sym_rcm</a></div><div class="ttdeci">void sym_rcm(vector&lt; int &gt; &amp;perm)</div><div class="ttdoc">Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). </div><div class="ttdef"><b>Definition:</b> lilc_matrix_sym_rcm.h:25</div></div>
+<div class="ttc" id="classlilc__matrix_html_ab34914d2b48a5bf14e7ef22e89d2f2e7"><div class="ttname"><a href="classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7">lilc_matrix::sym_rcm</a></div><div class="ttdeci">void sym_rcm(vector&lt; int &gt; &amp;perm)</div><div class="ttdoc">Returns a Reverse Cuthill-McKee ordering of the matrix A (stored in perm). </div><div class="ttdef"><b>Definition:</b> lilc_matrix_sym_rcm.h:27</div></div>
 <div class="ttc" id="classlilc__matrix_html_ad942a0e5503a2b4327a12287432fca81"><div class="ttname"><a href="classlilc__matrix.html#ad942a0e5503a2b4327a12287432fca81">lilc_matrix::list</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; int &gt; &gt; list</div><div class="ttdoc">A list of linked lists that gives the non-zero elements in each row of A. Since at any time we may sw...</div><div class="ttdef"><b>Definition:</b> lilc_matrix_declarations.h:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 5 2016 14:27:39 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 18 2016 05:34:15 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

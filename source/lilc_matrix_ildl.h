@@ -7,7 +7,7 @@ using std::cout;
 using std::abs;
 
 template <class el_type>
-void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, pivot_type piv_type)
+void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, int piv_type)
 {
 
 	//----------------- initialize temporary variables --------------------//

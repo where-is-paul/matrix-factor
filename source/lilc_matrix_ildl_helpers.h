@@ -79,34 +79,6 @@ inline double norm(vector<el_type>& v, el_type p = 1) {
 	return pow(res, 1/p);
 }
 
-
-/*! \brief Functor for comparing elements by value (in decreasing order) instead of by index.
-	\param v the vector that contains the values being compared.
-*/
-template <class el_type>
-struct by_value {
-	const vector<el_type>& v; 
-	by_value(const vector<el_type>& vec) : v(vec) {}
-	bool operator()(int const &a, int const &b) const { 
-		if (abs(v[a]) == abs(v[b])) return a < b;
-		return abs(v[a]) > abs(v[b]);
-	}
-};
-
-/*! \brief Functor for determining if a variable is below the tolerance given.
-    \param v the vector that contains the values being checked.
-    \param eps the tolerance given.
-*/
-template <class el_type>
-struct by_tolerance {
-  const vector<el_type>& v; 
-  double eps;
-	by_tolerance(const vector<el_type>& vec, const double& eps) : v(vec), eps(eps) {}
-	bool operator()(int const &i) const { 
-		return abs(v[i]) < eps;
-	}
-};
-
 /*! \brief Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list.
 	\param a the sorted list to contain the final merged list.
 	\param b_start an iterator to the start of b.
@@ -155,6 +127,36 @@ inline void unordered_inplace_union(InputContainer& a, InputIterator const& b_st
 }
 
 //-------------Dropping rules-------------//
+
+
+namespace {
+/*! \brief Functor for comparing elements by value (in decreasing order) instead of by index.
+	\param v the vector that contains the values being compared.
+*/
+template <class el_type>
+struct by_value {
+	const vector<el_type>& v; 
+	by_value(const vector<el_type>& vec) : v(vec) {}
+	bool operator()(int const &a, int const &b) const { 
+		if (abs(v[a]) == abs(v[b])) return a < b;
+		return abs(v[a]) > abs(v[b]);
+	}
+};
+
+/*! \brief Functor for determining if a variable is below the tolerance given.
+    \param v the vector that contains the values being checked.
+    \param eps the tolerance given.
+*/
+template <class el_type>
+struct by_tolerance {
+  const vector<el_type>& v; 
+  double eps;
+	by_tolerance(const vector<el_type>& vec, const double& eps) : v(vec), eps(eps) {}
+	bool operator()(int const &i) const { 
+		return abs(v[i]) < eps;
+	}
+};
+}
 
 /*! \brief Performs the dual-dropping criteria outlined in Li & Saad (2005).
 	\param v the vector that whose elements will be selectively dropped.

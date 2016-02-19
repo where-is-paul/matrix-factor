@@ -34,10 +34,12 @@ DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (
 DEFINE_bool(save, true, "If yes, saves the factors (in matrix-market format) into a folder "
 						 "called output_matrices/ in the same directory as ldl_driver.");
 
+#ifdef SYM_ILDL_DEBUG
 DEFINE_bool(display, false, "If yes, outputs a human readable version of the factors onto"
 							" standard out. Generates a large amount of output if the "
 							"matrix is big.");
-							
+#endif
+		
 DEFINE_int32(max_iters, -1, "If >= 0 and supplied with a right hand side, SYM-ILDL will attempt "
 							"to use the preconditioner generated with the chosen solver to "
 							"solve the system. This parameter controls the max iterations of "
@@ -108,11 +110,13 @@ int main(int argc, char* argv[])
 		solv.save();
 	}
 	
+#ifdef SYM_ILDL_DEBUG
 	if (FLAGS_display) {
 		solv.display();
 		std::cout << endl;
 	}
-    
+#endif
+   
 	std::cout << "Factorization Complete. ";
     if (FLAGS_save) {
         std::cout << "All output written to /output_matrices directory.";

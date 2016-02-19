@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">sym-ildl
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
    <div id="projectbrief">Incomplete LDL&#39; factorizations of indefinite symmetric and skew-symmetric matrices.</div>
   </td>
@@ -98,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> el_type, <span class="keyword">class</span> mat_type &gt;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classsolver.html#a7ad3194ab553a985a32bdce660245805">   10</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classsolver.html#a7ad3194ab553a985a32bdce660245805">solver&lt;el_type, mat_type&gt; :: minres</a>(<span class="keywordtype">int</span> max_iter, <span class="keywordtype">double</span> stop_tol, <span class="keywordtype">double</span> shift) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> solver&lt;el_type, mat_type&gt; :: minres(<span class="keywordtype">int</span> max_iter, <span class="keywordtype">double</span> stop_tol, <span class="keywordtype">double</span> shift) {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">//Zero out solution vector</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">int</span> n = A.n_rows();</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    sol_vec.resize(n, 0);</div>
@@ -262,11 +262,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;}</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#endif // _SOLVER_MINRES_H_</span></div>
-<div class="ttc" id="classsolver_html_a7ad3194ab553a985a32bdce660245805"><div class="ttname"><a href="classsolver.html#a7ad3194ab553a985a32bdce660245805">solver::minres</a></div><div class="ttdeci">void minres(int max_iter=1000, double stop_tol=1e-6, double shift=0.0)</div><div class="ttdoc">Applies minres on A, preconditioning with factors L and D.. </div><div class="ttdef"><b>Definition:</b> solver_minres.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 5 2016 14:27:39 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 18 2016 05:34:15 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

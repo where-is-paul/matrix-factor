@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['display',['display',['../classsolver.html#a6d99cd0cbbde5b62904bc480a7eae352',1,'solver']]]
+  ['display',['display',['../classsymildl_1_1solver.html#ae714f280567437adeb37bdf45586cf4f',1,'symildl::solver']]]
 ];

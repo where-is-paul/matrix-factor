@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['lil_5fsparse_5fmatrix',['lil_sparse_matrix',['../classlil__sparse__matrix.html',1,'']]],
-  ['lilc_5fmatrix',['lilc_matrix',['../classlilc__matrix.html',1,'']]]
+  ['equilibration_5ftype',['equilibration_type',['../structsymildl_1_1equilibration__type.html',1,'symildl']]]
 ];
