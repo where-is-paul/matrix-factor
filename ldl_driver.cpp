@@ -25,8 +25,9 @@ DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be
 DEFINE_string(reordering, "amd", "Determines what sort of preordering will be used"
 								 " on the matrix. Choices are 'amd', 'rcm', and 'none'.");
 								 
-DEFINE_bool(equil, true, "Decides if the matrix should be equilibriated before factoring is done. "
-						 "If yes, matrix is equilibrated with Bunch's algorithm in the max norm.");
+DEFINE_string(equil, "bunch", "Decides if the matrix should be equilibriated before factoring is done. "
+						 "Options are 'bunch' and 'none'. If the option is 'bunch', the matrix is equilibrated "
+						 "with Bunch's algorithm in the max norm. The default is 'bunch'.");
 
 DEFINE_bool(inplace, false, "Decides if the matrix should be factored in place (faster and saves memory, "
 						    "at the cost of not being able to use the built-in solver).");
@@ -77,7 +78,7 @@ int main(int argc, char* argv[])
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
 	
 	//default is equil on
-	solv.set_equil(FLAGS_equil); 
+	solv.set_equil(FLAGS_equil.c_str()); 
 	
 	//default solver is SQMR
 	solv.set_solver(FLAGS_solver.c_str());

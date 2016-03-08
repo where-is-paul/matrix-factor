@@ -10,7 +10,7 @@
 class mex_utils
 {	
 	public:
-		solver<double> solv;
+		symildl::solver<double> solv;
 		
 		// validation methods
 		bool is_double_scalar(const mxArray* a);

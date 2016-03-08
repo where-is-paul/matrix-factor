@@ -177,10 +177,10 @@ class solver {
 		
 		/*! \brief Decides whether we should use equilibriation on the matrix or not.
 		*/
-		void set_equil(bool equil_opt) {
-			if (equil_opt) {
+		void set_equil(const char* equil) {
+			if (strcmp(equil, "bunch") == 0) {
 				equil_type = equilibration_type::BUNCH;
-			} else {
+			} else if (strcmp(equil, "none") == 0) {
 				equil_type = equilibration_type::NONE;
 			}
 		}

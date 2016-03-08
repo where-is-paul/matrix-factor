@@ -14,12 +14,16 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 		mexErrMsgTxt("Too many input arguments.");
 	if (nlhs > 5)
 		mexErrMsgTxt("Too many output arguments.");
-
+	if (!mxIsSparse(prhs[0])) 
+		mexErrMsgTxt("Input matrix must be sparse. Try wrapping the input with the sparse() function.");
+	
 	mex_utils m;
     
 	// set up raw variables
 	const mxArray* raw_csc = prhs[0];
-
+	if (mxGetN(raw_csc) != mxGetM(raw_csc))
+		mexErrMsgTxt("matrix must be square.");
+	
 	double fill_factor = 3.0, tol = 0.001, pp_tol = 1.0;
 	if (nrhs > 1) {
 		const mxArray* raw_fill_fact = prhs[1];
@@ -38,9 +42,7 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	if (nrhs > 4) {
 		const mxArray* raw_equil = prhs[4];
 		char* equil = m.parse_str(raw_equil);
-
-		if (strcmp(equil, "y") == 0) m.solv.set_equil(true);
-		else m.solv.set_equil(false);
+		m.solv.set_equil(equil);
 	}
     if (nrhs > 5) {
 		const mxArray* raw_piv_type = prhs[5];
@@ -51,9 +53,6 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 		const mxArray* raw_pp_tol = prhs[6];
 		pp_tol = m.parse_double(raw_pp_tol);
 	}
-
-	if (mxGetN(raw_csc) != mxGetM(raw_csc))
-		mexErrMsgTxt("matrix must be square.");
 
 	//--------------- load A ---------------//
 	double* m_x;
