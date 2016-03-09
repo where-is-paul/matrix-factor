@@ -46,7 +46,7 @@ tol = 0.001;
 pp_tol = 1.0;
 reordering = 'amd';
 pivot_type = 'bunch';
-equil = 'y';
+equil = 'bunch';
 for i = 1:length(all_mats)
     mat_name = all_mats{i};
     fprintf('Now testing %s:\n', mat_name);

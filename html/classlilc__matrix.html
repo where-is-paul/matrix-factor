@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -108,12 +109,13 @@ Inheritance diagram for lilc_matrix&lt; el_type &gt;:</div>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlilc__matrix_1_1pivot__type.html">pivot_type</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9c53c4a5816e0e21a167044f07b2ba6a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a> { <b>BKP</b>, 
-<b>ROOK</b>
- }</td></tr>
-<tr class="separator:a9c53c4a5816e0e21a167044f07b2ba6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83c70482c28275881562ee3937b5f591"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83c70482c28275881562ee3937b5f591"></a>
 typedef <a class="el" href="classlil__sparse__matrix.html">lil_sparse_matrix</a>&lt; el_type &gt;::idx_vector_type&#160;</td><td class="memItemRight" valign="bottom"><b>idx_vector_type</b></td></tr>
 <tr class="separator:a83c70482c28275881562ee3937b5f591"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,12 +169,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37fc8dcc40799dfde0decaaf8bd74b51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51">sym_equil</a> ()</td></tr>
 <tr class="memdesc:a37fc8dcc40799dfde0decaaf8bd74b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">The symmetric matrix A is equilibrated and the symmetric equilibrated matrix SAS is stored in A, where S is a diagonal scaling matrix.  <a href="#a37fc8dcc40799dfde0decaaf8bd74b51">More...</a><br /></td></tr>
 <tr class="separator:a37fc8dcc40799dfde0decaaf8bd74b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e027b8d354b29b8fcd9a7777835dc3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a1e027b8d354b29b8fcd9a7777835dc3f">ildl</a> (<a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;L, <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;D, idx_vector_type &amp;perm, const double &amp;fill_factor, const double &amp;tol, const double &amp;pp_tol, <a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a> piv_type=pivot_type::BKP)</td></tr>
-<tr class="memdesc:a1e027b8d354b29b8fcd9a7777835dc3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an LDL' factorization of this matrix.  <a href="#a1e027b8d354b29b8fcd9a7777835dc3f">More...</a><br /></td></tr>
-<tr class="separator:a1e027b8d354b29b8fcd9a7777835dc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cc83364ccef8d296e7dabed833d865c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a8cc83364ccef8d296e7dabed833d865c">ildl_inplace</a> (<a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;D, idx_vector_type &amp;perm, const double &amp;fill_factor, const double &amp;tol, const double &amp;pp_tol, <a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a> piv_type=pivot_type::BKP)</td></tr>
-<tr class="memdesc:a8cc83364ccef8d296e7dabed833d865c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an <em>inplace</em> LDL' factorization of this matrix.  <a href="#a8cc83364ccef8d296e7dabed833d865c">More...</a><br /></td></tr>
-<tr class="separator:a8cc83364ccef8d296e7dabed833d865c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5886c7d465252b8d8981d484b51ab58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#ab5886c7d465252b8d8981d484b51ab58">ildl</a> (<a class="el" href="classlilc__matrix.html">lilc_matrix</a>&lt; el_type &gt; &amp;L, <a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;D, idx_vector_type &amp;perm, const double &amp;fill_factor, const double &amp;tol, const double &amp;pp_tol, int piv_type=pivot_type::BKP)</td></tr>
+<tr class="memdesc:ab5886c7d465252b8d8981d484b51ab58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an LDL' factorization of this matrix.  <a href="#ab5886c7d465252b8d8981d484b51ab58">More...</a><br /></td></tr>
+<tr class="separator:ab5886c7d465252b8d8981d484b51ab58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd39d93fc0df6618f7a59a05661c63e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#aefd39d93fc0df6618f7a59a05661c63e">ildl_inplace</a> (<a class="el" href="classblock__diag__matrix.html">block_diag_matrix</a>&lt; el_type &gt; &amp;D, idx_vector_type &amp;perm, const double &amp;fill_factor, const double &amp;tol, const double &amp;pp_tol, int piv_type=pivot_type::BKP)</td></tr>
+<tr class="memdesc:aefd39d93fc0df6618f7a59a05661c63e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs an <em>inplace</em> LDL' factorization of this matrix.  <a href="#aefd39d93fc0df6618f7a59a05661c63e">More...</a><br /></td></tr>
+<tr class="separator:aefd39d93fc0df6618f7a59a05661c63e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e0dbfcd1cda4ab3bc067b16f17f7f2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlilc__matrix.html#a9e0dbfcd1cda4ab3bc067b16f17f7f2f">backsolve</a> (const elt_vector_type &amp;b, elt_vector_type &amp;x)</td></tr>
 <tr class="memdesc:a9e0dbfcd1cda4ab3bc067b16f17f7f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a back solve of this matrix, assuming that it is lower triangular (stored column major).  <a href="#a9e0dbfcd1cda4ab3bc067b16f17f7f2f">More...</a><br /></td></tr>
 <tr class="separator:a9e0dbfcd1cda4ab3bc067b16f17f7f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,31 +273,7 @@ class lilc_matrix&lt; el_type &gt;</h3>
 
 <p>A list-of-lists (LIL) matrix in column oriented format. </p>
 <p>For convience, the matrix this class represents will be refered to as matrix A. In LIL-C format, each column of A (an n*n matrix) is stored as a separate vector. The nonzeros are stored in m_idx while the non-zeros are stored in m_x. Both m_x and m_idx are initialized to a list of n lists. m_idx and m_x are ordered dependent on each other, in that A(m_idx[k][j], k) = m_x[k][j]. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="a9c53c4a5816e0e21a167044f07b2ba6a"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class el_type&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">lilc_matrix::pivot_type</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>A simple enum class for listing the type of pivoting procedure SYM-ILDL uses. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a177dde39764c88fe4e82b050a5e60303"></a>
 <div class="memitem">
 <div class="memproto">
@@ -713,7 +691,7 @@ template&lt;class el_type&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1e027b8d354b29b8fcd9a7777835dc3f"></a>
+<a class="anchor" id="ab5886c7d465252b8d8981d484b51ab58"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -758,7 +736,7 @@ template&lt;class el_type &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a>&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>piv_type</em> = <code>pivot_type::BKP</code>&#160;</td>
         </tr>
         <tr>
@@ -779,14 +757,14 @@ template&lt;class el_type &gt; </div>
     <tr><td class="paramname">fill_factor</td><td>a parameter to control memory usage. Each column is guaranteed to have fewer than fill_factor*(nnz(A)/n_col(A)) elements. </td></tr>
     <tr><td class="paramname">tol</td><td>a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped. </td></tr>
     <tr><td class="paramname">pp_tol</td><td>a parameter to control aggresiveness of pivoting. Allowable ranges are [0,inf). If the parameter is &gt;= 1, Bunch-Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements. </td></tr>
-    <tr><td class="paramname">pivot_type</td><td>chooses the type of pivoting procedure used: threshold Bunch-Kaufman, or rook pivoting. If rook pivoting is chosen, pp_tol is ignored. </td></tr>
+    <tr><td class="paramname"><a class="el" href="structlilc__matrix_1_1pivot__type.html">pivot_type</a></td><td>chooses the type of pivoting procedure used: threshold Bunch-Kaufman, or rook pivoting. If rook pivoting is chosen, pp_tol is ignored. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a8cc83364ccef8d296e7dabed833d865c"></a>
+<a class="anchor" id="aefd39d93fc0df6618f7a59a05661c63e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -825,7 +803,7 @@ template&lt;class el_type &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classlilc__matrix.html#a9c53c4a5816e0e21a167044f07b2ba6a">pivot_type</a>&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>piv_type</em> = <code>pivot_type::BKP</code>&#160;</td>
         </tr>
         <tr>
@@ -1312,7 +1290,7 @@ template&lt;class el_type &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 18 2016 05:34:15 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 8 2016 15:27:08 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

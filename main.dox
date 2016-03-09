@@ -27,7 +27,7 @@
 *	\section why_use Why use sym-ildl?
 		- <b>It's easy to use</b>: We offer precompiled versions of sym-ildl on both Windows and Linux, as well as for use within MATLAB. If you want to use sym-ildl as a C++ library, there is no need to compile anything. You can just use the header files right away. sym-ildl is defined entirely in the header files.
 		- <b>It's reliable</b>: sym-ildl includes several methods to improve stability of the preconditioner. These include different kinds of equilibration, reordering, as well partial pivoting. 
-		- <b>It's not just a preconditioner</b>: sym-ildl implements several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.
+		- <b>It's not just a preconditioner</b>: sym-ildl implements a direct solver as well as several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.
 *	
 *
 *	\section quick_start Quick Start
@@ -146,7 +146,7 @@
 	\subsection matlab_mex Using sym-ildl within MATLAB
 	If everything is compiled correctly, simply open MATLAB in the package directory. The \c startup.m script adds all necessary paths to MATLAB upon initiation. The program can now be called by its function handle, \c ildl.
 	
-	\c ildl takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing 
+	\c ildl takes in seven arguments, six of them being optional. A full description of the parameters can be displayed by typing 
 	\code
 		help ildl
 	\endcode
@@ -159,6 +159,8 @@
 	\param tol Controls aggressiveness of dropping. In each column k, elements less than \f$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1\f$ are dropped. The default value for \c tol is <c>0.001</c>.
 
 	\param reordering Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.
+
+	\param equil Determines if matrix is to be equilibriated (in the max norm) before anything. This parameter must be one of 'bunch' or 'none'. Default: 'bunch'
 	
     \param pivot_type Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.
     
@@ -294,7 +296,11 @@
 *   \section citations Citing this code
     If you have found our code useful, please consider citing us! A technical report (pdf), a BibTeX entry, and a link to the code are available here:
 *    
-    <em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu.</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a>
+    <em>
+	SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. 
+	Chen Greif, Shiwen He, Paul Liu. 
+	UBC Computer Science Technical Report, 2016.
+	</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a>
 *    
 *	\section refs References
     

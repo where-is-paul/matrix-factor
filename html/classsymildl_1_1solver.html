@@ -125,10 +125,10 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a930b0602ccb731a48120599b90f675a6">set_reorder_scheme</a> (const char *ordering)</td></tr>
 <tr class="memdesc:a930b0602ccb731a48120599b90f675a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the reordering scheme for the solver. <br /></td></tr>
 <tr class="separator:a930b0602ccb731a48120599b90f675a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20a887394f590de6a6d45d22db7a2c3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20a887394f590de6a6d45d22db7a2c3d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a20a887394f590de6a6d45d22db7a2c3d">set_equil</a> (bool equil_opt)</td></tr>
-<tr class="memdesc:a20a887394f590de6a6d45d22db7a2c3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decides whether we should use equilibriation on the matrix or not. <br /></td></tr>
-<tr class="separator:a20a887394f590de6a6d45d22db7a2c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8442f13b529302ec5b0a1f89ca3f4bac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8442f13b529302ec5b0a1f89ca3f4bac"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a8442f13b529302ec5b0a1f89ca3f4bac">set_equil</a> (const char *equil)</td></tr>
+<tr class="memdesc:a8442f13b529302ec5b0a1f89ca3f4bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decides whether we should use equilibriation on the matrix or not. <br /></td></tr>
+<tr class="separator:a8442f13b529302ec5b0a1f89ca3f4bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacf11e723c07200f443bf58b84196090"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacf11e723c07200f443bf58b84196090"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#aacf11e723c07200f443bf58b84196090">set_solver</a> (const char *<a class="el" href="classsymildl_1_1solver.html">solver</a>)</td></tr>
 <tr class="memdesc:aacf11e723c07200f443bf58b84196090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decides whether we perform a full solve or not. <br /></td></tr>
@@ -180,10 +180,10 @@ vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class=
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a7b25ae1d5051ffdcf7901076221d6cd3">reorder_type</a></td></tr>
 <tr class="memdesc:a7b25ae1d5051ffdcf7901076221d6cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to to 0 for AMD, 1 for RCM, 2 for no reordering. <br /></td></tr>
 <tr class="separator:a7b25ae1d5051ffdcf7901076221d6cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ade18f7dbaf5233efa69d27df242b8f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ade18f7dbaf5233efa69d27df242b8f"></a>
-pivot_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a3ade18f7dbaf5233efa69d27df242b8f">piv_type</a></td></tr>
-<tr class="memdesc:a3ade18f7dbaf5233efa69d27df242b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to 0 for rook, 1 for bunch. <br /></td></tr>
-<tr class="separator:a3ade18f7dbaf5233efa69d27df242b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e9913a3323340c88b40d1b75913aba1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e9913a3323340c88b40d1b75913aba1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a5e9913a3323340c88b40d1b75913aba1">piv_type</a></td></tr>
+<tr class="memdesc:a5e9913a3323340c88b40d1b75913aba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to 0 for rook, 1 for bunch. <br /></td></tr>
+<tr class="separator:a5e9913a3323340c88b40d1b75913aba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96c730c12f38a41385e5e827ee372d06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96c730c12f38a41385e5e827ee372d06"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsymildl_1_1solver.html#a96c730c12f38a41385e5e827ee372d06">equil_type</a></td></tr>
 <tr class="memdesc:a96c730c12f38a41385e5e827ee372d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">The equilibration method used. Set to 1 for max-norm equilibriation. <br /></td></tr>
@@ -472,7 +472,7 @@ template&lt;class el_type , class mat_type &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 18 2016 05:34:15 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 8 2016 15:27:08 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
