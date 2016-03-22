@@ -15,8 +15,8 @@ DEFINE_double(tol, 0.001, "A parameter to control agressiveness of dropping. In 
 						  "elements less than tol*||L(k+1:n,k)|| (1-norm) are dropped.");
 						  
 DEFINE_double(pp_tol, 1.0, "A parameter to aggressiveness of Bunch-Kaufman pivoting (BKP). "
-						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, no BKP"
-						   "is used. Values between 0 and 1 varies the aggressivness of"
+						   "When pp_tol >= 1, full BKP is used. When pp_tol is 0, BKP is faster"
+						   "but chooses poorer pivots. Values between 0 and 1 varies the aggressiveness of"
 						   "BKP in a continuous manner.");
 
 DEFINE_string(pivot, "rook", "Determines what kind of pivoting algorithm will be used"

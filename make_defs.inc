@@ -8,7 +8,7 @@ else
 	CC := g++
 	CFLAGS := -O3 -std=gnu++0x
 	LINKFLAGS := 
-	MATLAB_BIN = mex
+	MATLAB_BIN = mex.bat
 	MEX_EXT = 
 endif
 

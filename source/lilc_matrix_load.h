@@ -13,7 +13,7 @@ inline bool readline (std::stringstream& line, int& n_rows, int& n_cols, int& i,
 	line >> i >> j >> value;
 	i--;
 	j--;
-	if(i>=0 && j>=0 && i<n_rows&& j< n_cols) {
+	if(i>=0 && j>=0 && i<n_rows && j< n_cols) {
 		return true; 
 	}
 	else
@@ -67,7 +67,7 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 				m_idx[j].push_back(i);
 				m_x[j].push_back(value);
 				++count;
-				
+				assert(i >= j);
 				if (i != j) list[i].push_back(j);
 				
 			}
