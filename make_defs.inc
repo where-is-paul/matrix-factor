@@ -6,7 +6,7 @@ ifeq ($(shell uname), Darwin)
 	MEX_EXT = $(shell $(MATLAB_BIN)/mexext)
 else
 	CC := g++
-	CFLAGS := -O3 -std=gnu++0x
+	CFLAGS := -std=gnu++0x
 	LINKFLAGS := 
 	MATLAB_BIN = mex.bat
 	MEX_EXT = 

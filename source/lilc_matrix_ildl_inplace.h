@@ -46,7 +46,8 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
 		for (j = 0; j < (int) curr_nnzs.size(); j++) {
 			work[curr_nnzs[j]] = m_x[k][j];
 		}
-        
+        sort(curr_nnzs.begin(), curr_nnzs.end());
+		
 		//--------------begin pivoting--------------//
 
 		//do delayed updates on current column. work = Sum_{i=0}^{k-1} L(k,i) * D(i,i) * L(k:n, i)
@@ -168,7 +169,7 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
                     //indicate that pivot is 2x2
                     size_two_piv = true;
 
-                    if (k+1 != r) {
+                    if (k+1 < r) {
                         //symmetrically permute row/col k+1 and r.
                         pivotA(s, in_set, k+1, r);
                         
@@ -261,7 +262,7 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
                             d1 = work[k];
                         }
 
-                        if (k+1 != r) {
+                        if (k+1 < r) {
                             this->pivotA(s, in_set, k+1, r);
                             
                             std::swap(perm[k+1], perm[r]);
