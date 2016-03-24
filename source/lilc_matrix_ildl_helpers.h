@@ -38,7 +38,7 @@ inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& 
 */
 template <class el_type>
 inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r) { 
-	double res = 0;
+	double res = -1;
 	for (idx_it it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
 		if (abs(v[*it]) > res) {
 			res = abs(v[*it]);

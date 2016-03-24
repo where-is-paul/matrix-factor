@@ -160,7 +160,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                     //indicate that pivot is 2x2
                     size_two_piv = true;
 
-                    if (k+1 != r) {
+                    if (k+1 < r) {
                         //symmetrically permute row/col k+1 and r.
                         pivot(s, in_set, L, k+1, r);
 
@@ -265,7 +265,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                         advance_list(k);
                         L.advance_first(k);
 
-                        if (k+1 != r) {
+                        if (k+1 < r) {
                             //symmetrically permute row/col k+1 and r.
                             pivot(s, in_set, L, k+1, r);
 
