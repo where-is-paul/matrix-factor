@@ -38,6 +38,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 	//push back pointers to L(r, i)
 	for (idx_it it = L.list[r].begin(); it != L.list[r].end(); it++) {
 		for (i = L.col_first[*it]; i < (int) L.m_idx[*it].size(); i++) {
+			if (*it == k) continue;
 			if (L.m_idx[*it][i] == r) {				
 				s.swapk.push_back(L.m_idx[*it].begin() + i);
 				break;

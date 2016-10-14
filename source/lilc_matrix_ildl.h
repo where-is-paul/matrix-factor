@@ -43,6 +43,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		//curr nnz vector starts out empty and is cleared at the end of each loop iteration.
 		//assign nonzeros indices of A(k:n, k) to curr_nnzs
 		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
+		sort(curr_nnzs.begin(), curr_nnzs.end());
 
 		//assign nonzero values of A(k:n, k) to work
 		for (j = 0; j < (int) curr_nnzs.size(); j++) {
