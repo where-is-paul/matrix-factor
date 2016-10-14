@@ -200,10 +200,13 @@ inline void update_single(const int& k, const int& j, const el_type& l_ki, const
     
 	el_type factor = l_ki * d;
 	for (i = offset; i < L.m_idx[j].size(); ++i) {
-		work[L.m_idx[j][i]] -= factor * L.m_x[j][i];
+		int x = L.m_idx[j][i];
+		work[x] -= factor * L.m_x[j][i];
+		if (!in_set[x]) {
+			curr_nnzs.push_back(x);
+			in_set[x] = true;
+		}
 	}
-	//merge current non-zeros of col k with nonzeros of col *it.
-	unordered_inplace_union(curr_nnzs, L.m_idx[j].begin() + offset,  L.m_idx[j].end(), in_set);
 }
 
 /*! \brief Performs a delayed update of subcolumn A(k:n,r). Result is stored in work vector. Nonzero elements of the work vector are stored in curr_nnzs.
@@ -219,6 +222,12 @@ inline void update(const int& r, vector<el_type>& work, vector<int>& curr_nnzs, 
 	unsigned int j;
 	int blk_sz;
 	el_type d_12, l_ri;	
+
+	// precord: in_set is all false.
+	// TOOD: if we are for sure doing sequential code, make in_set a static var.
+	for (int x : curr_nnzs) {
+		in_set[x] = true;
+	}
 
 	//iterate across non-zeros of row k using Llist
 	for (int i = 0; i < (int) L.list[r].size(); ++i) {
@@ -237,6 +246,10 @@ inline void update(const int& r, vector<el_type>& work, vector<int>& curr_nnzs, 
 			update_single(r, j - 1, l_ri, d_12, work, curr_nnzs, L, in_set); //update col using d12
 		}
 		
+	}
+
+	for (int x : curr_nnzs) {
+		in_set[x] = false;
 	}
 }
 
