@@ -43,12 +43,12 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
 		//curr nnz vector starts out empty and is cleared at the end of each loop iteration.
 		//assign nonzeros indices of A(k:n, k) to curr_nnzs
 		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
-		sort(curr_nnzs.begin(), curr_nnzs.end());
 
 		//assign nonzero values of A(k:n, k) to work
 		for (j = 0; j < (int) curr_nnzs.size(); j++) {
 			work[curr_nnzs[j]] = m_x[k][j];
 		}
+		sort(curr_nnzs.begin(), curr_nnzs.end());
 
 		//--------------begin pivoting--------------//
         // the pivoting below DEFINITELY needs to be refactored into a separate function
@@ -160,7 +160,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                     //indicate that pivot is 2x2
                     size_two_piv = true;
 
-                    if (k+1 != r) {
+                    if (k+1 < r) {
                         //symmetrically permute row/col k+1 and r.
                         pivot(s, in_set, L, k+1, r);
 
@@ -265,7 +265,7 @@ void lilc_matrix<el_type> :: ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_
                         advance_list(k);
                         L.advance_first(k);
 
-                        if (k+1 != r) {
+                        if (k+1 < r) {
                             //symmetrically permute row/col k+1 and r.
                             pivot(s, in_set, L, k+1, r);
 

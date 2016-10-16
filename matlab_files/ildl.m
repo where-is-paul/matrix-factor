@@ -22,7 +22,7 @@ function [L, D, p, S, B] = ildl(A, fill, tol, ordering, equil, pivot_type, pp_to
 %		AMD and RCM are available. This parameter must be one of 'amd' or 'rcm'. Default: 'amd'
 %
 %       equil - determine if matrix is to be equilibriated (in the max
-%       norm) before anything. This parameter must be one of 'y' or 'n'. Default: 'y'
+%       norm) before anything. This parameter must be one of 'bunch' or 'none'. Default: 'bunch'
 %
 %       pivot_type - chooses the pivoting scheme used during the factorization. This 
 %       parameter must be one of 'rook' or 'bunch'. Default: 'rook'

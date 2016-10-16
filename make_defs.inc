@@ -6,8 +6,8 @@ ifeq ($(shell uname), Darwin)
 	MEX_EXT = $(shell $(MATLAB_BIN)/mexext)
 else
 	CC := g++
-	CFLAGS := -O3 -std=gnu++0x
-	LINKFLAGS := -lgfortran
+	CFLAGS := -O3 -std=gnu++0x -DNDEBUG
+	LINKFLAGS := -lgfortran -O3 -DNDEBUG
 	MATLAB_BIN = mex
 	MEX_EXT = 
 endif

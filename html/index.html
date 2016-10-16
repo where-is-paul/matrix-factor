@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>sym-ildl</title>
+<title>sym-ildl: \authors &lt;a href=&quot;https://www.cs.ubc.ca/~greif/&quot;&gt;Chen Greif&lt;/a&gt;, Shiwen He, &lt;a href=&quot;https://www.cs.ubc.ca/~inutard/&quot;&gt;Paul Liu&lt;/a&gt;</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -139,7 +139,7 @@ Why use sym-ildl?</h1>
 <ul>
 <li><b>It's easy to use</b>: We offer precompiled versions of sym-ildl on both Windows and Linux, as well as for use within MATLAB. If you want to use sym-ildl as a C++ library, there is no need to compile anything. You can just use the header files right away. sym-ildl is defined entirely in the header files.</li>
 <li><b>It's reliable</b>: sym-ildl includes several methods to improve stability of the preconditioner. These include different kinds of equilibration, reordering, as well partial pivoting.</li>
-<li><b>It's not just a preconditioner</b>: sym-ildl implements several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.</li>
+<li><b>It's not just a preconditioner</b>: sym-ildl implements a direct solver as well as several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.</li>
 </ul>
 <h1><a class="anchor" id="quick_start"></a>
 Quick Start</h1>
@@ -225,13 +225,14 @@ Solver parameters</h3>
 <h2><a class="anchor" id="matlab_mex"></a>
 Using sym-ildl within MATLAB</h2>
 <p>If everything is compiled correctly, simply open MATLAB in the package directory. The <code>startup.m</code> script adds all necessary paths to MATLAB upon initiation. The program can now be called by its function handle, <code>ildl</code>.</p>
-<p><code>ildl</code> takes in five arguments, four of them being optional. A full description of the parameters can be displayed by typing </p><div class="fragment"><div class="line">help ildl</div>
+<p><code>ildl</code> takes in seven arguments, six of them being optional. A full description of the parameters can be displayed by typing </p><div class="fragment"><div class="line">help ildl</div>
 </div><!-- fragment --><p>For convenience, the parameters are described below: </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>The matrix to be factored.</td></tr>
     <tr><td class="paramname">fill</td><td>Controls memory usage. Each column is guaranteed to have fewer than <img class="formulaInl" alt="$fill\cdot nnz(\mathbf{A})/n$" src="form_8.png"/> elements. When this argument is not given, the default value for <code>fill</code> is <code>3.0</code>.</td></tr>
     <tr><td class="paramname">tol</td><td>Controls aggressiveness of dropping. In each column k, elements less than <img class="formulaInl" alt="$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$" src="form_9.png"/> are dropped. The default value for <code>tol</code> is <code>0.001</code>.</td></tr>
     <tr><td class="paramname">reordering</td><td>Determines what sort of pre-ordering will be used on the matrix. Choices are 'amd', 'rcm', and 'none'. The default is 'amd'.</td></tr>
+    <tr><td class="paramname">equil</td><td>Determines if matrix is to be equilibriated (in the max norm) before anything. This parameter must be one of 'bunch' or 'none'. Default: 'bunch'</td></tr>
     <tr><td class="paramname">pivot_type</td><td>Chooses the pivoting scheme used during the factorization. This parameter must be one of 'rook' or 'bunch'. Tbe default is 'rook'.</td></tr>
     <tr><td class="paramname">pp_tol</td><td>Threshold parameter for Bunch-Kaufman pivoting (BKP). When pp_tol &gt;= 1, full BKP is used. When pp_tol is 0, there is no partial pivoting. As pp_tol increases from 0 to 1, we smoothly switch from no pivoting to full BKP. Low values of pp_tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.0. When rook pivoting is used, this parameter has no effect.</td></tr>
   </table>
@@ -328,7 +329,7 @@ Licensing and How to contribute</h1>
 <h1><a class="anchor" id="citations"></a>
 Citing this code</h1>
 <p>If you have found our code useful, please consider citing us! A technical report (pdf), a BibTeX entry, and a link to the code are available here:</p>
-<p><em>SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu.</em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a></p>
+<p><em> SYM-ILDL: Incomplete LDL^{T} Factorization of Symmetric Indefinite and Skew-Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu. UBC Computer Science Technical Report, 2016. </em> <a href="http://arxiv.org/pdf/1505.07589v1">[pdf]</a> <a href="http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15">[bib]</a></p>
 <h1><a class="anchor" id="refs"></a>
 References</h1>
 <ol type="1">
@@ -340,7 +341,7 @@ References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 18 2016 05:34:16 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 8 2016 15:27:10 for sym-ildl by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

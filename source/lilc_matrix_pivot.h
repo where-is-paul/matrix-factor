@@ -11,8 +11,7 @@ using std::abs;
 		-#	L(k, 1:k) must be swapped with L(r, 1:k) (row-row swap).
 */
 template <class el_type>
-inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r)
-{	
+inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r) {	
 	//initialize temp variables
 	int i, j, idx, offset;
 
@@ -67,8 +66,9 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 		-#	A(k:r, k) must be swapped with A(k:r, r) (column-column swap).
 */
 template <class el_type>
-inline void lilc_matrix<el_type> :: pivotA(swap_struct<el_type> s, vector<bool>& in_set, const int& k, const int& r)
-{	
+inline void lilc_matrix<el_type> :: pivotA(swap_struct<el_type> s, vector<bool>& in_set, const int& k, const int& r) {
+	assert(k < r); // this algorithm implicitly assumes k < r
+	
 	//initialize temp variables
 	std::pair<idx_it, elt_it> its_k, its_r;
 	int i, j, idx, offset;
@@ -128,6 +128,7 @@ inline void lilc_matrix<el_type> :: pivotA(swap_struct<el_type> s, vector<bool>&
 	//first[r] should have # of nnz of A(r, 0:k-1)
 	for (i = row_first[r]; i < (int) list[r].size(); i++) {
 		j = list[r][i];
+		assert(j >= k);
 		if (coeffRef(r, j, its_k)) {
 			if (j == k) {
 				s.col_k_nnzs.push_back(r); //A(r, k) is fixed upon permutation so its index stays r

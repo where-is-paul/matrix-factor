@@ -2,7 +2,7 @@ var searchData=
 [
   ['s',['S',['../classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596',1,'lilc_matrix']]],
   ['save',['save',['../classblock__diag__matrix.html#aa6b66605d7e4af701ec12effaa1f0637',1,'block_diag_matrix::save()'],['../classlilc__matrix.html#a2b0161d36019e1abac41b6119b8fa288',1,'lilc_matrix::save()'],['../classsymildl_1_1solver.html#aec55eb22870f4e72e99e717ca4e8776f',1,'symildl::solver::save()']]],
-  ['set_5fequil',['set_equil',['../classsymildl_1_1solver.html#a20a887394f590de6a6d45d22db7a2c3d',1,'symildl::solver']]],
+  ['set_5fequil',['set_equil',['../classsymildl_1_1solver.html#a8442f13b529302ec5b0a1f89ca3f4bac',1,'symildl::solver']]],
   ['set_5finplace',['set_inplace',['../classsymildl_1_1solver.html#a951cd55ae1abcb1e8284bd1a12dfa815',1,'symildl::solver']]],
   ['set_5fpivot',['set_pivot',['../classsymildl_1_1solver.html#a060c03d9f9ce73a3cdc37a6a54cb64e4',1,'symildl::solver']]],
   ['set_5freorder_5fscheme',['set_reorder_scheme',['../classsymildl_1_1solver.html#a930b0602ccb731a48120599b90f675a6',1,'symildl::solver']]],
