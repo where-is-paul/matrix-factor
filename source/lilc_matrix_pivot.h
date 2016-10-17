@@ -11,7 +11,7 @@ using std::abs;
 		-#	L(k, 1:k) must be swapped with L(r, 1:k) (row-row swap).
 */
 template <class el_type>
-inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r) {	
+inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type>& s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r) {	
 	//initialize temp variables
 	int i, j, idx, offset;
 
@@ -65,7 +65,7 @@ inline void lilc_matrix<el_type> :: pivot(swap_struct<el_type> s, vector<bool>& 
 		-#	A(k:r, k) must be swapped with A(k:r, r) (column-column swap).
 */
 template <class el_type>
-inline void lilc_matrix<el_type> :: pivotA(swap_struct<el_type> s, vector<bool>& in_set, const int& k, const int& r) {
+inline void lilc_matrix<el_type> :: pivotA(swap_struct<el_type>& s, vector<bool>& in_set, const int& k, const int& r) {
 	assert(k < r); // this algorithm implicitly assumes k < r
 	
 	//initialize temp variables
