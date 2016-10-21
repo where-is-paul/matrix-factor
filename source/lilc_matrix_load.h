@@ -24,6 +24,7 @@ template <class el_type>
 bool lilc_matrix<el_type> :: load (std::string filename)
 {
 	std::ifstream input(filename.c_str(), std::ios::in);
+	//input.sync_with_stdio(0);
 
 	if(!input) return false;
 	
@@ -36,6 +37,7 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 	int count = 0;
 	el_type value; 
 
+	bool full_detected = false;
 	while(input.getline(buffer, maxBuffersize))
 	{
 		// skip comments   
@@ -44,7 +46,7 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 		continue;
 		
 		std::stringstream line(buffer);
-		
+		//line.sync_with_stdio(0);
 		if(!readsizes)
 		{
 			line >> n_rows >> n_cols >> n_nzs;
@@ -63,7 +65,10 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 			j = -1;
 			if( readline(line, n_rows, n_cols, i, j, value) ) 
 			{
-
+				if (j > i) {
+					full_detected = true;
+					continue;
+				}
 				m_idx[j].push_back(i);
 				m_x[j].push_back(value);
 				++count;
@@ -77,13 +82,55 @@ bool lilc_matrix<el_type> :: load (std::string filename)
 		
 	}
 	
-	if (count != n_nzs) std::cout << "Expected " << n_nzs << " elems but read " << count << "." << std::endl;
+	if (!full_detected && count != n_nzs) std::cout << "Expected " << n_nzs << " elems but read " << count << "." << std::endl;
 	
+	if (full_detected) {
+		std::cout << "Full matrix detected, assuming matrix is symmetric and loading lower-half of the matrix only." << std::endl;
+	}
 	nnz_count = count;
 	std::cout << "Load succeeded. " << "File " << filename << " was loaded." << std::endl;
 	input.close();
 	return true;
 }
 
+template<class el_type>
+bool lilc_matrix<el_type> :: load (const std::vector<int>& ptr, const std::vector<int>& row, const std::vector<el_type>& val) {
+	if (ptr.size() == 0 || ptr.back() != row.size() || val.size() != ptr.back()) {
+		std::cout << "Error in CSC format detected. Matrix failed to load." << std::endl;
+		return false;
+	}
+	return load(ptr.data(), row.data(), val.data(), ptr.size()-1);
+}
+
+template<class el_type>
+bool lilc_matrix<el_type> :: load (const int* ptr, const int* row, const el_type* val, int dim) {
+	bool full_detected = false;
+	int n_rows = dim, n_cols = dim;
+	
+	resize(n_rows, n_cols);
+	std::fill(row_first.begin(), row_first.end(), 0); //a bit of optimization could be used here since resize sets all elem in first to 1
+	std::fill(col_first.begin(), col_first.end(), 0); //a bit of optimization could be used here since resize sets all elem in first to 1
+	
+	int count = 0;
+	for (int i = 0; i < dim; i++) {
+		for (int j = ptr[i]; j < ptr[i+1]; j++) {
+			if (i > row[j]) {
+				full_detected = true;
+				continue;
+			}
+			m_idx[i].push_back(row[j]);
+			m_x[i].push_back(val[j]);
+			if (i != row[j]) list[row[j]].push_back(i);
+			++count;
+		}
+	}
+
+	if (full_detected) {
+		std::cout << "Full matrix detected, assuming matrix is symmetric and loading lower-half of the matrix only." << std::endl;
+	}
+	
+	nnz_count = count;
+	return true;
+}
 
 #endif

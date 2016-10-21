@@ -130,7 +130,9 @@ class solver {
 		int solve_type; //<The type of solver used to solve the right hand side.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
-        
+       		// TODO: refactor this away
+		bool save_sol; ///<Set to true if we want to save the solution to a file.
+		 
         vector<el_type> rhs; ///<The right hand side we'll solve for.
 		vector<el_type> sol_vec; ///<The solution vector.
 		
@@ -145,7 +147,7 @@ class solver {
             perform_inplace = false;
 		}
 				
-		/*! \brief Loads the matrix A into solver.
+		/*! \brief Loads the matrix A into solver. A must be of matrix market format.
 			\param filename the filename of the matrix.
 		*/
 		void load(std::string filename) {
@@ -153,6 +155,23 @@ class solver {
 			assert(result);
 			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
+
+		/*! \brief Loads the matrix A into solver. A must be of CSC format.
+		*/
+		void load(const std::vector<int>& ptr, const std::vector<int>& row, const std::vector<el_type>& val) {
+			bool result = A.load(ptr, row, val);
+			assert(result);	
+			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+		}
+
+		/*! \brief Loads the matrix A into solver. A must be of CSC format.
+		*/
+		void load(const int* ptr, const int* row, const el_type* val, int dim) {
+			bool result = A.load(ptr, row, val, dim);
+			assert(result);	
+			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+		}
+
 		
 		/*! \brief Loads a right hand side b into the solver.
 			\param b a vector of the right hand side.
@@ -214,7 +233,7 @@ class solver {
                 piv_type = pivot_type::BKP;
             }
 		}
-        
+
 		/*! \brief Factors the matrix A into P' * S * A * S * P = LDL' in addition to printing some timing data to screen.
 			
 			More information about the parameters can be found in the documentation for the ildl() function.
@@ -374,12 +393,15 @@ class solver {
                     dif = clock() - start;
                     printf("Solve time:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
                     printf("\n");
-                    
+        
+		if (save_sol) {            
                     // save results
                     // TODO: refactor this to be in its own method
                     printf("Solution saved to output_matrices/outsol.mtx.\n");
                     save_vector(sol_vec, "output_matrices/outsol.mtx");
                 }
+
+		}
 			}
 		}
 		

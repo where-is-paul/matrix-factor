@@ -129,6 +129,11 @@ public:
 		list.resize(n_cols);
 		
 		S.resize(n_cols, 1);
+		for (int i = 0; i < n_cols; i++) {
+			m_x[i].clear();
+			m_idx[i].clear();
+			list[i].clear();
+		}
 	}
 	
 	//-----Reorderings/Rescalings------//
@@ -344,6 +349,21 @@ public:
 		\param filename the filename of the matrix to be loaded. Must be in matrix market format (.mtx).
 	*/
 	bool load(std::string filename);
+
+	/*! \brief Loads a matrix in CSC format.
+		\param ptr A vector containing the ranges of indices in each col.
+		\param row A vector containing the row indices of the nnz.
+		\param val A vector containing the values of the non-zeros.
+	*/
+	bool load(const std::vector<int>& ptr, const std::vector<int>& row, const std::vector<el_type>& val);
+
+	/*! \brief Loads a matrix in CSC format. Does no error checking on the input vectors.
+		\param row A vector containing the row indices of the nnz.
+		\param ptr A vector containing the ranges of indices in each col.
+		\param val A vector containing the values of the non-zeros.
+		\param dim The dimension of the matrix.
+	*/	
+	bool load(const int* ptr, const int* row, const el_type* val, int dim);
 	
 	/*! \brief Saves a matrix in matrix market format.
 		\param filename the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx).
