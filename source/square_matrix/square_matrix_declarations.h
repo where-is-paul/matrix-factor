@@ -185,7 +185,7 @@ public:
 		\param k index of row/col k.
 		\param r index of row/col r.
 	*/
-	inline void pivot(square_matrix_swap_struct<el_type> s, ultriangular_matrix<el_type>& L, const int& k, const int& r);
+	inline void pivot(square_matrix_swap_struct<el_type>& s, ultriangular_matrix<el_type>& L, const int& k, const int& r);
 	
 	//----IO Functions----//
 	

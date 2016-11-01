@@ -14,7 +14,7 @@ using std::abs;
 		-#	L(k, 1:k) must be swapped with L(r, 1:k) (row-row swap).
 */
 template <class el_type>
-inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type> s, ultriangular_matrix<el_type>& L, const int& k, const int& r)
+inline void square_matrix<el_type>::pivot(square_matrix_swap_struct<el_type>& s, ultriangular_matrix<el_type>& L, const int& k, const int& r)
 {
 	//initialize temp variables
 	idx_it idx_iterator; elt_it elt_iterator;
