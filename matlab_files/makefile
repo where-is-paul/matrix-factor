@@ -9,7 +9,7 @@ MEXEXTRA = utils
 all: $(addsuffix .$(MEX_EXT), $(ILDL_TARGET))
 
 $(addsuffix .$(MEX_EXT), $(ILDL_TARGET)): $(addsuffix .cpp, $(ILDL_TARGET) $(MEXEXTRA))
-	$(MATLAB_BIN)/mex $(MEXFLAGS) $?
+	$(MATLAB_BIN) $(MEXFLAGS) $?
     
 clean:
 	$(RM) $(addsuffix .$(MEX_EXT), $(ILDL_TARGET))
