@@ -272,7 +272,7 @@ public:
 		\param k index of row/col k.
 		\param r index of row/col r.
 	*/
-	inline void pivot(swap_struct<el_type> s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r);
+	inline void pivot(swap_struct<el_type>& s, vector<bool>& in_set, lilc_matrix<el_type>& L, const int& k, const int& r);
     
     /*! \brief The inplace version of the function above.
     
@@ -281,7 +281,7 @@ public:
 		\param k index of row/col k.
 		\param r index of row/col r.
     */
-	inline void pivotA(swap_struct<el_type> s, vector<bool>& in_set, const int& k, const int& r);
+	inline void pivotA(swap_struct<el_type>& s, vector<bool>& in_set, const int& k, const int& r);
 	
 	/*! \brief Ensures two the invariants observed by A.first and A.list are held.
 		

@@ -38,7 +38,7 @@ inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& 
 */
 template <class el_type>
 inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r) { 
-	double res = -1;
+	double res = 0;
 	for (idx_it it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
 		if (abs(v[*it]) > res) {
 			res = abs(v[*it]);
@@ -137,8 +137,10 @@ template <class el_type>
 struct by_value {
 	const vector<el_type>& v; 
 	by_value(const vector<el_type>& vec) : v(vec) {}
-	bool operator()(int const &a, int const &b) const { 
-		if (abs(v[a]) == abs(v[b])) return a < b;
+	inline bool operator()(int const &a, int const &b) const { 
+		// Not needed if we're using sort. If using this comparator
+		// in a set, then uncomment the line below.
+		//if (abs(v[a]) == abs(v[b])) return a < b;
 		return abs(v[a]) > abs(v[b]);
 	}
 };
@@ -152,7 +154,7 @@ struct by_tolerance {
   const vector<el_type>& v; 
   double eps;
 	by_tolerance(const vector<el_type>& vec, const double& eps) : v(vec), eps(eps) {}
-	bool operator()(int const &i) const { 
+	inline bool operator()(int const &i) const { 
 		return abs(v[i]) < eps;
 	}
 };
@@ -186,7 +188,7 @@ inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil
 	curr_nnzs.erase( remove_if(curr_nnzs.begin(), curr_nnzs.end(), is_zero), curr_nnzs.end() );
 	curr_nnzs.resize( std::min(lfil, (int) curr_nnzs.size()) );
 	//sort the first lfil elements by index, only these will be assigned into L. this part can be removed.
-	//std::sort(curr_nnzs.begin(), curr_nnzs.begin() + std::min(lfil, (int) curr_nnzs.size()));
+	std::sort(curr_nnzs.begin(), curr_nnzs.end());
 }
 
 //----------------Column updates------------------//
