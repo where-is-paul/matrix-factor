@@ -1,0 +1,12 @@
+\form#0:$n\times n$
+\form#1:$\mathbf{A}$
+\form#2:$\mathbf{LDL^{T}}$
+\form#3:\[ \mathbf{P^{T}SASP \approx LDL^{T}}. \]
+\form#4:$\mathbf{P}$
+\form#5:$\mathbf{S}$
+\form#6:$\mathbf{L}$
+\form#7:$\mathbf{D}$
+\form#8:$fill\cdot nnz(\mathbf{A})/n$
+\form#9:$tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$
+\form#10:$\mathbf{B=P^{T}SASP}$
+\form#11:$\mathbf{P^{T}SASP}$

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['s',['S',['../classlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596',1,'lilc_matrix']]],
-  ['save',['save',['../classblock__diag__matrix.html#aa6b66605d7e4af701ec12effaa1f0637',1,'block_diag_matrix::save()'],['../classlilc__matrix.html#a2b0161d36019e1abac41b6119b8fa288',1,'lilc_matrix::save()'],['../classsymildl_1_1solver.html#aec55eb22870f4e72e99e717ca4e8776f',1,'symildl::solver::save()']]],
+  ['s',['S',['../singletonlilc__matrix.html#afc4659265addfeab376ffaa8f54ed596',1,'lilc_matrix']]],
+  ['save',['save',['../classblock__diag__matrix.html#aa6b66605d7e4af701ec12effaa1f0637',1,'block_diag_matrix::save()'],['../singletonlilc__matrix.html#a2b0161d36019e1abac41b6119b8fa288',1,'lilc_matrix::save()'],['../classsymildl_1_1solver.html#aec55eb22870f4e72e99e717ca4e8776f',1,'symildl::solver::save()']]],
   ['set_5fequil',['set_equil',['../classsymildl_1_1solver.html#a8442f13b529302ec5b0a1f89ca3f4bac',1,'symildl::solver']]],
   ['set_5finplace',['set_inplace',['../classsymildl_1_1solver.html#a951cd55ae1abcb1e8284bd1a12dfa815',1,'symildl::solver']]],
   ['set_5fpivot',['set_pivot',['../classsymildl_1_1solver.html#a060c03d9f9ce73a3cdc37a6a54cb64e4',1,'symildl::solver']]],
@@ -19,8 +19,8 @@ var searchData=
   ['swap_5fstruct',['swap_struct',['../classswap__struct.html',1,'']]],
   ['swapk',['swapk',['../classswap__struct.html#a609dd0d32e04b30b0db6830ab56a8de9',1,'swap_struct']]],
   ['swapr',['swapr',['../classswap__struct.html#a145f164cc7d5b81b259f0fe558faacf9',1,'swap_struct']]],
-  ['sym_5famd',['sym_amd',['../classlilc__matrix.html#add59bf538bd6b36c7d42ec879bad4da8',1,'lilc_matrix']]],
-  ['sym_5fequil',['sym_equil',['../classlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51',1,'lilc_matrix']]],
-  ['sym_5fperm',['sym_perm',['../classlilc__matrix.html#af72f55f6880cef04205eb3df7018bce9',1,'lilc_matrix']]],
-  ['sym_5frcm',['sym_rcm',['../classlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7',1,'lilc_matrix']]]
+  ['sym_5famd',['sym_amd',['../singletonlilc__matrix.html#add59bf538bd6b36c7d42ec879bad4da8',1,'lilc_matrix']]],
+  ['sym_5fequil',['sym_equil',['../singletonlilc__matrix.html#a37fc8dcc40799dfde0decaaf8bd74b51',1,'lilc_matrix']]],
+  ['sym_5fperm',['sym_perm',['../singletonlilc__matrix.html#af72f55f6880cef04205eb3df7018bce9',1,'lilc_matrix']]],
+  ['sym_5frcm',['sym_rcm',['../singletonlilc__matrix.html#ab34914d2b48a5bf14e7ef22e89d2f2e7',1,'lilc_matrix']]]
 ];
