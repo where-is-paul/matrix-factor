@@ -72,6 +72,11 @@ int main(int argc, char* argv[])
 	}
 
 	symildl::solver<double> solv;
+
+	//default is statistics output
+	solv.set_message_level("statistics");
+
+	//load matrix
 	solv.load(FLAGS_filename);
 
 	//default reordering scheme is AMD

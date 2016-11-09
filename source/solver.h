@@ -10,6 +10,43 @@
 
 namespace symildl {
 
+// Using struct'd enums to achieve a C++11 style enum class without C++11
+struct reordering_type {
+	enum {
+		NONE,
+		AMD,
+		RCM,
+		MC64
+	};
+};
+
+struct equilibration_type {
+	enum {
+		NONE,
+		BUNCH,
+		RUIZ,
+		MC64
+	};
+};
+
+struct solver_type {
+	enum {
+		NONE,
+		MINRES,
+		SQMR,
+		FULL
+	};
+};
+
+struct message_level {
+	enum {
+		NONE,
+		STATISTICS,
+		DEBUG
+	};
+};
+
+
 /*!	\brief Saves a permutation vector vec as a permutation matrix in matrix market (.mtx) format.
 	\param vec the permutation vector.
 	\param filename the filename the matrix will be saved under.
@@ -40,7 +77,7 @@ bool save_vector(const std::vector<el_type>& vec, std::string filename) {
 	\param filename the filename the matrix will be saved under.
 */
 template<class el_type>
-bool read_vector(std::vector<el_type>& vec, std::string filename) {
+bool read_vector(std::vector<el_type>& vec, std::string filename, int msg_lvl = message_level::STATISTICS) {
 	std::ifstream input(filename.c_str(), std::ios::in);
 
 	if(!input) return false;
@@ -75,38 +112,10 @@ bool read_vector(std::vector<el_type>& vec, std::string filename) {
 		std::cerr << "Expected " << std::max(n_rows, n_cols) << " elems but read " << i << "." << std::endl;
 	}
 	
-	std::cout << "Load succeeded. " << "Vector file " << filename << " was loaded." << std::endl;
+	if (msg_lvl) std::cout << "Load succeeded. " << "Vector file " << filename << " was loaded." << std::endl;
 	input.close();
 	return true;
 }
-
-// Using struct'd enums to achieve a C++11 style enum class without C++11
-struct reordering_type {
-	enum {
-		NONE,
-		AMD,
-		RCM,
-		MC64
-	};
-};
-
-struct equilibration_type {
-	enum {
-		NONE,
-		BUNCH,
-		RUIZ,
-		MC64
-	};
-};
-
-struct solver_type {
-	enum {
-		NONE,
-		MINRES,
-		SQMR,
-		FULL
-	};
-};
 
 /*! \brief Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface.
 
@@ -127,6 +136,7 @@ class solver {
 		
         int equil_type; ///<The equilibration method used. Set to 1 for max-norm equilibriation.
 		
+	int msg_lvl; ///<Controls the amount of output to stdout.
 		int solve_type; //<The type of solver used to solve the right hand side.
 		bool has_rhs; ///<Set to true if we have a right hand side that we expect to solve.
 		bool perform_inplace; ///<Set to true if we are factoring the matrix A inplace.
@@ -139,12 +149,13 @@ class solver {
 		/*! \brief Solver constructor, initializes default reordering scheme.
 		*/
 		solver() {
-            piv_type = pivot_type::ROOK;
+			msg_lvl = message_level::STATISTICS;
+            		piv_type = pivot_type::ROOK;
 			reorder_type = reordering_type::AMD;
 			equil_type = equilibration_type::BUNCH;
 			solve_type = solver_type::SQMR;
-            has_rhs = false;
-            perform_inplace = false;
+            		has_rhs = false;
+            		perform_inplace = false;
 		}
 				
 		/*! \brief Loads the matrix A into solver. A must be of matrix market format.
@@ -153,7 +164,7 @@ class solver {
 		void load(std::string filename) {
 			bool result = A.load(filename);
 			assert(result);
-			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+			if (msg_lvl) printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 
 		/*! \brief Loads the matrix A into solver. A must be of CSC format.
@@ -161,7 +172,7 @@ class solver {
 		void load(const std::vector<int>& ptr, const std::vector<int>& row, const std::vector<el_type>& val) {
 			bool result = A.load(ptr, row, val);
 			assert(result);	
-			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+			if (msg_lvl) printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 
 		/*! \brief Loads the matrix A into solver. A must be of CSC format.
@@ -169,7 +180,7 @@ class solver {
 		void load(const int* ptr, const int* row, const el_type* val, int dim) {
 			bool result = A.load(ptr, row, val, dim);
 			assert(result);	
-			printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+			if (msg_lvl) printf("A is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
 		}
 
 		
@@ -179,7 +190,7 @@ class solver {
 		void set_rhs(vector<el_type> b) {
 			rhs = b;
 			has_rhs = true;
-			printf("Right hand side has %d entries.\n", rhs.size() );
+			if (msg_lvl) printf("Right hand side has %d entries.\n", rhs.size() );
 		}
 		
 		/*! \brief Sets the reordering scheme for the solver.
@@ -215,6 +226,18 @@ class solver {
 				solve_type = solver_type::FULL;
 			} else if (strcmp(solver, "none") == 0) {
 				solve_type = solver_type::NONE;
+			}
+		}
+
+		/*! \brief Controls how much information gets printed to stdout.
+		*/
+		void set_message_level(const char* msg) {
+			if (strcmp(msg, "none") == 0) {
+				msg_lvl = message_level::NONE;
+			} else if (strcmp(msg, "statistics") == 0) {
+				msg_lvl = message_level::STATISTICS;
+			} else if (strcmp(msg, "debug") == 0) {
+				msg_lvl = message_level::DEBUG;
 			}
 		}
 		
@@ -260,7 +283,7 @@ class solver {
 				start = clock();
 				A.sym_equil();
 				dif = clock() - start; total += dif; 
-				printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				if (msg_lvl) printf("  Equilibration:\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			}
 
 			if (reorder_type != reordering_type::NONE) {
@@ -278,12 +301,12 @@ class solver {
 				}
 				
 				dif = clock() - start; total += dif;
-				printf("  %s:\t\t\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
+				if (msg_lvl) printf("  %s:\t\t\t\t%.3f seconds.\n", perm_name.c_str(), dif/CLOCKS_PER_SEC);
 				
 				start = clock();
 				A.sym_perm(perm);
 				dif = clock() - start; total += dif;
-				printf("  Permutation:\t\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+				if (msg_lvl) printf("  Permutation:\t\t\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
 			} else {
 				// no permutation specified, store identity permutation instead.
 				for (int i = 0; i < A.n_cols(); i++) {
@@ -306,14 +329,14 @@ class solver {
                 pivot_name = "Rook";
             }
             
-			printf("  Factorization (%s pivoting):\t%.3f seconds.\n", pivot_name.c_str(), dif/CLOCKS_PER_SEC);
-			printf("Total time:\t\t\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
+			if (msg_lvl) printf("  Factorization (%s pivoting):\t%.3f seconds.\n", pivot_name.c_str(), dif/CLOCKS_PER_SEC);
+			if (msg_lvl) printf("Total time:\t\t\t%.3f seconds.\n", total/CLOCKS_PER_SEC);
             if (perform_inplace) {
-                printf("L is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
+                if (msg_lvl) printf("L is %d by %d with %d non-zeros.\n", A.n_rows(), A.n_cols(), A.nnz() );
             } else {
-                printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
+                if (msg_lvl) printf("L is %d by %d with %d non-zeros.\n", L.n_rows(), L.n_cols(), L.nnz() );
             }
-			printf("\n");
+			if (msg_lvl) printf("\n");
 			fflush(stdout);
 			
 			// if there is a right hand side, it means the user wants a solve.
@@ -321,7 +344,7 @@ class solver {
 			// factoring/minres solve phase
 			if (has_rhs) {
                 if (perform_inplace) {
-                    printf("Inplace factorization cannot be used with the solver. Please try again without -inplace.\n");
+                    if (msg_lvl) printf("Inplace factorization cannot be used with the solver. Please try again without -inplace.\n");
                 } else {
                     // start timer in case we're doing a full solve
                     start = clock();
@@ -343,7 +366,7 @@ class solver {
                     rhs = tmp;
                     
                     if (solve_type == solver_type::FULL) {
-                        printf("Solving matrix with direct solver...\n");
+                        if (msg_lvl) printf("Solving matrix with direct solver...\n");
                         sol_vec.resize(A.n_cols(), 0);
                         // MINRES uses the preconditioned solver that
                         // splits the block D into |D|^(1/2).
@@ -361,7 +384,7 @@ class solver {
 							L.backsolve(rhs, tmp);
 							D.sqrt_solve(tmp, rhs, false);
 							
-							printf("Solving matrix with MINRES...\n");
+							if (msg_lvl) printf("Solving matrix with MINRES...\n");
 							// solve the equilibrated, preconditioned, and permuted linear system
 							minres(max_iter, minres_tol, shift);
 							
@@ -375,7 +398,7 @@ class solver {
 							D.sqrt_solve(sol_vec, tmp, true);
 							L.forwardsolve(tmp, sol_vec);
 						} else if (solve_type == solver_type::SQMR) {
-							printf("Solving matrix with SQMR...\n");
+							if (msg_lvl) printf("Solving matrix with SQMR...\n");
 							sqmr(max_iter, minres_tol);
 						}
                     }
@@ -391,13 +414,13 @@ class solver {
                         sol_vec[i] = A.S[i]*sol_vec[i];
                     }
                     dif = clock() - start;
-                    printf("Solve time:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
-                    printf("\n");
+                    if (msg_lvl) printf("Solve time:\t%.3f seconds.\n", dif/CLOCKS_PER_SEC);
+                    if (msg_lvl) printf("\n");
         
 		if (save_sol) {            
                     // save results
                     // TODO: refactor this to be in its own method
-                    printf("Solution saved to output_matrices/outsol.mtx.\n");
+                    if (msg_lvl) printf("Solution saved to output_matrices/outsol.mtx.\n");
                     save_vector(sol_vec, "output_matrices/outsol.mtx");
                 }
 
@@ -425,7 +448,7 @@ class solver {
 			The names of the output matrices follow the format out{}.mtx, where {} describes what the file contains (i.e. A, L, or D).
 		*/
 		void save() { // TODO: refactor this as a "save factors" method
-			cout << "Saving matrices..." << endl;
+			if (msg_lvl) cout << "Saving matrices..." << endl;
             if (!perform_inplace) {
                 A.save("output_matrices/outB.mtx", true);
                 L.save("output_matrices/outL.mtx", false);
@@ -437,7 +460,7 @@ class solver {
 			save_vector(perm, "output_matrices/outP.mtx");
 			
 			D.save("output_matrices/outD.mtx");
-			cout << "Save complete." << endl;
+			if (msg_lvl) cout << "Save complete." << endl;
 		}
 		
 		/*! \brief Prints the L and D factors to stdout.

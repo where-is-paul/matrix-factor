@@ -161,12 +161,12 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		//cout << "current residual " << res[cur]/norm_rhs << endl;
 	}
 	
-	printf("The estimated condition number of the matrix is %e.\n", cond_A);
+	if (msg_lvl) printf("The estimated condition number of the matrix is %e.\n", cond_A);
     
     std::string iter_str = "iterations";
     if (k-1 == 1) iter_str = "iteration";
 
-	printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), res[(k+1)%2]/norm_rhs);
+	if (msg_lvl) printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), res[(k+1)%2]/norm_rhs);
 	return;
 }
 
