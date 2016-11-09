@@ -120,7 +120,13 @@ public:
 	{
 		m_n_rows = n_rows;
 		m_n_cols = n_cols;
-		
+	
+		m_x.clear();
+		m_idx.clear();
+		row_first.clear();
+		col_first.clear();
+		list.clear();
+	
 		m_x.resize(n_cols);
 		m_idx.resize(n_cols);
 		

@@ -61,6 +61,7 @@ public:
 	{
 		assert(n_rows == n_cols);
 		nnz_count = n_rows;
+		main_diag.clear();
 		main_diag.resize(n_rows);
 	}
 	
@@ -70,6 +71,7 @@ public:
 		m_n_size = n;
 		main_diag.clear();
 		main_diag.resize(n, default_value);
+		off_diag.clear();
 		nnz_count = n;
 	}
 	
