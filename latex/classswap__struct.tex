@@ -1,0 +1,66 @@
+\hypertarget{classswap__struct}{}\section{swap\+\_\+struct$<$ el\+\_\+type $>$ Class Template Reference}
+\label{classswap__struct}\index{swap\+\_\+struct$<$ el\+\_\+type $>$@{swap\+\_\+struct$<$ el\+\_\+type $>$}}
+
+
+A structure containing variables used in pivoting a L\+I\+L-\/C matrix.  
+
+
+
+
+{\ttfamily \#include $<$swap\+\_\+struct.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classswap__struct_ac67fad73735b183c372ef63b4a9cd581}{swap\+\_\+clear} ()\hypertarget{classswap__struct_ac67fad73735b183c372ef63b4a9cd581}{}\label{classswap__struct_ac67fad73735b183c372ef63b4a9cd581}
+
+\begin{DoxyCompactList}\small\item\em Clears all swap vectors (swapk, swapr, all\+\_\+swaps). \end{DoxyCompactList}\item 
+void \hyperlink{classswap__struct_ad97200ee23cd1f70668d6b4462228343}{col\+\_\+clear} ()\hypertarget{classswap__struct_ad97200ee23cd1f70668d6b4462228343}{}\label{classswap__struct_ad97200ee23cd1f70668d6b4462228343}
+
+\begin{DoxyCompactList}\small\item\em Clears all col vectors (col\+\_\+k, col\+\_\+r, col\+\_\+k\+\_\+nnzs, col\+\_\+r\+\_\+nnzs). \end{DoxyCompactList}\item 
+void \hyperlink{classswap__struct_a9727bf8ea70308977661235c59e3b8da}{row\+\_\+clear} ()\hypertarget{classswap__struct_a9727bf8ea70308977661235c59e3b8da}{}\label{classswap__struct_a9727bf8ea70308977661235c59e3b8da}
+
+\begin{DoxyCompactList}\small\item\em Clears all row vectors (row\+\_\+k, row\+\_\+r). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ idx\+\_\+it $>$ \hyperlink{classswap__struct_a609dd0d32e04b30b0db6830ab56a8de9}{swapk}\hypertarget{classswap__struct_a609dd0d32e04b30b0db6830ab56a8de9}{}\label{classswap__struct_a609dd0d32e04b30b0db6830ab56a8de9}
+
+\begin{DoxyCompactList}\small\item\em List of indices from row r that will be swapped to row k. \end{DoxyCompactList}\item 
+vector$<$ idx\+\_\+it $>$ \hyperlink{classswap__struct_a145f164cc7d5b81b259f0fe558faacf9}{swapr}\hypertarget{classswap__struct_a145f164cc7d5b81b259f0fe558faacf9}{}\label{classswap__struct_a145f164cc7d5b81b259f0fe558faacf9}
+
+\begin{DoxyCompactList}\small\item\em List of indices from row k that will be swapped to row r. \end{DoxyCompactList}\item 
+idx\+\_\+vector\+\_\+type \hyperlink{classswap__struct_af5461fcf0c0808ef0ef5ac9c6e212839}{all\+\_\+swaps}\hypertarget{classswap__struct_af5461fcf0c0808ef0ef5ac9c6e212839}{}\label{classswap__struct_af5461fcf0c0808ef0ef5ac9c6e212839}
+
+\begin{DoxyCompactList}\small\item\em Column indices of all swaps done in swapk and swapr. \end{DoxyCompactList}\item 
+idx\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a7a9e67b4e6e1b9d1e6d2aefef3edda71}{col\+\_\+k\+\_\+nnzs}\hypertarget{classswap__struct_a7a9e67b4e6e1b9d1e6d2aefef3edda71}{}\label{classswap__struct_a7a9e67b4e6e1b9d1e6d2aefef3edda71}
+
+\begin{DoxyCompactList}\small\item\em Row indices of non-\/zeros in the new column k. \end{DoxyCompactList}\item 
+idx\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a8d4e30cd03fc142b81a332db04edc244}{col\+\_\+r\+\_\+nnzs}\hypertarget{classswap__struct_a8d4e30cd03fc142b81a332db04edc244}{}\label{classswap__struct_a8d4e30cd03fc142b81a332db04edc244}
+
+\begin{DoxyCompactList}\small\item\em Row indices of non-\/zeros in the new column r. \end{DoxyCompactList}\item 
+elt\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a39ab00a67015a67c375b620f54cc6352}{col\+\_\+k}\hypertarget{classswap__struct_a39ab00a67015a67c375b620f54cc6352}{}\label{classswap__struct_a39ab00a67015a67c375b620f54cc6352}
+
+\begin{DoxyCompactList}\small\item\em Non-\/zero values in the new column k (order dependent on col\+\_\+k\+\_\+nnzs). \end{DoxyCompactList}\item 
+elt\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a3803a938141694098700de00d5cb6a7d}{col\+\_\+r}\hypertarget{classswap__struct_a3803a938141694098700de00d5cb6a7d}{}\label{classswap__struct_a3803a938141694098700de00d5cb6a7d}
+
+\begin{DoxyCompactList}\small\item\em Non-\/zero values in the new column r (order dependent on col\+\_\+r\+\_\+nnzs). \end{DoxyCompactList}\item 
+idx\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a52180e1635646cd4f2dab0209ae62cb9}{row\+\_\+k}\hypertarget{classswap__struct_a52180e1635646cd4f2dab0209ae62cb9}{}\label{classswap__struct_a52180e1635646cd4f2dab0209ae62cb9}
+
+\begin{DoxyCompactList}\small\item\em Column indices of non-\/zeros in the new row k. \end{DoxyCompactList}\item 
+idx\+\_\+vector\+\_\+type \hyperlink{classswap__struct_a3b6ad04f7393ddd5c8b130e33208d427}{row\+\_\+r}\hypertarget{classswap__struct_a3b6ad04f7393ddd5c8b130e33208d427}{}\label{classswap__struct_a3b6ad04f7393ddd5c8b130e33208d427}
+
+\begin{DoxyCompactList}\small\item\em Column indices of non-\/zeros in the new row r. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class el\+\_\+type$>$\\*
+class swap\+\_\+struct$<$ el\+\_\+type $>$}
+
+A structure containing variables used in pivoting a L\+I\+L-\/C matrix. 
+
+Storing these variables in a combined structure reduces memory requirements and bundles together all temporary structures needed during pivoting. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+source/swap\+\_\+struct.\+h\end{DoxyCompactItemize}

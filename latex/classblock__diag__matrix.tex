@@ -1,0 +1,243 @@
+\hypertarget{classblock__diag__matrix}{}\section{block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$ Class Template Reference}
+\label{classblock__diag__matrix}\index{block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$@{block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$}}
+
+
+A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks.  
+
+
+
+
+{\ttfamily \#include $<$block\+\_\+diag\+\_\+matrix.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::unordered\+\_\+map$<$ int, el\+\_\+type $>$ {\bfseries int\+\_\+elt\+\_\+map}\hypertarget{classblock__diag__matrix_a83f8d88c5e6d2bdaee582cad484cc793}{}\label{classblock__diag__matrix_a83f8d88c5e6d2bdaee582cad484cc793}
+
+\item 
+typedef std\+::vector$<$ el\+\_\+type $>$ {\bfseries elt\+\_\+vector\+\_\+type}\hypertarget{classblock__diag__matrix_ab9eac6089c211c3332e3e3acc2c5dd89}{}\label{classblock__diag__matrix_ab9eac6089c211c3332e3e3acc2c5dd89}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b}{block\+\_\+diag\+\_\+matrix} (int \hyperlink{classblock__diag__matrix_a7d965a63398622c241a1b28b41cd9d18}{n\+\_\+rows}=0, int \hyperlink{classblock__diag__matrix_a09c9b0481acb773a864fa9f320f76cc7}{n\+\_\+cols}=0)\hypertarget{classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b}{}\label{classblock__diag__matrix_a1591d461af4469b500f856745ed2d05b}
+
+\begin{DoxyCompactList}\small\item\em Constructor for diagonal class. Initializes a 0x0 matrix when given no arguments. \end{DoxyCompactList}\item 
+void \hyperlink{classblock__diag__matrix_aa2f3ffb9d4e198ab18262b702c79cadb}{resize} (int n, el\+\_\+type default\+\_\+value)\hypertarget{classblock__diag__matrix_aa2f3ffb9d4e198ab18262b702c79cadb}{}\label{classblock__diag__matrix_aa2f3ffb9d4e198ab18262b702c79cadb}
+
+\begin{DoxyCompactList}\small\item\em Resizes this matrix to an n$\ast$n matrix with default\+\_\+value on the main diagonal. \end{DoxyCompactList}\item 
+void \hyperlink{classblock__diag__matrix_a12249531555506377724ff14abec6905}{resize} (int n)\hypertarget{classblock__diag__matrix_a12249531555506377724ff14abec6905}{}\label{classblock__diag__matrix_a12249531555506377724ff14abec6905}
+
+\begin{DoxyCompactList}\small\item\em Resizes this matrix to an n$\ast$n matrix. \end{DoxyCompactList}\item 
+int \hyperlink{classblock__diag__matrix_a7d965a63398622c241a1b28b41cd9d18}{n\+\_\+rows} () const 
+\item 
+int \hyperlink{classblock__diag__matrix_a09c9b0481acb773a864fa9f320f76cc7}{n\+\_\+cols} () const 
+\item 
+int \hyperlink{classblock__diag__matrix_a7119c39d6ffdf74c2e995d9ae53f57a2}{nnz} () const 
+\item 
+el\+\_\+type \& \hyperlink{classblock__diag__matrix_a82f0f2e27c91802823c80b1c8007df4d}{operator\mbox{[}$\,$\mbox{]}} (int i)
+\item 
+el\+\_\+type \& \hyperlink{classblock__diag__matrix_aa57572352da969e948428ad7521a1ce3}{off\+\_\+diagonal} (int i)
+\item 
+int \hyperlink{classblock__diag__matrix_ad2a00befe5b5c5718e222fa99cbbefd2}{block\+\_\+size} (int i) const 
+\item 
+void \hyperlink{classblock__diag__matrix_a5f75bcd1cafdb778f2658b7677ad97b9}{sqrt\+\_\+solve} (const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x, bool transposed=false)
+\begin{DoxyCompactList}\small\item\em Solves the preconditioned problem $\vert$\+D$\vert$ = Q$\vert$\+V$\vert$Q\textquotesingle{}, where Q\+VQ\textquotesingle{} is the eigendecomposition of D, and $\vert$.$\vert$ is applied elementwise. \end{DoxyCompactList}\item 
+void \hyperlink{classblock__diag__matrix_a9cc0b7bc0f96b6688edaef61be790430}{solve} (const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)
+\begin{DoxyCompactList}\small\item\em Solves the system Dx = b. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classblock__diag__matrix_a8aa70dbd0e2c29d814fe5c29701b84cc}{to\+\_\+string} () const 
+\item 
+bool \hyperlink{classblock__diag__matrix_aa6b66605d7e4af701ec12effaa1f0637}{save} (std\+::string filename) const 
+\item 
+\hyperlink{classblock__diag__matrix_a060d90add0a7490196fd47f5efb1c818}{$\sim$block\+\_\+diag\+\_\+matrix} ()\hypertarget{classblock__diag__matrix_a060d90add0a7490196fd47f5efb1c818}{}\label{classblock__diag__matrix_a060d90add0a7490196fd47f5efb1c818}
+
+\begin{DoxyCompactList}\small\item\em Generic class destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classblock__diag__matrix_a8e55b8cb27c7686a6e62f5e1655723b4}{m\+\_\+n\+\_\+size}\hypertarget{classblock__diag__matrix_a8e55b8cb27c7686a6e62f5e1655723b4}{}\label{classblock__diag__matrix_a8e55b8cb27c7686a6e62f5e1655723b4}
+
+\begin{DoxyCompactList}\small\item\em Dimension of the matrix. \end{DoxyCompactList}\item 
+int \hyperlink{classblock__diag__matrix_a13fa6893c7125ff3443e75d3b5f64cd9}{nnz\+\_\+count}\hypertarget{classblock__diag__matrix_a13fa6893c7125ff3443e75d3b5f64cd9}{}\label{classblock__diag__matrix_a13fa6893c7125ff3443e75d3b5f64cd9}
+
+\begin{DoxyCompactList}\small\item\em Number of non-\/zeros in the matrix. \end{DoxyCompactList}\item 
+elt\+\_\+vector\+\_\+type \hyperlink{classblock__diag__matrix_a74396564eee4ad30c97b0eab031dda32}{main\+\_\+diag}\hypertarget{classblock__diag__matrix_a74396564eee4ad30c97b0eab031dda32}{}\label{classblock__diag__matrix_a74396564eee4ad30c97b0eab031dda32}
+
+\begin{DoxyCompactList}\small\item\em Stores main diagonal elements. \end{DoxyCompactList}\item 
+int\+\_\+elt\+\_\+map \hyperlink{classblock__diag__matrix_a894255ea4928f43a2cae577abc4910d3}{off\+\_\+diag}\hypertarget{classblock__diag__matrix_a894255ea4928f43a2cae577abc4910d3}{}\label{classblock__diag__matrix_a894255ea4928f43a2cae577abc4910d3}
+
+\begin{DoxyCompactList}\small\item\em Stores off-\/diagonal elements of 2x2 pivots. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classblock__diag__matrix_a17f3419f2a6f824dea494d9ac229c000}{operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classblock__diag__matrix}{block\+\_\+diag\+\_\+matrix} \&D)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class el\+\_\+type$>$\\*
+class block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$}
+
+A quick implementation of a diagonal matrix with 1x1 and 2x2 blocks. 
+
+\subsection{Member Function Documentation}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{block\+\_\+size(int i) const }{block_size(int i) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ int {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::block\+\_\+size (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_ad2a00befe5b5c5718e222fa99cbbefd2}{}\label{classblock__diag__matrix_ad2a00befe5b5c5718e222fa99cbbefd2}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the index of the element. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+2 if there is a diagonal pivot at D(i,i) and D(i+1,i+1). -\/2 if there is a diagonal pivot at D(i-\/1,i-\/1) and D(i,i). 1 if the pivot is only a 1x1 block. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!n\+\_\+cols@{n\+\_\+cols}}
+\index{n\+\_\+cols@{n\+\_\+cols}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{n\+\_\+cols() const }{n_cols() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ int {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::n\+\_\+cols (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a09c9b0481acb773a864fa9f320f76cc7}{}\label{classblock__diag__matrix_a09c9b0481acb773a864fa9f320f76cc7}
+\begin{DoxyReturn}{Returns}
+Number of cols in the matrix. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!n\+\_\+rows@{n\+\_\+rows}}
+\index{n\+\_\+rows@{n\+\_\+rows}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{n\+\_\+rows() const }{n_rows() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ int {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::n\+\_\+rows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a7d965a63398622c241a1b28b41cd9d18}{}\label{classblock__diag__matrix_a7d965a63398622c241a1b28b41cd9d18}
+\begin{DoxyReturn}{Returns}
+Number of rows in the matrix. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!nnz@{nnz}}
+\index{nnz@{nnz}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{nnz() const }{nnz() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ int {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::nnz (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a7119c39d6ffdf74c2e995d9ae53f57a2}{}\label{classblock__diag__matrix_a7119c39d6ffdf74c2e995d9ae53f57a2}
+\begin{DoxyReturn}{Returns}
+Number of nonzeros in the matrix. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!off\+\_\+diagonal@{off\+\_\+diagonal}}
+\index{off\+\_\+diagonal@{off\+\_\+diagonal}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{off\+\_\+diagonal(int i)}{off_diagonal(int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ el\+\_\+type\& {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::off\+\_\+diagonal (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_aa57572352da969e948428ad7521a1ce3}{}\label{classblock__diag__matrix_aa57572352da969e948428ad7521a1ce3}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the index of the element. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The D(i+1,i)th element. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator[](int i)}{operator[](int i)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ el\+\_\+type\& {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a82f0f2e27c91802823c80b1c8007df4d}{}\label{classblock__diag__matrix_a82f0f2e27c91802823c80b1c8007df4d}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the index of the element. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The D(i,i)th element. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!save@{save}}
+\index{save@{save}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{save(std\+::string filename) const }{save(std::string filename) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ bool {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::save (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename}
+\end{DoxyParamCaption}
+) const}\hypertarget{classblock__diag__matrix_aa6b66605d7e4af701ec12effaa1f0637}{}\label{classblock__diag__matrix_aa6b66605d7e4af701ec12effaa1f0637}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the save succeeded, false otherwise. 
+\end{DoxyReturn}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!solve@{solve}}
+\index{solve@{solve}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{solve(const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)}{solve(const elt_vector_type &b, elt_vector_type &x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::solve (
+\begin{DoxyParamCaption}
+\item[{const elt\+\_\+vector\+\_\+type \&}]{b, }
+\item[{elt\+\_\+vector\+\_\+type \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a9cc0b7bc0f96b6688edaef61be790430}{}\label{classblock__diag__matrix_a9cc0b7bc0f96b6688edaef61be790430}
+
+
+Solves the system Dx = b. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the right hand side. \\
+\hline
+{\em x} & a storage vector for the solution (must be same size as b). \\
+\hline
+\end{DoxyParams}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!sqrt\+\_\+solve@{sqrt\+\_\+solve}}
+\index{sqrt\+\_\+solve@{sqrt\+\_\+solve}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{sqrt\+\_\+solve(const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x, bool transposed=false)}{sqrt_solve(const elt_vector_type &b, elt_vector_type &x, bool transposed=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::sqrt\+\_\+solve (
+\begin{DoxyParamCaption}
+\item[{const elt\+\_\+vector\+\_\+type \&}]{b, }
+\item[{elt\+\_\+vector\+\_\+type \&}]{x, }
+\item[{bool}]{transposed = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classblock__diag__matrix_a5f75bcd1cafdb778f2658b7677ad97b9}{}\label{classblock__diag__matrix_a5f75bcd1cafdb778f2658b7677ad97b9}
+
+
+Solves the preconditioned problem $\vert$\+D$\vert$ = Q$\vert$\+V$\vert$Q\textquotesingle{}, where Q\+VQ\textquotesingle{} is the eigendecomposition of D, and $\vert$.$\vert$ is applied elementwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the right hand side. \\
+\hline
+{\em x} & a storage vector for the solution (must be same size as b). \\
+\hline
+{\em transposed} & solves $\vert$\+V$\vert$$^\wedge$(1/2)Q\textquotesingle{} if true, Q$\vert$\+V$\vert$$^\wedge$(1/2) if false. \\
+\hline
+\end{DoxyParams}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!to\+\_\+string@{to\+\_\+string}}
+\index{to\+\_\+string@{to\+\_\+string}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{to\+\_\+string() const }{to_string() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ std\+::string {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$\+::to\+\_\+string (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classblock__diag__matrix_a8aa70dbd0e2c29d814fe5c29701b84cc}{}\label{classblock__diag__matrix_a8aa70dbd0e2c29d814fe5c29701b84cc}
+\begin{DoxyReturn}{Returns}
+A string reprepsentation of this matrix. 
+\end{DoxyReturn}
+
+
+\subsection{Friends And Related Function Documentation}
+\index{block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!block\+\_\+diag\+\_\+matrix@{block\+\_\+diag\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator$<$$<$}{operator<<}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os, }
+\item[{const {\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \&}]{D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}\hypertarget{classblock__diag__matrix_a17f3419f2a6f824dea494d9ac229c000}{}\label{classblock__diag__matrix_a17f3419f2a6f824dea494d9ac229c000}
+Allows outputting the contents of the matrix via $<$$<$ operators. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+source/block\+\_\+diag\+\_\+matrix.\+h\item 
+source/block\+\_\+diag\+\_\+matrix\+\_\+save.\+h\item 
+source/block\+\_\+diag\+\_\+matrix\+\_\+to\+\_\+string.\+h\end{DoxyCompactItemize}

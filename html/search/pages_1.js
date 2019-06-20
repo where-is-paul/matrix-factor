@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['introduction',['Introduction',['../intro.html',1,'index']]]
+  ['the_20mit_20license',['The MIT License',['../md_License.html',1,'']]]
 ];

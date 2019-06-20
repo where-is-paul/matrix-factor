@@ -1,0 +1,303 @@
+\hypertarget{index_intro_sec}{}\section{Overview}\label{index_intro_sec}
+{\bfseries sym-\/ildl} is a C++ package for solving and producing fast incomplete factorizations of symmetric indefinite or skew-\/symmetric matrices. Given an $n\times n$ symmetric indefinite or skew-\/symmetric matrix $\mathbf{A}$, this package produces an incomplete $\mathbf{LDL^{T}}$ factorization. Prior to factorization, {\bfseries sym-\/ildl} first scales the matrix to be equilibrated in the max-\/norm \href{#refs}{\tt \mbox{[}2\mbox{]}}, and then preorders the matrix using either the Reverse Cuthill-\/\+Mc\+Kee (R\+CM) algorithm or the Approximate Minimum Degree algorithm (A\+MD) \href{#refs}{\tt \mbox{[}1\mbox{]}}. To maintain stability, the user can use Bunch-\/\+Kaufman or rook partial pivoting during the factorization process. The factorization produced is of the form \[ \mathbf{P^{T}SASP \approx LDL^{T}}. \] where $\mathbf{P}$ is a permutation matrix, $\mathbf{S}$ a scaling matrix, and $\mathbf{L}$ and $\mathbf{D}$ are the unit lower triangular and block diagonal factors respectively. The user can also optionally solve the given linear system, using {\bfseries sym-\/ildl\textquotesingle{}s} incomplete factorization to precondition the built-\/in solver or using the full factorization as a direct solver.
+
+This package is based on and extends an incomplete factorization approach proposed by Li and Saad \href{#refs}{\tt \mbox{[}3\mbox{]}} (which itself builds on Li, Saad, and Chow \href{#refs}{\tt \mbox{[}4\mbox{]}}).\hypertarget{index_dlinks}{}\section{Download links}\label{index_dlinks}
+{\itshape \mbox{[}Latest release\+: 11/15/2015\mbox{]}} \hypertarget{index_matlab_dlinks}{}\subsection{M\+A\+T\+L\+A\+B M\+E\+X Files}\label{index_matlab_dlinks}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/inutard/matrix-factor/raw/master/release/win64/ildl-2015a.zip}{\tt For M\+A\+T\+L\+AB 2015a and above on 64-\/bit Windows 8.\+1}
+\item \href{https://github.com/inutard/matrix-factor/raw/master/release/linux/ildl-2014a.zip}{\tt For M\+A\+T\+L\+AB 2014a and above on 64-\/bit Open\+S\+U\+SE 13.\+1} 
+\end{DoxyItemize}\hypertarget{index_binary_dlinks}{}\subsection{Prebuilt binaries}\label{index_binary_dlinks}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/inutard/matrix-factor/raw/master/release/win64/ldl_driver.exe}{\tt For 64-\/bit Windows 8.\+1}
+\item \href{https://github.com/inutard/matrix-factor/raw/master/release/linux/ldl_driver}{\tt For 64-\/bit Open\+S\+U\+SE 13.\+2} 
+\end{DoxyItemize}\hypertarget{index_source_dlinks}{}\subsection{The source code}\label{index_source_dlinks}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/inutard/matrix-factor/archive/master.zip}{\tt Latest stable release (gcc 4.\+7 and above)}
+\end{DoxyItemize}\hypertarget{index_why_use}{}\section{Why use sym-\/ildl?}\label{index_why_use}
+
+\begin{DoxyItemize}
+\item {\bfseries It\textquotesingle{}s easy to use}\+: We offer precompiled versions of sym-\/ildl on both Windows and Linux, as well as for use within M\+A\+T\+L\+AB. If you want to use sym-\/ildl as a C++ library, there is no need to compile anything. You can just use the header files right away. sym-\/ildl is defined entirely in the header files.
+\item {\bfseries It\textquotesingle{}s reliable}\+: sym-\/ildl includes several methods to improve stability of the preconditioner. These include different kinds of equilibration, reordering, as well partial pivoting.
+\item {\bfseries It\textquotesingle{}s not just a preconditioner}\+: sym-\/ildl implements a direct solver as well as several iterative solvers that are integrated with the preconditioner, allowing you to easily and quickly solve your linear system.
+\end{DoxyItemize}\hypertarget{index_quick_start}{}\section{Quick Start}\label{index_quick_start}
+To begin using the package, first download the files above or compile the code hosted at \href{https://github.com/inutard/matrix-factor}{\tt https\+://github.\+com/inutard/matrix-\/factor}. The Git\+Hub repository contains the most up to date source code as well as an \char`\"{}experimental\char`\"{} branch that we release new features to. The package works under most Unix distributions as well as Cygwin under Windows. The default compiler used is {\ttfamily g++}, simply type {\ttfamily make} at the command line to compile the entire package. In addition to \hyperlink{index_ldl_driver}{usage as a standalone program}, the package also has a \hyperlink{index_matlab_mex}{Matlab interface}.
+
+For using sym-\/ildl as a software library, see the A\+PI \href{http://www.cs.ubc.ca/~inutard/html/classsolver.html}{\tt here}. sym-\/ildl is a header only library, so one only needs to include {\ttfamily \hyperlink{solver_8h_source}{source/solver.\+h}} for everything to work.\hypertarget{index_ldl_driver}{}\subsection{Using the package as a standalone program}\label{index_ldl_driver}
+The compiled program {\ttfamily ldl\+\_\+driver} takes in through the command line one parameter (the matrix) as well as several additional optional parameters.
+
+The format of execution is\+: 
+\begin{DoxyCode}
+./ldl\_driver -filename=[matrix-name.mtx] [-rhs\_file=rhs-name.mtx ...]
+\end{DoxyCode}
+
+
+The parameters can be given in any order, and will use a default value when not specified.
+
+A description of each of these parameters can be accessed by typing 
+\begin{DoxyCode}
+./ldl\_driver --help 
+\end{DoxyCode}
+
+
+Generally speaking, the code operates in two phases\+: generating the preconditioner (factorization) and solving the linear system (solver). The factorization parameters can be used to specify how the L\+DL\textquotesingle{} preconditioner is built. If a right hand side is specified, the built-\/in solver attempts to solve the given linear system. The solver takes the preconditioner and uses it in either preconditioned M\+I\+N\+R\+ES or a direct solve (full factorization with Bunch-\/\+Kaufman or rook pivoting).
+
+For convenience, the parameters are listed below.\hypertarget{index_fact_param}{}\subsubsection{Factorization parameters}\label{index_fact_param}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename of the matrix to be loaded. Several test matrices exist in the test\+\_\+matrices folder. All matrices loaded are required to be in matrix market (.mtx) form.\\
+\hline
+{\em fill} & Controls memory usage. Each column of $\mathbf{L}$ is guaranteed to have fewer than $fill\cdot nnz(\mathbf{A})/n$ elements. Each column of $\mathbf{D}$ has at most 2 elements. When this argument is not given, the default value for {\ttfamily fill} is {\ttfamily 3.\+0}.\\
+\hline
+{\em tol} & Controls agressiveness of dropping. In each column k, elements less than $tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$ are dropped. The default value for {\ttfamily tol} is {\ttfamily 0.\+001}.\\
+\hline
+{\em pp\+\_\+tol} & A parameter to aggressiveness of Bunch-\/\+Kaufman pivoting (B\+KP). When pp\+\_\+tol is 0, there is no partial pivoting. Values between 0 and 1 vary the number of pivots of B\+KP makes. When pp\+\_\+tol is equal to 1, standard B\+KP is used. The pp\+\_\+tol parameter is ignored if the pivot parameter is set to \textquotesingle{}rook\textquotesingle{}. See the {\bfseries pivot} parameters for more details. The default is \textquotesingle{}rook\textquotesingle{}.\\
+\hline
+{\em reordering} & Determines what sort of preordering will be used on the matrix. Choices are \textquotesingle{}amd\textquotesingle{}, \textquotesingle{}rcm\textquotesingle{}, and \textquotesingle{}none\textquotesingle{}. The default is \textquotesingle{}amd\textquotesingle{}.\\
+\hline
+{\em inplace} & Indicates whether the factorization should be performed in-\/place, leading to roughly a 33\% saving in memory. This memory comes out of extra information used in the solver. If the solver is needed, then {\ttfamily inplace} should not be used. {\ttfamily y} indicates yes, {\ttfamily n} indicates no. The default flag is {\ttfamily n}.\\
+\hline
+{\em pivot} & Indicates the pivoting algorithm used. Choices are \textquotesingle{}rook\textquotesingle{} and \textquotesingle{}bunch\textquotesingle{}. If {\ttfamily rook} is used, the {\ttfamily pp\+\_\+tol} parameter is ignored. The default is \textquotesingle{}rook\textquotesingle{}.\\
+\hline
+{\em save} & Indicates whether the output matrices should be saved. {\ttfamily y} indicates yes, {\ttfamily n} indicates no. The default flag is {\ttfamily y}. All matrices are saved in matrix market (.mtx) form. The matrices are saved into a folder named {\ttfamily output\+\_\+matrices}. There are five saved files\+: {\ttfamily out\+A.\+mtx, out\+L.\+mtx, out\+D.\+mtx, out\+S.\+mtx}, and {\ttfamily out\+P.\+mtx}. {\ttfamily out\+B.\+mtx} is the matrix $\mathbf{B=P^{T}SASP}$. The rest of the outputs should be clear from the description above.\\
+\hline
+{\em display} & Indicates whether the output matrices should be displayed to the command line, used for debugging purposes. {\ttfamily y} indicates yes, {\ttfamily n} indicates no. The default flag is {\ttfamily n}. For this parameter to appear, sym-\/ildl must be compiled with {\ttfamily S\+Y\+M\+\_\+\+I\+L\+D\+L\+\_\+\+D\+E\+B\+UG} defined.\\
+\hline
+\end{DoxyParams}
+\hypertarget{index_solver_param}{}\subsubsection{Solver parameters}\label{index_solver_param}
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & This chooses the solver for {\bfseries sym-\/ildl} if given a right hand side. The options are \textquotesingle{}sqmr\textquotesingle{}, \textquotesingle{}minres\textquotesingle{}, \textquotesingle{}full\textquotesingle{}, and \textquotesingle{}none\textquotesingle{}. If the \textquotesingle{}full\textquotesingle{} solver is chosen, the full factorization is produced and a straightforward direct solve is done. Setting this parameter to {\ttfamily y} overrides all other solver parameters as well as -\/fill and -\/tol (since we will no longer produce an incomplete factorization). The default solver is \textquotesingle{}sqmr\textquotesingle{}.\\
+\hline
+{\em max\+\_\+iters} & Number of iterations that the builtin iterative solvers (S\+Q\+MR or M\+I\+N\+R\+ES) can use. The default is {\ttfamily -\/1} (i.\+e. iterative solver is not applied). The output solution is written to {\ttfamily output\+\_\+matrices\textbackslash{}outsol.\+mtx}.\\
+\hline
+{\em solver\+\_\+tol} & Relative tolerance for the builtin iterative solvers. When the iterate x satisfies $\vert$$\vert$\+Ax-\/b$\vert$$\vert$/$\vert$$\vert$b$\vert$$\vert$ $<$ {\ttfamily solver\+\_\+tol}, the iterative solver is terminated. The default is {\ttfamily 1e-\/6}.\\
+\hline
+{\em rhs\+\_\+file} & The filename of the right hand size we want to solve. All right hand sides loaded are required to be in matrix market (.mtx) form. If no right hand sides are given, only the preconditioner is generated.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{}
+Typically, the {\ttfamily pivot}, {\ttfamily equil}, and {\ttfamily reordering} parameters are best left to the default options.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Examples\+:}
+Suppose we wish to factor the {\ttfamily aug3dcqp} matrix stored in {\ttfamily test\+\_\+matrices/aug3dcqp.\+mtx}. Using the parameters described above, the execution of the program may go something like this\+: 
+\begin{DoxyCode}
+./ldl\_driver -filename=test\_matrices/aug3dcqp.mtx -fill=3.0 tol=0.001 -save=y
+
+Load succeeded. File test\_matrices/aug3dcqp.mtx was loaded.
+A is 35543 by 35543 with 128115 non-zeros.
+  Equilibration:                0.047 seconds.
+  AMD:                          0.047 seconds.
+  Permutation:                  0.047 seconds.
+  Factorization (BK pivoting):  0.109 seconds.
+Total time:     0.250 seconds.
+L is 35543 by 35543 with 162160 non-zeros.
+Saving matrices...
+Save complete.
+Factorization Complete. All output written to /output\_matrices directory.
+\end{DoxyCode}
+ The code above factors the {\ttfamily aug3dcqp.\+mtx} matrix ({\ttfamily fill=3.\+0, tol=0.\+001}) from the {\ttfamily test\+\_\+matrices} folder and saves the outputs. The time it took to pre-\/order and equilibrate the matrix (0.\+047s) as well as the actual factorization (0.\+109s) are also given.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+For convenience, we may use all optional arguments\+: 
+\begin{DoxyCode}
+./ldl\_driver -filename=test\_matrices/aug3dcqp.mtx
+
+Load succeeded. File test\_matrices/aug3dcqp.mtx was loaded.
+A is 35543 by ...
+\end{DoxyCode}
+ The code above would use the default arguments {\ttfamily -\/fill=3.\+0 -\/tol=0.\+001 -\/reordering=amd -\/save=y}. In general, we may give {\ttfamily ldl\+\_\+driver} the arguments in any order, and omit any number of them (except the {\ttfamily filename} argument).
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Solving a linear system}
+To actually solve the given linear system, simply supply a right hand side file (with the {\ttfamily rhs\+\_\+file} argument) and a maximum number of solver iterations. When no right hand side is specified (but a solver iteration is), {\bfseries sym-\/ildl} assumes a right hand side of all 1\textquotesingle{}s for debugging purposes\+: 
+\begin{DoxyCode}
+./ldl\_driver -filename=test\_matrices/aug3dcqp.mtx -max\_iters=300 -max\_tol=1e-6 -solver=minres
+
+Load succeeded. File test\_matrices/aug3dcqp.mtx was loaded.
+A is 35543 by 35543 with 77829 non-zeros.
+Right hand side has 35543 entries.
+  Equilibration:                       0.000 seconds.
+  AMD:                                  0.015 seconds.
+  Permutation:                          0.047 seconds.
+  Factorization (Rook pivoting):        0.047 seconds.
+Total time:     0.109 seconds.
+L is 35543 by 35543 with 162160 non-zeros.
+
+Solving matrix with MINRES...
+The estimated condition number of the matrix is 2.202256e+00.
+MINRES took 18 iterations and got down to relative residual 8.627871e-07.
+Solve time:             0.141 seconds.
+
+Solution saved to output\_matrices/outsol.mtx.
+Saving matrices...
+Save complete.
+Factorization Complete. All output written to /output\_matrices directory.
+\end{DoxyCode}
+
+\end{DoxyParagraph}
+\hypertarget{index_matlab_mex}{}\subsection{Using sym-\/ildl within M\+A\+T\+L\+AB}\label{index_matlab_mex}
+If everything is compiled correctly, simply open M\+A\+T\+L\+AB in the package directory. The {\ttfamily startup.\+m} script adds all necessary paths to M\+A\+T\+L\+AB upon initiation. The program can now be called by its function handle, {\ttfamily ildl}.
+
+{\ttfamily ildl} takes in seven arguments, six of them being optional. A full description of the parameters can be displayed by typing 
+\begin{DoxyCode}
+help ildl
+\end{DoxyCode}
+
+
+For convenience, the parameters are described below\+: 
+\begin{DoxyParams}{Parameters}
+{\em A} & The matrix to be factored.\\
+\hline
+{\em fill} & Controls memory usage. Each column is guaranteed to have fewer than $fill\cdot nnz(\mathbf{A})/n$ elements. When this argument is not given, the default value for {\ttfamily fill} is {\ttfamily 3.\+0}.\\
+\hline
+{\em tol} & Controls aggressiveness of dropping. In each column k, elements less than $tol \cdot \left|\left|\mathbf{L}_{k+1:n,k}\right|\right|_1$ are dropped. The default value for {\ttfamily tol} is {\ttfamily 0.\+001}.\\
+\hline
+{\em reordering} & Determines what sort of pre-\/ordering will be used on the matrix. Choices are \textquotesingle{}amd\textquotesingle{}, \textquotesingle{}rcm\textquotesingle{}, and \textquotesingle{}none\textquotesingle{}. The default is \textquotesingle{}amd\textquotesingle{}.\\
+\hline
+{\em equil} & Determines if matrix is to be equilibriated (in the max norm) before anything. This parameter must be one of \textquotesingle{}bunch\textquotesingle{} or \textquotesingle{}none\textquotesingle{}. Default\+: \textquotesingle{}bunch\textquotesingle{}\\
+\hline
+{\em pivot\+\_\+type} & Chooses the pivoting scheme used during the factorization. This parameter must be one of \textquotesingle{}rook\textquotesingle{} or \textquotesingle{}bunch\textquotesingle{}. Tbe default is \textquotesingle{}rook\textquotesingle{}.\\
+\hline
+{\em pp\+\_\+tol} & Threshold parameter for Bunch-\/\+Kaufman pivoting (B\+KP). When pp\+\_\+tol $>$= 1, full B\+KP is used. When pp\+\_\+tol is 0, there is no partial pivoting. As pp\+\_\+tol increases from 0 to 1, we smoothly switch from no pivoting to full B\+KP. Low values of pp\+\_\+tol can be useful as an aggressive pivoting process may damage and permute any special structure present in the input matrix. The default value is 1.\+0. When rook pivoting is used, this parameter has no effect.\\
+\hline
+\end{DoxyParams}
+As with the standalone executable, the function has five outputs\+: {\ttfamily L, D, p, S,} and {\ttfamily B\+:} \begin{DoxyReturn}{Returns}
+{\bfseries L} Unit lower triangular factor of $\mathbf{P^{T}SASP}$. 
+
+{\bfseries D} Block diagonal factor (consisting of 1x1 and 2x2 blocks) of $\mathbf{P^{T}SASP}$. 
+
+{\bfseries p} Permutation vector containing permutations done to $\mathbf{A}$. 
+
+{\bfseries S} Diagonal scaling matrix that equilibrates $\mathbf{A}$ in the max-\/norm. 
+
+{\bfseries B} Permuted and scaled matrix $\mathbf{B=P^{T}SASP}$ after factorization.
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Examples\+:}
+Before we begin, let\textquotesingle{}s first generate some symmetric indefinite matrices\+: 
+\begin{DoxyCode}
+>> B = sparse(gallery(\textcolor{stringliteral}{'uniformdata'},100,0));
+>> A = [speye(100) B; B' sparse(100, 100)];
+\end{DoxyCode}
+ The {\ttfamily A} generated is a special type of matrix called a saddle-\/point matrix. These matrices are indefinite and arise often in optimzation problems. Note that A must be a M\+A\+T\+L\+AB {\bfseries sparse} matrix.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+To factor the matrix, we supply {\ttfamily ildl} with the parameters described above\+: 
+\begin{DoxyCode}
+>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
+Equilibration:  0.001 seconds.
+AMD:            0.000 seconds.
+Permutation:    0.001 seconds.
+Factorization:  0.013 seconds.
+...
+\end{DoxyCode}
+ As we can see above, {\ttfamily ildl} will supply some timing information to the console when used. The reordering time is the time taken to equilibrate and pre-\/order the matrix. The factorization time is the time it took to factor and pivot the matrix with partial pivoting.
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+We may also take advantage of the optional parameters and simply feed {\ttfamily ildl} only one parameter\+: 
+\begin{DoxyCode}
+>> [L, D, p, S, B] = ildl(A);
+Equilibration:  0.001 seconds.
+AMD:        0.001 seconds.
+...
+\end{DoxyCode}
+ As specified above, the default values of {\ttfamily fill=3.\+0}, {\ttfamily tol=0.\+001}, {\ttfamily pivot\+\_\+type=\textquotesingle{}rook\textquotesingle{}}, {\ttfamily pp\+\_\+tol=1.\+0}, and {\ttfamily reordering=amd} are used.
+\end{DoxyParagraph}
+\hypertarget{index_gmres_ildl}{}\subsubsection{Using sym-\/ildl with an iterative solver in M\+A\+T\+L\+AB}\label{index_gmres_ildl}
+To use the factorization as a preconditioner, we must apply the permutation and scaling matrices returned by {\ttfamily ildl}. For convenience here is a complete example of how {\ttfamily ildl} can be used with G\+M\+R\+ES\+:
+
+\begin{DoxyParagraph}{}
+
+\begin{DoxyCode}
+% Generate a test matrix
+B = sparse(gallery(\textcolor{stringliteral}{'uniformdata'},100,0));
+A = [speye(100) B; B' sparse(100, 100)];
+
+% Run sym-ildl
+[L, D, p, S, B] = ildl(A, 1.0, 0.001);
+
+% Create a right hand side of all 1s
+rhs = ones(size(A,1), 1);
+
+% Solve A*x = e, or equivalently, P'SASP*y = P'S*e,
+% where y = P'S^(-1)*x. Since B = P'SASP, we can use give it to GMRES for convenience.
+% Create the new right hand side (scaled and permuted)
+new\_rhs = S*rhs;
+new\_rhs = new\_rhs(p);
+
+% Create our preconditioner. LDLt(x) = (LDL')^(-1) * x.
+LDLt = @(x) L'\(\backslash\)(D\(\backslash\)(L\(\backslash\)x));
+
+% Run GMRES(60), stopping when the relative residual is below 1e-6 or when 3*60 total iterations have 
+      passed.
+y = gmres(B, new\_rhs, 60, 1e-8, 3, LDLt);
+
+% Get the solution x
+z(p) = y;
+x = S*z';
+
+% Sanity check: Is it the close to the direct solve?
+fprintf('This number should be small: %f\(\backslash\)n', norm(x - A\(\backslash\)rhs));
+\end{DoxyCode}
+
+\end{DoxyParagraph}
+\hypertarget{index_skew_usage}{}\section{Usage for skew-\/symmetric matrices}\label{index_skew_usage}
+When the matrix is skew-\/symmetric, almost all documentation above still applies. The only difference is that the executable is {\ttfamily skew\+\_\+ldl\+\_\+driver} instead of {\ttfamily ldl\+\_\+driver}. The skew functionality of {\bfseries sym-\/ildl} can be found in the experimental branch of \href{https://github.com/inutard/matrix-factor}{\tt https\+://github.\+com/inutard/matrix-\/factor}.\hypertarget{index_skew_ldl_driver}{}\subsection{As a standalone program}\label{index_skew_ldl_driver}
+Let\textquotesingle{}s factor the {\ttfamily m3dskew50} matrix stored in {\ttfamily test\+\_\+matrices/skew/m3dskew50.\+mtx}. As before, this is as simple as\+: \begin{DoxyParagraph}{}
+
+\begin{DoxyCode}
+./skew\_ldl\_driver -filename=test\_matrices/skew/m2dskew50.mtx
+
+Load succeeded. File test\_matrices/m2dskew50.mtx was loaded.
+A is 125000 by 125000 with 735000 non-zeros.
+Equilibration:  0.016 seconds.
+AMD:            0.203 seconds.
+...
+\end{DoxyCode}
+
+\end{DoxyParagraph}
+As in the symmetric case, we used the default values for the parameter we did not specify. A description of each of these parameters can be accessed by typing 
+\begin{DoxyCode}
+./skew\_ldl\_driver --help 
+\end{DoxyCode}
+\hypertarget{index_skew_matlab_mex}{}\subsection{Within M\+A\+T\+L\+AB}\label{index_skew_matlab_mex}
+Within M\+A\+T\+L\+AB, using {\bfseries sym-\/ildl} is even easier. As in the symmetric case, the command {\ttfamily ildl} can be used. Everything remains the same as the symmetric case, as {\ttfamily ildl} automatically detects whether the input is symmetric or skew-\/symmetric.
+
+Let\textquotesingle{}s first generate a skew-\/symmetric matrix for testing\+: \begin{DoxyParagraph}{}
+
+\begin{DoxyCode}
+>> B = sparse(gallery(\textcolor{stringliteral}{'uniformdata'},100,0));
+>> A = B-B\textcolor{stringliteral}{';}
+\end{DoxyCode}
+
+\end{DoxyParagraph}
+Since B is a matrix of random values between 0 and 1, A is almost certainly non-\/singular. Now we can call {\ttfamily ildl} exactly as before\+: \begin{DoxyParagraph}{}
+
+\begin{DoxyCode}
+>> [L, D, p, S, B] = ildl(A, 1.0, 0.001);
+Equilibration:  0.000 seconds.
+AMD:            0.000 seconds.
+Permutation:    0.000 seconds.
+Factorization:  0.005 seconds.
+Total time:     0.005 seconds.
+L is 100 by 100 with 4815 non-zeros.
+\end{DoxyCode}
+
+\end{DoxyParagraph}
+Finally, helpful information on the parameters for {\ttfamily ildl} can be found by typing\+: 
+\begin{DoxyCode}
+help ildl
+\end{DoxyCode}
+\hypertarget{index_contribute_sec}{}\section{Licensing and How to contribute}\label{index_contribute_sec}
+{\bfseries sym-\/ildl} is open source, and we\textquotesingle{}re always looking for new contributions! The entire codebase is freely accessible at \href{https://github.com/inutard/matrix-factor}{\tt https\+://github.\+com/inutard/matrix-\/factor}. We also use the M\+IT Licence, which essentially allow free use of this software in any way you want (see \href{http://opensource.org/licenses/MIT}{\tt here} for more details). Simply send us a pull request on Git\+Hub to contribute.\hypertarget{index_citations}{}\section{Citing this code}\label{index_citations}
+If you have found our code useful, please consider citing us! A technical report (pdf), a Bib\+TeX entry, and a link to the code are available here\+:
+
+{\itshape  S\+Y\+M-\/\+I\+L\+DL\+: Incomplete L\+D\+L$^\wedge$\{T\} Factorization of Symmetric Indefinite and Skew-\/\+Symmetric Matrices. Chen Greif, Shiwen He, Paul Liu. U\+BC Computer Science Technical Report, 2016. } \href{http://arxiv.org/pdf/1505.07589v1}{\tt \mbox{[}pdf\mbox{]}} \href{http://dblp.uni-trier.de/rec/bibtex/journals/corr/GreifHL15}{\tt \mbox{[}bib\mbox{]}}\hypertarget{index_refs}{}\section{References}\label{index_refs}
+
+\begin{DoxyEnumerate}
+\item J. A. George and J. W-\/H. Liu, {\itshape Computer Solution of Large Sparse Positive Definite Systems}, Prentice-\/\+Hall, 1981.
+\item J. R. Bunch, {\itshape Equilibration of Symmetric Matrices in the Max-\/\+Norm}, J\+A\+CM, 18 (1971), pp. 566-\/572.
+\item N. Li and Y. Saad, {\itshape Crout versions of the I\+LU factorization with pivoting for sparse symmetric matrices}, E\+T\+NA, 20 (2006), pp. 75-\/85.
+\item N. Li, Y. Saad, and E. Chow, {\itshape Crout versions of I\+LU for general sparse matrices}, S\+I\+SC, 25 (2003), pp. 716-\/728. 
+\end{DoxyEnumerate}

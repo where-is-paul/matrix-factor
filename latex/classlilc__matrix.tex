@@ -1,0 +1,667 @@
+\hypertarget{classlilc__matrix}{}\section{lilc\+\_\+matrix$<$ el\+\_\+type $>$ Class Template Reference}
+\label{classlilc__matrix}\index{lilc\+\_\+matrix$<$ el\+\_\+type $>$@{lilc\+\_\+matrix$<$ el\+\_\+type $>$}}
+
+
+A list-\/of-\/lists (L\+IL) matrix in column oriented format.  
+
+
+
+
+{\ttfamily \#include $<$lilc\+\_\+matrix\+\_\+declarations.\+h$>$}
+
+Inheritance diagram for lilc\+\_\+matrix$<$ el\+\_\+type $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlilc__matrix}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlilc__matrix_1_1pivot__type}{pivot\+\_\+type}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classlil__sparse__matrix}{lil\+\_\+sparse\+\_\+matrix}$<$ el\+\_\+type $>$\+::idx\+\_\+vector\+\_\+type {\bfseries idx\+\_\+vector\+\_\+type}\hypertarget{classlilc__matrix_a83c70482c28275881562ee3937b5f591}{}\label{classlilc__matrix_a83c70482c28275881562ee3937b5f591}
+
+\item 
+typedef \hyperlink{classlil__sparse__matrix}{lil\+\_\+sparse\+\_\+matrix}$<$ el\+\_\+type $>$\+::elt\+\_\+vector\+\_\+type {\bfseries elt\+\_\+vector\+\_\+type}\hypertarget{classlilc__matrix_aa5a7b6e31a6c9ebf2ea3a898fe646af6}{}\label{classlilc__matrix_aa5a7b6e31a6c9ebf2ea3a898fe646af6}
+
+\item 
+typedef idx\+\_\+vector\+\_\+type\+::iterator {\bfseries idx\+\_\+it}\hypertarget{classlilc__matrix_a8cd399b5bc0ef50dcf5a59a671e32248}{}\label{classlilc__matrix_a8cd399b5bc0ef50dcf5a59a671e32248}
+
+\item 
+typedef elt\+\_\+vector\+\_\+type\+::iterator {\bfseries elt\+\_\+it}\hypertarget{classlilc__matrix_ad34c37b7095e283a7e5d7160fe26fd1b}{}\label{classlilc__matrix_ad34c37b7095e283a7e5d7160fe26fd1b}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlilc__matrix_acdaad0931ff27d7bfc361d3033713914}{lilc\+\_\+matrix} (int \hyperlink{classlil__sparse__matrix_a29e9ea5f7c8a9fca9029a91b39c592e0}{n\+\_\+rows}=0, int \hyperlink{classlil__sparse__matrix_ac88631204bcf7c9a223fb082a7d0cd3d}{n\+\_\+cols}=0)\hypertarget{classlilc__matrix_acdaad0931ff27d7bfc361d3033713914}{}\label{classlilc__matrix_acdaad0931ff27d7bfc361d3033713914}
+
+\begin{DoxyCompactList}\small\item\em Constructor for a column oriented list-\/of-\/lists (L\+IL) matrix. Space for both the values list and the indices list of the matrix is allocated here. \end{DoxyCompactList}\item 
+virtual el\+\_\+type \hyperlink{classlilc__matrix_a0e59d373ec514c8cb264da653d36f753}{coeff} (const int \&i, const int \&j, int offset=0) const 
+\begin{DoxyCompactList}\small\item\em Finds the (i,j)th coefficient of the matrix. \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_a327c165f0c90cd362dd14fc6421ebadd}{coeff\+Ref} (const int \&i, const int \&j, std\+::pair$<$ idx\+\_\+it, elt\+\_\+it $>$ \&its)
+\begin{DoxyCompactList}\small\item\em Finds the index/value pointers to (i,j)th coefficient of the matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_aca815e0ac073abb1e6ef888b09f9e795}{resize} (int \hyperlink{classlil__sparse__matrix_a29e9ea5f7c8a9fca9029a91b39c592e0}{n\+\_\+rows}, int \hyperlink{classlil__sparse__matrix_ac88631204bcf7c9a223fb082a7d0cd3d}{n\+\_\+cols})
+\begin{DoxyCompactList}\small\item\em Resizes the matrix. For use in preallocating space before factorization begins. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a46161695c5bfb0f43a7dedb9b9146fef}{find\+\_\+root} (int \&s)
+\begin{DoxyCompactList}\small\item\em Returns a pseudo-\/peripheral root of A. This is essentially many chained breadth-\/first searchs across the graph of A (where A is viewed as an adjacency matrix). \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_ad343cd9b2f435f40a9866de050f63ce5}{find\+\_\+level\+\_\+set} (vector$<$ int $>$ \&lvl\+\_\+set, vector$<$ bool $>$ \&visited)
+\begin{DoxyCompactList}\small\item\em Returns the next level set given the current level set of A. This is essentially all neighbours of the currently enqueued nodes in breath-\/first search. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_ab34914d2b48a5bf14e7ef22e89d2f2e7}{sym\+\_\+rcm} (vector$<$ int $>$ \&perm)
+\begin{DoxyCompactList}\small\item\em Returns a Reverse Cuthill-\/\+Mc\+Kee ordering of the matrix A (stored in perm). \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_add59bf538bd6b36c7d42ec879bad4da8}{sym\+\_\+amd} (vector$<$ int $>$ \&perm)
+\begin{DoxyCompactList}\small\item\em Returns a Approximate Minimum Degree ordering of the matrix A (stored in perm). \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_af72f55f6880cef04205eb3df7018bce9}{sym\+\_\+perm} (vector$<$ int $>$ \&perm)
+\begin{DoxyCompactList}\small\item\em Given a permutation vector perm, A is permuted to P\textquotesingle{}AP, where P is the permutation matrix associated with perm. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a37fc8dcc40799dfde0decaaf8bd74b51}{sym\+\_\+equil} ()
+\begin{DoxyCompactList}\small\item\em The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S\+AS is stored in A, where S is a diagonal scaling matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_ab5886c7d465252b8d8981d484b51ab58}{ildl} (\hyperlink{classlilc__matrix}{lilc\+\_\+matrix}$<$ el\+\_\+type $>$ \&L, \hyperlink{classblock__diag__matrix}{block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \&D, idx\+\_\+vector\+\_\+type \&perm, const double \&fill\+\_\+factor, const double \&tol, const double \&pp\+\_\+tol, int piv\+\_\+type=pivot\+\_\+type\+::\+B\+KP)
+\begin{DoxyCompactList}\small\item\em Performs an L\+DL\textquotesingle{} factorization of this matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_aefd39d93fc0df6618f7a59a05661c63e}{ildl\+\_\+inplace} (\hyperlink{classblock__diag__matrix}{block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \&D, idx\+\_\+vector\+\_\+type \&perm, const double \&fill\+\_\+factor, const double \&tol, const double \&pp\+\_\+tol, int piv\+\_\+type=pivot\+\_\+type\+::\+B\+KP)
+\begin{DoxyCompactList}\small\item\em Performs an {\itshape inplace} L\+DL\textquotesingle{} factorization of this matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a9e0dbfcd1cda4ab3bc067b16f17f7f2f}{backsolve} (const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)
+\begin{DoxyCompactList}\small\item\em Performs a back solve of this matrix, assuming that it is lower triangular (stored column major). \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_afd669063a9594f4d33b01f24bf693edd}{forwardsolve} (const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)
+\begin{DoxyCompactList}\small\item\em Performs a forward solve of this matrix, assuming that it is upper triangular (stored row major). \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a00362a639b1e8ec341014c39afaf5e5a}{multiply} (const elt\+\_\+vector\+\_\+type \&x, elt\+\_\+vector\+\_\+type \&y, bool full\+\_\+mult=true)
+\begin{DoxyCompactList}\small\item\em Performs a matrix-\/vector product with this matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a0bb81dfe0808df725cf91f0d7639dcd0}{pivot} (\hyperlink{classswap__struct}{swap\+\_\+struct}$<$ el\+\_\+type $>$ \&s, vector$<$ bool $>$ \&in\+\_\+set, \hyperlink{classlilc__matrix}{lilc\+\_\+matrix}$<$ el\+\_\+type $>$ \&L, const int \&k, const int \&r)
+\begin{DoxyCompactList}\small\item\em Performs a symmetric permutation between row/col k \& r of A. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_aaecb203a3a6ebc85bf0c3a603e6b0fa2}{pivotA} (\hyperlink{classswap__struct}{swap\+\_\+struct}$<$ el\+\_\+type $>$ \&s, vector$<$ bool $>$ \&in\+\_\+set, const int \&k, const int \&r)
+\begin{DoxyCompactList}\small\item\em The inplace version of the function above. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Container $>$ }\\void \hyperlink{classlilc__matrix_aa1d3045545357a8f33955a87dc55f3aa}{ensure\+\_\+invariant} (const int \&j, const int \&k, Container \&con, bool update\+\_\+list=false)
+\begin{DoxyCompactList}\small\item\em Ensures two the invariants observed by A.\+first and A.\+list are held. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_a177dde39764c88fe4e82b050a5e60303}{advance\+\_\+first} (const int \&k)
+\begin{DoxyCompactList}\small\item\em Updates A.\+first for iteration k. \end{DoxyCompactList}\item 
+void \hyperlink{classlilc__matrix_ab9ee09328b84657630f52631ea8e5eb1}{advance\+\_\+list} (const int \&k)
+\begin{DoxyCompactList}\small\item\em Updates A.\+list for iteration k. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classlilc__matrix_a60c5a4a0ec9a49d43be087b6d67f4df2}{to\+\_\+string} () const 
+\begin{DoxyCompactList}\small\item\em Returns a string representation of A, with each column and its corresponding indices \& non-\/zero values printed. \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_aea5613e9a57231a6991dcf99d6d7b37a}{load} (std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Loads a matrix in matrix market format. \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_ab469044e7f8716bc0dc4f5532e5c756a}{load} (const std\+::vector$<$ int $>$ \&ptr, const std\+::vector$<$ int $>$ \&row, const std\+::vector$<$ el\+\_\+type $>$ \&val)
+\begin{DoxyCompactList}\small\item\em Loads a matrix in C\+SC format. \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_a141bb846350ac12640901f50cffcf529}{load} (const int $\ast$ptr, const int $\ast$row, const el\+\_\+type $\ast$val, int dim)
+\begin{DoxyCompactList}\small\item\em Loads a matrix in C\+SC format. Does no error checking on the input vectors. \end{DoxyCompactList}\item 
+bool \hyperlink{classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288}{save} (std\+::string filename, bool sym=false)
+\begin{DoxyCompactList}\small\item\em Saves a matrix in matrix market format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \hyperlink{classlilc__matrix_ad942a0e5503a2b4327a12287432fca81}{list}\hypertarget{classlilc__matrix_ad942a0e5503a2b4327a12287432fca81}{}\label{classlilc__matrix_ad942a0e5503a2b4327a12287432fca81}
+
+\begin{DoxyCompactList}\small\item\em A list of linked lists that gives the non-\/zero elements in each row of A. Since at any time we may swap between two rows, we require linked lists for each row of A. \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \hyperlink{classlilc__matrix_a2ca57e0c3866ed0cf1f17f6253666ebb}{row\+\_\+first}\hypertarget{classlilc__matrix_a2ca57e0c3866ed0cf1f17f6253666ebb}{}\label{classlilc__matrix_a2ca57e0c3866ed0cf1f17f6253666ebb}
+
+\begin{DoxyCompactList}\small\item\em On iteration k, first\mbox{[}i\mbox{]} gives the number of non-\/zero elements on row i of A before A(i, k). \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \hyperlink{classlilc__matrix_a36c12de6fccae4ac5a885e8aa60788e9}{col\+\_\+first}\hypertarget{classlilc__matrix_a36c12de6fccae4ac5a885e8aa60788e9}{}\label{classlilc__matrix_a36c12de6fccae4ac5a885e8aa60788e9}
+
+\begin{DoxyCompactList}\small\item\em On iteration k, first\mbox{[}i\mbox{]} gives the number of non-\/zero elements on col i of A before A(i, k). \end{DoxyCompactList}\item 
+\hyperlink{classblock__diag__matrix}{block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \hyperlink{classlilc__matrix_afc4659265addfeab376ffaa8f54ed596}{S}\hypertarget{classlilc__matrix_afc4659265addfeab376ffaa8f54ed596}{}\label{classlilc__matrix_afc4659265addfeab376ffaa8f54ed596}
+
+\begin{DoxyCompactList}\small\item\em A diagonal scaling matrix S such that S\+AS will be equilibriated in the max-\/norm (i.\+e. every row/column has norm 1). S is constructed after running the \hyperlink{classlilc__matrix_a37fc8dcc40799dfde0decaaf8bd74b51}{sym\+\_\+equil()} function, after which S\+AS will be stored in place of A. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class el\+\_\+type$>$\\*
+class lilc\+\_\+matrix$<$ el\+\_\+type $>$}
+
+A list-\/of-\/lists (L\+IL) matrix in column oriented format. 
+
+For convience, the matrix this class represents will be refered to as matrix A. In L\+I\+L-\/C format, each column of A (an n$\ast$n matrix) is stored as a separate vector. The nonzeros are stored in m\+\_\+idx while the non-\/zeros are stored in m\+\_\+x. Both m\+\_\+x and m\+\_\+idx are initialized to a list of n lists. m\+\_\+idx and m\+\_\+x are ordered dependent on each other, in that A(m\+\_\+idx\mbox{[}k\mbox{]}\mbox{[}j\mbox{]}, k) = m\+\_\+x\mbox{[}k\mbox{]}\mbox{[}j\mbox{]}. 
+
+\subsection{Member Function Documentation}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!advance\+\_\+first@{advance\+\_\+first}}
+\index{advance\+\_\+first@{advance\+\_\+first}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{advance\+\_\+first(const int \&k)}{advance_first(const int &k)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::advance\+\_\+first (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{k}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a177dde39764c88fe4e82b050a5e60303}{}\label{classlilc__matrix_a177dde39764c88fe4e82b050a5e60303}
+
+
+Updates A.\+first for iteration k. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & current iteration index. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!advance\+\_\+list@{advance\+\_\+list}}
+\index{advance\+\_\+list@{advance\+\_\+list}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{advance\+\_\+list(const int \&k)}{advance_list(const int &k)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::advance\+\_\+list (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{k}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_ab9ee09328b84657630f52631ea8e5eb1}{}\label{classlilc__matrix_ab9ee09328b84657630f52631ea8e5eb1}
+
+
+Updates A.\+list for iteration k. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & current iteration index. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!backsolve@{backsolve}}
+\index{backsolve@{backsolve}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{backsolve(const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)}{backsolve(const elt_vector_type &b, elt_vector_type &x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::backsolve (
+\begin{DoxyParamCaption}
+\item[{const elt\+\_\+vector\+\_\+type \&}]{b, }
+\item[{elt\+\_\+vector\+\_\+type \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a9e0dbfcd1cda4ab3bc067b16f17f7f2f}{}\label{classlilc__matrix_a9e0dbfcd1cda4ab3bc067b16f17f7f2f}
+
+
+Performs a back solve of this matrix, assuming that it is lower triangular (stored column major). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the right hand side. \\
+\hline
+{\em x} & a storage vector for the solution (must be same size as b). \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!coeff@{coeff}}
+\index{coeff@{coeff}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{coeff(const int \&i, const int \&j, int offset=0) const }{coeff(const int &i, const int &j, int offset=0) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ virtual el\+\_\+type {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::coeff (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{i, }
+\item[{const int \&}]{j, }
+\item[{int}]{offset = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classlilc__matrix_a0e59d373ec514c8cb264da653d36f753}{}\label{classlilc__matrix_a0e59d373ec514c8cb264da653d36f753}
+
+
+Finds the (i,j)th coefficient of the matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the row of the (i,j)th element (zero-\/indexed). \\
+\hline
+{\em j} & the col of the (i,j)th element (zero-\/indexed). \\
+\hline
+{\em offset} & an optional search offset for use in linear search (start at offset instead of 0). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The (i,j)th element of the matrix. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classlil__sparse__matrix_a03af482b9f3d8c8b522dd5e49a2500ee}{lil\+\_\+sparse\+\_\+matrix$<$ el\+\_\+type $>$}.
+
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!coeff\+Ref@{coeff\+Ref}}
+\index{coeff\+Ref@{coeff\+Ref}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{coeff\+Ref(const int \&i, const int \&j, std\+::pair$<$ idx\+\_\+it, elt\+\_\+it $>$ \&its)}{coeffRef(const int &i, const int &j, std::pair< idx_it, elt_it > &its)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::coeff\+Ref (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{i, }
+\item[{const int \&}]{j, }
+\item[{std\+::pair$<$ idx\+\_\+it, elt\+\_\+it $>$ \&}]{its}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a327c165f0c90cd362dd14fc6421ebadd}{}\label{classlilc__matrix_a327c165f0c90cd362dd14fc6421ebadd}
+
+
+Finds the index/value pointers to (i,j)th coefficient of the matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & the row of the (i,j)th element (zero-\/indexed). \\
+\hline
+{\em j} & the col of the (i,j)th element (zero-\/indexed). \\
+\hline
+{\em its} & a pair of pointers, one for the index of the found element, and the other for the value of the element. If the element is not found, the pointers point to the end of column j.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if (i,j)th element is nonzero, false otherwise. 
+\end{DoxyReturn}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!ensure\+\_\+invariant@{ensure\+\_\+invariant}}
+\index{ensure\+\_\+invariant@{ensure\+\_\+invariant}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{ensure\+\_\+invariant(const int \&j, const int \&k, Container \&con, bool update\+\_\+list=false)}{ensure_invariant(const int &j, const int &k, Container &con, bool update_list=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ template$<$class Container $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::ensure\+\_\+invariant (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{j, }
+\item[{const int \&}]{k, }
+\item[{Container \&}]{con, }
+\item[{bool}]{update\+\_\+list = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_aa1d3045545357a8f33955a87dc55f3aa}{}\label{classlilc__matrix_aa1d3045545357a8f33955a87dc55f3aa}
+
+
+Ensures two the invariants observed by A.\+first and A.\+list are held. 
+
+\begin{DoxyInvariant}{Invariant}
+If this matrix is a lower triangular factor of another matrix\+:
+\begin{DoxyEnumerate}
+\item On iteration k, first\mbox{[}i\mbox{]} will give the number of non-\/zero elements on col i of A before A(k, i).
+\item On iteration k, list\mbox{[}i\mbox{]}\mbox{[} first\mbox{[}i\mbox{]} \mbox{]} will contain the first element below or on index k of column i of A.
+\end{DoxyEnumerate}
+
+If this matrix is the matrix to be factored\+:
+\begin{DoxyEnumerate}
+\item On iteration k, first\mbox{[}i\mbox{]} will give the number of non-\/zero elements on row i of A before A(i, k).
+\item On iteration k, list\mbox{[}i\mbox{]}\mbox{[} first\mbox{[}i\mbox{]} \mbox{]} will contain the first element right of or on index k of row i of A.
+\end{DoxyEnumerate}
+\end{DoxyInvariant}
+
+\begin{DoxyParams}{Parameters}
+{\em j} & the column of con. \\
+\hline
+{\em k} & the iteration number. \\
+\hline
+{\em con} & the container to be swapped. \\
+\hline
+{\em update\+\_\+list} & boolean indicating whether list or m\+\_\+x/m\+\_\+idx should be updated. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!find\+\_\+level\+\_\+set@{find\+\_\+level\+\_\+set}}
+\index{find\+\_\+level\+\_\+set@{find\+\_\+level\+\_\+set}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{find\+\_\+level\+\_\+set(vector$<$ int $>$ \&lvl\+\_\+set, vector$<$ bool $>$ \&visited)}{find_level_set(vector< int > &lvl_set, vector< bool > &visited)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::find\+\_\+level\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{vector$<$ int $>$ \&}]{lvl\+\_\+set, }
+\item[{vector$<$ bool $>$ \&}]{visited}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_ad343cd9b2f435f40a9866de050f63ce5}{}\label{classlilc__matrix_ad343cd9b2f435f40a9866de050f63ce5}
+
+
+Returns the next level set given the current level set of A. This is essentially all neighbours of the currently enqueued nodes in breath-\/first search. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lvl\+\_\+set} & the current level set (a list of nodes). \\
+\hline
+{\em visited} & all previously visited nodes. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!find\+\_\+root@{find\+\_\+root}}
+\index{find\+\_\+root@{find\+\_\+root}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{find\+\_\+root(int \&s)}{find_root(int &s)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::find\+\_\+root (
+\begin{DoxyParamCaption}
+\item[{int \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a46161695c5bfb0f43a7dedb9b9146fef}{}\label{classlilc__matrix_a46161695c5bfb0f43a7dedb9b9146fef}
+
+
+Returns a pseudo-\/peripheral root of A. This is essentially many chained breadth-\/first searchs across the graph of A (where A is viewed as an adjacency matrix). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & contains the initial node to seed the algorithm. A pseudo-\/peripheral root of A is stored in s at the end of the algorithm. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!forwardsolve@{forwardsolve}}
+\index{forwardsolve@{forwardsolve}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{forwardsolve(const elt\+\_\+vector\+\_\+type \&b, elt\+\_\+vector\+\_\+type \&x)}{forwardsolve(const elt_vector_type &b, elt_vector_type &x)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::forwardsolve (
+\begin{DoxyParamCaption}
+\item[{const elt\+\_\+vector\+\_\+type \&}]{b, }
+\item[{elt\+\_\+vector\+\_\+type \&}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_afd669063a9594f4d33b01f24bf693edd}{}\label{classlilc__matrix_afd669063a9594f4d33b01f24bf693edd}
+
+
+Performs a forward solve of this matrix, assuming that it is upper triangular (stored row major). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & the right hand side. \\
+\hline
+{\em x} & a storage vector for the solution (must be same size as b). \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!ildl@{ildl}}
+\index{ildl@{ildl}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{ildl(lilc\+\_\+matrix$<$ el\+\_\+type $>$ \&\+L, block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$ \&\+D, idx\+\_\+vector\+\_\+type \&perm, const double \&fill\+\_\+factor, const double \&tol, const double \&pp\+\_\+tol, int piv\+\_\+type=pivot\+\_\+type\+::\+B\+K\+P)}{ildl(lilc_matrix< el_type > &L, block_diag_matrix< el_type > &D, idx_vector_type &perm, const double &fill_factor, const double &tol, const double &pp_tol, int piv_type=pivot_type::BKP)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::ildl (
+\begin{DoxyParamCaption}
+\item[{{\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$ \&}]{L, }
+\item[{{\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \&}]{D, }
+\item[{idx\+\_\+vector\+\_\+type \&}]{perm, }
+\item[{const double \&}]{fill\+\_\+factor, }
+\item[{const double \&}]{tol, }
+\item[{const double \&}]{pp\+\_\+tol, }
+\item[{int}]{piv\+\_\+type = {\ttfamily pivot\+\_\+type\+:\+:BKP}}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_ab5886c7d465252b8d8981d484b51ab58}{}\label{classlilc__matrix_ab5886c7d465252b8d8981d484b51ab58}
+
+
+Performs an L\+DL\textquotesingle{} factorization of this matrix. 
+
+The pivoted matrix P\textquotesingle{}AP will be stored in place of A. In addition, the L and D factors of P\textquotesingle{}AP will be stored in L and D (so that P\textquotesingle{}AP = L\+DL\textquotesingle{}). The factorization is performed in crout order and follows the algorithm outlined in \char`\"{}\+Crout versions of the I\+L\+U factorization with pivoting for sparse symmetric matrices\char`\"{} by Li and Saad (2005).
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & the L factor of this matrix. \\
+\hline
+{\em D} & the D factor of this matrix. \\
+\hline
+{\em perm} & the current permutation of A. \\
+\hline
+{\em fill\+\_\+factor} & a parameter to control memory usage. Each column is guaranteed to have fewer than fill\+\_\+factor$\ast$(nnz(\+A)/n\+\_\+col(A)) elements. \\
+\hline
+{\em tol} & a parameter to control agressiveness of dropping. In each column, elements less than tol$\ast$norm(column) are dropped. \\
+\hline
+{\em pp\+\_\+tol} & a parameter to control aggresiveness of pivoting. Allowable ranges are \mbox{[}0,inf). If the parameter is $>$= 1, Bunch-\/\+Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-\/zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements. \\
+\hline
+{\em \hyperlink{structlilc__matrix_1_1pivot__type}{pivot\+\_\+type}} & chooses the type of pivoting procedure used\+: threshold Bunch-\/\+Kaufman, or rook pivoting. If rook pivoting is chosen, pp\+\_\+tol is ignored. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!ildl\+\_\+inplace@{ildl\+\_\+inplace}}
+\index{ildl\+\_\+inplace@{ildl\+\_\+inplace}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{ildl\+\_\+inplace(block\+\_\+diag\+\_\+matrix$<$ el\+\_\+type $>$ \&\+D, idx\+\_\+vector\+\_\+type \&perm, const double \&fill\+\_\+factor, const double \&tol, const double \&pp\+\_\+tol, int piv\+\_\+type=pivot\+\_\+type\+::\+B\+K\+P)}{ildl_inplace(block_diag_matrix< el_type > &D, idx_vector_type &perm, const double &fill_factor, const double &tol, const double &pp_tol, int piv_type=pivot_type::BKP)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::ildl\+\_\+inplace (
+\begin{DoxyParamCaption}
+\item[{{\bf block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \&}]{D, }
+\item[{idx\+\_\+vector\+\_\+type \&}]{perm, }
+\item[{const double \&}]{fill\+\_\+factor, }
+\item[{const double \&}]{tol, }
+\item[{const double \&}]{pp\+\_\+tol, }
+\item[{int}]{piv\+\_\+type = {\ttfamily pivot\+\_\+type\+:\+:BKP}}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_aefd39d93fc0df6618f7a59a05661c63e}{}\label{classlilc__matrix_aefd39d93fc0df6618f7a59a05661c63e}
+
+
+Performs an {\itshape inplace} L\+DL\textquotesingle{} factorization of this matrix. 
+
+The pivoted matrix P\textquotesingle{}AP will be stored in place of A. In addition, the L and D factors of P\textquotesingle{}AP will be stored in L and D (so that P\textquotesingle{}AP = L\+DL\textquotesingle{}). The factorization is performed in crout order and follows the algorithm outlined in \char`\"{}\+Crout versions of the I\+L\+U factorization with pivoting for sparse symmetric matrices\char`\"{} by Li and Saad (2005).
+
+
+\begin{DoxyParams}{Parameters}
+{\em D} & the D factor of this matrix. \\
+\hline
+{\em perm} & the current permutation of A. \\
+\hline
+{\em fill\+\_\+factor} & a parameter to control memory usage. Each column is guaranteed to have fewer than fill\+\_\+factor$\ast$(nnz(\+A)/n\+\_\+col(A)) elements. \\
+\hline
+{\em tol} & a parameter to control agressiveness of dropping. In each column, elements less than tol$\ast$norm(column) are dropped. \\
+\hline
+{\em pp\+\_\+tol} & a parameter to control aggresiveness of pivoting. Allowable ranges are \mbox{[}0,inf). If the parameter is $>$= 1, Bunch-\/\+Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-\/zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!load@{load}}
+\index{load@{load}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{load(std\+::string filename)}{load(std::string filename)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::load (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_aea5613e9a57231a6991dcf99d6d7b37a}{}\label{classlilc__matrix_aea5613e9a57231a6991dcf99d6d7b37a}
+
+
+Loads a matrix in matrix market format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & the filename of the matrix to be loaded. Must be in matrix market format (.mtx). \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!load@{load}}
+\index{load@{load}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{load(const std\+::vector$<$ int $>$ \&ptr, const std\+::vector$<$ int $>$ \&row, const std\+::vector$<$ el\+\_\+type $>$ \&val)}{load(const std::vector< int > &ptr, const std::vector< int > &row, const std::vector< el_type > &val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::load (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ int $>$ \&}]{ptr, }
+\item[{const std\+::vector$<$ int $>$ \&}]{row, }
+\item[{const std\+::vector$<$ el\+\_\+type $>$ \&}]{val}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_ab469044e7f8716bc0dc4f5532e5c756a}{}\label{classlilc__matrix_ab469044e7f8716bc0dc4f5532e5c756a}
+
+
+Loads a matrix in C\+SC format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & A vector containing the ranges of indices in each col. \\
+\hline
+{\em row} & A vector containing the row indices of the nnz. \\
+\hline
+{\em val} & A vector containing the values of the non-\/zeros. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!load@{load}}
+\index{load@{load}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{load(const int $\ast$ptr, const int $\ast$row, const el\+\_\+type $\ast$val, int dim)}{load(const int *ptr, const int *row, const el_type *val, int dim)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::load (
+\begin{DoxyParamCaption}
+\item[{const int $\ast$}]{ptr, }
+\item[{const int $\ast$}]{row, }
+\item[{const el\+\_\+type $\ast$}]{val, }
+\item[{int}]{dim}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_a141bb846350ac12640901f50cffcf529}{}\label{classlilc__matrix_a141bb846350ac12640901f50cffcf529}
+
+
+Loads a matrix in C\+SC format. Does no error checking on the input vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & A vector containing the row indices of the nnz. \\
+\hline
+{\em ptr} & A vector containing the ranges of indices in each col. \\
+\hline
+{\em val} & A vector containing the values of the non-\/zeros. \\
+\hline
+{\em dim} & The dimension of the matrix. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!multiply@{multiply}}
+\index{multiply@{multiply}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{multiply(const elt\+\_\+vector\+\_\+type \&x, elt\+\_\+vector\+\_\+type \&y, bool full\+\_\+mult=true)}{multiply(const elt_vector_type &x, elt_vector_type &y, bool full_mult=true)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::multiply (
+\begin{DoxyParamCaption}
+\item[{const elt\+\_\+vector\+\_\+type \&}]{x, }
+\item[{elt\+\_\+vector\+\_\+type \&}]{y, }
+\item[{bool}]{full\+\_\+mult = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a00362a639b1e8ec341014c39afaf5e5a}{}\label{classlilc__matrix_a00362a639b1e8ec341014c39afaf5e5a}
+
+
+Performs a matrix-\/vector product with this matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & the vector to be multiplied. \\
+\hline
+{\em y} & a storage vector for the result (must be same size as x). \\
+\hline
+{\em full\+\_\+mult} & if true, we assume that only half the matrix is stored and do do operations per element of the matrix to account for the unstored other half. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!pivot@{pivot}}
+\index{pivot@{pivot}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{pivot(swap\+\_\+struct$<$ el\+\_\+type $>$ \&s, vector$<$ bool $>$ \&in\+\_\+set, lilc\+\_\+matrix$<$ el\+\_\+type $>$ \&\+L, const int \&k, const int \&r)}{pivot(swap_struct< el_type > &s, vector< bool > &in_set, lilc_matrix< el_type > &L, const int &k, const int &r)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::pivot (
+\begin{DoxyParamCaption}
+\item[{{\bf swap\+\_\+struct}$<$ el\+\_\+type $>$ \&}]{s, }
+\item[{vector$<$ bool $>$ \&}]{in\+\_\+set, }
+\item[{{\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$ \&}]{L, }
+\item[{const int \&}]{k, }
+\item[{const int \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_a0bb81dfe0808df725cf91f0d7639dcd0}{}\label{classlilc__matrix_a0bb81dfe0808df725cf91f0d7639dcd0}
+
+
+Performs a symmetric permutation between row/col k \& r of A. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & a struct containing temporary variables needed during pivoting. \\
+\hline
+{\em in\+\_\+set} & a bitset needed for unordered unions during pivoting. \\
+\hline
+{\em L} & the lower triangular factor of A. \\
+\hline
+{\em k} & index of row/col k. \\
+\hline
+{\em r} & index of row/col r.\\
+\hline
+\end{DoxyParams}
+There are four parts to this pivoting algorithm. For A, due to storing only the lower half, there are three steps to performing a symmetric permutation\+:
+\begin{DoxyEnumerate}
+\item A(k, 1\+:k) must be swapped with A(r, 1\+:k) (row-\/row swap).
+\item A(k\+:r, k) must be swapped with A(r, k\+:r) (row-\/column swap).
+\item A(k\+:r, k) must be swapped with A(k\+:r, r) (column-\/column swap). The steps above are implemented in the pivotA function.
+\end{DoxyEnumerate}
+
+For L, since column k and r are not yet formed, there is only one step (a row permutation)\+:
+\begin{DoxyEnumerate}
+\item L(k, 1\+:k) must be swapped with L(r, 1\+:k) (row-\/row swap). 
+\end{DoxyEnumerate}\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!pivotA@{pivotA}}
+\index{pivotA@{pivotA}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{pivot\+A(swap\+\_\+struct$<$ el\+\_\+type $>$ \&s, vector$<$ bool $>$ \&in\+\_\+set, const int \&k, const int \&r)}{pivotA(swap_struct< el_type > &s, vector< bool > &in_set, const int &k, const int &r)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::pivotA (
+\begin{DoxyParamCaption}
+\item[{{\bf swap\+\_\+struct}$<$ el\+\_\+type $>$ \&}]{s, }
+\item[{vector$<$ bool $>$ \&}]{in\+\_\+set, }
+\item[{const int \&}]{k, }
+\item[{const int \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_aaecb203a3a6ebc85bf0c3a603e6b0fa2}{}\label{classlilc__matrix_aaecb203a3a6ebc85bf0c3a603e6b0fa2}
+
+
+The inplace version of the function above. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & a struct containing temporary variables needed during pivoting. \\
+\hline
+{\em in\+\_\+set} & a bitset needed for unordered unions during pivoting. \\
+\hline
+{\em k} & index of row/col k. \\
+\hline
+{\em r} & index of row/col r.\\
+\hline
+\end{DoxyParams}
+There are three parts to this pivoting algorithm. For A, due to storing only the lower half, there are three steps to performing a symmetric permutation\+:
+\begin{DoxyEnumerate}
+\item A(k, 1\+:k) must be swapped with A(r, 1\+:k) (row-\/row swap).
+\item A(k\+:r, k) must be swapped with A(r, k\+:r) (row-\/column swap).
+\item A(k\+:r, k) must be swapped with A(k\+:r, r) (column-\/column swap). 
+\end{DoxyEnumerate}\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!resize@{resize}}
+\index{resize@{resize}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{resize(int n\+\_\+rows, int n\+\_\+cols)}{resize(int n_rows, int n_cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type$>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::resize (
+\begin{DoxyParamCaption}
+\item[{int}]{n\+\_\+rows, }
+\item[{int}]{n\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_aca815e0ac073abb1e6ef888b09f9e795}{}\label{classlilc__matrix_aca815e0ac073abb1e6ef888b09f9e795}
+
+
+Resizes the matrix. For use in preallocating space before factorization begins. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+\_\+rows} & the number of rows in the resized matrix. \\
+\hline
+{\em n\+\_\+cols} & the number of cols in the resized matrix. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!save@{save}}
+\index{save@{save}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{save(std\+::string filename, bool sym=false)}{save(std::string filename, bool sym=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ bool {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::save (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename, }
+\item[{bool}]{sym = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288}{}\label{classlilc__matrix_a2b0161d36019e1abac41b6119b8fa288}
+
+
+Saves a matrix in matrix market format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & the filename of the matrix to be saved. All matrices saved are in matrix market format (.mtx). \\
+\hline
+{\em sym} & flags whether the matrix is symmetric or not. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!sym\+\_\+amd@{sym\+\_\+amd}}
+\index{sym\+\_\+amd@{sym\+\_\+amd}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{sym\+\_\+amd(vector$<$ int $>$ \&perm)}{sym_amd(vector< int > &perm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::sym\+\_\+amd (
+\begin{DoxyParamCaption}
+\item[{vector$<$ int $>$ \&}]{perm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_add59bf538bd6b36c7d42ec879bad4da8}{}\label{classlilc__matrix_add59bf538bd6b36c7d42ec879bad4da8}
+
+
+Returns a Approximate Minimum Degree ordering of the matrix A (stored in perm). 
+
+A detailed description of this function as well as all its subfunctions can be found in \char`\"{}\+An Approximate Minimum Dgree Algorithm\char`\"{} by Davis, Amestoy, and Duff (1981). 
+\begin{DoxyParams}{Parameters}
+{\em perm} & An empty permutation vector (filled on function completion). \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!sym\+\_\+equil@{sym\+\_\+equil}}
+\index{sym\+\_\+equil@{sym\+\_\+equil}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{sym\+\_\+equil()}{sym_equil()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::sym\+\_\+equil (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_a37fc8dcc40799dfde0decaaf8bd74b51}{}\label{classlilc__matrix_a37fc8dcc40799dfde0decaaf8bd74b51}
+
+
+The symmetric matrix A is equilibrated and the symmetric equilibrated matrix S\+AS is stored in A, where S is a diagonal scaling matrix. 
+
+This algorithm is based on the one outlined in \char`\"{}\+Equilibration of Symmetric Matrices in the Max-\/\+Norm\char`\"{} by Bunch (1971). \index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!sym\+\_\+perm@{sym\+\_\+perm}}
+\index{sym\+\_\+perm@{sym\+\_\+perm}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{sym\+\_\+perm(vector$<$ int $>$ \&perm)}{sym_perm(vector< int > &perm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::sym\+\_\+perm (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ int $>$ \&}]{perm}
+\end{DoxyParamCaption}
+)}\hypertarget{classlilc__matrix_af72f55f6880cef04205eb3df7018bce9}{}\label{classlilc__matrix_af72f55f6880cef04205eb3df7018bce9}
+
+
+Given a permutation vector perm, A is permuted to P\textquotesingle{}AP, where P is the permutation matrix associated with perm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perm} & the permutation vector. \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!sym\+\_\+rcm@{sym\+\_\+rcm}}
+\index{sym\+\_\+rcm@{sym\+\_\+rcm}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{sym\+\_\+rcm(vector$<$ int $>$ \&perm)}{sym_rcm(vector< int > &perm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ void {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::sym\+\_\+rcm (
+\begin{DoxyParamCaption}
+\item[{vector$<$ int $>$ \&}]{perm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classlilc__matrix_ab34914d2b48a5bf14e7ef22e89d2f2e7}{}\label{classlilc__matrix_ab34914d2b48a5bf14e7ef22e89d2f2e7}
+
+
+Returns a Reverse Cuthill-\/\+Mc\+Kee ordering of the matrix A (stored in perm). 
+
+A detailed description of this function as well as all its subfunctions can be found in \char`\"{}\+Computer Solution of Large Sparse Positive Definite Systems\char`\"{} by George and Liu (1981). 
+\begin{DoxyParams}{Parameters}
+{\em perm} & An empty permutation vector (filled on function completion). \\
+\hline
+\end{DoxyParams}
+\index{lilc\+\_\+matrix@{lilc\+\_\+matrix}!to\+\_\+string@{to\+\_\+string}}
+\index{to\+\_\+string@{to\+\_\+string}!lilc\+\_\+matrix@{lilc\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{to\+\_\+string() const }{to_string() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type $>$ std\+::string {\bf lilc\+\_\+matrix}$<$ el\+\_\+type $>$\+::to\+\_\+string (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classlilc__matrix_a60c5a4a0ec9a49d43be087b6d67f4df2}{}\label{classlilc__matrix_a60c5a4a0ec9a49d43be087b6d67f4df2}
+
+
+Returns a string representation of A, with each column and its corresponding indices \& non-\/zero values printed. 
+
+\begin{DoxyReturn}{Returns}
+A string representation of this matrix. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classlil__sparse__matrix_a5c2c43867660473176de5c73ebdac7be}{lil\+\_\+sparse\+\_\+matrix$<$ el\+\_\+type $>$}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+source/lilc\+\_\+matrix.\+h\item 
+source/lilc\+\_\+matrix\+\_\+declarations.\+h\item 
+source/lilc\+\_\+matrix\+\_\+find\+\_\+level\+\_\+set.\+h\item 
+source/lilc\+\_\+matrix\+\_\+find\+\_\+root.\+h\item 
+source/lilc\+\_\+matrix\+\_\+ildl.\+h\item 
+source/lilc\+\_\+matrix\+\_\+ildl\+\_\+inplace.\+h\item 
+source/lilc\+\_\+matrix\+\_\+load.\+h\item 
+source/lilc\+\_\+matrix\+\_\+pivot.\+h\item 
+source/lilc\+\_\+matrix\+\_\+save.\+h\item 
+source/lilc\+\_\+matrix\+\_\+sym\+\_\+amd.\+h\item 
+source/lilc\+\_\+matrix\+\_\+sym\+\_\+equil.\+h\item 
+source/lilc\+\_\+matrix\+\_\+sym\+\_\+perm.\+h\item 
+source/lilc\+\_\+matrix\+\_\+sym\+\_\+rcm.\+h\item 
+source/lilc\+\_\+matrix\+\_\+to\+\_\+string.\+h\end{DoxyCompactItemize}

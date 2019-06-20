@@ -1,0 +1,238 @@
+\hypertarget{classsymildl_1_1solver}{}\section{symildl\+:\+:solver$<$ el\+\_\+type, mat\+\_\+type $>$ Class Template Reference}
+\label{classsymildl_1_1solver}\index{symildl\+::solver$<$ el\+\_\+type, mat\+\_\+type $>$@{symildl\+::solver$<$ el\+\_\+type, mat\+\_\+type $>$}}
+
+
+Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface.  
+
+
+
+
+{\ttfamily \#include $<$solver.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef mat\+\_\+type\+::pivot\+\_\+type {\bfseries pivot\+\_\+type}\hypertarget{classsymildl_1_1solver_a70b6b2c8dd2ad3c158f9a94047c7b45e}{}\label{classsymildl_1_1solver_a70b6b2c8dd2ad3c158f9a94047c7b45e}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classsymildl_1_1solver_a25b48b7bbe9da67bae450bfa96f4d82a}{solver} ()\hypertarget{classsymildl_1_1solver_a25b48b7bbe9da67bae450bfa96f4d82a}{}\label{classsymildl_1_1solver_a25b48b7bbe9da67bae450bfa96f4d82a}
+
+\begin{DoxyCompactList}\small\item\em Solver constructor, initializes default reordering scheme. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_ab955b7afafeb6d1e3bd6773a51532320}{load} (std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Loads the matrix A into solver. A must be of matrix market format. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_aa314c6dbbdfbf92260ab6efb476f1329}{load} (const std\+::vector$<$ int $>$ \&ptr, const std\+::vector$<$ int $>$ \&row, const std\+::vector$<$ el\+\_\+type $>$ \&val)\hypertarget{classsymildl_1_1solver_aa314c6dbbdfbf92260ab6efb476f1329}{}\label{classsymildl_1_1solver_aa314c6dbbdfbf92260ab6efb476f1329}
+
+\begin{DoxyCompactList}\small\item\em Loads the matrix A into solver. A must be of C\+SC format. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a65c920496d613ab5d7c4b84337044638}{load} (const int $\ast$ptr, const int $\ast$row, const el\+\_\+type $\ast$val, int dim)\hypertarget{classsymildl_1_1solver_a65c920496d613ab5d7c4b84337044638}{}\label{classsymildl_1_1solver_a65c920496d613ab5d7c4b84337044638}
+
+\begin{DoxyCompactList}\small\item\em Loads the matrix A into solver. A must be of C\+SC format. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_aa9d29c78909f5a0c0c1c079f15f5b7cf}{set\+\_\+rhs} (vector$<$ el\+\_\+type $>$ b)
+\begin{DoxyCompactList}\small\item\em Loads a right hand side b into the solver. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a930b0602ccb731a48120599b90f675a6}{set\+\_\+reorder\+\_\+scheme} (const char $\ast$ordering)\hypertarget{classsymildl_1_1solver_a930b0602ccb731a48120599b90f675a6}{}\label{classsymildl_1_1solver_a930b0602ccb731a48120599b90f675a6}
+
+\begin{DoxyCompactList}\small\item\em Sets the reordering scheme for the solver. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a8442f13b529302ec5b0a1f89ca3f4bac}{set\+\_\+equil} (const char $\ast$equil)\hypertarget{classsymildl_1_1solver_a8442f13b529302ec5b0a1f89ca3f4bac}{}\label{classsymildl_1_1solver_a8442f13b529302ec5b0a1f89ca3f4bac}
+
+\begin{DoxyCompactList}\small\item\em Decides whether we should use equilibriation on the matrix or not. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_aacf11e723c07200f443bf58b84196090}{set\+\_\+solver} (const char $\ast$\hyperlink{classsymildl_1_1solver}{solver})\hypertarget{classsymildl_1_1solver_aacf11e723c07200f443bf58b84196090}{}\label{classsymildl_1_1solver_aacf11e723c07200f443bf58b84196090}
+
+\begin{DoxyCompactList}\small\item\em Decides whether we perform a full solve or not. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a9889b8ade973adec0f0586fde9cab3a9}{set\+\_\+message\+\_\+level} (const char $\ast$msg)\hypertarget{classsymildl_1_1solver_a9889b8ade973adec0f0586fde9cab3a9}{}\label{classsymildl_1_1solver_a9889b8ade973adec0f0586fde9cab3a9}
+
+\begin{DoxyCompactList}\small\item\em Controls how much information gets printed to stdout. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a951cd55ae1abcb1e8284bd1a12dfa815}{set\+\_\+inplace} (bool inplace)\hypertarget{classsymildl_1_1solver_a951cd55ae1abcb1e8284bd1a12dfa815}{}\label{classsymildl_1_1solver_a951cd55ae1abcb1e8284bd1a12dfa815}
+
+\begin{DoxyCompactList}\small\item\em Decides whether we perform the factorization inplace or not. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a060c03d9f9ce73a3cdc37a6a54cb64e4}{set\+\_\+pivot} (const char $\ast$pivot)\hypertarget{classsymildl_1_1solver_a060c03d9f9ce73a3cdc37a6a54cb64e4}{}\label{classsymildl_1_1solver_a060c03d9f9ce73a3cdc37a6a54cb64e4}
+
+\begin{DoxyCompactList}\small\item\em Decides the kind of partial pivoting we should use. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_a44c23c308722f38a79f6d69c42dd1cd3}{solve} (double fill\+\_\+factor, double tol, double pp\+\_\+tol, int max\+\_\+iter=-\/1, double minres\+\_\+tol=1e-\/6, double shift=0.\+0)
+\begin{DoxyCompactList}\small\item\em Factors the matrix A into P\textquotesingle{} $\ast$ S $\ast$ A $\ast$ S $\ast$ P = L\+DL\textquotesingle{} in addition to printing some timing data to screen. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_acda4c8dde0ee2dc6b42b771f5b08d865}{minres} (int max\+\_\+iter=1000, double stop\+\_\+tol=1e-\/6, double shift=0.\+0)
+\begin{DoxyCompactList}\small\item\em Applies minres on A, preconditioning with factors L and D. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_afd5d8152417cfafd702bee10556d0259}{sqmr} (int max\+\_\+iter=1000, double stop\+\_\+tol=1e-\/6)
+\begin{DoxyCompactList}\small\item\em Applies S\+M\+QR on A, preconditioning with factors L and D. \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_aec55eb22870f4e72e99e717ca4e8776f}{save} ()
+\begin{DoxyCompactList}\small\item\em Save results of factorization (automatically saved into the output\+\_\+matrices folder). \end{DoxyCompactList}\item 
+void \hyperlink{classsymildl_1_1solver_ae714f280567437adeb37bdf45586cf4f}{display} ()\hypertarget{classsymildl_1_1solver_ae714f280567437adeb37bdf45586cf4f}{}\label{classsymildl_1_1solver_ae714f280567437adeb37bdf45586cf4f}
+
+\begin{DoxyCompactList}\small\item\em Prints the L and D factors to stdout. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+mat\+\_\+type \hyperlink{classsymildl_1_1solver_ac65e7e1085c28bdb177819c87d050ea5}{A}\hypertarget{classsymildl_1_1solver_ac65e7e1085c28bdb177819c87d050ea5}{}\label{classsymildl_1_1solver_ac65e7e1085c28bdb177819c87d050ea5}
+
+\begin{DoxyCompactList}\small\item\em The matrix to be factored. \end{DoxyCompactList}\item 
+mat\+\_\+type \hyperlink{classsymildl_1_1solver_ab32994407d26e29c46f6c04f757523c2}{L}\hypertarget{classsymildl_1_1solver_ab32994407d26e29c46f6c04f757523c2}{}\label{classsymildl_1_1solver_ab32994407d26e29c46f6c04f757523c2}
+
+\begin{DoxyCompactList}\small\item\em The lower triangular factor of A. \end{DoxyCompactList}\item 
+vector$<$ int $>$ \hyperlink{classsymildl_1_1solver_aa98f03a6a70a130e6aaa4bb04938b666}{perm}\hypertarget{classsymildl_1_1solver_aa98f03a6a70a130e6aaa4bb04938b666}{}\label{classsymildl_1_1solver_aa98f03a6a70a130e6aaa4bb04938b666}
+
+\begin{DoxyCompactList}\small\item\em A permutation vector containing all permutations on A. \end{DoxyCompactList}\item 
+\hyperlink{classblock__diag__matrix}{block\+\_\+diag\+\_\+matrix}$<$ el\+\_\+type $>$ \hyperlink{classsymildl_1_1solver_a9ab0b12d9be123fe075c1b43d69a0596}{D}\hypertarget{classsymildl_1_1solver_a9ab0b12d9be123fe075c1b43d69a0596}{}\label{classsymildl_1_1solver_a9ab0b12d9be123fe075c1b43d69a0596}
+
+\begin{DoxyCompactList}\small\item\em The diagonal factor of A. \end{DoxyCompactList}\item 
+int \hyperlink{classsymildl_1_1solver_a7b25ae1d5051ffdcf7901076221d6cd3}{reorder\+\_\+type}\hypertarget{classsymildl_1_1solver_a7b25ae1d5051ffdcf7901076221d6cd3}{}\label{classsymildl_1_1solver_a7b25ae1d5051ffdcf7901076221d6cd3}
+
+\begin{DoxyCompactList}\small\item\em Set to to 0 for A\+MD, 1 for R\+CM, 2 for no reordering. \end{DoxyCompactList}\item 
+int \hyperlink{classsymildl_1_1solver_a5e9913a3323340c88b40d1b75913aba1}{piv\+\_\+type}\hypertarget{classsymildl_1_1solver_a5e9913a3323340c88b40d1b75913aba1}{}\label{classsymildl_1_1solver_a5e9913a3323340c88b40d1b75913aba1}
+
+\begin{DoxyCompactList}\small\item\em Set to 0 for rook, 1 for bunch. \end{DoxyCompactList}\item 
+int \hyperlink{classsymildl_1_1solver_a96c730c12f38a41385e5e827ee372d06}{equil\+\_\+type}\hypertarget{classsymildl_1_1solver_a96c730c12f38a41385e5e827ee372d06}{}\label{classsymildl_1_1solver_a96c730c12f38a41385e5e827ee372d06}
+
+\begin{DoxyCompactList}\small\item\em The equilibration method used. Set to 1 for max-\/norm equilibriation. \end{DoxyCompactList}\item 
+int \hyperlink{classsymildl_1_1solver_a9a63f54a0bcfca9f94729568cc753516}{msg\+\_\+lvl}\hypertarget{classsymildl_1_1solver_a9a63f54a0bcfca9f94729568cc753516}{}\label{classsymildl_1_1solver_a9a63f54a0bcfca9f94729568cc753516}
+
+\begin{DoxyCompactList}\small\item\em Controls the amount of output to stdout. \end{DoxyCompactList}\item 
+int {\bfseries solve\+\_\+type}\hypertarget{classsymildl_1_1solver_a3eb05b73c95964d26394dd094cbd530e}{}\label{classsymildl_1_1solver_a3eb05b73c95964d26394dd094cbd530e}
+
+\item 
+bool \hyperlink{classsymildl_1_1solver_a75ee55007ceb5662387040dfa94572e6}{has\+\_\+rhs}\hypertarget{classsymildl_1_1solver_a75ee55007ceb5662387040dfa94572e6}{}\label{classsymildl_1_1solver_a75ee55007ceb5662387040dfa94572e6}
+
+\begin{DoxyCompactList}\small\item\em Set to true if we have a right hand side that we expect to solve. \end{DoxyCompactList}\item 
+bool \hyperlink{classsymildl_1_1solver_a832633b9ca934cf072b0c61910457b6c}{perform\+\_\+inplace}\hypertarget{classsymildl_1_1solver_a832633b9ca934cf072b0c61910457b6c}{}\label{classsymildl_1_1solver_a832633b9ca934cf072b0c61910457b6c}
+
+\begin{DoxyCompactList}\small\item\em Set to true if we are factoring the matrix A inplace. \end{DoxyCompactList}\item 
+bool \hyperlink{classsymildl_1_1solver_a15cbc9eafee18c6e5b4b3d5708cd99ab}{save\+\_\+sol}\hypertarget{classsymildl_1_1solver_a15cbc9eafee18c6e5b4b3d5708cd99ab}{}\label{classsymildl_1_1solver_a15cbc9eafee18c6e5b4b3d5708cd99ab}
+
+\begin{DoxyCompactList}\small\item\em Set to true if we want to save the solution to a file. \end{DoxyCompactList}\item 
+vector$<$ el\+\_\+type $>$ \hyperlink{classsymildl_1_1solver_af320afa2ff3bf787582d6f7f63163fba}{rhs}\hypertarget{classsymildl_1_1solver_af320afa2ff3bf787582d6f7f63163fba}{}\label{classsymildl_1_1solver_af320afa2ff3bf787582d6f7f63163fba}
+
+\begin{DoxyCompactList}\small\item\em The right hand side we\textquotesingle{}ll solve for. \end{DoxyCompactList}\item 
+vector$<$ el\+\_\+type $>$ \hyperlink{classsymildl_1_1solver_a46a736174489f53a638fb30a7697bb3b}{sol\+\_\+vec}\hypertarget{classsymildl_1_1solver_a46a736174489f53a638fb30a7697bb3b}{}\label{classsymildl_1_1solver_a46a736174489f53a638fb30a7697bb3b}
+
+\begin{DoxyCompactList}\small\item\em The solution vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class el\+\_\+type, class mat\+\_\+type = lilc\+\_\+matrix$<$el\+\_\+type$>$$>$\\*
+class symildl\+::solver$<$ el\+\_\+type, mat\+\_\+type $>$}
+
+Set of tools that facilitates conversion between different matrix formats. Also contains solver methods for matrices using a common interface. 
+
+Currently, the only matrix type accepted is the \hyperlink{classlilc__matrix}{lilc\+\_\+matrix} (as no other matrix type has been created yet). 
+
+\subsection{Member Function Documentation}
+\index{symildl\+::solver@{symildl\+::solver}!load@{load}}
+\index{load@{load}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{load(std\+::string filename)}{load(std::string filename)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type  = lilc\+\_\+matrix$<$el\+\_\+type$>$$>$ void {\bf symildl\+::solver}$<$ el\+\_\+type, mat\+\_\+type $>$\+::load (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classsymildl_1_1solver_ab955b7afafeb6d1e3bd6773a51532320}{}\label{classsymildl_1_1solver_ab955b7afafeb6d1e3bd6773a51532320}
+
+
+Loads the matrix A into solver. A must be of matrix market format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & the filename of the matrix. \\
+\hline
+\end{DoxyParams}
+\index{symildl\+::solver@{symildl\+::solver}!minres@{minres}}
+\index{minres@{minres}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{minres(int max\+\_\+iter=1000, double stop\+\_\+tol=1e-\/6, double shift=0.\+0)}{minres(int max_iter=1000, double stop_tol=1e-6, double shift=0.0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type $>$ void solver\+::minres (
+\begin{DoxyParamCaption}
+\item[{int}]{max\+\_\+iter = {\ttfamily 1000}, }
+\item[{double}]{stop\+\_\+tol = {\ttfamily 1e-\/6}, }
+\item[{double}]{shift = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)}\hypertarget{classsymildl_1_1solver_acda4c8dde0ee2dc6b42b771f5b08d865}{}\label{classsymildl_1_1solver_acda4c8dde0ee2dc6b42b771f5b08d865}
+
+
+Applies minres on A, preconditioning with factors L and D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+iter} & the maximum number of minres iterations. \\
+\hline
+{\em stop\+\_\+tol} & the stopping tolerance of minres. i.\+e. we stop as soon as the residual goes below stop\+\_\+tol. \\
+\hline
+{\em shift} & shifts A by shift$\ast$(identity matrix) to make it more positive definite. This sometimes helps. \\
+\hline
+\end{DoxyParams}
+\index{symildl\+::solver@{symildl\+::solver}!save@{save}}
+\index{save@{save}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{save()}{save()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type  = lilc\+\_\+matrix$<$el\+\_\+type$>$$>$ void {\bf symildl\+::solver}$<$ el\+\_\+type, mat\+\_\+type $>$\+::save (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classsymildl_1_1solver_aec55eb22870f4e72e99e717ca4e8776f}{}\label{classsymildl_1_1solver_aec55eb22870f4e72e99e717ca4e8776f}
+
+
+Save results of factorization (automatically saved into the output\+\_\+matrices folder). 
+
+The names of the output matrices follow the format out\{\}.mtx, where \{\} describes what the file contains (i.\+e. A, L, or D). \index{symildl\+::solver@{symildl\+::solver}!set\+\_\+rhs@{set\+\_\+rhs}}
+\index{set\+\_\+rhs@{set\+\_\+rhs}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{set\+\_\+rhs(vector$<$ el\+\_\+type $>$ b)}{set_rhs(vector< el_type > b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type  = lilc\+\_\+matrix$<$el\+\_\+type$>$$>$ void {\bf symildl\+::solver}$<$ el\+\_\+type, mat\+\_\+type $>$\+::set\+\_\+rhs (
+\begin{DoxyParamCaption}
+\item[{vector$<$ el\+\_\+type $>$}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classsymildl_1_1solver_aa9d29c78909f5a0c0c1c079f15f5b7cf}{}\label{classsymildl_1_1solver_aa9d29c78909f5a0c0c1c079f15f5b7cf}
+
+
+Loads a right hand side b into the solver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & a vector of the right hand side. \\
+\hline
+\end{DoxyParams}
+\index{symildl\+::solver@{symildl\+::solver}!solve@{solve}}
+\index{solve@{solve}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{solve(double fill\+\_\+factor, double tol, double pp\+\_\+tol, int max\+\_\+iter=-\/1, double minres\+\_\+tol=1e-\/6, double shift=0.\+0)}{solve(double fill_factor, double tol, double pp_tol, int max_iter=-1, double minres_tol=1e-6, double shift=0.0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type  = lilc\+\_\+matrix$<$el\+\_\+type$>$$>$ void {\bf symildl\+::solver}$<$ el\+\_\+type, mat\+\_\+type $>$\+::solve (
+\begin{DoxyParamCaption}
+\item[{double}]{fill\+\_\+factor, }
+\item[{double}]{tol, }
+\item[{double}]{pp\+\_\+tol, }
+\item[{int}]{max\+\_\+iter = {\ttfamily -\/1}, }
+\item[{double}]{minres\+\_\+tol = {\ttfamily 1e-\/6}, }
+\item[{double}]{shift = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classsymildl_1_1solver_a44c23c308722f38a79f6d69c42dd1cd3}{}\label{classsymildl_1_1solver_a44c23c308722f38a79f6d69c42dd1cd3}
+
+
+Factors the matrix A into P\textquotesingle{} $\ast$ S $\ast$ A $\ast$ S $\ast$ P = L\+DL\textquotesingle{} in addition to printing some timing data to screen. 
+
+More information about the parameters can be found in the documentation for the ildl() function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fill\+\_\+factor} & a factor controling memory usage of factorization. \\
+\hline
+{\em tol} & a factor controling accuracy of factorization. \\
+\hline
+{\em pp\+\_\+tol} & a factor controling the aggresiveness of Bunch-\/\+Kaufman pivoting. \\
+\hline
+{\em max\+\_\+iter} & the maximum number of iterations for minres (ignored if no right hand side). \\
+\hline
+\end{DoxyParams}
+\index{symildl\+::solver@{symildl\+::solver}!sqmr@{sqmr}}
+\index{sqmr@{sqmr}!symildl\+::solver@{symildl\+::solver}}
+\subsubsection[{\texorpdfstring{sqmr(int max\+\_\+iter=1000, double stop\+\_\+tol=1e-\/6)}{sqmr(int max_iter=1000, double stop_tol=1e-6)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class el\+\_\+type , class mat\+\_\+type $>$ void solver\+::sqmr (
+\begin{DoxyParamCaption}
+\item[{int}]{max\+\_\+iter = {\ttfamily 1000}, }
+\item[{double}]{stop\+\_\+tol = {\ttfamily 1e-\/6}}
+\end{DoxyParamCaption}
+)}\hypertarget{classsymildl_1_1solver_afd5d8152417cfafd702bee10556d0259}{}\label{classsymildl_1_1solver_afd5d8152417cfafd702bee10556d0259}
+
+
+Applies S\+M\+QR on A, preconditioning with factors L and D. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+iter} & the maximum number of minres iterations. \\
+\hline
+{\em stop\+\_\+tol} & the stopping tolerance of minres. i.\+e. we stop as soon as the residual goes below stop\+\_\+tol. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+source/solver.\+h\item 
+source/solver\+\_\+minres.\+h\item 
+source/solver\+\_\+sqmr.\+h\end{DoxyCompactItemize}
