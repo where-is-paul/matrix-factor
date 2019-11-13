@@ -5,7 +5,7 @@ sym-ildl is a C++ package for producing fast incomplete factorizations of symmet
 
 More details as well as extensive documentation can be found at <a href="http://www.cs.ubc.ca/~inutard/html/index.html">http://www.cs.ubc.ca/~inutard/html/index.html</a>.
 
-### Authors: <a href="http://www.cs.ubc.ca/~greif/">Chen Greif</a>, Shiwen He, <a href="http://www.cs.ubc.ca/~inutard/">Paul Liu</a>
+### Authors: <a href="http://www.cs.ubc.ca/~greif/">Chen Greif</a>, Shiwen He, <a href="https://cs.stanford.edu/people/paulliu/">Paul Liu</a>
 
-<a href="http://www.cs.ubc.ca/~inutard/html/index.html">Quick Start</a>
+<a href="https://cs.stanford.edu/people/paulliu/sym-ildl/html/index.html">Quick Start</a>
 =======================================================================
