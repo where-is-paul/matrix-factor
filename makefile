@@ -26,7 +26,7 @@ matlab:
 	make
 
 all: $(TARGET_SYM) matlab
-	[[ -d output_matrices ]] || mkdir -p output_matrices
+	mkdir -p output_matrices
 
 clean:
 	$(RM) $(addsuffix .o, $(TARGET_SYM) $(SRC_GFLAGS))
