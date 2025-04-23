@@ -1,13 +1,14 @@
 #ifndef _LILC_MATRIX_ILDL_INPLACE_H_
 #define _LILC_MATRIX_ILDL_INPLACE_H_
 
+#include <cmath>
 
 using std::endl;
 using std::cout;
 using std::abs;
 
 template <class el_type>
-void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, int piv_type)
+void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const el_type& fill_factor, const el_type& tol, const el_type& pp_tol, int piv_type)
 {
 
 	//----------------- initialize temporary variables --------------------//
@@ -43,6 +44,7 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
 		curr_nnzs.assign (m_idx[k].begin(), m_idx[k].end());
 
 		//assign nonzero values of A(k:n, k) to work
+		#pragma omp parallel for
 		for (j = 0; j < (int) curr_nnzs.size(); j++) {
 			work[curr_nnzs[j]] = m_x[k][j];
 		}
@@ -397,7 +399,7 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
 					m_x[k][i] = work[*it]; //col k nonzero indices of L are stored
 					m_idx[k][i] = *it; //col k nonzero values of L are stored
 					
-					list[*it].push_back(k); //update Llist
+                    list[*it].push_back(k); //update Llist
 					count++;
 					i++;
 				}
@@ -439,11 +441,13 @@ void lilc_matrix<el_type> :: ildl_inplace(block_diag_matrix<el_type>& D, idx_vec
 			work[k+1] = 0;
 		}
 		
+		#pragma omp parallel for
 		for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); it++) {
 			work[*it] = 0;
 		}
 		curr_nnzs.clear(); //zero out work vector
 		
+		#pragma omp parallel for
 		for (idx_it it = temp_nnzs.begin(); it != temp_nnzs.end(); it++) {
 			temp[*it] = 0;
 		}

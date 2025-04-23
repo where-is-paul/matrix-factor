@@ -1,6 +1,14 @@
 #ifndef _LILC_MATRIX_ILDL_HELPERS_H
 #define _LILC_MATRIX_ILDL_HELPERS_H
 
+#include <cmath> // Include cmath for std::pow, std::abs
+#include <vector> // Include vector for std::vector
+#include <numeric> // Include numeric for std::accumulate if needed later
+#include <algorithm> // Include algorithm for std::sort, std::min, std::remove_if, std::copy, std::inplace_merge, std::unique
+#include <iterator> // Include iterator for std::back_inserter
+#include <limits> // Include limits for numeric_limits
+#include <omp.h> // Include OpenMP
+
 using std::abs;
 using std::vector;
 
@@ -11,8 +19,9 @@ typedef vector<int>::iterator idx_it;
 	\param w the second vector whose dot product we wish to compute
 */
 template <class el_type>
-inline double dot_product(const vector<el_type>& v, const vector<el_type>& w) {
-	double res = 0;
+inline el_type dot_product(const vector<el_type>& v, const vector<el_type>& w) {
+	el_type res = 0;
+	#pragma omp parallel for reduction(+:res)
 	for (int i = 0; i < v.size(); i++) {
 		res += v[i]*w[i];
 	}
@@ -23,7 +32,8 @@ inline double dot_product(const vector<el_type>& v, const vector<el_type>& w) {
 	\param u the storage vector for the result
 */
 template <class el_type>
-inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& w, vector<el_type>& u) {
+inline void vector_sum(el_type a, vector<el_type>& v, el_type b, vector<el_type>& w, vector<el_type>& u) {
+	#pragma omp parallel for
 	for (int i = 0; i < v.size(); i++) {
 		u[i] = a*v[i] + b*w[i];
 	}
@@ -37,8 +47,8 @@ inline void vector_sum(double a, vector<el_type>& v, double b, vector<el_type>& 
 	\return the max element of v.
 */
 template <class el_type>
-inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r) { 
-	double res = 0;
+inline el_type max(vector<el_type>& v, vector<int>& curr_nnzs, int& r) { 
+	el_type res = 0;
 	for (idx_it it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
 		if (abs(v[*it]) > res) {
 			res = abs(v[*it]);
@@ -56,13 +66,13 @@ inline double max(vector<el_type>& v, vector<int>& curr_nnzs, int& r) {
 	\return the norm of v.
 */
 template <class el_type>
-inline double norm(vector<el_type>& v, vector<int>& curr_nnzs, el_type p = 1) { 
+inline el_type norm(vector<el_type>& v, vector<int>& curr_nnzs, el_type p = 1) { 
 	el_type res = 0;
-	for (idx_it it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) {
-		res += pow(abs(v[*it]), p);  
+	for (idx_it it = curr_nnzs.begin(); it != curr_nnzs.end(); ++it) {
+		res += std::pow(std::abs(v[*it]), p);  
 	}
 	
-	return pow(res, 1/p);
+	return std::pow(res, static_cast<el_type>(1.0)/p);
 }
 
 /*! \brief Computes the norm of v.
@@ -71,12 +81,13 @@ inline double norm(vector<el_type>& v, vector<int>& curr_nnzs, el_type p = 1) {
 	\return the norm of v.
 */
 template <class el_type>
-inline double norm(vector<el_type>& v, el_type p = 1) { 
+inline el_type norm(vector<el_type>& v, el_type p = 1) { 
 	el_type res = 0;
+	#pragma omp parallel for reduction(+:res)
 	for (int i = 0; i < v.size(); i++) {
-		res += pow(abs(v[i]), p);
+		res += std::pow(std::abs(v[i]), p);
 	}
-	return pow(res, 1/p);
+	return std::pow(res, static_cast<el_type>(1.0)/p);
 }
 
 /*! \brief Performs an inplace union of two sorted lists (a and b), removing duplicates in the final list.
@@ -152,8 +163,8 @@ struct by_value {
 template <class el_type>
 struct by_tolerance {
   const vector<el_type>& v; 
-  double eps;
-	by_tolerance(const vector<el_type>& vec, const double& eps) : v(vec), eps(eps) {}
+  el_type eps;
+	by_tolerance(const vector<el_type>& vec, const el_type& eps) : v(vec), eps(eps) {}
 	inline bool operator()(int const &i) const { 
 		return abs(v[i]) < eps;
 	}
@@ -167,10 +178,10 @@ struct by_tolerance {
 	\param tol a parameter to control agressiveness of dropping. Elements less than tol*norm(v) are dropped.
 */
 template <class el_type>
-inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil, const double& tol) { 
+inline void drop_tol(vector<el_type>& v, vector<int>& curr_nnzs, const int& lfil, const el_type& tol) { 
 	//determine dropping tolerance. all elements with value less than tolerance = tol * norm(v) is dropped.
 	el_type tolerance = tol*norm<el_type>(v, curr_nnzs);
-	const long double eps = 1e-13; //TODO: fix later. need to make this a global thing
+	const el_type eps = std::numeric_limits<el_type>::epsilon();
 	if (tolerance > eps) {
 		for (idx_it it = curr_nnzs.begin(), end = curr_nnzs.end(); it != end; ++it) 
 		if (abs(v[*it]) < tolerance) v[*it] = 0;

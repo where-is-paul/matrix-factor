@@ -1,4 +1,5 @@
 #include "source/solver.h"
+#include <vector>
 
 #include <iostream>
 #include <cassert>
@@ -71,21 +72,18 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	symildl::solver<double> solv;
+	// Instantiate solver
+	std::cout << "Instantiating solver..." << std::endl;
+	symildl::solver<float> solv;
 
-	//default is statistics output
-	solv.set_message_level("statistics");
-
-	//load matrix
+	// Load matrix using solver
+	std::cout << "Loading matrix: " << FLAGS_filename << std::endl;
 	solv.load(FLAGS_filename);
 
-	//default reordering scheme is AMD
+	// Solve - uses solv.A internally now
+	solv.set_message_level("statistics");
 	solv.set_reorder_scheme(FLAGS_reordering.c_str());
-
-	//default is equil on
-	solv.set_equil(FLAGS_equil.c_str()); 
-
-	//default solver is SQMR
+	solv.set_equil(FLAGS_equil.c_str());
 	solv.set_solver(FLAGS_solver.c_str());
 	if (FLAGS_max_iters > 0 || !FLAGS_rhs_file.empty()) {
 		if (FLAGS_max_iters <= 0) {
@@ -93,14 +91,18 @@ int main(int argc, char* argv[])
 			FLAGS_max_iters = 200;
 		}
 
-		vector<double> rhs;
+		// Declare rhs vector here
+		std::vector<float> rhs;
+		// Load rhs if path is specified
 		if (!FLAGS_rhs_file.empty()) {
 			symildl::read_vector(rhs, FLAGS_rhs_file);
 		} else {
-			// for testing purposes only
+			// Otherwise make a vector of all 1s
+			// Use solv.A instead of A
 			rhs.resize(solv.A.n_cols(), 1);
 		}
 
+		// Use solv.A instead of A
 		if (rhs.size() != solv.A.n_cols()) {
 			std::cout << "The right hand side dimensions do not match the dimensions of A." << std::endl;
 			return 1;
@@ -119,7 +121,7 @@ int main(int argc, char* argv[])
 #ifdef SYM_ILDL_DEBUG
 	if (FLAGS_display) {
 		solv.display();
-		std::cout << endl;
+		std::cout << std::endl;
 	}
 #endif
 

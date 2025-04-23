@@ -5,9 +5,11 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <limits> // Include for numeric_limits
+#include <omp.h> // Add OpenMP header
 
 template<class el_type, class mat_type >
-void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double shift) {
+void solver<el_type, mat_type> :: minres(int max_iter, el_type stop_tol, el_type shift) {
 	//Zero out solution vector
 	int n = A.n_rows();
 	sol_vec.resize(n, 0);
@@ -19,12 +21,13 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	// the last two vectors of the lanczos iteration
 	vector< vector<el_type> > v(2, vector<el_type>(n));
 	
-	double norm_A = 0; // matrix norm estimate
-	double cond_A = 1;	// condition number estimate
-	double c = -1, s = 0; // givens rotation elements
+	// Change double types to el_type
+	el_type norm_A = 0; // matrix norm estimate
+	el_type cond_A = 1;	// condition number estimate
+	el_type c = -1, s = 0; // givens rotation elements
 	
 	// temporary variables to store the corner of the matrix we're factoring
-	double gamma_min = 1e99;
+	el_type gamma_min = std::numeric_limits<el_type>::max();
 	el_type delta1[2], delta2[2], ep[2], gamma1[2], gamma2[2];
 	delta1[1] = 0;
 	
@@ -32,19 +35,20 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	vector<el_type> pk(n), tk(n);
 	
 	// step size in the current search direction (xk = x_{k-1} + tau*dk)
-	double tau = 0;
+	el_type tau = 0;
 	
 	// the last 3 search directions
 	vector< vector<el_type> > d(2, vector<el_type>(n));
 	
 	// set up initial values for variables above
-	double eps = A.eps;
+	el_type eps = A.eps;
 	beta[0] = 0;
-	beta[1] = norm(rhs, 2.0);
+	beta[1] = norm(rhs, static_cast<el_type>(2.0));
 	
-	double norm_rhs = beta[1];
+	el_type norm_rhs = beta[1];
 	
 	// v[1] = rhs/beta[1]
+	#pragma omp parallel for // Add pragma
 	for (int i = 0; i < n; i++) {
 		v[1][i] = rhs[i]/beta[1];
 	}
@@ -52,7 +56,9 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 	res[0] = beta[1];
 	tau = beta[1];
 	
-	auto sign = [&](double x) { return (abs(x) < eps ? 0 : x/abs(x)); };
+	// Use el_type for comparison
+	// Need to handle potential type mismatch if abs returns double
+	auto sign = [&](el_type x) { return (std::abs(x) < eps ? static_cast<el_type>(0) : x/std::abs(x)); };
 
 	// -------------- begin minres iterations --------------//
 	int k = 1; // iteration number
@@ -72,6 +78,7 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		D.sqrt_solve(tk, pk, false);
 		
 		//finally, pk = pk - shift*I * v[cur];
+		#pragma omp parallel for // Add pragma
 		for (int i = 0; i < n; i++) {
 			pk[i] -= shift * v[cur][i];
 		}
@@ -80,13 +87,14 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		alpha[cur] = dot_product(v[cur], pk);
 		
 		// pk = pk - alpha*v[cur]
-		vector_sum(1, pk, -alpha[cur], v[cur], pk);
+		vector_sum(static_cast<el_type>(1), pk, -alpha[cur], v[cur], pk);
 		// v[nxt] =  pk - beta[cur]*v[nxt]
-		vector_sum(1, pk, -beta[cur], v[nxt], v[nxt]);
-		beta[nxt] = norm(v[nxt], 2.0);
+		vector_sum(static_cast<el_type>(1), pk, -beta[cur], v[nxt], v[nxt]);
+		beta[nxt] = norm(v[nxt], static_cast<el_type>(2.0));
 		
 		// scale v[nxt] if beta[nxt] is not zero
-		if (abs(beta[nxt]) > eps) {
+		if (std::abs(beta[nxt]) > eps) {
+			#pragma omp parallel for // Add pragma
 			for (int i = 0; i < n; i++) {
 				v[nxt][i] /= beta[nxt];
 			}
@@ -102,26 +110,26 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		delta1[nxt] = -c*beta[nxt];
 		
 		// ---------- begin givens rotation ----------//
-		double a = gamma1[cur], b = beta[nxt];
-		if (abs(b) < eps) {
+		el_type a = gamma1[cur], b = beta[nxt];
+		if (std::abs(b) < eps) {
 			s = 0; 
-			gamma2[cur] = abs(a);
-			if (abs(a) < eps) {
+			gamma2[cur] = std::abs(a);
+			if (std::abs(a) < eps) {
 				c = 1;
 			} else {
 				c = sign(a);
 			}
-		} else if (abs(a) < eps) {
+		} else if (std::abs(a) < eps) {
 			c = 0;
 			s = sign(b);
-			gamma2[cur] = abs(b);
-		} else if (abs(b) > abs(a)) {
-			double t = a/b;
+			gamma2[cur] = std::abs(b);
+		} else if (std::abs(b) > std::abs(a)) {
+			el_type t = a/b;
 			s = sign(b)/sqrt(1+t*t);
 			c = s*t;
 			gamma2[cur] = b/s;
 		} else { //abs(a) >= abs(b)
-			double t = b/a;
+			el_type t = b/a;
 			c = sign(a)/sqrt(1+t*t);
 			s = c*t;
 			gamma2[cur] = a/c;
@@ -134,25 +142,30 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		
 		if (k == 1) norm_A = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt]);
 		else {
-			double tnorm = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt] + beta[cur]*beta[cur]);
+			el_type tnorm = sqrt(alpha[cur]*alpha[cur] + beta[nxt]*beta[nxt] + beta[cur]*beta[cur]);
 			norm_A = std::max(norm_A, tnorm);
 		}
 		
 		// ------ update solution and matrix condition number ------ //
-		if (abs(gamma2[cur]) > eps) {
+		if (std::abs(gamma2[cur]) > eps) {
 			// compute new search direction
 			// d[cur] = (v[cur] - delta2[cur]*d[nxt] - ep[cur]*d[cur])/gamma2[cur];
-			vector_sum(1, v[cur], -ep[cur], d[cur], d[cur]);
-			vector_sum(1, d[cur], -delta2[cur], d[nxt], d[cur]);
+			vector_sum(static_cast<el_type>(1), v[cur], -ep[cur], d[cur], d[cur]);
+			vector_sum(static_cast<el_type>(1), d[cur], -delta2[cur], d[nxt], d[cur]);
 			
+			#pragma omp parallel for // Add pragma
 			for (int i = 0; i < n; i++) {
 				d[cur][i] /= gamma2[cur];
 			}
 			
 			//sol = sol + tau*d[cur]
-			vector_sum(1, sol_vec, tau, d[cur], sol_vec);
+			vector_sum(static_cast<el_type>(1), sol_vec, tau, d[cur], sol_vec);
 			gamma_min = std::min(gamma_min, gamma2[cur]);
-			cond_A = norm_A/gamma_min;
+			if (std::abs(gamma_min) > eps) {
+				 cond_A = norm_A/gamma_min;
+			} else {
+				 cond_A = std::numeric_limits<el_type>::max(); // Or some indicator of ill-conditioning
+			}
 		}
 		
 		k++;
@@ -161,12 +174,12 @@ void solver<el_type, mat_type> :: minres(int max_iter, double stop_tol, double s
 		//cout << "current residual " << res[cur]/norm_rhs << endl;
 	}
 	
-	if (msg_lvl) printf("The estimated condition number of the matrix is %e.\n", cond_A);
+	if (msg_lvl) printf("The estimated condition number of the matrix is %e.\n", static_cast<double>(cond_A)); // Cast to double for printf %e
     
     std::string iter_str = "iterations";
     if (k-1 == 1) iter_str = "iteration";
 
-	if (msg_lvl) printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), res[(k+1)%2]/norm_rhs);
+	if (msg_lvl) printf("MINRES took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), static_cast<double>(res[(k+1)%2]/norm_rhs)); // Cast to double for printf %e
 	return;
 }
 

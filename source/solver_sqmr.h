@@ -5,9 +5,11 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <limits> // Include for numeric_limits
+#include <omp.h> // Add OpenMP header
 
 template<class el_type, class mat_type >
-void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
+void solver<el_type, mat_type> :: sqmr(int max_iter, el_type stop_tol) {
 	//Zero out solution vector
 	int n = A.n_rows();
 	sol_vec.resize(n, 0);
@@ -24,11 +26,11 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 	vector<el_type> d(n);
 	
 	// set up initial values for variables above
-	double eps = A.eps;
-	double norm_rhs = norm(rhs, 2.0);
+	el_type eps = A.eps;
+	el_type norm_rhs = norm(rhs, static_cast<el_type>(2.0));
 
-	double res = norm_rhs;
-	double resmin = res;
+	el_type res = norm_rhs;
+	el_type resmin = res;
 	
 	// Our preconditioner M = LDL'.
 	auto Minv = [&](vector<el_type>& in, vector<el_type>& out) { 
@@ -39,13 +41,13 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 	
 	// compute t = M^(-1) * r
 	Minv(r, t);
-	double tau = norm(t, 2.0);
+	el_type tau = norm(t, static_cast<el_type>(2.0));
 	
 	q = t;
-	double thet = 0;
-	double rho = dot_product(r, q);
+	el_type thet = 0;
+	el_type rho = dot_product(r, q);
 	
-	double sigma, alpha, thet1, c2, rho1, beta;
+	el_type sigma, alpha, thet1, c2, rho1, beta;
 
 	// -------------- begin sqmr iterations --------------//
 	int k = 1; // iteration number
@@ -57,19 +59,20 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 		alpha = rho/sigma;
 		
 		// r = r - alpha * t
-		vector_sum(1, r, -alpha, t, r);
+		vector_sum(static_cast<el_type>(1), r, -alpha, t, r);
 		
 		// t = Minv(r)
 		Minv(r, t);
 		
 		thet1 = thet;
-		thet = norm(t, 2.0)/tau;
+		thet = norm(t, static_cast<el_type>(2.0))/tau;
 		
-		c2 = 1.0/(1 + thet*thet);
+		c2 = static_cast<el_type>(1.0)/(static_cast<el_type>(1.0) + thet*thet);
 		
 		tau = tau * thet * sqrt(c2);
 		if (k == 1) {
 			// d = c^2 * alpha * q
+			#pragma omp parallel for
 			for (int i = 0; i < n; i++) {
 				d[i] = c2 * alpha * q[i];
 			}
@@ -79,10 +82,10 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 		}
 		
 		// update x
-		vector_sum(1, x, 1, d, x);
+		vector_sum(static_cast<el_type>(1), x, static_cast<el_type>(1), d, x);
 		
 		// update residual and norms
-		res = norm(r, 2.0);
+		res = norm(r, static_cast<el_type>(2.0));
 		/*
 		// the true residual
 		A.multiply(x, tmp);
@@ -98,7 +101,7 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
 		rho1 = rho;
 		rho = dot_product(r, t);
 		beta = rho/rho1;
-		vector_sum(1, t, beta, q, q);
+		vector_sum(static_cast<el_type>(1), t, beta, q, q);
 		
 		k++;
 		// ------------- end update ------------- //
@@ -107,7 +110,7 @@ void solver<el_type, mat_type> :: sqmr(int max_iter, double stop_tol) {
     std::string iter_str = "iterations";
     if (k-1 == 1) iter_str = "iteration";
 
-	if (msg_lvl) printf("SQMR took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), resmin/norm_rhs);
+	if (msg_lvl) printf("SQMR took %i %s and got down to relative residual %e.\n", k-1, iter_str.c_str(), static_cast<double>(resmin/norm_rhs));
 	return;
 }
 

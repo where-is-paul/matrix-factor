@@ -266,7 +266,7 @@ class solver {
 			\param pp_tol a factor controling the aggresiveness of Bunch-Kaufman pivoting.
 			\param max_iter the maximum number of iterations for minres (ignored if no right hand side).
 		*/
-		void solve(double fill_factor, double tol, double pp_tol, int max_iter = -1, double minres_tol = 1e-6, double shift = 0.0) {
+		void solve(el_type fill_factor, el_type tol, el_type pp_tol, int max_iter = -1, el_type minres_tol = 1e-6, el_type shift = 0.0) {
             // A full factorization is equivalent to a fill factor of n and tol of 0
             if (solve_type == solver_type::FULL) {
                 tol = 0.0;
@@ -434,14 +434,14 @@ class solver {
 			\param stop_tol the stopping tolerance of minres. i.e. we stop as soon as the residual goes below stop_tol.
 			\param shift shifts A by shift*(identity matrix) to make it more positive definite. This sometimes helps.
 		*/
-		void minres(int max_iter = 1000, double stop_tol = 1e-6, double shift = 0.0);
+		void minres(int max_iter = 1000, el_type stop_tol = 1e-6, el_type shift = 0.0);
 		
 		/*! \brief Applies SMQR on A, preconditioning with factors L and D.
 			
 			\param max_iter the maximum number of minres iterations.
 			\param stop_tol the stopping tolerance of minres. i.e. we stop as soon as the residual goes below stop_tol.
 		*/
-		void sqmr(int max_iter = 1000, double stop_tol = 1e-6);
+		void sqmr(int max_iter = 1000, el_type stop_tol = 1e-6);
 		
 		/*! \brief Save results of factorization (automatically saved into the output_matrices folder).
 			

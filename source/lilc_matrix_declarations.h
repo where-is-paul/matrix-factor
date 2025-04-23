@@ -194,7 +194,7 @@ public:
 	    \param pp_tol a parameter to control aggresiveness of pivoting. Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements.
         \param pivot_type chooses the type of pivoting procedure used: threshold Bunch-Kaufman, or rook pivoting. If rook pivoting is chosen, pp_tol is ignored.
 	*/
-	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, int piv_type = pivot_type::BKP);
+	void ildl(lilc_matrix<el_type>& L, block_diag_matrix<el_type>& D, idx_vector_type& perm, const el_type& fill_factor, const el_type& tol, const el_type& pp_tol, int piv_type = pivot_type::BKP);
 	
     /*! \brief Performs an _inplace_ LDL' factorization of this matrix. 
 		
@@ -206,7 +206,7 @@ public:
 		\param tol a parameter to control agressiveness of dropping. In each column, elements less than tol*norm(column) are dropped.
 	    \param pp_tol a parameter to control aggresiveness of pivoting. Allowable ranges are [0,inf). If the parameter is >= 1, Bunch-Kaufman pivoting will be done in full. If the parameter is 0, partial pivoting will be turned off and the first non-zero pivot under the diagonal will be used. Choices close to 0 increase locality in pivoting (pivots closer to the diagonal are used) while choices closer to 1 increase the stability of pivoting. Useful for situations where you care more about preserving the structure of the matrix rather than bounding the size of its elements.
 	*/
-	void ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const double& fill_factor, const double& tol, const double& pp_tol, int piv_type = pivot_type::BKP);
+	void ildl_inplace(block_diag_matrix<el_type>& D, idx_vector_type& perm, const el_type& fill_factor, const el_type& tol, const el_type& pp_tol, int piv_type = pivot_type::BKP);
     
 	//------Helpers------//
 	/*! \brief Performs a back solve of this matrix, assuming that it is lower triangular (stored column major). 
